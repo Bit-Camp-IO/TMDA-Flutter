@@ -14,7 +14,7 @@ class DioApiConsumer extends ApiConsumer {
   final Dio dioClient;
 
   DioApiConsumer({required this.dioClient}) {
-    // dio hand checking error
+    // Fix for dio hand checking error
     (dioClient.httpClientAdapter as IOHttpClientAdapter)
         .onHttpClientCreate = (HttpClient dioClient) {
       dioClient.badCertificateCallback =

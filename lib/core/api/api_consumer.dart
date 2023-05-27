@@ -15,6 +15,7 @@ abstract class ApiConsumer {
   });
   Future<dynamic> delete(
     String endPointPath, {
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParameters,
   });
 }

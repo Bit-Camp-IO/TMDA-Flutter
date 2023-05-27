@@ -31,9 +31,9 @@ class DioApiConsumer extends ApiConsumer {
         return status! < ApiStatusCodes.internalServerError;
       };
 
-    dioClient.interceptors.add(sl<DioInterceptor>());
+    dioClient.interceptors.add(serviceLocator<DioInterceptor>());
     if (kDebugMode) {
-      dioClient.interceptors.add(sl<LogInterceptor>());
+      dioClient.interceptors.add(serviceLocator<LogInterceptor>());
     }
   }
 
@@ -70,9 +70,9 @@ class DioApiConsumer extends ApiConsumer {
   }
 
   @override
-  Future delete(String endPointPath, {Map<String, dynamic>? queryParameters}) async{
+  Future delete(String endPointPath, {Map<String, dynamic>? body, Map<String, dynamic>? queryParameters}) async{
     try{
-      final Response response = await dioClient.delete(endPointPath, queryParameters: queryParameters);
+      final Response response = await dioClient.delete(endPointPath, queryParameters: queryParameters, data: body);
       return _handleResponseAsJson(response);
     } on DioError catch(error){
       _handelDioError(error);
@@ -83,6 +83,7 @@ class DioApiConsumer extends ApiConsumer {
     final responseJson = jsonDecode(response.data.toString());
     return responseJson;
   }
+  
   dynamic _handelDioError(DioError error) {
     switch (error.type) {
       case DioErrorType.connectionTimeout:

@@ -20,13 +20,6 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   hive: ^2.2.3
   url_launcher: ^6.1.11
-  flutter_native_splash: ^2.3.0
-  
-flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets/images/app_logo.png
-  color_dark: "#152033"
-  image_dark: assets/images/app_logo.png
 
 dev_dependencies:
   flutter_test:

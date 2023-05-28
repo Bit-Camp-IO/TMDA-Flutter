@@ -9,9 +9,9 @@ class AuthRepositoryImpl extends AuthRepository {
   RemoteDataSource remoteDataSource;
   AuthRepositoryImpl({required this.remoteDataSource});
   @override
-  Future<Either<Failure, AuthModel>> checkUserLoggedIn() async{
+  Future<Either<Failure, AuthModel>> checkUserLoginSession() async{
     try{
-      final result = await remoteDataSource.checkUserLoggedIn();
+      final result = await remoteDataSource.checkUserLoginSession();
       return right(result);
     }on ServerException{
       return left(Failure());

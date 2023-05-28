@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => serviceLocator<AuthCubit>(),
+          create: (context) => sl<AuthCubit>(),
         ),
         BlocProvider(
-          create: (context) => serviceLocator<MovieCubit>(),
+          create: (context) => sl<MovieCubit>(),
         ),
       ],
       child: MaterialApp(

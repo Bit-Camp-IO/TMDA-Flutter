@@ -31,9 +31,9 @@ class DioApiConsumer extends ApiConsumer {
         return status! < ApiStatusCodes.internalServerError;
       };
 
-    dioClient.interceptors.add(serviceLocator<DioInterceptor>());
+    dioClient.interceptors.add(sl<DioInterceptor>());
     if (kDebugMode) {
-      dioClient.interceptors.add(serviceLocator<LogInterceptor>());
+      dioClient.interceptors.add(sl<LogInterceptor>());
     }
   }
 

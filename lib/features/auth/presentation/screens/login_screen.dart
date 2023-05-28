@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.of(context)
               .pushReplacementNamed(movieRoute, arguments: state.authData.sessionId);
         } else if (state is AuthFailure) {
-          print('Login Failed');
+          debugPrint('Login Failed');
         }
       },
       builder: (context, state) {

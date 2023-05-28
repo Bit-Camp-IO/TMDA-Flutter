@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
-import 'package:tmda/features/auth/data/datasources/local_data_source.dart';
+import 'package:tmda/core/util/data_source/local_data_source.dart';
 import 'package:tmda/features/auth/data/models/auth_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class RemoteDataSource {
   Future<AuthModel> userLogin(String username, String password);
   Future<void> userRegister();
-  Future<AuthModel> checkUserLoggedIn();
+  Future<AuthModel> checkUserLoginSession();
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -16,8 +17,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   RemoteDataSourceImpl({required this.apiConsumer, required this.localDataSource});
   Future<Map<String, dynamic>> createRequestToken() async{
     final response =  await apiConsumer.get('$apiBaseUrl/authentication/token/new');
-
-    print('Request Token >>>> $response');
+    debugPrint('Request Token >>>> $response');
     return response;
     
   }
@@ -33,7 +33,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future<AuthModel> checkUserLoggedIn() async{
+  Future<AuthModel> checkUserLoginSession() async{
     try{
       String sessionId = await localDataSource.retrieveSessionId();
       return AuthModel(sessionId: sessionId, requestSuccess: true);

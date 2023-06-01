@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
-import 'package:tmda/features/auth/data/datasources/remote_data_source.dart';
+import 'package:tmda/features/auth/data/datasources/auth_data_source.dart';
 import 'package:tmda/features/auth/data/models/auth_model.dart';
 import 'package:tmda/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  RemoteDataSource remoteDataSource;
+  AuthDataSource remoteDataSource;
   AuthRepositoryImpl({required this.remoteDataSource});
   @override
   Future<Either<Failure, AuthModel>> checkUserLoginSession() async{

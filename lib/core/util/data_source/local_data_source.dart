@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:tmda/core/api/api_consumer.dart';
+import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 
 abstract class LocalDataSource {
@@ -12,21 +14,21 @@ abstract class LocalDataSource {
 
 class LocalDataSourceImpl extends LocalDataSource {
   final FlutterSecureStorage secureStorage;
-
-  LocalDataSourceImpl(this.secureStorage);
+  final ApiConsumer apiConsumer;
+  LocalDataSourceImpl(this.secureStorage, this.apiConsumer);
 
   @override
   Future<String> retrieveSessionId() async {
     final encryptionKey = await secureStorage.read(key: 'key');
-    final encryptionKeyUint8List = base64Url.decode(encryptionKey!);
-    final encryptedBox = await Hive.openBox('vaultBox',
-        encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-    final sessionKey = encryptedBox.get('session_key');
-    if (sessionKey == null) {
-      throw CacheException();
-    } else {
+    if (encryptionKey != null) {
+      final encryptionKeyUint8List = base64Url.decode(encryptionKey);
+      final encryptedBox = await Hive.openBox('vaultBox',
+          encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+      final sessionKey = encryptedBox.get('session_key');
       debugPrint('Session key Retrieved >>> $sessionKey');
       return sessionKey;
+    } else {
+      throw CacheException();
     }
   }
 
@@ -60,7 +62,11 @@ class LocalDataSourceImpl extends LocalDataSource {
     final encryptionKeyUint8List = base64Url.decode(key!);
     final encryptedBox = await Hive.openBox('vaultBox',
         encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+    final sessionId = await retrieveSessionId();
+
     try {
+      await apiConsumer.delete(apiDeleteSession,
+          queryParameters: {'session_id': sessionId});
       encryptedBox.delete('session_key');
       debugPrint("key deleted >>>> Logged Out");
     } on Exception {

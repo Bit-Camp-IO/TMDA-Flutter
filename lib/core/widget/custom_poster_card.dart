@@ -4,8 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({
+class CustomPosterCard extends StatelessWidget {
+  const CustomPosterCard({
     super.key,
     required this.imagePath,
     required this.title,
@@ -32,7 +32,7 @@ class CustomCard extends StatelessWidget {
                 width: 170.w,
                 height: 270.h,
                 child: CachedNetworkImage(
-                  imageUrl: imageUrl(imagePath),
+                  imageUrl: ApiConstants.imageUrl(imagePath),
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(

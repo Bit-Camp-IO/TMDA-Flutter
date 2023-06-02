@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/color_manager.dart';
 
-class CarouselItem extends StatelessWidget {
-  const CarouselItem({
+class CarouselItemView extends StatelessWidget {
+  const CarouselItemView({
     super.key,
     required this.title,
     required this.releaseYear,
@@ -31,7 +31,7 @@ class CarouselItem extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(
-                imageUrl(imagePath),
+                ApiConstants.imageUrl(imagePath),
               ),
               colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3),

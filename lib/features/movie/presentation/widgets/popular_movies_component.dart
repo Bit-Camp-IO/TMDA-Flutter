@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/constants/route_constants.dart';
+import 'package:tmda/config/router/route_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/widget/custom_card.dart';
+import 'package:tmda/core/widget/custom_poster_card.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies_bloc/movies_bloc.dart';
 
 class PopularMoviesComponent extends StatefulWidget {
@@ -42,10 +42,10 @@ class _PopularMoviesComponentState extends State<PopularMoviesComponent> {
                   return Row(
                     children: [
                       SizedBox(width: 24.w),
-                      CustomCard(
+                      CustomPosterCard(
                         onTap: () {
                           Navigator.of(context).pushNamed(
-                              movieDetailsRoute,
+                              AppRouter.movieDetailsRoute,
                               arguments: state.popularMovies[index].movieId,
                             );
                         },

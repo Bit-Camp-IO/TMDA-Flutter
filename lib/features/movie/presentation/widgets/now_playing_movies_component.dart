@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/movie/presentation/bloc/dot_indicator/dot_indicator_cubit.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies_bloc/movies_bloc.dart';
-import 'package:tmda/features/movie/presentation/widgets/carousel_item.dart';
-import 'package:tmda/features/movie/presentation/widgets/custom_animated_indicator.dart';
+import 'package:tmda/core/widget/carousel_item_view.dart';
+import 'package:tmda/core/widget/custom_animated_indicator.dart';
 
 class NowPlayingMoviesComponent extends StatelessWidget {
   const NowPlayingMoviesComponent({super.key});
@@ -38,7 +38,7 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                       child: CarouselSlider.builder(
                         itemCount: 4,
                         itemBuilder: (context, index, realIndex) {
-                          return CarouselItem(
+                          return CarouselItemView(
                             imagePath:
                                 state.nowPlayingMovies[index].moviePosterPath!,
                             productionCompany: 'Marvel Studios',
@@ -74,6 +74,7 @@ class NowPlayingMoviesComponent extends StatelessWidget {
             return CustomAnimatedIndicator(
               currentIndex: state.index,
               dotsCount: 4,
+              axisDirection: Axis.horizontal,
             );
           },
         ),

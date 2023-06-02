@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tmda/core/constants/route_constants.dart';
+import 'package:tmda/config/router/route_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
 
@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         } else if (state is AuthenticationState &&
             state.authData.requestSuccess!) {
           Navigator.of(context).pushReplacementNamed(
-            movieRoute
+            AppRouter.movieRoute
           );
         } else if (state is AuthenticationState &&
             !state.authData.requestSuccess!) {

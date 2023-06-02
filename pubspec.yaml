@@ -37,9 +37,6 @@ flutter:
 
   assets:
     - assets/images/app_logo.png
-    - assets/images/test_image.jpg
-    - assets/images/neon_background.png
-    - assets/images/tv_test_image.jpg
 
   fonts:
     - family: Poppins

@@ -18,7 +18,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   @override
   Future<List<MoviesModel>> getNowPlayingMovies() async {
     try {
-      final response = await apiConsumer.get(apiGetNowPlayingMovies);
+      final response = await apiConsumer.get(ApiConstants.apiGetNowPlayingMovies);
       return List<MoviesModel>.from(
         (response['results'] as List).map((e) => MoviesModel.fromJson(e)),
       );
@@ -30,7 +30,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   @override
   Future<List<MoviesModel>> getUpComingMovies() async {
     try {
-      final response = await apiConsumer.get(apiGetUpcomingMovies);
+      final response = await apiConsumer.get(ApiConstants.apiGetUpcomingMovies);
       return List<MoviesModel>.from(
         (response['results'] as List).map((e) => MoviesModel.fromJson(e)),
       );
@@ -42,7 +42,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   @override
   Future<List<MoviesModel>> getPopularMovies() async {
     try {
-      final response = await apiConsumer.get(apiGetPopularMovies);
+      final response = await apiConsumer.get(ApiConstants.apiGetPopularMovies);
       return List<MoviesModel>.from(
         (response['results'] as List).map((e) => MoviesModel.fromJson(e)),
       );
@@ -54,7 +54,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   @override
   Future<List<MoviesModel>> getTopRatedMovies() async {
     try {
-      final response = await apiConsumer.get(apiGetTopRatedMovies);
+      final response = await apiConsumer.get(ApiConstants.apiGetTopRatedMovies);
       return List<MoviesModel>.from(
         (response['results'] as List).map((e) => MoviesModel.fromJson(e)),
       );
@@ -66,7 +66,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   @override
   Future<MovieDetailsModel> getMovieDetails(String movieId) async {
     try {
-      final response = await apiConsumer.get('$apiGetMovieDetails$movieId');
+      final response = await apiConsumer.get('${ApiConstants.apiGetMovieDetails}$movieId');
       return MovieDetailsModel.fromJson(response);
     } on Exception {
       throw Exception();

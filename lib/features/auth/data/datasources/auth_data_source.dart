@@ -16,7 +16,7 @@ class AuthDataSourceImpl extends AuthDataSource {
   LocalDataSource localDataSource;
   AuthDataSourceImpl({required this.apiConsumer, required this.localDataSource});
   Future<Map<String, dynamic>> createRequestToken() async{
-    final response =  await apiConsumer.get(apiRequestToken);
+    final response =  await apiConsumer.get(ApiConstants.apiRequestToken);
     debugPrint('Request Token >>>> $response');
     return response;
     
@@ -24,7 +24,7 @@ class AuthDataSourceImpl extends AuthDataSource {
 
   Future<Map<String, dynamic>> userLoginWithUsernameAndPassword(
       String username, String password, String requestToken) async{
-    final response = await apiConsumer.post(apiValidateWithLogin, queryParameters: {
+    final response = await apiConsumer.post(ApiConstants.apiValidateWithLogin, queryParameters: {
       'username' : username,
       'password' : password,
       'request_token' : requestToken,
@@ -47,7 +47,7 @@ class AuthDataSourceImpl extends AuthDataSource {
     final requestTokenResponse = await createRequestToken();
     final validateLogin = await userLoginWithUsernameAndPassword(username, password, requestTokenResponse['request_token']);
     if(validateLogin['success']){
-      final response = await apiConsumer.post(apiNewSession, queryParameters: {
+      final response = await apiConsumer.post(ApiConstants.apiNewSession, queryParameters: {
         'request_token' : '${requestTokenResponse['request_token']}'
       });
       localDataSource.storeSessionId(response['session_id']);
@@ -59,7 +59,7 @@ class AuthDataSourceImpl extends AuthDataSource {
 
   @override
   Future<void> userRegister() async{
-    final Uri url = Uri.parse(apiRegistration);
+    final Uri url = Uri.parse(ApiConstants.apiRegistration);
     if(!await launchUrl(url)){
       throw Exception('Could not launch $url');
     }

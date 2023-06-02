@@ -65,7 +65,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     final sessionId = await retrieveSessionId();
 
     try {
-      await apiConsumer.delete(apiDeleteSession,
+      await apiConsumer.delete(ApiConstants.apiDeleteSession,
           queryParameters: {'session_id': sessionId});
       encryptedBox.delete('session_key');
       debugPrint("key deleted >>>> Logged Out");

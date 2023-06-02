@@ -14,7 +14,7 @@ class DioApiConsumer extends ApiConsumer {
   final Dio dioClient;
 
   DioApiConsumer({required this.dioClient}) {
-    // Fix for dio hand checking error
+    // Fix for dio handshake error
     (dioClient.httpClientAdapter as IOHttpClientAdapter)
         .onHttpClientCreate = (HttpClient dioClient) {
       dioClient.badCertificateCallback =
@@ -23,9 +23,9 @@ class DioApiConsumer extends ApiConsumer {
     };
     // dio validation
     dioClient.options
-      ..baseUrl = apiBaseUrl
+      ..baseUrl = ApiConstants.apiBaseUrl
       ..responseType = ResponseType.plain
-      ..queryParameters = {apiKeyQuery: apiKey}
+      ..queryParameters = {ApiConstants.apiKeyQuery: ApiConstants.apiKey}
       ..followRedirects = false
       ..validateStatus = (status) {
         return status! < ApiStatusCodes.internalServerError;

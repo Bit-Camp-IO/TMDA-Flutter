@@ -6,18 +6,19 @@ class CustomAnimatedIndicator extends StatelessWidget {
   const CustomAnimatedIndicator({
     super.key,
     required this.currentIndex,
-    required this.dotsCount,
+    required this.dotsCount, required this.axisDirection,
   });
 
   final int currentIndex;
   final int dotsCount;
+  final Axis axisDirection;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSmoothIndicator(
       count: dotsCount,
       activeIndex: currentIndex,
-      axisDirection: Axis.horizontal,
+      axisDirection: axisDirection,
       effect: const ExpandingDotsEffect(
         spacing: 8.0,
         radius: 10.0,

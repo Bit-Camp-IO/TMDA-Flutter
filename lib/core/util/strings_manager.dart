@@ -5,7 +5,7 @@ class StringsManager {
 
   // Login Strings
 
-  static const String loginUserName = 'Username';
+  static const String loginUserName = 'User name';
   static const String loginPassword = 'Password';
   static const String noAccount = 'Don\'t have an account ?';
   static const String register = 'Register';

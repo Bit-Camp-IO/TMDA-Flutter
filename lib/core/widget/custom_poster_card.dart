@@ -25,12 +25,12 @@ class CustomPosterCard extends StatelessWidget {
       child: Stack(
         children: [
           Transform(
-            transform: Matrix4.skewX(-0.07),
+            transform: Matrix4.skewX(-0.06),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(const Radius.circular(30).w),
+              borderRadius: BorderRadius.all(const Radius.circular(20).w),
               child: SizedBox(
-                width: 170.w,
-                height: 270.h,
+                width: 180.w,
+                height: 280.h,
                 child: CachedNetworkImage(
                   imageUrl: ApiConstants.imageUrl(imagePath),
                   imageBuilder: (context, imageProvider) => Container(

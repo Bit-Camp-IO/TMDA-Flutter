@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
@@ -6,8 +7,9 @@ import 'package:tmda/core/widget/section_widget.dart';
 import 'package:tmda/features/movie/presentation/widgets/now_playing_movies_component.dart';
 import 'package:tmda/features/movie/presentation/widgets/popular_movies_component.dart';
 import 'package:tmda/features/movie/presentation/widgets/top_rated_movies_component.dart';
-import 'package:tmda/features/movie/presentation/widgets/upcoming_movies_component.dart';
+import 'package:tmda/features/movie/presentation/widgets/new_movies_component.dart';
 
+@RoutePage()
 class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
 
@@ -41,52 +43,37 @@ class _MovieScreenState extends State<MovieScreen> {
               child: NeonLightPainter(
                   color: ColorsManager.primaryColor.withOpacity(0.6)),
             ),
-            CustomScrollView(
+            ListView(
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverAppBar(
-                  primary: true,
-                  pinned: true,
-                  stretch: true,
-                  backgroundColor: Colors.transparent,
-                  expandedHeight: 410.h,
-                  flexibleSpace: const FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    background: NowPlayingMoviesComponent(),
-                  ),
+              children: [
+                const NowPlayingMoviesComponent(),
+                SectionWidget(
+                  title: 'New Movies',
+                  color: ColorsManager.primaryColor,
+                  textButtonTitle: 'See All',
+                  textButtonColor: ColorsManager.primaryColor,
+                  textButtonOnPressed: () {},
                 ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      SectionWidget(
-                        title: 'Upcoming Movies',
-                        color: ColorsManager.secondaryColor,
-                        textButtonTitle: 'See All',
-                        textButtonColor: ColorsManager.secondaryColor,
-                        textButtonOnPressed: () {},
-                      ),
-                      const UpcomingMoviesComponent(),
-                      SectionWidget(
-                        title: 'Popular Movies',
-                        color: ColorsManager.secondaryColor,
-                        textButtonTitle: 'See All',
-                        textButtonColor: ColorsManager.secondaryColor,
-                        textButtonOnPressed: () {},
-                      ),
-                      const PopularMoviesComponent(),
-                      SectionWidget(
-                        title: 'Top Rated Movies',
-                        color: ColorsManager.secondaryColor,
-                        textButtonTitle: 'See All',
-                        textButtonColor: ColorsManager.secondaryColor,
-                        textButtonOnPressed: () {},
-                      ),
-                      const TopRatedMoviesComponent(),
-                      SizedBox(height: 20.h),
-                    ],
-                  ),
+                const NewMoviesComponent(),
+                SectionWidget(
+                  title: 'Popular Movies',
+                  color: ColorsManager.primaryColor,
+                  textButtonTitle: 'See All',
+                  textButtonColor: ColorsManager.primaryColor,
+                  textButtonOnPressed: () {},
                 ),
+                const PopularMoviesComponent(),
+                SectionWidget(
+                  title: 'Top Rated Movies',
+                  color: ColorsManager.primaryColor,
+                  textButtonTitle: 'See All',
+                  textButtonColor: ColorsManager.primaryColor,
+                  textButtonOnPressed: () {},
+                ),
+                const TopRatedMoviesComponent(),
+                SizedBox(height: 60.h),
               ],
             ),
           ],

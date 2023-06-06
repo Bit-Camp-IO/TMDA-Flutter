@@ -1,11 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/widget/custom_icon_button.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_cubit.dart';
 
+@RoutePage()
 class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen({super.key, required this.movieId});
+  const MovieDetailsScreen(
+      {super.key, @PathParam('movieId') required this.movieId});
   final String movieId;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class MovieDetailsScreen extends StatelessWidget {
               left: 10,
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
+            
             BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
               buildWhen: (previous, current) => previous != current,
               bloc: BlocProvider.of<MovieDetailsCubit>(context)
@@ -40,12 +45,13 @@ class MovieDetailsScreen extends StatelessWidget {
                   return ListView(
                     children: [
                       Center(
-                          child: Text(
-                        state.movieDetails.title,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        child: Text(
+                          state.movieDetails.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      )),
+                      ),
                     ],
                   );
                 } else {
@@ -56,6 +62,15 @@ class MovieDetailsScreen extends StatelessWidget {
                   );
                 }
               },
+            ),
+            Positioned(
+              top: 30,
+              left: 20,
+              child: CustomIconButton(
+                  onPressed: () {
+                    context.popRoute();
+                  },
+                  icon: Icons.arrow_back),
             ),
           ],
         ),

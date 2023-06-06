@@ -7,8 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 abstract class AuthDataSource {
   Future<AuthModel> userLogin(String username, String password);
-  Future<void> userRegister();
   Future<AuthModel> checkUserLoginSession();
+  Future<void> userRegister();
+  Future<void> userForgetPassword();
 }
 
 class AuthDataSourceImpl extends AuthDataSource {
@@ -60,6 +61,14 @@ class AuthDataSourceImpl extends AuthDataSource {
   @override
   Future<void> userRegister() async{
     final Uri url = Uri.parse(ApiConstants.apiRegistration);
+    if(!await launchUrl(url)){
+      throw Exception('Could not launch $url');
+    }
+  }
+  
+  @override
+  Future<void> userForgetPassword() async{
+   final Uri url = Uri.parse(ApiConstants.apiForgetPassword);
     if(!await launchUrl(url)){
       throw Exception('Could not launch $url');
     }

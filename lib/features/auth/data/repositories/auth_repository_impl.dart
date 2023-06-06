@@ -37,4 +37,14 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(Failure());
     }
   }
+  
+  @override
+  Future<Either<Failure, void>> userForgetPassword() async{
+    try{
+      final result = await remoteDataSource.userForgetPassword();
+      return right(result);
+    }on Exception{
+      return Left(Failure());
+    }
+  }
 }

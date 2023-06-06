@@ -7,7 +7,7 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
-import 'package:tmda/features/app/presentation/screens/app_main_screen.dart';
+import 'package:tmda/features/main/presentation/screens/main_screen.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:tmda/features/auth/presentation/screens/login_screen.dart';
 import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';

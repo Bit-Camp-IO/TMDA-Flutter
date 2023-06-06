@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/util/color_manager.dart';
 
 class SectionWidget extends StatelessWidget {
   const SectionWidget({
@@ -46,7 +45,7 @@ class SectionWidget extends StatelessWidget {
             child: Text(
               textButtonTitle,
               style: TextStyle(
-                color: ColorsManager.secondaryColor,
+                color: textButtonColor,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
               ),

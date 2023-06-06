@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:tmda/features/account/presentation/screen/account_screen.dart';
 import 'package:tmda/features/actor/presentation/screens/actor_profile_screen.dart';
-import 'package:tmda/features/app/presentation/screens/app_main_screen.dart';
+import 'package:tmda/features/main/presentation/screens/main_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/login_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
 import 'package:tmda/features/movie/presentation/screens/movie_details_screen.dart';

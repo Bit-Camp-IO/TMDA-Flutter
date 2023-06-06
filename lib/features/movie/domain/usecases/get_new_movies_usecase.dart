@@ -3,10 +3,10 @@ import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/features/movie/domain/entities/movies.dart';
 import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
-class GetUpComingMoviesUseCase {
+class GetNewMoviesUseCase {
   final MoviesRepository movieRepository;
-  const GetUpComingMoviesUseCase({required this.movieRepository});
+  const GetNewMoviesUseCase({required this.movieRepository});
   Future<Either<Failure, List<Movies>>> call() async{
-    return await movieRepository.getNowPlayingMovies();
+    return await movieRepository.getNewMovies();
   }
 }

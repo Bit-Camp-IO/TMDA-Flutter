@@ -1,38 +1,39 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/config/router/route_manager.dart';
+import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widget/custom_poster_card.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies_bloc/movies_bloc.dart';
 
-class UpcomingMoviesComponent extends StatelessWidget {
-  const UpcomingMoviesComponent({super.key});
+class NewMoviesComponent extends StatelessWidget {
+  const NewMoviesComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
       buildWhen: (previous, current) =>
-          previous.upComingMovies != current.upComingMovies,
+          previous.newMovies != current.newMovies,
       builder: (context, state) {
         switch (state.upComingMoviesState) {
           case BlocStateEnum.loading:
             return SizedBox(
-              height: 273.h,
+              height: 270.h,
               child: const Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
               ),
             );
-          case (BlocStateEnum.loaded):
+          case BlocStateEnum.loaded:
             return SizedBox(
-              height: 270.h,
+              height: 280.h,
               child: Animate(
                 effects: [FadeEffect(duration: 250.ms)],
                 child: ListView.builder(
-                  itemCount: state.upComingMovies.length,
+                  itemCount: state.newMovies.length,
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
@@ -42,18 +43,20 @@ class UpcomingMoviesComponent extends StatelessWidget {
                         SizedBox(width: 24.w),
                         CustomPosterCard(
                           onTap: () {
-                            Navigator.of(context).pushNamed(
-                              AppRouter.movieDetailsRoute,
-                              arguments: state.upComingMovies[index].movieId,
+                            context.pushRoute(
+                              MovieDetailsRoute(
+                                movieId: state.newMovies[index].movieId
+                                    .toString(),
+                              ),
                             );
                           },
-                          title: state.upComingMovies[index].movieTitle!,
+                          title: state.newMovies[index].movieTitle!,
                           imagePath:
-                              state.upComingMovies[index].moviePosterPath!,
+                              state.newMovies[index].moviePosterPath!,
                           releaseYear: state
-                              .upComingMovies[index].movieReleaseDate!
+                              .newMovies[index].movieReleaseDate!
                               .substring(0, 4),
-                          rating: state.upComingMovies[index].movieVote,
+                          rating: state.newMovies[index].movieVote,
                         ),
                       ],
                     );

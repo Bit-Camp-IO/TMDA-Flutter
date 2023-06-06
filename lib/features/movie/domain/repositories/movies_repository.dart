@@ -5,7 +5,7 @@ import 'package:tmda/features/movie/domain/entities/movies.dart';
 
 abstract class MoviesRepository{
   Future<Either<Failure, List<Movies>>> getNowPlayingMovies();
-  Future<Either<Failure, List<Movies>>> getUpcomingMovies();
+  Future<Either<Failure, List<Movies>>> getNewMovies();
   Future<Either<Failure, List<Movies>>> getPopularMovies();
   Future<Either<Failure, List<Movies>>> getTopRatedMovies();
   Future<Either<Failure, MovieDetails>> getMovieDetails(String movieId);

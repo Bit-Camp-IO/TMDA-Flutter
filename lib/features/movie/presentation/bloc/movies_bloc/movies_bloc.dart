@@ -5,7 +5,7 @@ import 'package:tmda/features/movie/domain/entities/movies.dart';
 import 'package:tmda/features/movie/domain/usecases/get_now_playing_movies_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/get_popular_movies_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/get_top_rated_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_upcoming_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/get_new_movies_usecase.dart';
 part 'movies_event.dart';
 part 'movies_state.dart';
 
@@ -13,7 +13,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetNowPlayingMoviesUseCase getNowPlayingMoviesUseCase;
   final GetPopularMoviesUseCase getPopularMoviesUseCase;
   final GetTopRatedMoviesUseCase getTopRatedMoviesUseCase;
-  final GetUpComingMoviesUseCase getUpComingMoviesUseCase;
+  final GetNewMoviesUseCase getUpComingMoviesUseCase;
   
   MoviesBloc(
     this.getNowPlayingMoviesUseCase,
@@ -24,7 +24,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     on<GetNowPlayingMoviesEvent>(_getNowPlayingMovieEvent);
     on<GetPopularMoviesEvent>(_getPopularMoviesEvent);
     on<GetTopRatedMoviesEvent>(_getTopRatedMoviesEvent);
-    on<GetUpcomingMoviesEvent>(_getUpcomingMoviesEvent);
+    on<GetNewMoviesEvent>(_getNewMoviesEvent);
   }
   Future<void> _getTopRatedMoviesEvent(event, emit) async {
     final result = await getTopRatedMoviesUseCase();
@@ -69,7 +69,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     );
   }
 
-  Future<void> _getUpcomingMoviesEvent(event, emit) async {
+  Future<void> _getNewMoviesEvent(event, emit) async {
     final result = await getNowPlayingMoviesUseCase();
     result.fold(
       (l) => emit(
@@ -79,7 +79,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       ),
       (r) => emit(state.copyWith(
         upComingMoviesState: BlocStateEnum.loaded,
-        upComingMovies: r,
+        newMovies: r,
       )),
     );
   }

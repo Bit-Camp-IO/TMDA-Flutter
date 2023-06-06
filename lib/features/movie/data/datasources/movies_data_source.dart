@@ -5,7 +5,7 @@ import 'package:tmda/features/movie/data/models/movies_model.dart';
 
 abstract class MoviesDataSource {
   Future<List<MoviesModel>> getNowPlayingMovies();
-  Future<List<MoviesModel>> getUpComingMovies();
+  Future<List<MoviesModel>> getNewMovies();
   Future<List<MoviesModel>> getPopularMovies();
   Future<List<MoviesModel>> getTopRatedMovies();
   Future<MovieDetailsModel> getMovieDetails(String movieId);
@@ -28,9 +28,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   }
 
   @override
-  Future<List<MoviesModel>> getUpComingMovies() async {
+  Future<List<MoviesModel>> getNewMovies() async {
     try {
-      final response = await apiConsumer.get(ApiConstants.apiGetUpcomingMovies);
+      final response = await apiConsumer.get(ApiConstants.apiGetNewMovies);
       return List<MoviesModel>.from(
         (response['results'] as List).map((e) => MoviesModel.fromJson(e)),
       );

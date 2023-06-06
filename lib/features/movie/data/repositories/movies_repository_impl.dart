@@ -41,9 +41,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MoviesModel>>> getUpcomingMovies() async {
+  Future<Either<Failure, List<MoviesModel>>> getNewMovies() async {
     try {
-      final result = await moviesDataSource.getUpComingMovies();
+      final result = await moviesDataSource.getNewMovies();
       return right(result);
     } on Exception {
       return left(Failure());

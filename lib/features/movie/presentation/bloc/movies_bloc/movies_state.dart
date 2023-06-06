@@ -7,11 +7,11 @@ class MoviesState extends Equatable {
   final BlocStateEnum popularState;
   final List<Movies> topRatedMovies;
   final BlocStateEnum topRatedState;
-  final List<Movies> upComingMovies;
+  final List<Movies> newMovies;
   final BlocStateEnum upComingMoviesState;
 
   const MoviesState({
-    this.upComingMovies = const [],
+    this.newMovies = const [],
     this.upComingMoviesState = BlocStateEnum.loading,
     this.nowPlayingMovies = const [],
     this.nowPlayingState = BlocStateEnum.loading,
@@ -29,7 +29,7 @@ class MoviesState extends Equatable {
     BlocStateEnum? popularState,
     List<Movies>? topRatedMovies,
     BlocStateEnum? topRatedState,
-    List<Movies>? upComingMovies,
+    List<Movies>? newMovies,
     BlocStateEnum? upComingMoviesState,
   }) {
     return MoviesState(
@@ -39,7 +39,7 @@ class MoviesState extends Equatable {
       popularState: popularState ?? this.popularState,
       topRatedMovies: topRatedMovies ?? this.topRatedMovies,
       topRatedState: topRatedState ?? this.topRatedState,
-      upComingMovies: upComingMovies ?? this.upComingMovies,
+      newMovies: newMovies ?? this.newMovies,
       upComingMoviesState: upComingMoviesState ?? this.upComingMoviesState,
     );
   }
@@ -52,7 +52,7 @@ class MoviesState extends Equatable {
         popularState,
         topRatedMovies,
         topRatedState,
-        upComingMovies,
+        newMovies,
         upComingMoviesState,
       ];
 }

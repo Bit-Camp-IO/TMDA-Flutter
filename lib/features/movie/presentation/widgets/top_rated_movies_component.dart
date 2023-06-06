@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/config/router/route_manager.dart';
+import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widget/custom_poster_card.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies_bloc/movies_bloc.dart';
@@ -17,9 +18,9 @@ class TopRatedMoviesComponent extends StatelessWidget {
       builder: (context, state) {
         switch (state.topRatedState) {
           case BlocStateEnum.loading:
-            return const SizedBox(
-              height: 250,
-              child: Center(
+            return SizedBox(
+              height: 280.h,
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
@@ -27,7 +28,7 @@ class TopRatedMoviesComponent extends StatelessWidget {
             );
           case BlocStateEnum.loaded:
             return SizedBox(
-              height: 270.h,
+              height: 280.h,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
@@ -39,10 +40,12 @@ class TopRatedMoviesComponent extends StatelessWidget {
                       SizedBox(width: 24.w),
                       CustomPosterCard(
                         onTap: () {
-                          Navigator.of(context).pushNamed(
-                              AppRouter.movieDetailsRoute,
-                              arguments: state.topRatedMovies[index].movieId,
-                            );
+                          context.pushRoute(
+                            MovieDetailsRoute(
+                              movieId: state.topRatedMovies[index].movieId
+                                  .toString(),
+                            ),
+                          );
                         },
                         title: state.topRatedMovies[index].movieTitle!,
                         imagePath: state.topRatedMovies[index].moviePosterPath!,
@@ -56,6 +59,7 @@ class TopRatedMoviesComponent extends StatelessWidget {
                 },
               ),
             );
+
           case BlocStateEnum.error:
             return const Text('There was an error');
         }

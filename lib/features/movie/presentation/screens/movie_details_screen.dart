@@ -1,16 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widget/section_divider.dart';
 import 'package:tmda/core/widget/custom_icon_button.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
-import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_cubit.dart';
+import 'package:tmda/core/widget/section_widget.dart';
+import 'package:tmda/core/widget/section_with_see_all.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/movie_like_this_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/movie_reviews_component.dart';
 
 @RoutePage()
-class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen(
-      {super.key, @PathParam('movieId') required this.movieId});
-  final String movieId;
+class MovieDetailsScreen extends StatefulWidget {
+  const MovieDetailsScreen({
+    super.key,
+    @PathParam('movieId') required this.movieId,
+  });
+  final int movieId;
+
+  @override
+  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
+}
+
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,45 +54,53 @@ class MovieDetailsScreen extends StatelessWidget {
               left: 10,
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            
-            BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
-              buildWhen: (previous, current) => previous != current,
-              bloc: BlocProvider.of<MovieDetailsCubit>(context)
-                ..getMovieDetails(movieId),
-              builder: (context, state) {
-                switch (MovieDetailsState) {}
-                if (state is MovieDetailsFailState) {
-                  return const Text('Fail to load data');
-                } else if (state is MovieDetailsLoadedState) {
-                  return ListView(
-                    children: [
-                      Center(
-                        child: Text(
-                          state.movieDetails.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  );
-                }
-              },
+            SingleChildScrollView(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  MovieOverviewComponent(movieId: widget.movieId),
+                  const SectionDivider(),
+                  const SectionWidget(
+                    title: StringsManager.movieDetailsCastSection,
+                    color: ColorsManager.primaryColor,
+                  ),
+                  MovieCastComponent(movieId: widget.movieId),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0).r,
+                    child: const SectionDivider(),
+                  ),
+                  SectionWidgetWithSeeAll(
+                    title: StringsManager.movieDetailsSimilarSectionTitle,
+                    color: ColorsManager.primaryColor,
+                    textButtonOnPressed: () {
+                      AutoRouter.of(context).push(
+                        SeeAllMoviesRoute(movieId: widget.movieId, movieType: MovieType.moreLikeThisMovies),
+                      );
+                    },
+                  ),
+                  MoviesLikeThisComponent(movieId: widget.movieId),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0).r,
+                    child: const SectionDivider(),
+                  ),
+                  const SectionWidget(
+                    title: StringsManager.movieDetailsUserReviews,
+                    color: ColorsManager.primaryColor,
+                  ),
+                  MovieReviewsComponent(movieId: widget.movieId),
+                  SizedBox(height: 70.h)
+                ],
+              ),
             ),
             Positioned(
-              top: 30,
+              top: 50,
               left: 20,
               child: CustomIconButton(
-                  onPressed: () {
-                    context.popRoute();
-                  },
-                  icon: Icons.arrow_back),
+                onPressed: () async {
+                  await AutoRouter.of(context).pop();
+                },
+                icon: Icons.arrow_back,
+              ),
             ),
           ],
         ),

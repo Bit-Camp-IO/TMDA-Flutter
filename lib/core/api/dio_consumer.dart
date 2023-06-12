@@ -23,7 +23,7 @@ class DioApiConsumer extends ApiConsumer {
     };
     // dio validation
     dioClient.options
-      ..baseUrl = ApiConstants.apiBaseUrl
+      ..baseUrl = ApiConstants.baseUrl
       ..responseType = ResponseType.plain
       ..queryParameters = {ApiConstants.apiKeyQuery: ApiConstants.apiKey}
       ..followRedirects = false

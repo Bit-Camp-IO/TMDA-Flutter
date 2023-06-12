@@ -9,7 +9,7 @@ class DioInterceptor extends Interceptor{
     if (kDebugMode) {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
-    options.headers[ApiConstants.apiHeaderContentType] = ApiConstants.apiHeaderContentTypeValue;
+    options.headers[ApiConstants.headerContentType] = ApiConstants.headerContentTypeValue;
     super.onRequest(options, handler);
   }
 

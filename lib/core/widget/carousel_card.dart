@@ -2,22 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 
-class CarouselItemView extends StatelessWidget {
-  const CarouselItemView({
+class CarouselCard extends StatelessWidget {
+  const CarouselCard({
     super.key,
     required this.title,
-    required this.releaseYear,
-    required this.productionCompany,
     required this.rating,
     required this.voteCount,
     required this.imagePath,
   });
 
-  final String releaseYear;
-  final String productionCompany;
   final String title;
   final dynamic rating;
   final int voteCount;
@@ -31,13 +27,13 @@ class CarouselItemView extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(
-                ApiConstants.imageUrl(imagePath),
+                imagePath,
               ),
               colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3),
                 BlendMode.darken,
               ),
-              fit: BoxFit.cover
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -48,30 +44,17 @@ class CarouselItemView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                releaseYear,
-                style: TextStyle(
-                  color: ColorsManager.primaryColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
                 title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(height: 8.h),
               RatingBarIndicator(
                 rating: rating / 2,
                 itemBuilder: (context, index) => const Icon(
-                  Icons.star,
-                  color: Color(0xFFE9BC21),
+                  SolarSystemIcons.star,
+                  color: ColorsManager.starsColor,
                 ),
-                unratedColor: const Color(0xFFB1AEAE),
+                unratedColor: ColorsManager.inActiveColor,
                 itemCount: 5,
                 itemSize: 15.sp,
                 direction: Axis.horizontal,
@@ -79,11 +62,7 @@ class CarouselItemView extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 'From $voteCount users',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),

@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
-import 'package:tmda/core/widget/section_widget.dart';
-import 'package:tmda/features/movie/presentation/widgets/now_playing_movies_component.dart';
-import 'package:tmda/features/movie/presentation/widgets/popular_movies_component.dart';
-import 'package:tmda/features/movie/presentation/widgets/top_rated_movies_component.dart';
-import 'package:tmda/features/movie/presentation/widgets/new_movies_component.dart';
+import 'package:tmda/core/widget/section_with_see_all.dart';
+import 'package:tmda/features/movie/presentation/components/movie_main/now_playing_movies_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_main/popular_movies_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_main/top_rated_movies_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_main/new_movies_component.dart';
 
 @RoutePage()
 class MovieScreen extends StatefulWidget {
@@ -25,23 +28,20 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SizedBox.expand(
         child: Stack(
           children: [
-            Positioned(
+            const Positioned(
               top: 30,
               left: 20,
-              child: NeonLightPainter(
-                  color: ColorsManager.primaryColor.withOpacity(0.5)),
+              child: NeonLightPainter(color: ColorsManager.primaryColor,),
             ),
-            Positioned(
+            const Positioned(
               bottom: 350,
               right: 0,
-              child: NeonLightPainter(
-                  color: ColorsManager.secondaryColor.withOpacity(0.5)),
+              child: NeonLightPainter(color: ColorsManager.secondaryColor),
             ),
-            Positioned(
+            const Positioned(
               bottom: 10,
               left: 10,
-              child: NeonLightPainter(
-                  color: ColorsManager.primaryColor.withOpacity(0.6)),
+              child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
             ListView(
               shrinkWrap: true,
@@ -49,28 +49,40 @@ class _MovieScreenState extends State<MovieScreen> {
               physics: const BouncingScrollPhysics(),
               children: [
                 const NowPlayingMoviesComponent(),
-                SectionWidget(
-                  title: 'New Movies',
+                SectionWidgetWithSeeAll(
+                  title: StringsManager.newMoviesSectionTitle,
                   color: ColorsManager.primaryColor,
-                  textButtonTitle: 'See All',
-                  textButtonColor: ColorsManager.primaryColor,
-                  textButtonOnPressed: () {},
+                  textButtonOnPressed: () {
+                    context.pushRoute(
+                      SeeAllMoviesRoute(
+                        movieType: MovieType.newMovies,
+                      ),
+                    );
+                  },
                 ),
                 const NewMoviesComponent(),
-                SectionWidget(
-                  title: 'Popular Movies',
+                SectionWidgetWithSeeAll(
+                  title: StringsManager.popularMoviesSectionTitle,
                   color: ColorsManager.primaryColor,
-                  textButtonTitle: 'See All',
-                  textButtonColor: ColorsManager.primaryColor,
-                  textButtonOnPressed: () {},
+                  textButtonOnPressed: () {
+                    context.pushRoute(
+                      SeeAllMoviesRoute(
+                        movieType: MovieType.popularMovies,
+                      ),
+                    );
+                  },
                 ),
                 const PopularMoviesComponent(),
-                SectionWidget(
-                  title: 'Top Rated Movies',
+                SectionWidgetWithSeeAll(
+                  title: StringsManager.topRatedMoviesSectionTitle,
                   color: ColorsManager.primaryColor,
-                  textButtonTitle: 'See All',
-                  textButtonColor: ColorsManager.primaryColor,
-                  textButtonOnPressed: () {},
+                  textButtonOnPressed: () {
+                    context.pushRoute(
+                      SeeAllMoviesRoute(
+                        movieType: MovieType.topRatedMovies,
+                      ),
+                    );
+                  },
                 ),
                 const TopRatedMoviesComponent(),
                 SizedBox(height: 60.h),

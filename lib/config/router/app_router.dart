@@ -2,10 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:tmda/features/account/presentation/screen/account_screen.dart';
 import 'package:tmda/features/actor/presentation/screens/actor_profile_screen.dart';
+import 'package:tmda/features/auth/presentation/screens/Auth_wrapper.dart';
+import 'package:tmda/features/auth/presentation/screens/splash_screen.dart';
 import 'package:tmda/features/main/presentation/screens/main_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/login_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
 import 'package:tmda/features/movie/presentation/screens/movie_details_screen.dart';
+import 'package:tmda/features/movie/presentation/screens/movie_details_wrapper.dart';
+import 'package:tmda/features/movie/presentation/screens/movie_wrapper.dart';
 import 'package:tmda/features/movie/presentation/screens/movie_screen.dart';
 import 'package:tmda/features/movie/presentation/screens/see_all_movies_screen.dart';
 import 'package:tmda/features/search/presentation/screens/actor_search_screen.dart';
@@ -25,29 +29,58 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          path: '/',
-          page: MainRoute.page,
+          page: AuthWrapperRoute.page,
+          path: '/auth',
+          initial: true,
           children: [
             AutoRoute(
-              page: EmptyMovieRoute.page,
+              page: SplashRoute.page,
+              path: '',
+            ),
+            AutoRoute(
+              page: SelectionRoute.page,
+            ),
+            AutoRoute(
+              page: LoginRoute.page,
+            ),
+          ],
+        ),
+        AutoRoute(
+          page: MainRoute.page,
+          path: '/main',
+          children: [
+            AutoRoute(
+              page: MovieTabRoutePage.page,
               path: 'movie',
               children: [
                 AutoRoute(
-                  page: MovieRoute.page,
-                  path: '',
-                ),
-                AutoRoute(
-                  page: SeeAllMoviesRoute.page,
-                  path: 'seeAllMovies',
-                ),
-                AutoRoute(
-                  page: MovieDetailsRoute.page,
-                  path: ':movieId',
+                  page: MovieWrapperRoute.page,
+                  children: [
+                    AutoRoute(
+                      page: MovieRoute.page,
+                      path: '',
+                    ),
+                    AutoRoute(
+                      page: MovieDetailsWrapperRoute.page,
+                      children: [
+                        AutoRoute(
+                          page: MovieDetailsRoute.page,
+                          path: ':movieId',
+                        ),
+                        CustomRoute(
+                          page: SeeAllMoviesRoute.page,
+                          path: ':seeAllMoviesType',
+                          transitionsBuilder: TransitionsBuilders.fadeIn,
+                          durationInMilliseconds: 800,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
             AutoRoute(
-              page: EmptyTvRoute.page,
+              page: TvTabRoutePage.page,
               path: 'tv',
               children: [
                 AutoRoute(
@@ -65,24 +98,37 @@ class AppRouter extends _$AppRouter {
               ],
             ),
             AutoRoute(
-              page: EmptySearchRoute.page,
+              page: SearchTabRoutePage.page,
               path: 'search',
               children: [
                 AutoRoute(
                   page: MainSearchRoute.page,
-                  path: '',
+                  path: 'search',
+                  children: [
+                    AutoRoute(
+                      page: MovieSearchRoute.page,
+                      path: 'movieSearch',
+                    ),
+                    AutoRoute(
+                      page: TvSearchRoute.page,
+                      path: 'tvSearch',
+                    ),
+                    AutoRoute(
+                      page: ActorSearchRoute.page,
+                      path: 'movieSearch',
+                    ),
+                  ],
                 ),
+              ],
+            ),
+            AutoRoute(
+              page: AccountTabRoutePage.page,
+              path: 'account',
+              children: [
                 AutoRoute(
-                  page: MovieSearchRoute.page,
-                  path: 'movieSearch',
-                ),
-                AutoRoute(
-                  page: TvSearchRoute.page,
-                  path: 'tvSearch',
-                ),
-                AutoRoute(
-                  page: ActorSearchRoute.page,
-                  path: 'movieSearch',
+                  page: AccountRoute.page,
+                  path: 'account',
+                  keepHistory: false,
                 ),
               ],
             ),
@@ -90,40 +136,27 @@ class AppRouter extends _$AppRouter {
               page: ActorProfileRoute.page,
               path: ':actorId',
             ),
-            AutoRoute(
-              page: AccountRoute.page,
-              path: 'account',
-            ),
           ],
-        ),
-
-        AutoRoute(
-          page: SelectionRoute.page,
-          path: '/selection',
-        ),
-        AutoRoute(
-          page: LoginRoute.page,
-          path: '/login',
         ),
       ];
 }
 
-@RoutePage(name: 'EmptyMovieRoute')
-class EmptyMovieRoutePage extends AutoRouter {
-  const EmptyMovieRoutePage({super.key});
+@RoutePage(name: 'MovieTabRoutePage')
+class MovieTabRoute extends AutoRouter {
+  const MovieTabRoute({super.key});
 }
 
-@RoutePage(name: 'EmptyTvRoute')
-class EmptyTvRoutePage extends AutoRouter {
-  const EmptyTvRoutePage({super.key});
+@RoutePage(name: 'TvTabRoutePage')
+class TvTabRoute extends AutoRouter {
+  const TvTabRoute({super.key});
 }
 
-@RoutePage(name: 'EmptySearchRoute')
-class EmptySearchRoutePage extends AutoRouter {
-  const EmptySearchRoutePage({super.key});
+@RoutePage(name: 'SearchTabRoutePage')
+class SearchTabRoute extends AutoRouter {
+  const SearchTabRoute({super.key});
 }
 
-@RoutePage(name: 'EmptyAccountRoute')
-class EmptyHomeRoutePage extends AutoRouter {
-  const EmptyHomeRoutePage({super.key});
+@RoutePage(name: 'AccountTabRoutePage')
+class AccountTabRoute extends AutoRouter {
+  const AccountTabRoute({super.key});
 }

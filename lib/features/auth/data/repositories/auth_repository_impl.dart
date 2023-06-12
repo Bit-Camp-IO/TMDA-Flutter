@@ -13,8 +13,8 @@ class AuthRepositoryImpl extends AuthRepository {
     try{
       final result = await remoteDataSource.checkUserLoginSession();
       return right(result);
-    }on ServerException{
-      return left(Failure());
+    }on CacheException catch(exception){
+      return left(Failure(exception.message!));
     }
   }
 
@@ -23,8 +23,8 @@ class AuthRepositoryImpl extends AuthRepository {
     try{
       final result = await remoteDataSource.userLogin(username, password);
       return right(result);
-    }on ServerException{
-      return left(Failure());
+    }on ServerException catch(exception){
+      return left(Failure(exception.message!));
     }
   }
 
@@ -33,8 +33,8 @@ class AuthRepositoryImpl extends AuthRepository {
     try{
       final result = await remoteDataSource.userRegister();
       return right(result);
-    }on Exception{
-      return Left(Failure());
+    }on LaunchUrlException catch(exception){
+      return Left(Failure(exception.message!));
     }
   }
   
@@ -43,8 +43,8 @@ class AuthRepositoryImpl extends AuthRepository {
     try{
       final result = await remoteDataSource.userForgetPassword();
       return right(result);
-    }on Exception{
-      return Left(Failure());
+    }on LaunchUrlException catch(exception){
+      return Left(Failure(exception.message!));
     }
   }
 }

@@ -6,11 +6,10 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
-import 'package:tmda/injection_container.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -28,22 +27,21 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObscured = true;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
+        if (state is LoginLoadingState) {
           isLoading = true;
-        } else if (state is AuthenticationState &&
-            state.authData.requestSuccess!) {
-          sl<AppRouter>().pushNamed('/');
-        } else if (state is AuthenticationState &&
-            !state.authData.requestSuccess!) {
+        } else if (state is LoginSuccessState) {
+          AutoRouter.of(context).popAndPush(const MainRoute());
+        } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.authData.statusMessage!)));
+            SnackBar(
+              content: Text(state.failMessage),
+            ),
+          );
         } else if (state is ObscuredState) {
           isObscured = state.isObscured;
-        } else if (state is AuthFailureState) {
-          debugPrint('There was a problem');
         }
       },
       builder: (context, state) {
@@ -74,13 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Spacer(flex: 2),
                       Text(
-                        'Welcome to our\n community ',
+                        StringsManager.loginWelcome,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22.sp,
-                          color: Colors.white,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const Spacer(flex: 2),
                       CustomTextField(
@@ -94,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 16.h),
                       CustomObscuredTextField(
                         suffixIconOnTap: () {
-                          BlocProvider.of<AuthCubit>(context)
+                          BlocProvider.of<LoginCubit>(context)
                               .changeObscuredField(!isObscured);
                         },
                         obscureText: isObscured,
@@ -110,18 +104,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          BlocProvider.of<AuthCubit>(context)
+                          BlocProvider.of<LoginCubit>(context)
                               .userForgetPassword();
                         },
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: Text(
-                            'Forget Password?',
-                            style: TextStyle(
-                              color: ColorsManager.primaryColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            StringsManager.forgetPassword,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: ColorsManager.primaryColor,
+                                    ),
                           ),
                         ),
                       ),
@@ -132,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (loginData!.validate()) {
                             loginData.save();
                           }
-                          await BlocProvider.of<AuthCubit>(context)
+                          await BlocProvider.of<LoginCubit>(context)
                               .userLogin(username, password);
                         },
                         child: isLoading
@@ -142,12 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )
                             : Text(
-                                'Login',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                StringsManager.login,
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                       ),
                       const Spacer(flex: 2),
@@ -155,25 +144,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don’t have an account? ',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            StringsManager.noAccount,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Colors.white.withOpacity(0.6),
+                                ),
                           ),
                           TextButton(
                             onPressed: () {
-                              BlocProvider.of<AuthCubit>(context)
+                              BlocProvider.of<LoginCubit>(context)
                                   .userRegister();
                             },
                             child: Text(
-                              'Register Now',
-                              style: TextStyle(
-                                color: ColorsManager.primaryColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                              StringsManager.registerNow,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: ColorsManager.primaryColor,
+                                  ),
                             ),
                           )
                         ],
@@ -187,5 +178,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    formKey.currentState?.dispose();
+    super.dispose();
   }
 }

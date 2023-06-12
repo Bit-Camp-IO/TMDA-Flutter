@@ -29,6 +29,7 @@ dependencies:
   flutter_svg: ^2.0.6
   auto_route: ^7.4.0
   android_intent_plus: ^4.0.1
+  bloc_concurrency: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +44,7 @@ flutter:
   assets:
     - assets/images/app_logo.svg
     - assets/images/neon_button.png
-
+    - assets/images/play_button.svg
   fonts:
     - family: Poppins
       fonts:

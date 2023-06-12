@@ -1,11 +1,9 @@
 import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
-import 'package:tmda/core/util/color_manager.dart';
-
+import 'package:tmda/core/util/strings_manager.dart';
 @RoutePage()
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -46,29 +44,26 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: BottomNavigationBar(
                 currentIndex: tabsRouter.activeIndex,
-                onTap: tabsRouter.setActiveIndex,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: const Color(0xFF343434).withOpacity(0.5),
-                selectedItemColor: ColorsManager.primaryColor,
-                unselectedItemColor: Colors.white.withOpacity(0.6),
+                onTap: (value) {
+                  tabsRouter.setActiveIndex(value);
+                },
+                
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(SolarSystemIcons.movie),
-                    label: 'Movie',
+                    label: StringsManager.movie,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(SolarSystemIcons.tv),
-                    label: 'Tv',
+                    label: StringsManager.tv,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(SolarSystemIcons.search),
-                    label: 'Search',
+                    label: StringsManager.search,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(SolarSystemIcons.person),
-                    label: 'Account',
+                    label: StringsManager.account,
                   ),
                 ],
               ),

@@ -1,12 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:tmda/core/error/failure.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details.dart';
-import 'package:tmda/features/movie/domain/entities/movies.dart';
+import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_account_states.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_cast.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_details.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_reviews.dart';
 
-abstract class MoviesRepository{
+abstract class MoviesRepository {
   Future<Either<Failure, List<Movies>>> getNowPlayingMovies();
-  Future<Either<Failure, List<Movies>>> getNewMovies();
-  Future<Either<Failure, List<Movies>>> getPopularMovies();
-  Future<Either<Failure, List<Movies>>> getTopRatedMovies();
-  Future<Either<Failure, MovieDetails>> getMovieDetails(String movieId);
+  Future<Either<Failure, List<Movies>>> getNewMovies(int pageNumber);
+  Future<Either<Failure, List<Movies>>> getPopularMovies(int pageNumber);
+  Future<Either<Failure, List<Movies>>> getTopRatedMovies(int pageNumber);
+  Future<Either<Failure, MovieDetails>> getMovieDetails({required int movieId, required String sessionId});
+  Future<Either<Failure, List<MovieCast>>> getMovieCast(int movieId);
+  Future<Either<Failure, List<Movies>>> getMoviesLikeThis({required int movieId, required int pageNumber});
+  Future<Either<Failure, List<MovieReviews>>> getMovieReviews(int movieId);
+  Future<Either<Failure, MovieAccountStatus>> getAccountStates({required int movieId, required String sessionId,});
+  Future<Either<Failure, String>> getSessionKey();
+  Future<Either<Failure, void>> playMovieTrailer(String movieVideoKey);
+  Future<Either<Failure, MovieAccountStatus>> addOrRemoveFromWatchList({
+    required int movieId,
+    required bool isInWatchList,
+    required String sessionId,
+  });
 }

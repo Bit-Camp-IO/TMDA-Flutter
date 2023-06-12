@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/util/data_source/local_data_source.dart';
 import 'package:tmda/features/auth/data/models/auth_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,62 +16,68 @@ abstract class AuthDataSource {
 class AuthDataSourceImpl extends AuthDataSource {
   ApiConsumer apiConsumer;
   LocalDataSource localDataSource;
-  AuthDataSourceImpl({required this.apiConsumer, required this.localDataSource});
-  Future<Map<String, dynamic>> createRequestToken() async{
-    final response =  await apiConsumer.get(ApiConstants.apiRequestToken);
+  AuthDataSourceImpl(
+      {required this.apiConsumer, required this.localDataSource});
+  Future<Map<String, dynamic>> createRequestToken() async {
+    final response = await apiConsumer.get(ApiConstants.requestTokenEndpoint);
     debugPrint('Request Token >>>> $response');
     return response;
-    
   }
 
   Future<Map<String, dynamic>> userLoginWithUsernameAndPassword(
-      String username, String password, String requestToken) async{
-    final response = await apiConsumer.post(ApiConstants.apiValidateWithLogin, queryParameters: {
-      'username' : username,
-      'password' : password,
-      'request_token' : requestToken,
+      String username, String password, String requestToken) async {
+    final response = await apiConsumer
+        .post(ApiConstants.validateWithLoginEndPoint, queryParameters: {
+      'username': username,
+      'password': password,
+      'request_token': requestToken,
     });
     return response;
   }
 
   @override
-  Future<AuthModel> checkUserLoginSession() async{
-    try{
+  Future<AuthModel> checkUserLoginSession() async {
+    try {
       String sessionId = await localDataSource.retrieveSessionId();
       return AuthModel(sessionId: sessionId, requestSuccess: true);
-    }on Exception{
-      return const AuthModel(requestSuccess: false);
+    } on Exception {
+      throw const CacheException("User Not Logged in");
     }
   }
 
   @override
-  Future<AuthModel> userLogin(String username, String password) async{
+  Future<AuthModel> userLogin(String username, String password) async {
     final requestTokenResponse = await createRequestToken();
-    final validateLogin = await userLoginWithUsernameAndPassword(username, password, requestTokenResponse['request_token']);
-    if(validateLogin['success']){
-      final response = await apiConsumer.post(ApiConstants.apiNewSession, queryParameters: {
-        'request_token' : '${requestTokenResponse['request_token']}'
-      });
+    final validateLogin = await userLoginWithUsernameAndPassword(
+      username,
+      password,
+      requestTokenResponse['request_token'],
+    );
+    if (validateLogin['success'] == true) {
+      final response = await apiConsumer.post(ApiConstants.newSessionEndpoint,
+          queryParameters: {
+            'request_token': '${requestTokenResponse['request_token']}'
+          });
       localDataSource.storeSessionId(response['session_id']);
       return AuthModel.fromJson(response);
-    }else{
-      return AuthModel.fromJson(validateLogin);
+    } else {
+      throw ServerException(validateLogin['status_message']!);
     }
   }
 
   @override
-  Future<void> userRegister() async{
-    final Uri url = Uri.parse(ApiConstants.apiRegistration);
-    if(!await launchUrl(url)){
-      throw Exception('Could not launch $url');
+  Future<void> userRegister() async {
+    final Uri url = Uri.parse(ApiConstants.baseRegisterUrl);
+    if (!await launchUrl(url)) {
+      throw LaunchUrlException('Could not launch $url');
     }
   }
-  
+
   @override
-  Future<void> userForgetPassword() async{
-   final Uri url = Uri.parse(ApiConstants.apiForgetPassword);
-    if(!await launchUrl(url)){
-      throw Exception('Could not launch $url');
+  Future<void> userForgetPassword() async {
+    final Uri url = Uri.parse(ApiConstants.baseForgetPasswordUrl);
+    if (!await launchUrl(url)) {
+      throw LaunchUrlException('Could not launch $url');
     }
   }
 }

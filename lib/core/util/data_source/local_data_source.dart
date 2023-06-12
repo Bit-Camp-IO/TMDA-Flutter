@@ -28,7 +28,7 @@ class LocalDataSourceImpl extends LocalDataSource {
       debugPrint('Session key Retrieved >>> $sessionKey');
       return sessionKey;
     } else {
-      throw CacheException();
+      throw const CacheException();
     }
   }
 
@@ -65,13 +65,13 @@ class LocalDataSourceImpl extends LocalDataSource {
     final sessionId = await retrieveSessionId();
 
     try {
-      await apiConsumer.delete(ApiConstants.apiDeleteSession,
+      await apiConsumer.delete(ApiConstants.deleteSessionEndPoint,
           queryParameters: {'session_id': sessionId});
       encryptedBox.delete('session_key');
       debugPrint("key deleted >>>> Logged Out");
     } on Exception {
       debugPrint("Error >>>> Logged Out Failed");
-      throw CacheException();
+      throw const CacheException();
     }
   }
 }

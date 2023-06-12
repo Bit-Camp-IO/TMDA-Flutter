@@ -16,13 +16,12 @@ class CustomTextField extends StatelessWidget {
       width: 300.w,
       height: 40.h,
       child: TextFormField(
-        
         style: TextStyle(
           color: Colors.white,
           fontSize: 12.sp,
           fontWeight: FontWeight.w500
         ),
-        onSaved: onSaved,
+        onSaved: onSaved,     
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 16.0).r,
           filled: true,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/color_manager.dart';
 
 class NormalButton extends StatelessWidget {
   const NormalButton({
@@ -17,7 +18,7 @@ class NormalButton extends StatelessWidget {
         width: 180,
         height: 48,
         decoration: BoxDecoration(
-          color: const Color(0xFF007373),
+          color: ColorsManager.darkPrimary,
           borderRadius: BorderRadius.circular(10).r,
         ),
         child: Center(

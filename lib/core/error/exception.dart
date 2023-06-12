@@ -41,7 +41,24 @@ class InternalServerErrorException extends ServerException {
 
 class NoInternetConnectionException extends ServerException {
   const NoInternetConnectionException([message])
+      : super("Couldn't Lunch Url");
+}
+
+class LaunchUrlException extends ServerException {
+  const LaunchUrlException([message])
       : super("No Internet Connection");
 }
 
-class CacheException implements Exception {}
+class CacheException extends Equatable implements Exception {
+  final String? message;
+
+  const CacheException([this.message]);
+
+  @override
+  List<Object?> get props => [message];
+
+  @override
+  String toString() {
+    return '$message';
+  }
+}

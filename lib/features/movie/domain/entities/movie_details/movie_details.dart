@@ -1,16 +1,23 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/movie/domain/entities/movie_genres.dart';
+import 'package:tmda/features/movie/domain/entities/movie/movies_genre.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_production_countries.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details/movie_video.dart';
 
 class MovieDetails extends Equatable {
   final String backDropPath;
   final String posterPath;
   final dynamic id;
-  final List<MovieGenres> genres;
   final String overview;
   final String releaseDate;
+  final String movieLanguage;
   final String title;
   final dynamic runTime;
-  final dynamic voteAverage;
+  final double voteAverage;
+  final dynamic popularity;
+  final MovieProductionCountries movieProductionCountry;
+  final List<MovieGenres> genres;
+  final MovieVideo movieVideo;
+
 
   const MovieDetails({
     required this.posterPath,
@@ -22,6 +29,10 @@ class MovieDetails extends Equatable {
     required this.title,
     required this.runTime,
     required this.voteAverage,
+    required this.popularity,
+    required this.movieProductionCountry,
+    required this.movieVideo,
+    required this.movieLanguage,
   });
 
   @override
@@ -33,6 +44,9 @@ class MovieDetails extends Equatable {
         title,
         runTime,
         voteAverage,
-        genres
+        genres,
+        movieVideo,
+        movieProductionCountry,
+        movieLanguage,
       ];
 }

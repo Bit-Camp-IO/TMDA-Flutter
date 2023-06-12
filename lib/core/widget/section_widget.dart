@@ -5,16 +5,10 @@ class SectionWidget extends StatelessWidget {
   const SectionWidget({
     Key? key,
     required this.title,
-    required this.textButtonTitle,
     required this.color,
-    required this.textButtonColor,
-    required this.textButtonOnPressed,
   }) : super(key: key);
   final String title;
-  final String textButtonTitle;
   final Color color;
-  final Color textButtonColor;
-  final void Function() textButtonOnPressed;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,26 +25,8 @@ class SectionWidget extends StatelessWidget {
           SizedBox(width: 8.w),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          const Spacer(
-            flex: 2,
-          ),
-          TextButton(
-            onPressed: textButtonOnPressed,
-            child: Text(
-              textButtonTitle,
-              style: TextStyle(
-                color: textButtonColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          )
         ],
       ),
     );

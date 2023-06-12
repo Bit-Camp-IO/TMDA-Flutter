@@ -14,17 +14,24 @@ import 'package:tmda/features/auth/domain/usecases/user_forget_password_usecase.
 import 'package:tmda/features/auth/domain/usecases/user_login_usecase.dart';
 import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart';
 import 'package:tmda/features/movie/data/repositories/movies_repository_impl.dart';
 import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
-import 'package:tmda/features/movie/domain/usecases/get_movie_details_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_now_playing_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_popular_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_top_rated_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_new_movies_usecase.dart';
-import 'package:tmda/features/movie/presentation/bloc/dot_indicator/dot_indicator_cubit.dart';
-import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_cubit.dart';
-import 'package:tmda/features/movie/presentation/bloc/movies_bloc/movies_bloc.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/add_or_remove_from_watch_list_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_account_states_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_cast_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_details_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_reviews_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_movies_like_this_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie/get_new_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie/get_now_playing_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie/get_popular_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/get_session_key_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie/get_top_rated_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/play_movie_video_usecase.dart';
+import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
+import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -33,7 +40,9 @@ class InjectionContainer {
     //! Auth Feature
 
     // Cubit
-    sl.registerFactory<AuthCubit>(() => AuthCubit(sl(), sl(), sl(), sl()));
+    sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl(), sl()));
+
+    sl.registerLazySingleton<LoginCubit>(() => LoginCubit(sl(), sl(), sl()));
 
     // UseCases
     sl.registerLazySingleton<UserLoginUseCase>(
@@ -57,8 +66,8 @@ class InjectionContainer {
 
     // Cubits
     sl.registerFactory<MoviesBloc>(() => MoviesBloc(sl(), sl(), sl(), sl()));
-    sl.registerFactory<DotIndicatorCubit>(() => DotIndicatorCubit());
-    sl.registerFactory<MovieDetailsCubit>(() => MovieDetailsCubit(sl()));
+    sl.registerFactory<MovieDetailsBloc>(
+        () => MovieDetailsBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
     // Use Cases
     sl.registerLazySingleton<GetNowPlayingMoviesUseCase>(
         () => GetNowPlayingMoviesUseCase(movieRepository: sl()));
@@ -70,9 +79,23 @@ class InjectionContainer {
         () => GetTopRatedMoviesUseCase(movieRepository: sl()));
     sl.registerLazySingleton<GetMovieDetailsUseCase>(
         () => GetMovieDetailsUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<GetSessionKeyUseCase>(
+        () => GetSessionKeyUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<GetMovieCastUseCase>(
+        () => GetMovieCastUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<GetMoviesLikeThisUseCase>(
+        () => GetMoviesLikeThisUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<GetMovieReviewsUseCase>(
+        () => GetMovieReviewsUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<PlayMovieVideoUseCase>(
+        () => PlayMovieVideoUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<AddOrRemoveFromWatchListUseCase>(
+        () => AddOrRemoveFromWatchListUseCase(moviesRepository: sl()));
+    sl.registerLazySingleton<GetMovieAccountStatusUseCase>(
+        () => GetMovieAccountStatusUseCase(moviesRepository: sl()));
     // Movie Repository
-    sl.registerLazySingleton<MoviesRepository>(
-        () => MoviesRepositoryImpl(moviesDataSource: sl()));
+    sl.registerLazySingleton<MoviesRepository>(() =>
+        MoviesRepositoryImpl(moviesDataSource: sl(), localDataSource: sl()));
 
     // Data Source
     sl.registerLazySingleton<MoviesDataSource>(

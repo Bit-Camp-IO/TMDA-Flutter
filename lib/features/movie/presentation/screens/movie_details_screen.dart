@@ -1,15 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widget/section_divider.dart';
 import 'package:tmda/core/widget/custom_icon_button.dart';
 import 'package:tmda/core/widget/neon_light_painter.dart';
-import 'package:tmda/core/widget/section_widget.dart';
-import 'package:tmda/core/widget/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_like_this_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
@@ -59,34 +53,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               child: Column(
                 children: [
                   MovieOverviewComponent(movieId: widget.movieId),
-                  const SectionDivider(),
-                  const SectionWidget(
-                    title: StringsManager.movieDetailsCastSection,
-                    color: ColorsManager.primaryColor,
-                  ),
                   MovieCastComponent(movieId: widget.movieId),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0).r,
-                    child: const SectionDivider(),
-                  ),
-                  SectionWidgetWithSeeAll(
-                    title: StringsManager.movieDetailsSimilarSectionTitle,
-                    color: ColorsManager.primaryColor,
-                    textButtonOnPressed: () {
-                      AutoRouter.of(context).push(
-                        SeeAllMoviesRoute(movieId: widget.movieId, movieType: MovieType.moreLikeThisMovies),
-                      );
-                    },
-                  ),
                   MoviesLikeThisComponent(movieId: widget.movieId),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0).r,
-                    child: const SectionDivider(),
-                  ),
-                  const SectionWidget(
-                    title: StringsManager.movieDetailsUserReviews,
-                    color: ColorsManager.primaryColor,
-                  ),
                   MovieReviewsComponent(movieId: widget.movieId),
                   SizedBox(height: 70.h)
                 ],

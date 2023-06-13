@@ -240,6 +240,7 @@ class MovieOverviewComponent extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
+                  const SectionDivider(),
                 ],
               ),
             );

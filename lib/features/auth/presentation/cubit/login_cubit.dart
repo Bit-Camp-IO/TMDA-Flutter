@@ -11,11 +11,11 @@ class LoginCubit extends Cubit<LoginState> {
   UserRegisterUseCase userRegisterUseCase;
   UserForgetPasswordUseCase userForgetPasswordUseCase;
   UserLoginUseCase userLoginUseCase;
-  LoginCubit(
-    this.userRegisterUseCase,
-    this.userForgetPasswordUseCase,
-    this.userLoginUseCase
-  ) : super(LoginInitial());
+  LoginCubit({
+    required this.userRegisterUseCase,
+    required this.userForgetPasswordUseCase,
+    required this.userLoginUseCase,
+  }) : super(LoginInitial());
 
   Future<void> userLogin(String username, String password) async {
     emit(LoginLoadingState());
@@ -27,6 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
           : emit(LoginFailState(loginSuccess.statusMessage!)),
     );
   }
+
   Future<void> userRegister() async {
     await userRegisterUseCase();
   }
@@ -34,8 +35,6 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> userForgetPassword() async {
     await userForgetPasswordUseCase();
   }
-
-  
 
   void changeObscuredField(bool isObscured) {
     emit(ObscuredState(isObscured: isObscured));

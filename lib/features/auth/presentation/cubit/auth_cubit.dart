@@ -7,14 +7,13 @@ import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  
   CheckUserLoginSessionUseCase checkUserLoggedInUseCase;
   UserRegisterUseCase userRegisterUseCase;
 
-  AuthCubit(
-    this.checkUserLoggedInUseCase,
-    this.userRegisterUseCase,
-  ) : super(AuthInitialState());
+  AuthCubit({
+    required this.checkUserLoggedInUseCase,
+    required this.userRegisterUseCase,
+  }) : super(AuthInitialState());
 
   Future<void> checkUserLoggedIn() async {
     final response = await checkUserLoggedInUseCase();

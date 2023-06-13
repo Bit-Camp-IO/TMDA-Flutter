@@ -7,11 +7,14 @@ class SectionDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
-      color: Colors.white.withOpacity(0.8),
-      thickness: 1,
-      indent: 50,
-      endIndent: 50,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Divider(
+        color: Colors.white.withOpacity(0.8),
+        thickness: 1,
+        indent: 50,
+        endIndent: 50,
+      ),
     );
   }
 }

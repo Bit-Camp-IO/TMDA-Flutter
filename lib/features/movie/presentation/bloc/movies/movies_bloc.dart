@@ -19,12 +19,12 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   int popularPageNumber = 1;
   int topRatedPageNumber = 1;
 
-  MoviesBloc(
-    this.getNowPlayingMoviesUseCase,
-    this.getPopularMoviesUseCase,
-    this.getTopRatedMoviesUseCase,
-    this.getNewMoviesUseCase,
-  ) : super(const MoviesState()) {
+  MoviesBloc({
+    required this.getNowPlayingMoviesUseCase,
+    required this.getPopularMoviesUseCase,
+    required this.getTopRatedMoviesUseCase,
+    required this.getNewMoviesUseCase,
+  }) : super(const MoviesState()) {
     on<GetNowPlayingMoviesEvent>(_getNowPlayingMovieEvent);
     on<GetPopularMoviesEvent>(_getPopularMoviesEvent);
     on<GetTopRatedMoviesEvent>(_getTopRatedMoviesEvent);
@@ -54,7 +54,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         state.copyWith(newMoviesState: BlocState.failure),
       ),
       (newMoviesList) {
-        newMoviesList.isEmpty ? emit(
+        newMoviesList.isEmpty
+            ? emit(
                 state.copyWith(
                   newMoviesState: BlocState.success,
                   newMoviesReachedMax: true,
@@ -79,7 +80,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         state.copyWith(popularMoviesState: BlocState.failure),
       ),
       (popularMoviesList) {
-        popularMoviesList.isEmpty ? emit(
+        popularMoviesList.isEmpty
+            ? emit(
                 state.copyWith(
                   popularMoviesState: BlocState.success,
                   popularMoviesReachedMax: true,
@@ -109,7 +111,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         ),
       ),
       (topRatedMoviesList) {
-        topRatedMoviesList.isEmpty ? emit(
+        topRatedMoviesList.isEmpty
+            ? emit(
                 state.copyWith(
                   topRatedMoviesState: BlocState.success,
                   topRatedMoviesReachedMax: true,

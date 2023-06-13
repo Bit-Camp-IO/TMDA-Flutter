@@ -31,15 +31,15 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final GetMovieAccountStatusUseCase getMovieAccountStatesUseCase;
   late String userSessionKey;
   int moviesLikeThisPage = 1;
-  MovieDetailsBloc(
-    this.getMovieDetailsUseCase,
-    this.getSessionKeyUseCase,
-    this.getMovieCastUseCase,
-    this.getMovieReviewsUseCase,
-    this.getMoviesLikeThisUseCase,
-    this.playMovieTrailerUseCase,
-    this.addOrRemoveFromWatchListUseCase,
-    this.getMovieAccountStatesUseCase,
+  MovieDetailsBloc({
+    required this.getMovieDetailsUseCase,
+    required this.getSessionKeyUseCase,
+    required this.getMovieCastUseCase,
+    required this.getMovieReviewsUseCase,
+    required this.getMoviesLikeThisUseCase,
+    required this.playMovieTrailerUseCase,
+    required this.addOrRemoveFromWatchListUseCase,
+    required this.getMovieAccountStatesUseCase,}
   ) : super(const MovieDetailsState()) {
     on<GetMovieDetailsEvent>(_getMovieDetailsEvent);
     on<GetMovieCastEvent>(_getMovieCastEvent);

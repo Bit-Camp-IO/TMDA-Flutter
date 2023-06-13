@@ -11,7 +11,7 @@ class MovieCastModel extends MovieCast {
   factory MovieCastModel.fromJson(Map<String, dynamic> jsonData) {
     return MovieCastModel(
       actorName: jsonData['name'],
-      actorPicPath: jsonData['profile_path'],
+      actorPicPath: jsonData['profile_path'] ?? '',
       movieCharacter: jsonData['character'],
       actorId: jsonData['id'],
     );

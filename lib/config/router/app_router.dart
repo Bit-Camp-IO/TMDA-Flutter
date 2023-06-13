@@ -16,9 +16,9 @@ import 'package:tmda/features/search/presentation/screens/actor_search_screen.da
 import 'package:tmda/features/search/presentation/screens/main_search_screen.dart';
 import 'package:tmda/features/search/presentation/screens/movie_search_screen.dart';
 import 'package:tmda/features/search/presentation/screens/tv_search_screen.dart';
-import 'package:tmda/features/tv/presentation/screens/see_all_tv_screen.dart';
-import 'package:tmda/features/tv/presentation/screens/tv_details.dart';
-import 'package:tmda/features/tv/presentation/screens/tv_screen.dart';
+import 'package:tmda/features/tv/presentation/screens/see_all_tv_shows_screen.dart';
+import 'package:tmda/features/tv/presentation/screens/tv_shows_details.dart';
+import 'package:tmda/features/tv/presentation/screens/tv_shows_screen.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')

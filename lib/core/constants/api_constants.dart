@@ -32,6 +32,13 @@ final class ApiConstants {
   static const String movieReviewsPath = '/reviews';
   static const String accountStatesPath = '/account_states';
 
+  //! Tv Endpoints
+
+  static const String tvShowsAiringTodayEndPoint = '$baseUrl/tv/airing_today';
+  static const String tvShowsAiringThisWeekEndPoint = '$baseUrl/tv/on_the_air';
+  static const String popularTvShowsEndPoint = '$baseUrl/tv/popular';
+  static const String topRatedTvShowsEndPoint = '$baseUrl/tv/top_rated';
+
   //! Account Endpoints
   static const addOrRemoveFromWatchListEndPoint =
       '$baseUrl/account/$accountId/watchlist';

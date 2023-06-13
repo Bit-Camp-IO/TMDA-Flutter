@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:tmda/core/api/api_consumer.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 
 abstract class LocalDataSource {
@@ -14,8 +12,8 @@ abstract class LocalDataSource {
 
 class LocalDataSourceImpl extends LocalDataSource {
   final FlutterSecureStorage secureStorage;
-  final ApiConsumer apiConsumer;
-  LocalDataSourceImpl(this.secureStorage, this.apiConsumer);
+
+  LocalDataSourceImpl({required this.secureStorage});
 
   @override
   Future<String> retrieveSessionId() async {
@@ -62,11 +60,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     final encryptionKeyUint8List = base64Url.decode(key!);
     final encryptedBox = await Hive.openBox('vaultBox',
         encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-    final sessionId = await retrieveSessionId();
-
     try {
-      await apiConsumer.delete(ApiConstants.deleteSessionEndPoint,
-          queryParameters: {'session_id': sessionId});
       encryptedBox.delete('session_key');
       debugPrint("key deleted >>>> Logged Out");
     } on Exception {

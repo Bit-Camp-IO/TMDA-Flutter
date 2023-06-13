@@ -39,74 +39,168 @@ class InjectionContainer {
   Future<void> init() async {
     //! Auth Feature
 
-    // Cubit
-    sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl(), sl()));
-
-    sl.registerLazySingleton<LoginCubit>(() => LoginCubit(sl(), sl(), sl()));
+    // Cubits
+    sl.registerLazySingleton<AuthCubit>(
+      () => AuthCubit(
+        checkUserLoggedInUseCase: sl(),
+        userRegisterUseCase: sl(),
+      ),
+    );
+    sl.registerLazySingleton<LoginCubit>(
+      () => LoginCubit(
+        userForgetPasswordUseCase: sl(),
+        userLoginUseCase: sl(),
+        userRegisterUseCase: sl(),
+      ),
+    );
 
     // UseCases
     sl.registerLazySingleton<UserLoginUseCase>(
-        () => UserLoginUseCase(authRepository: sl()));
+      () => UserLoginUseCase(
+        authRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<UserRegisterUseCase>(
-        () => UserRegisterUseCase(authRepository: sl()));
+      () => UserRegisterUseCase(
+        authRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<CheckUserLoginSessionUseCase>(
-        () => CheckUserLoginSessionUseCase(authRepository: sl()));
+      () => CheckUserLoginSessionUseCase(
+        authRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<UserForgetPasswordUseCase>(
-        () => UserForgetPasswordUseCase(authRepository: sl()));
+      () => UserForgetPasswordUseCase(
+        authRepository: sl(),
+      ),
+    );
 
     // Repository
     sl.registerLazySingleton<AuthRepository>(
-        () => AuthRepositoryImpl(remoteDataSource: sl()));
+      () => AuthRepositoryImpl(
+        remoteDataSource: sl(),
+      ),
+    );
 
     // Data Source
     sl.registerLazySingleton<AuthDataSource>(
-        () => AuthDataSourceImpl(apiConsumer: sl(), localDataSource: sl()));
+      () => AuthDataSourceImpl(
+        apiConsumer: sl(),
+        localDataSource: sl(),
+      ),
+    );
 
     // ! Movie Feature
 
-    // Cubits
-    sl.registerFactory<MoviesBloc>(() => MoviesBloc(sl(), sl(), sl(), sl()));
+    // Blocs
+    sl.registerFactory<MoviesBloc>(
+      () => MoviesBloc(
+        getNewMoviesUseCase: sl(),
+        getNowPlayingMoviesUseCase: sl(),
+        getPopularMoviesUseCase: sl(),
+        getTopRatedMoviesUseCase: sl(),
+      ),
+    );
     sl.registerFactory<MovieDetailsBloc>(
-        () => MovieDetailsBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+      () => MovieDetailsBloc(
+        addOrRemoveFromWatchListUseCase: sl(),
+        getMovieAccountStatesUseCase: sl(),
+        getMovieCastUseCase: sl(),
+        getMovieDetailsUseCase: sl(),
+        getMovieReviewsUseCase: sl(),
+        getMoviesLikeThisUseCase: sl(),
+        getSessionKeyUseCase: sl(),
+        playMovieTrailerUseCase: sl(),
+      ),
+    );
     // Use Cases
     sl.registerLazySingleton<GetNowPlayingMoviesUseCase>(
-        () => GetNowPlayingMoviesUseCase(movieRepository: sl()));
+      () => GetNowPlayingMoviesUseCase(
+        movieRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetNewMoviesUseCase>(
-        () => GetNewMoviesUseCase(movieRepository: sl()));
+      () => GetNewMoviesUseCase(
+        movieRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetPopularMoviesUseCase>(
-        () => GetPopularMoviesUseCase(movieRepository: sl()));
+      () => GetPopularMoviesUseCase(
+        movieRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetTopRatedMoviesUseCase>(
-        () => GetTopRatedMoviesUseCase(movieRepository: sl()));
+      () => GetTopRatedMoviesUseCase(
+        movieRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetMovieDetailsUseCase>(
-        () => GetMovieDetailsUseCase(moviesRepository: sl()));
+      () => GetMovieDetailsUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetSessionKeyUseCase>(
-        () => GetSessionKeyUseCase(moviesRepository: sl()));
+      () => GetSessionKeyUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetMovieCastUseCase>(
-        () => GetMovieCastUseCase(moviesRepository: sl()));
+      () => GetMovieCastUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetMoviesLikeThisUseCase>(
-        () => GetMoviesLikeThisUseCase(moviesRepository: sl()));
+      () => GetMoviesLikeThisUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetMovieReviewsUseCase>(
-        () => GetMovieReviewsUseCase(moviesRepository: sl()));
+      () => GetMovieReviewsUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<PlayMovieVideoUseCase>(
-        () => PlayMovieVideoUseCase(moviesRepository: sl()));
+      () => PlayMovieVideoUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<AddOrRemoveFromWatchListUseCase>(
-        () => AddOrRemoveFromWatchListUseCase(moviesRepository: sl()));
+      () => AddOrRemoveFromWatchListUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     sl.registerLazySingleton<GetMovieAccountStatusUseCase>(
-        () => GetMovieAccountStatusUseCase(moviesRepository: sl()));
+      () => GetMovieAccountStatusUseCase(
+        moviesRepository: sl(),
+      ),
+    );
     // Movie Repository
-    sl.registerLazySingleton<MoviesRepository>(() =>
-        MoviesRepositoryImpl(moviesDataSource: sl(), localDataSource: sl()));
+    sl.registerLazySingleton<MoviesRepository>(
+      () => MoviesRepositoryImpl(
+        moviesDataSource: sl(),
+        localDataSource: sl(),
+      ),
+    );
 
     // Data Source
     sl.registerLazySingleton<MoviesDataSource>(
-        () => MoviesDataSourceImpl(sl()));
+      () => MoviesDataSourceImpl(
+        sl(),
+      ),
+    );
+
+    //! Tv Feature
 
     //! Dio Injection
     // Dio Client
     sl.registerLazySingleton<Dio>(() => Dio());
     // Dio Consumer
     sl.registerLazySingleton<ApiConsumer>(
-        () => DioApiConsumer(dioClient: sl()));
+      () => DioApiConsumer(
+        dioClient: sl(),
+      ),
+    );
     // Dio Interceptor
     sl.registerLazySingleton<DioInterceptor>(() => DioInterceptor());
 
@@ -125,7 +219,10 @@ class InjectionContainer {
 
     //! Shared Local Data Source
     sl.registerLazySingleton<LocalDataSource>(
-        () => LocalDataSourceImpl(sl(), sl()));
+      () => LocalDataSourceImpl(
+        secureStorage: sl(),
+      ),
+    );
     sl.registerLazySingleton<FlutterSecureStorage>(
         () => const FlutterSecureStorage());
   }

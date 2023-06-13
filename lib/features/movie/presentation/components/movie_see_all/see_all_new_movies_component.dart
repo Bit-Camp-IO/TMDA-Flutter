@@ -40,14 +40,18 @@ class SeeAllNewMoviesComponent extends StatelessWidget {
                   child: SeeAllMovieCard(
                     onTap: () {
                       AutoRouter.of(context).push(
-                        MovieDetailsRoute(
-                          movieId: state.newMovies[index].movieId,
+                        MovieDetailsWrapperRoute(
+                          children: [
+                            MovieDetailsRoute(
+                              movieId: state.newMovies[index].movieId,
+                            ),
+                          ],
                         ),
                       );
                     },
                     title: state.newMovies[index].movieTitle,
                     posterPath: state.newMovies[index].moviePosterPath.isNotEmpty
-                        ? ApiConstants.imageUrl( state.newMovies[index].moviePosterPath)
+                        ? ApiConstants.imageUrl(state.newMovies[index].moviePosterPath)
                         : AssetsManager.noPoster,
                     vote: state.newMovies[index].movieVote,
                     voteCount: state.newMovies[index].movieVoteCount,

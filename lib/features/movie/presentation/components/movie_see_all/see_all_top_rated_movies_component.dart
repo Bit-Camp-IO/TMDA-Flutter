@@ -42,8 +42,12 @@ class SeeAllTopRatedMoviesComponent extends StatelessWidget {
                   child: SeeAllMovieCard(
                     onTap: () {
                       AutoRouter.of(context).push(
-                        MovieDetailsRoute(
-                          movieId: state.topRatedMovies[index].movieId,
+                        MovieDetailsWrapperRoute(
+                          children: [
+                            MovieDetailsRoute(
+                              movieId: state.topRatedMovies[index].movieId,
+                            ),
+                          ],
                         ),
                       );
                     },

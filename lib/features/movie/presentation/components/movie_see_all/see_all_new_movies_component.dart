@@ -43,21 +43,21 @@ class SeeAllNewMoviesComponent extends StatelessWidget {
                         MovieDetailsWrapperRoute(
                           children: [
                             MovieDetailsRoute(
-                              movieId: state.newMovies[index].movieId,
+                              movieId: state.newMovies[index].id,
                             ),
                           ],
                         ),
                       );
                     },
-                    title: state.newMovies[index].movieTitle,
-                    posterPath: state.newMovies[index].moviePosterPath.isNotEmpty
-                        ? ApiConstants.imageUrl(state.newMovies[index].moviePosterPath)
+                    title: state.newMovies[index].title,
+                    posterPath: state.newMovies[index].posterPath.isNotEmpty
+                        ? ApiConstants.imageUrl(state.newMovies[index].posterPath)
                         : AssetsManager.noPoster,
-                    vote: state.newMovies[index].movieVote,
+                    vote: state.newMovies[index].voteAverage,
                     voteCount: state.newMovies[index].movieVoteCount,
-                    genres: state.newMovies[index].movieGenres,
-                    releaseYear: state.newMovies[index].movieReleaseDate,
-                    language: state.newMovies[index].movieLanguage,
+                    genres: state.newMovies[index].genres,
+                    releaseYear: state.newMovies[index].releaseDate,
+                    language: state.newMovies[index].language,
                   ),
                 );
               },

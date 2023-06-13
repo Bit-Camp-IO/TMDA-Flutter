@@ -48,21 +48,21 @@ class SeeAllMoviesLikeThisComponent extends StatelessWidget {
                         MovieDetailsWrapperRoute(
                           children: [
                             MovieDetailsRoute(
-                              movieId: state.moviesLikeThis[index].movieId,
+                              movieId: state.moviesLikeThis[index].id,
                             ),
                           ],
                         ),
                       );
                     },
-                    title: state.moviesLikeThis[index].movieTitle,
-                    posterPath: state.moviesLikeThis[index].moviePosterPath.isNotEmpty
-                            ? ApiConstants.imageUrl(state.moviesLikeThis[index].moviePosterPath)
+                    title: state.moviesLikeThis[index].title,
+                    posterPath: state.moviesLikeThis[index].posterPath.isNotEmpty
+                            ? ApiConstants.imageUrl(state.moviesLikeThis[index].posterPath)
                             : AssetsManager.noPoster,
-                    vote: state.moviesLikeThis[index].movieVote,
+                    vote: state.moviesLikeThis[index].voteAverage,
                     voteCount: state.moviesLikeThis[index].movieVoteCount,
-                    genres: state.moviesLikeThis[index].movieGenres,
-                    releaseYear: state.moviesLikeThis[index].movieReleaseDate,
-                    language: state.moviesLikeThis[index].movieLanguage,
+                    genres: state.moviesLikeThis[index].genres,
+                    releaseYear: state.moviesLikeThis[index].releaseDate,
+                    language: state.moviesLikeThis[index].language,
                   ),
                 );
               },

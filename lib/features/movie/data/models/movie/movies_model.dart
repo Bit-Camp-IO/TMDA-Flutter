@@ -3,16 +3,16 @@ import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
 
 class MoviesModel extends Movies {
   const MoviesModel({
-    required super.movieId,
-    required super.movieTitle,
-    required super.movieOverview,
-    required super.moviePosterPath,
-    required super.movieBackDropPath,
-    required super.movieReleaseDate,
-    required super.movieVote,
+    required super.id,
+    required super.title,
+    required super.overview,
+    required super.posterPath,
+    required super.backDropPath,
+    required super.releaseDate,
+    required super.voteAverage,
     required super.movieVoteCount,
-    required super.movieGenres,
-    required super.movieLanguage,
+    required super.genres,
+    required super.language,
   });
 
   factory MoviesModel.fromJson(Map<String, dynamic> jsonData) {
@@ -45,18 +45,18 @@ class MoviesModel extends Movies {
     }
 
     return MoviesModel(
-      movieId: jsonData['id'],
-      movieTitle: jsonData['title'],
-      movieOverview: jsonData['overview'],
-      moviePosterPath: jsonData['poster_path'] ?? '',
-      movieBackDropPath: jsonData['backdrop_path'] ?? '',
-      movieReleaseDate: jsonData['release_date'],
-      movieVote: jsonData['vote_average'],
+      id: jsonData['id'],
+      title: jsonData['title'],
+      overview: jsonData['overview'],
+      posterPath: jsonData['poster_path'] ?? '',
+      backDropPath: jsonData['backdrop_path'] ?? '',
+      releaseDate: jsonData['release_date'],
+      voteAverage: jsonData['vote_average'],
       movieVoteCount: jsonData['vote_count'],
-      movieGenres: List<MovieGenresModel>.from(
+      genres: List<MovieGenresModel>.from(
         movieGenres.map((jsonData) => MovieGenresModel.fromJson(jsonData)),
       ),
-    movieLanguage: jsonData['original_language']
+    language: jsonData['original_language']
     );
   }
 }

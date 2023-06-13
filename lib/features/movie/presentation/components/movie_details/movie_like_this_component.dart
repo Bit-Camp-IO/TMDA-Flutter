@@ -69,18 +69,18 @@ class MoviesLikeThisComponent extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.only(left: 16.0).r,
                             child: DetailsPosterCard(
-                              imagePath: state.moviesLikeThis[index].moviePosterPath.isNotEmpty
-                                  ? ApiConstants.imageUrl(state.moviesLikeThis[index].moviePosterPath)
+                              imagePath: state.moviesLikeThis[index].posterPath.isNotEmpty
+                                  ? ApiConstants.imageUrl(state.moviesLikeThis[index].posterPath)
                                   : AssetsManager.noPoster,
-                              title: state.moviesLikeThis[index].movieTitle,
-                              rating: state.moviesLikeThis[index].movieVote,
+                              title: state.moviesLikeThis[index].title,
+                              rating: state.moviesLikeThis[index].voteAverage,
                               onTap: () {
                                 AutoRouter.of(context).push(
                                   MovieDetailsWrapperRoute(
                                     children: [
                                       MovieDetailsRoute(
                                         movieId:
-                                            state.moviesLikeThis[index].movieId,
+                                            state.moviesLikeThis[index].id,
                                       ),
                                     ],
                                   ),

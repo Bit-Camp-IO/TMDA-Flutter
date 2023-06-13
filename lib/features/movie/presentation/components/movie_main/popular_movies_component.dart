@@ -18,9 +18,7 @@ class PopularMoviesComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
-      buildWhen: (previous, current) =>
-          previous.popularMovies.isEmpty ||
-          previous.popularMovies[10] != current.popularMovies[10],
+      buildWhen: (previous, current) => previous.popularMoviesState != current.popularMoviesState,
       builder: (context, state) {
         switch (state.popularMoviesState) {
           case BlocState.loading:
@@ -63,16 +61,16 @@ class PopularMoviesComponent extends StatelessWidget {
                               onTap: () {
                                 context.pushRoute(
                                   MovieDetailsRoute(
-                                    movieId: state.popularMovies[index].movieId,
+                                    movieId: state.popularMovies[index].id,
                                   ),
                                 );
                               },
-                              title: state.popularMovies[index].movieTitle,
-                              imagePath: ApiConstants.imageUrl(state.popularMovies[index].moviePosterPath),
-                              releaseDate: state.popularMovies[index].movieReleaseDate,
-                              rating: state.popularMovies[index].movieVote,
-                              genres: state.popularMovies[index].movieGenres,
-                              language: state.popularMovies[index].movieLanguage,
+                              title: state.popularMovies[index].title,
+                              imagePath: ApiConstants.imageUrl(state.popularMovies[index].posterPath),
+                              releaseDate: state.popularMovies[index].releaseDate,
+                              rating: state.popularMovies[index].voteAverage,
+                              genres: state.popularMovies[index].genres,
+                              language: state.popularMovies[index].language,
                             ),
                           ],
                         );

@@ -17,8 +17,7 @@ class NowPlayingMoviesComponent extends StatelessWidget {
     return Column(
       children: [
         BlocBuilder<MoviesBloc, MoviesState>(
-          buildWhen: (previous, current) =>
-              previous.nowPlayingState != current.nowPlayingState,
+          buildWhen: (previous, current) => previous.nowPlayingState != current.nowPlayingState,
           builder: (context, state) {
             switch (state.nowPlayingState) {
               case BlocState.loading:
@@ -40,10 +39,10 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                         itemBuilder: (context, index, realIndex) {
                           return CarouselCard(
                             imagePath: ApiConstants.imageUrl(
-                              state.nowPlayingMovies[index].moviePosterPath,
+                              state.nowPlayingMovies[index].posterPath,
                             ),
-                            rating: state.nowPlayingMovies[index].movieVote,
-                            title: state.nowPlayingMovies[index].movieTitle,
+                            rating: state.nowPlayingMovies[index].voteAverage,
+                            title: state.nowPlayingMovies[index].title,
                             voteCount:
                                 state.nowPlayingMovies[index].movieVoteCount,
                           );

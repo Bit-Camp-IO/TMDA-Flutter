@@ -44,21 +44,21 @@ class SeeAllPopularMoviesComponent extends StatelessWidget {
                         MovieDetailsWrapperRoute(
                           children: [
                             MovieDetailsRoute(
-                              movieId: state.popularMovies[index].movieId,
+                              movieId: state.popularMovies[index].id,
                             ),
                           ],
                         ),
                       );
                     },
-                    title: state.popularMovies[index].movieTitle,
-                    posterPath: state.popularMovies[index].moviePosterPath.isNotEmpty
-                            ? ApiConstants.imageUrl(state.popularMovies[index].moviePosterPath)
+                    title: state.popularMovies[index].title,
+                    posterPath: state.popularMovies[index].posterPath.isNotEmpty
+                            ? ApiConstants.imageUrl(state.popularMovies[index].posterPath)
                             : AssetsManager.noPoster,
-                    vote: state.popularMovies[index].movieVote,
+                    vote: state.popularMovies[index].voteAverage,
                     voteCount: state.popularMovies[index].movieVoteCount,
-                    genres: state.popularMovies[index].movieGenres,
-                    releaseYear: state.popularMovies[index].movieReleaseDate,
-                    language: state.popularMovies[index].movieLanguage,
+                    genres: state.popularMovies[index].genres,
+                    releaseYear: state.popularMovies[index].releaseDate,
+                    language: state.popularMovies[index].language,
                   ),
                 );
               },

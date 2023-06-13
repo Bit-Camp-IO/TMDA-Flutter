@@ -18,9 +18,7 @@ class NewMoviesComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
-      buildWhen: (previous, current) =>
-          previous.newMovies.isEmpty ||
-          previous.newMovies[10] != current.newMovies[10],
+      buildWhen: (previous, current) => previous.newMoviesState != current.newMoviesState,
       builder: (context, state) {
         switch (state.newMoviesState) {
           case BlocState.loading:
@@ -63,16 +61,16 @@ class NewMoviesComponent extends StatelessWidget {
                               onTap: () {
                                 context.pushRoute(
                                   MovieDetailsRoute(
-                                    movieId: state.newMovies[index].movieId,
+                                    movieId: state.newMovies[index].id,
                                   ),
                                 );
                               },
-                              title: state.newMovies[index].movieTitle,
-                              imagePath: ApiConstants.imageUrl(state.newMovies[index].moviePosterPath),
-                              releaseDate: state.newMovies[index].movieReleaseDate,
-                              rating: state.newMovies[index].movieVote,
-                              genres: state.newMovies[index].movieGenres,
-                              language: state.newMovies[index].movieLanguage,
+                              title: state.newMovies[index].title,
+                              imagePath: ApiConstants.imageUrl(state.newMovies[index].posterPath),
+                              releaseDate: state.newMovies[index].releaseDate,
+                              rating: state.newMovies[index].voteAverage,
+                              genres: state.newMovies[index].genres,
+                              language: state.newMovies[index].language,
                             ),
                           ],
                         );

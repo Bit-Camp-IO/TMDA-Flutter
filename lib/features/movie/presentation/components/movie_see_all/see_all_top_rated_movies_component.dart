@@ -45,21 +45,21 @@ class SeeAllTopRatedMoviesComponent extends StatelessWidget {
                         MovieDetailsWrapperRoute(
                           children: [
                             MovieDetailsRoute(
-                              movieId: state.topRatedMovies[index].movieId,
+                              movieId: state.topRatedMovies[index].id,
                             ),
                           ],
                         ),
                       );
                     },
-                    title: state.topRatedMovies[index].movieTitle,
-                    posterPath: state.topRatedMovies[index].moviePosterPath.isNotEmpty
-                            ? ApiConstants.imageUrl(state.topRatedMovies[index].moviePosterPath)
+                    title: state.topRatedMovies[index].title,
+                    posterPath: state.topRatedMovies[index].posterPath.isNotEmpty
+                            ? ApiConstants.imageUrl(state.topRatedMovies[index].posterPath)
                             : AssetsManager.noPoster,
-                    vote: state.topRatedMovies[index].movieVote,
+                    vote: state.topRatedMovies[index].voteAverage,
                     voteCount: state.topRatedMovies[index].movieVoteCount,
-                    genres: state.topRatedMovies[index].movieGenres,
-                    releaseYear: state.topRatedMovies[index].movieReleaseDate,
-                    language: state.topRatedMovies[index].movieLanguage,
+                    genres: state.topRatedMovies[index].genres,
+                    releaseYear: state.topRatedMovies[index].releaseDate,
+                    language: state.topRatedMovies[index].language,
                   ),
                 );
               },

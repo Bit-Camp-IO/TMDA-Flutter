@@ -2,12 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widget/neon_light_painter.dart';
+import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
 import 'package:tmda/features/auth/presentation/widgets/normal_button.dart';
@@ -40,7 +39,7 @@ class SelectionScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(flex: 4),
-                  SvgPicture.asset(AssetsManager.appLogo),
+                  Image.asset(AssetsManager.appLogo),
                   const Spacer(flex: 1),
                   Text(
                     StringsManager.overview,
@@ -63,6 +62,8 @@ class SelectionScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   NormalButton(
+                    width: 180,
+                    height: 48,
                     onTap: () async {
                       await BlocProvider.of<AuthCubit>(context).userRegister();
                     },

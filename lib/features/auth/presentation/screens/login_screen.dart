@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widget/neon_light_painter.dart';
+import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginLoadingState) {
           isLoading = true;
         } else if (state is LoginSuccessState) {
-          AutoRouter.of(context).popAndPush(const MainRoute());
+          AutoRouter.of(context).replace(const MainRoutePage());
         } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(

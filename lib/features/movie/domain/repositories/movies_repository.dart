@@ -15,10 +15,9 @@ abstract class MoviesRepository {
   Future<Either<Failure, List<MovieCast>>> getMovieCast(int movieId);
   Future<Either<Failure, List<Movies>>> getMoviesLikeThis({required int movieId, required int pageNumber});
   Future<Either<Failure, List<MovieReviews>>> getMovieReviews(int movieId);
-  Future<Either<Failure, MovieAccountStatus>> getAccountStates({required int movieId, required String sessionId,});
-  Future<Either<Failure, String>> getSessionKey();
-  Future<Either<Failure, void>> playMovieTrailer(String movieVideoKey);
-  Future<Either<Failure, MovieAccountStatus>> addOrRemoveFromWatchList({
+  Future<String> getSessionKey();
+  Future<Either<Failure, void>> playMovieVideo(String movieVideoKey);
+  Future<Either<Failure, MovieAccountStatus>> addOrRemoveMovieFromWatchList({
     required int movieId,
     required bool isInWatchList,
     required String sessionId,

@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/core/util/data_source/local_data_source.dart';
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart';
 import 'package:tmda/features/movie/data/models/movie/movies_model.dart';
 import 'package:tmda/features/movie/data/models/movie_details/movie_account_states_model.dart';
-import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_cast.dart';
+import 'package:tmda/features/movie/data/models/movie_details/movie_cast_model.dart';
+import 'package:tmda/features/movie/data/models/movie_details/movie_review_model.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_details.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_reviews.dart';
 import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
+@LazySingleton(as: MoviesRepository)
 class MoviesRepositoryImpl extends MoviesRepository {
   final MoviesDataSource moviesDataSource;
   final LocalDataSource localDataSource;
@@ -84,19 +85,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, String>> getSessionKey() async {
-    try {
-      final result = await localDataSource.retrieveSessionId();
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
+  Future<String> getSessionKey() async {
+      return await localDataSource.retrieveSessionId();
   }
 
   @override
-  Future<Either<Failure, List<MovieCast>>> getMovieCast(int movieId) async {
+  Future<Either<Failure, List<MovieCastModel>>> getMovieCast(int movieId) async {
     try {
       final result = await moviesDataSource.getMovieCast(movieId);
       return right(result);
@@ -108,7 +102,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MovieReviews>>> getMovieReviews(
+  Future<Either<Failure, List<MovieReviewsModel>>> getMovieReviews(
       int movieId) async {
     try {
       final result = await moviesDataSource.getMovieReviews(movieId);
@@ -121,7 +115,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getMoviesLikeThis(
+  Future<Either<Failure, List<MoviesModel>>> getMoviesLikeThis(
       {required int movieId, required int pageNumber}) async {
     try {
       final result = await moviesDataSource.getMoviesLikeThis(
@@ -135,9 +129,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, void>> playMovieTrailer(String movieVideoKey) async {
+  Future<Either<Failure, void>> playMovieVideo(String movieVideoKey) async {
     try {
-      final result = await moviesDataSource.openMovieTrailer(movieVideoKey);
+      final result = await moviesDataSource.playMovieVideo(movieVideoKey);
       return right(result);
     } on LaunchUrlException catch (exception) {
       return left(
@@ -147,28 +141,16 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, MovieAccountStatesModel>> addOrRemoveFromWatchList({
+  Future<Either<Failure, MovieAccountStatesModel>> addOrRemoveMovieFromWatchList({
     required int movieId,
     required bool isInWatchList,
     required String sessionId,
   }) async {
     try {
-      final result = await moviesDataSource.addOrRemoveFromWatchList(
+      final result = await moviesDataSource.addOrRemoveMovieFromWatchList(
           movieId: movieId, isInWatchList: isInWatchList, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, MovieAccountStatesModel>> getAccountStates({required int movieId, required String sessionId}) async{
-    try {
-      final result = await moviesDataSource.getMovieAccountStates(movieId: movieId, sessionId: sessionId);
-      return right(result);
-    } on LaunchUrlException catch (exception) {
       return left(
         Failure(exception.message!),
       );

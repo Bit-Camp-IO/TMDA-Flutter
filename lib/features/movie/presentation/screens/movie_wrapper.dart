@@ -10,16 +10,12 @@ class MovieWrapperScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => sl<MoviesBloc>()
-            ..add(GetNowPlayingMoviesEvent())
-            ..add(GetNewMoviesEvent())
-            ..add(GetPopularMoviesEvent())
-            ..add(GetTopRatedMoviesEvent()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => getIt<MoviesBloc>()
+        ..add(GetNowPlayingMoviesEvent())
+        ..add(GetNewMoviesEvent())
+        ..add(GetPopularMoviesEvent())
+        ..add(GetTopRatedMoviesEvent()),
       child: const AutoRouter(),
     );
   }

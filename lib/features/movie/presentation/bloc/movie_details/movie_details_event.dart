@@ -24,10 +24,10 @@ class GetMovieCastEvent extends MovieDetailsEvent {
   List<Object> get props => [movieId];
 }
 
-class GetMoviesLikeThisEvent extends MovieDetailsEvent {
+class GetMoreSimilarMoviesEvent extends MovieDetailsEvent {
   final int movieId;
 
-  const GetMoviesLikeThisEvent(this.movieId);
+  const GetMoreSimilarMoviesEvent(this.movieId);
   @override
   List<Object> get props => [movieId];
 }
@@ -58,13 +58,12 @@ class AddOrRemoveFromWatchListEvent extends MovieDetailsEvent{
 
   @override
   List<Object> get props => [isInWatchList, movieId];
-
 }
 
-class GetMovieAccountStatesEvent extends MovieDetailsEvent{
-  final int movieId;
-  const GetMovieAccountStatesEvent({required this.movieId});
-  @override
-  List<Object> get props => [movieId];
+class OnScrollAnimationEvent extends MovieDetailsEvent{
+  final double animatedContainerHeight;
+  final double animatedPosterHeight;
 
+  const OnScrollAnimationEvent(
+      {required this.animatedContainerHeight, required this.animatedPosterHeight});
 }

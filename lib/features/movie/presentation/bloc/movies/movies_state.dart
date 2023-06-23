@@ -17,6 +17,7 @@ class MoviesState extends Equatable {
   final bool newMoviesReachedMax;
   final String newMoviesFailMessage;
   final int indicatorIndex;
+  final BlocState movieState;
   const MoviesState({
     this.nowPlayingMovies = const [],
     this.nowPlayingState = BlocState.loading,
@@ -34,6 +35,7 @@ class MoviesState extends Equatable {
     this.topRatedMoviesReachedMax = false,
     this.topRatedMoviesFailMessage = '',
     this.indicatorIndex = 0,
+    this.movieState = BlocState.loading
   });
   MoviesState copyWith({
     int? indicatorIndex,
@@ -52,6 +54,7 @@ class MoviesState extends Equatable {
     BlocState? newMoviesState,
     bool? newMoviesReachedMax,
     String? newMoviesFailMessage,
+    BlocState? movieState,
   }) {
     return MoviesState(
       nowPlayingMovies: nowPlayingMovies ?? this.nowPlayingMovies,
@@ -70,6 +73,7 @@ class MoviesState extends Equatable {
       newMoviesReachedMax: newMoviesReachedMax ?? this.newMoviesReachedMax,
       newMoviesFailMessage: newMoviesFailMessage ?? this.newMoviesFailMessage,
       indicatorIndex: indicatorIndex ?? this.indicatorIndex,
+      movieState: movieState ?? this.movieState,
     );
   }
 
@@ -91,5 +95,6 @@ class MoviesState extends Equatable {
         newMoviesFailMessage,
         newMoviesReachedMax,
         indicatorIndex,
+        movieState
       ];
 }

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/widget/custom_icon_button.dart';
-import 'package:tmda/core/widget/neon_light_painter.dart';
+import 'package:tmda/core/widgets/custom_icon_button.dart';
+import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_see_all/see_all_movies_like_this_component.dart';
@@ -16,7 +16,7 @@ import 'package:tmda/features/movie/presentation/components/movie_see_all/see_al
 @RoutePage()
 class SeeAllMoviesScreen extends StatefulWidget {
   const SeeAllMoviesScreen(
-      {super.key, @PathParam(':seeAllMoviesType') required this.movieType, this.movieId});
+      {super.key, @PathParam(':seeAllMovies') required this.movieType, this.movieId});
   final dynamic movieType;
   final int? movieId;
   @override
@@ -43,8 +43,8 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
           context.read<MoviesBloc>().add(GetPopularMoviesEvent());
         case (MovieType.topRatedMovies):
           context.read<MoviesBloc>().add(GetTopRatedMoviesEvent());
-        case (MovieType.moreLikeThisMovies):
-          context.read<MovieDetailsBloc>().add( GetMoviesLikeThisEvent(widget.movieId!));
+        case (MovieType.moreMoviesLikeThis):
+          context.read<MovieDetailsBloc>().add( GetMoreSimilarMoviesEvent(widget.movieId!));
       }
     }
   }
@@ -87,7 +87,7 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
                   return SeeAllPopularMoviesComponent(
                     scrollController: scrollController,
                   );
-                case (MovieType.moreLikeThisMovies):
+                case (MovieType.moreMoviesLikeThis):
                   return SeeAllMoviesLikeThisComponent(
                     scrollController: scrollController,
                   );
@@ -99,7 +99,7 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
             },
           ),
           Positioned(
-            top: 30,
+            top: 40,
             left: 20,
             child: Row(
               children: [

@@ -9,10 +9,10 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widget/details_poster_card.dart';
-import 'package:tmda/core/widget/section_divider.dart';
-import 'package:tmda/core/widget/section_widget.dart';
-import 'package:tmda/core/widget/section_with_see_all.dart';
+import 'package:tmda/core/widgets/details_poster_card.dart';
+import 'package:tmda/core/widgets/section_divider.dart';
+import 'package:tmda/core/widgets/section_widget.dart';
+import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 
 class MoviesLikeThisComponent extends StatelessWidget {
@@ -20,81 +20,75 @@ class MoviesLikeThisComponent extends StatelessWidget {
     super.key,
     required this.movieId,
   });
+
   final int movieId;
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
-      bloc: context.read<MovieDetailsBloc>()
-        ..add(GetMoviesLikeThisEvent(movieId)),
-      buildWhen: (previous, current) =>
-          previous.moviesLikeThisState != current.moviesLikeThisState,
-      builder: (context, state) {
-        switch (state.moviesLikeThisState) {
-          case BlocState.loading:
-            return SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 200.h,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: ColorsManager.primaryColor,
-                ),
+    return Column(
+      children: [
+        SectionWidgetWithSeeAll(
+          title: StringsManager.movieDetailsSimilarSectionTitle,
+          color: ColorsManager.primaryColor,
+          textButtonOnPressed: () {
+            AutoRouter.of(context).push(
+              SeeAllMoviesRoute(
+                movieId: movieId,
+                movieType: MovieType.moreMoviesLikeThis,
               ),
             );
-          case BlocState.success:
-            if (state.moviesLikeThis.isNotEmpty) {
-              return Animate(
-                effects: [FadeEffect(duration: 150.ms)],
-                child: Column(
-                  children: [
-                    SectionWidgetWithSeeAll(
-                      title: StringsManager.movieDetailsSimilarSectionTitle,
-                      color: ColorsManager.primaryColor,
-                      textButtonOnPressed: () {
-                        AutoRouter.of(context).push(
-                          SeeAllMoviesRoute(
-                            movieId: movieId,
-                            movieType: MovieType.moreLikeThisMovies,
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 200.h,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.moviesLikeThis.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 16.0).r,
-                            child: DetailsPosterCard(
-                              imagePath: state.moviesLikeThis[index].posterPath.isNotEmpty
-                                  ? ApiConstants.imageUrl(state.moviesLikeThis[index].posterPath)
+          },
+        ),
+        BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+          buildWhen: (previous, current) =>
+              previous.movieDetailsState != current.movieDetailsState,
+          builder: (context, state) {
+            if (state.movieDetails.similarMovies.isNotEmpty) {
+              return Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 220.h,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.movieDetails.similarMovies.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            SizedBox(width: 16.w),
+                            MovieDetailsPosterCard(
+                              imagePath: state.movieDetails.similarMovies[index]
+                                      .posterPath.isNotEmpty
+                                  ? ApiConstants.imageUrl(
+                                      state.movieDetails.similarMovies[index]
+                                          .posterPath,
+                                    )
                                   : AssetsManager.noPoster,
-                              title: state.moviesLikeThis[index].title,
-                              rating: state.moviesLikeThis[index].voteAverage,
+                              title:
+                                  state.movieDetails.similarMovies[index].title,
+                              rating: state
+                                  .movieDetails.similarMovies[index].voteAverage,
                               onTap: () {
                                 AutoRouter.of(context).push(
                                   MovieDetailsWrapperRoute(
                                     children: [
                                       MovieDetailsRoute(
-                                        movieId:
-                                            state.moviesLikeThis[index].id,
+                                        movieId: state
+                                            .movieDetails.similarMovies[index].id,
                                       ),
                                     ],
                                   ),
                                 );
                               },
                             ),
-                          );
-                        },
-                      ),
+                          ],
+                        );
+                      },
                     ),
-                    SizedBox(height: 10.h),
-                    const SectionDivider(),
-                  ],
-                ),
+                  ),
+                  const SectionDivider(),
+                ],
               );
             } else {
               return Animate(
@@ -115,11 +109,9 @@ class MoviesLikeThisComponent extends StatelessWidget {
                 ),
               );
             }
-
-          case BlocState.failure:
-            return const Text('Load data Failed');
-        }
-      },
+          },
+        ),
+      ],
     );
   }
 }

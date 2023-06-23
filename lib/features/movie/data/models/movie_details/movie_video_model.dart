@@ -1,6 +1,6 @@
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_video.dart';
 
-class MovieVideoModel extends MovieVideo {
+class MovieVideoModel extends MovieVideo{
   const MovieVideoModel({
     required super.name,
     required super.key,
@@ -14,7 +14,7 @@ class MovieVideoModel extends MovieVideo {
         key: movieVideoList[0]['key'],
         videoType: movieVideoList[0]['type'],
       );
-    }else{
+    } else {
       return const MovieVideoModel(
         name: '',
         key: '',

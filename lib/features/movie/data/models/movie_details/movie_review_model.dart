@@ -6,6 +6,7 @@ class MovieReviewsModel extends MovieReviews {
     required super.reviewContent,
     required super.reviewUrl,
     required super.movieReviewOwner,
+    required super.reviewAuthorName,
   });
 
   factory MovieReviewsModel.fromJson(Map<String, dynamic> jsonData) {
@@ -15,6 +16,7 @@ class MovieReviewsModel extends MovieReviews {
       movieReviewOwner: MovieReviewOwnerModel.fromJson(
         jsonData['author_details'],
       ),
+      reviewAuthorName: jsonData['author'],
     );
   }
 }

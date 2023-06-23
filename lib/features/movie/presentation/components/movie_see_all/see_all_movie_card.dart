@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widget/poster_image.dart';
+import 'package:tmda/features/movie/presentation/components/movie_poster_image.dart';
 
 class SeeAllMovieCard extends StatelessWidget {
   const SeeAllMovieCard({
@@ -41,7 +41,7 @@ class SeeAllMovieCard extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: PosterImage(
+                child: MoviePoster(
                   imagePath: posterPath,
                   width: 120.w,
                   height: 170.h,
@@ -59,12 +59,19 @@ class SeeAllMovieCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Row(
                     children: [
-                      Text(releaseYear.isEmpty ? StringsManager.movieUnknown
+                      Text(releaseYear.isEmpty ? StringsManager.unknown
                             : '${releaseYear.substring(0, 4)} ‧ ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      Text( genres.length < 2 ? '${genres[0].name} ‧ '
-                            : '${genres[0].name}/${genres[1].name} ‧ ',
+                      Text( (() {
+                        if (genres.isEmpty) {
+                          return 'Unknown';
+                        } else if (genres.length == 1) {
+                          return '${genres[0].name} ‧ ';
+                        } else {
+                          return '${genres[0].name}/${genres[1].name} ‧ ';
+                        }
+                      }()),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(

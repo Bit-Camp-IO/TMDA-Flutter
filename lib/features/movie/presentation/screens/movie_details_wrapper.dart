@@ -12,7 +12,7 @@ class MovieDetailsWrapperScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<MovieDetailsBloc>()),
+        BlocProvider(create: (context) => getIt<MovieDetailsBloc>()),
       ],
       child: const AutoRouter(),
     );

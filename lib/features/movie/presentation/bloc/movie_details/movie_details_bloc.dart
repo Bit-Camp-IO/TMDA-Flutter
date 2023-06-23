@@ -1,25 +1,25 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_account_states.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_cast.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_details.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_production_countries.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_reviews.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_video.dart';
-import 'package:tmda/features/movie/domain/usecases/movie_details/add_or_remove_from_watch_list_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/movie_details/get_account_states_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/movie_details/add_or_remove_movie_from_watch_list_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_cast_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_details_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_reviews_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movies_like_this_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_session_key_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/play_movie_video_usecase.dart';
+
 part 'movie_details_event.dart';
+
 part 'movie_details_state.dart';
 
+@injectable
 class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final GetMovieDetailsUseCase getMovieDetailsUseCase;
   final GetSessionKeyUseCase getSessionKeyUseCase;
@@ -27,10 +27,10 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final GetMovieReviewsUseCase getMovieReviewsUseCase;
   final GetMoviesLikeThisUseCase getMoviesLikeThisUseCase;
   final PlayMovieVideoUseCase playMovieTrailerUseCase;
-  final AddOrRemoveFromWatchListUseCase addOrRemoveFromWatchListUseCase;
-  final GetMovieAccountStatusUseCase getMovieAccountStatesUseCase;
+  final AddOrRemoveMovieFromWatchListUseCase addOrRemoveFromWatchListUseCase;
   late String userSessionKey;
   int moviesLikeThisPage = 1;
+
   MovieDetailsBloc({
     required this.getMovieDetailsUseCase,
     required this.getSessionKeyUseCase,
@@ -39,127 +39,39 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     required this.getMoviesLikeThisUseCase,
     required this.playMovieTrailerUseCase,
     required this.addOrRemoveFromWatchListUseCase,
-    required this.getMovieAccountStatesUseCase,}
-  ) : super(const MovieDetailsState()) {
+  }) : super(const MovieDetailsState()) {
     on<GetMovieDetailsEvent>(_getMovieDetailsEvent);
-    on<GetMovieCastEvent>(_getMovieCastEvent);
-    on<GetMoviesLikeThisEvent>(
-      _getMoviesLikeThisEvent,
+    on<GetMoreSimilarMoviesEvent>(
+      _getMoreSimilarMovies,
       transformer: droppable(),
     );
-    on<GetMovieReviewsEvent>(_getMovieReviewsEvent);
     on<PlayMovieTrailerEvent>(_playMovieTrailerEvent);
     on<AddOrRemoveFromWatchListEvent>(_addOrRemoveFromWatchListEvent);
-    on<GetMovieAccountStatesEvent>(_getMovieAccountStatesEvent);
+    on<OnScrollAnimationEvent>(_onScrollAnimationEvent);
   }
+
   Future<void> _getMovieDetailsEvent(event, emit) async {
-    final getSessionKey = await getSessionKeyUseCase();
-    getSessionKey.fold(
-      (loadDataFailure) => emit(
+    userSessionKey = await getSessionKeyUseCase();
+    final movieDetails = await getMovieDetailsUseCase(
+      movieId: event.movieId,
+      sessionId: userSessionKey,
+    );
+    movieDetails.fold(
+      (loadMovieDetailsFail) => emit(
         state.copyWith(
           movieDetailsState: BlocState.failure,
-          movieCastFailMessage: loadDataFailure.message,
+          movieDetailsFailMessage: loadMovieDetailsFail.message,
         ),
       ),
-      (retrievedSessionKey) => userSessionKey = retrievedSessionKey,
-    );
-    if (userSessionKey.isNotEmpty) {
-      final result = await getMovieDetailsUseCase(
-          movieId: event.movieId, sessionId: userSessionKey);
-      result.fold(
-        (loadMovieDetailsFail) => emit(
-          state.copyWith(
-            movieDetailsState: BlocState.failure,
-            movieCastFailMessage: loadMovieDetailsFail.message,
-          ),
-        ),
-        (movieDetailsLoaded) => emit(
+      (movieDetailsLoaded) {
+        emit(
           state.copyWith(
             movieDetailsState: BlocState.success,
             movieDetails: movieDetailsLoaded,
           ),
-        ),
-      );
-      final accountDetailsResult = await getMovieAccountStatesUseCase(
-        movieId: event.movieId,
-        sessionKey: userSessionKey,
-      );
-      accountDetailsResult.fold(
-        (movieAccountStateFail) => emit(
-          state.copyWith(movieAccountStatesFailMessage: movieAccountStateFail.message),
-        ),
-        (movieAccountStateLoaded) => emit(
-          state.copyWith(movieAccountStatus: movieAccountStateLoaded),
-        ),
-      );
-    }
-  }
-
-  Future<void> _getMovieCastEvent(event, emit) async {
-    final result = await getMovieCastUseCase(event.movieId);
-    result.fold(
-      (loadMovieCastFail) => emit(
-        state.copyWith(
-          movieCastState: BlocState.failure,
-          movieCastFailMessage: loadMovieCastFail.message,
-        ),
-      ),
-      (movieCastList) => emit(
-        state.copyWith(
-          movieCastState: BlocState.success,
-          movieCast: movieCastList,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _getMoviesLikeThisEvent(event, emit) async {
-    final result = await getMoviesLikeThisUseCase(
-      movieId: event.movieId,
-      pageNumber: moviesLikeThisPage,
-    );
-    result.fold(
-      (loadMoviesLikeThisFail) => emit(
-        state.copyWith(
-          moviesLikeThisState: BlocState.failure,
-          movieCastFailMessage: loadMoviesLikeThisFail.message,
-        ),
-      ),
-      (moviesLikeThisList) {
-        moviesLikeThisList.isEmpty
-            ? emit(
-                state.copyWith(
-                  moviesLikeThisState: BlocState.success,
-                  isMoviesLikeThisListReachedMax: true,
-                ),
-              )
-            : emit(
-                state.copyWith(
-                  moviesLikeThisState: BlocState.success,
-                  moviesLikeThis: List.of(state.moviesLikeThis)
-                    ..addAll(moviesLikeThisList),
-                  isMoviesLikeThisListReachedMax: false,
-                ),
-              );
+        );
         moviesLikeThisPage++;
       },
-    );
-  }
-
-  Future<void> _getMovieReviewsEvent(event, emit) async {
-    final result = await getMovieReviewsUseCase(event.movieId);
-    result.fold(
-      (reviewsLoadFail) => emit(
-        state.copyWith(
-            movieReviewsState: BlocState.failure,
-            movieReviewsFailMessage: reviewsLoadFail.message),
-      ),
-      (movieReviewsList) => emit(
-        state.copyWith(
-          movieReviewsState: BlocState.success,
-          movieReviews: movieReviewsList,
-        ),
-      ),
     );
   }
 
@@ -167,20 +79,35 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     await playMovieTrailerUseCase(event.movieVideoKey);
   }
 
-  Future<void> _getMovieAccountStatesEvent(event, emit) async {
-    final result = await getMovieAccountStatesUseCase(
+  Future<void> _getMoreSimilarMovies(event, emit) async {
+    final result = await getMoviesLikeThisUseCase(
       movieId: event.movieId,
-      sessionKey: userSessionKey,
+      pageNumber: moviesLikeThisPage,
     );
     result.fold(
-      (accountStatesFailure) => emit(
-        state.copyWith(movieAccountStatesFailMessage: accountStatesFailure.message,),
-      ),
-      (accountStatesLoaded) => emit(
+      (loadMoviesLikeThisFail) => emit(
         state.copyWith(
-          movieAccountStatus: accountStatesLoaded,
+          getMoreMoviesLikeThisFailMessage: loadMoviesLikeThisFail.message,
         ),
       ),
+      (moviesLikeThisList) {
+        moviesLikeThisList.isEmpty
+            ? emit(
+                state.copyWith(
+                  isMoviesLikeThisListReachedMax: true,
+                ),
+              )
+            : emit(
+                state.copyWith(
+                  movieDetails: state.movieDetails.copyWith(
+                    similarMovies: List.of(state.movieDetails.similarMovies)
+                      ..addAll(moviesLikeThisList),
+                  ),
+                  isMoviesLikeThisListReachedMax: false,
+                ),
+              );
+        moviesLikeThisPage++;
+      },
     );
   }
 
@@ -191,9 +118,25 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       sessionKey: userSessionKey,
     );
     result.fold(
-      (watchListFailure) => emit(state.copyWith(addOrRemoveFromWatchListFailMessage: watchListFailure.message),
+      (watchListFailure) => emit(
+        state.copyWith(
+          addOrRemoveFromWatchListFailMessage: watchListFailure.message,
+        ),
       ),
-      (accountStatesUpdated) => emit(state.copyWith(movieAccountStatus: accountStatesUpdated),
+      (accountStatesUpdated) => emit(
+        state.copyWith(
+          movieDetails:
+              state.movieDetails.copyWith(status: accountStatesUpdated),
+        ),
+      ),
+    );
+  }
+
+  void _onScrollAnimationEvent(event, emit) {
+    emit(
+      state.copyWith(
+        animatedContainerHeight: event.animatedContainerHeight,
+        animatedPosterHeight: event.animatedPosterHeight,
       ),
     );
   }

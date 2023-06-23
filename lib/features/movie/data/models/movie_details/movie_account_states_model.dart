@@ -2,7 +2,7 @@ import 'package:tmda/features/movie/domain/entities/movie_details/movie_account_
 
 class MovieAccountStatesModel extends MovieAccountStatus {
   const MovieAccountStatesModel({
-    required super.isFavoriteMovie,
+    super.isFavoriteMovie,
     required super.inWatchList,
   });
 

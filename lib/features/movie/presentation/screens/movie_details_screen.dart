@@ -1,9 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/widget/custom_icon_button.dart';
-import 'package:tmda/core/widget/neon_light_painter.dart';
+import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/widgets/custom_icon_button.dart';
+import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_like_this_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
@@ -22,11 +27,14 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  late ScrollController _scrollController;
 
+
+  @override
+  initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,17 +56,42 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               left: 10,
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            SingleChildScrollView(
-              padding: EdgeInsets.zero,
-              child: Column(
-                children: [
-                  MovieOverviewComponent(movieId: widget.movieId),
-                  MovieCastComponent(movieId: widget.movieId),
-                  MoviesLikeThisComponent(movieId: widget.movieId),
-                  MovieReviewsComponent(movieId: widget.movieId),
-                  SizedBox(height: 70.h)
-                ],
-              ),
+            BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+              bloc: context.read<MovieDetailsBloc>()
+                ..add(
+                  GetMovieDetailsEvent(widget.movieId),
+                ),
+              buildWhen: (previous, current) =>
+                  previous.movieDetailsState != current.movieDetailsState,
+              builder: (context, state) {
+                switch (state.movieDetailsState) {
+
+                  case BlocState.loading:
+                    return Center(
+                      child: Lottie.asset('assets/lottie/neon_loading.json'),
+                    );
+                  case BlocState.success:
+                    return ListView(
+                      controller: _scrollController,
+                      padding: EdgeInsets.zero,
+                      children: [
+                        MovieOverviewComponent(movieId: widget.movieId, scrollController: _scrollController,),
+                        MovieCastComponent(movieId: widget.movieId),
+                        MoviesLikeThisComponent(movieId: widget.movieId),
+                        MovieReviewsComponent(movieId: widget.movieId),
+                        SizedBox(height: 70.h)
+                      ],
+                    );
+                  case BlocState.failure:
+                    return NoConnection(
+                      onTap: () {
+                        context
+                            .read<MovieDetailsBloc>()
+                            .add(GetMovieDetailsEvent(widget.movieId));
+                      },
+                    );
+                }
+              },
             ),
             Positioned(
               top: 50,
@@ -74,5 +107,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

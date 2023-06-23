@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
@@ -13,26 +13,35 @@ abstract class AuthDataSource {
   Future<void> userForgetPassword();
 }
 
+@LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   ApiConsumer apiConsumer;
   LocalDataSource localDataSource;
-  AuthDataSourceImpl(
-      {required this.apiConsumer, required this.localDataSource});
-  Future<Map<String, dynamic>> createRequestToken() async {
-    final response = await apiConsumer.get(ApiConstants.requestTokenEndpoint);
-    debugPrint('Request Token >>>> $response');
-    return response;
-  }
+  AuthDataSourceImpl({required this.apiConsumer, required this.localDataSource});
 
-  Future<Map<String, dynamic>> userLoginWithUsernameAndPassword(
-      String username, String password, String requestToken) async {
-    final response = await apiConsumer
-        .post(ApiConstants.validateWithLoginEndPoint, queryParameters: {
-      'username': username,
-      'password': password,
-      'request_token': requestToken,
-    });
-    return response;
+  @override
+  Future<AuthModel> userLogin(String username, String password) async {
+    final requestToken = await apiConsumer.get(ApiConstants.requestTokenEndpoint);
+    final validateLogin = await apiConsumer.post(
+      ApiConstants.validateWithLoginEndPoint,
+      queryParameters: {
+        'username': username,
+        'password': password,
+        'request_token': requestToken['request_token'],
+      },
+    );
+    if (validateLogin['success'] == true) {
+      final response = await apiConsumer.post(
+        ApiConstants.newSessionEndpoint,
+        queryParameters: {
+          'request_token': '${requestToken['request_token']}'
+        },
+      );
+      localDataSource.storeSessionId(response['session_id']);
+      return AuthModel.fromJson(response);
+    } else {
+      throw ServerException(validateLogin['status_message']!);
+    }
   }
 
   @override
@@ -45,25 +54,7 @@ class AuthDataSourceImpl extends AuthDataSource {
     }
   }
 
-  @override
-  Future<AuthModel> userLogin(String username, String password) async {
-    final requestTokenResponse = await createRequestToken();
-    final validateLogin = await userLoginWithUsernameAndPassword(
-      username,
-      password,
-      requestTokenResponse['request_token'],
-    );
-    if (validateLogin['success'] == true) {
-      final response = await apiConsumer.post(ApiConstants.newSessionEndpoint,
-          queryParameters: {
-            'request_token': '${requestTokenResponse['request_token']}'
-          });
-      localDataSource.storeSessionId(response['session_id']);
-      return AuthModel.fromJson(response);
-    } else {
-      throw ServerException(validateLogin['status_message']!);
-    }
-  }
+
 
   @override
   Future<void> userRegister() async {

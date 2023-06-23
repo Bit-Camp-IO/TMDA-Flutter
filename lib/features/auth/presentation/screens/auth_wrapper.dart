@@ -14,10 +14,10 @@ class AuthWrapperScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<AuthCubit>()..checkUserLoggedIn(),
+          create: (context) => getIt<AuthCubit>()..checkUserLoggedIn(),
         ),
         BlocProvider(
-          create: (context) => sl<LoginCubit>(),
+          create: (context) => getIt<LoginCubit>(),
         ),
       ],
       child: const AutoRouter(),

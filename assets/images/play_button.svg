@@ -1,9 +1,13 @@
 <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_b_1205_3141)">
+<g id="Group 12824">
+<g id="Ellipse 307" filter="url(#filter0_b_1205_3141)">
 <circle cx="25" cy="25" r="25" fill="white" fill-opacity="0.1"/>
 <circle cx="25" cy="25" r="24" stroke="url(#paint0_linear_1205_3141)" stroke-width="2"/>
 </g>
-<path d="M34.409 22.3533C34.8893 22.6087 35.291 22.99 35.5712 23.4563C35.8514 23.9226 35.9994 24.4563 35.9994 25.0003C35.9994 25.5443 35.8514 26.078 35.5712 26.5443C35.291 27.0106 34.8893 27.3919 34.409 27.6473L21.597 34.6143C19.534 35.7363 17 34.2763 17 31.9683V18.0333C17 15.7233 19.534 14.2643 21.597 15.3853L34.409 22.3533Z" fill="white"/>
+<g id="solar:play-bold">
+<path id="Vector" d="M34.409 22.3533C34.8893 22.6087 35.291 22.99 35.5712 23.4563C35.8514 23.9226 35.9994 24.4563 35.9994 25.0003C35.9994 25.5443 35.8514 26.078 35.5712 26.5443C35.291 27.0106 34.8893 27.3919 34.409 27.6473L21.597 34.6143C19.534 35.7363 17 34.2763 17 31.9683V18.0333C17 15.7233 19.534 14.2643 21.597 15.3853L34.409 22.3533Z" fill="white"/>
+</g>
+</g>
 <defs>
 <filter id="filter0_b_1205_3141" x="-5" y="-5" width="60" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>

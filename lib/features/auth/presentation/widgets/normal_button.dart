@@ -7,16 +7,20 @@ class NormalButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.child,
+    required this.width,
+    required this.height
   });
   final void Function() onTap;
   final Widget child;
+  final double width;
+  final double height;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 180,
-        height: 48,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           color: ColorsManager.darkPrimary,
           borderRadius: BorderRadius.circular(10).r,

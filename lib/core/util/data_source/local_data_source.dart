@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 
 abstract class LocalDataSource {
@@ -10,6 +11,7 @@ abstract class LocalDataSource {
   Future<void> deleteSessionId();
 }
 
+@LazySingleton(as: LocalDataSource)
 class LocalDataSourceImpl extends LocalDataSource {
   final FlutterSecureStorage secureStorage;
 

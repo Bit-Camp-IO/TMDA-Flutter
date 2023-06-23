@@ -4,27 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-@RoutePage()
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+
+@RoutePage(name: 'MainRoutePage')
+class MainNavigationBar extends StatefulWidget {
+  const MainNavigationBar({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainNavigationBar> createState() => _MainNavigationBarState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainNavigationBarState extends State<MainNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       extendBody: true,
       routes: const [
         MovieRoute(),
-        TvRoute(),
+        TvShowRoute(),
         MainSearchRoute(),
         AccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return Container(
+        return WillPopScope(
+          onWillPop: () async{
+            if (tabsRouter.activeIndex == 0) {
+              return Future.value(true);
+            } else {
+              tabsRouter.setActiveIndex(tabsRouter.activeIndex - 1);
+              return Future.value(false);
+            }
+          },
+          child: Container(
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.5),
             borderRadius: const BorderRadius.only(
@@ -47,7 +57,6 @@ class _MainScreenState extends State<MainScreen> {
                 onTap: (value) {
                   tabsRouter.setActiveIndex(value);
                 },
-                
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(SolarSystemIcons.movie),
@@ -69,6 +78,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
+            ),
         );
       },
     );

@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details/movie_details.dart';
 import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
+@lazySingleton
 class GetMovieDetailsUseCase {
   final MoviesRepository moviesRepository;
   const GetMovieDetailsUseCase({required this.moviesRepository});

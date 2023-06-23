@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 
+@lazySingleton
 class DioInterceptor extends Interceptor{
 
   @override

@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/api/api_status_code.dart';
 import 'package:tmda/core/api/dio_interceptor.dart';
+import 'package:tmda/core/api/dio_logger.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/injection_container.dart';
 
+@LazySingleton(as: ApiConsumer)
 class DioApiConsumer extends ApiConsumer {
   final Dio dioClient;
 
@@ -31,9 +34,9 @@ class DioApiConsumer extends ApiConsumer {
         return status! < ApiStatusCodes.internalServerError;
       };
 
-    dioClient.interceptors.add(sl<DioInterceptor>());
+    dioClient.interceptors.add(getIt<DioInterceptor>());
     if (kDebugMode) {
-      dioClient.interceptors.add(sl<LogInterceptor>());
+      dioClient.interceptors.add(getIt<DioLogInterceptor>());
     }
   }
 
@@ -113,6 +116,4 @@ class DioApiConsumer extends ApiConsumer {
         throw const NoInternetConnectionException();
     }
   }
-  
-  
 }

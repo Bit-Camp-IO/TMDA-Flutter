@@ -11,7 +11,7 @@ final class ApiConstants {
       'https://www.themoviedb.org/reset-password';
   static const String headerContentTypeValue = 'application/json';
   static const String headerContentType = 'Content-Type';
-  static const String endPointsAppendedToResponse = 'videos';
+  static const String endPointsAppendedToResponse = 'videos,account_states,credits,similar,reviews,recommendations';
   static const String movieMediaTypeTitle = 'movie';
   static const String tvMediaTypeTitle = 'tv';
   //! Auth Endpoints & Urls
@@ -21,24 +21,29 @@ final class ApiConstants {
   static const String newSessionEndpoint = '$baseUrl/authentication/session/new';
   static const String deleteSessionEndPoint = '$baseUrl/authentication/session';
 
+  //! Shared Api Paths
+  static const String castPath = '/credits';
+  static const String similarPath = '/similar';
+  static const String reviewsPath = '/reviews';
+  static const String accountStatusPath = '/account_states';
+  static const String recommendationsPath = '/recommendations';
   //! Movie Endpoints
   static const String nowPlayingMoviesEndPoint = '$baseUrl/movie/now_playing';
   static const String newMoviesEndPoints = '$baseUrl/movie/upcoming';
   static const String popularMoviesEndPoint = '$baseUrl/movie/popular';
   static const String topRatedMoviesEndPoint = '$baseUrl/movie/top_rated';
   static const String movieDetailsEndPoint = '$baseUrl/movie/';
-  static const String movieCastEndPath = '/credits';
-  static const String moviesLikeThisPath = '/similar';
-  static const String movieReviewsPath = '/reviews';
-  static const String accountStatesPath = '/account_states';
+
 
   //! Tv Endpoints
-
-  static const String tvShowsAiringTodayEndPoint = '$baseUrl/tv/airing_today';
-  static const String tvShowsAiringThisWeekEndPoint = '$baseUrl/tv/on_the_air';
+  static const String tvAiringTodayEndPoint = '$baseUrl/tv/airing_today';
+  static const String tvAiringThisWeekEndPoint = '$baseUrl/tv/on_the_air';
   static const String popularTvShowsEndPoint = '$baseUrl/tv/popular';
   static const String topRatedTvShowsEndPoint = '$baseUrl/tv/top_rated';
-
+  static const String tvShowDetailsEndPoint = '$baseUrl/tv/';
+  static const String seasonPath = '/season/';
+  static const String episodePath = '/episode/';
+  static const String episodeVideoPath = '/videos';
   //! Account Endpoints
   static const addOrRemoveFromWatchListEndPoint =
       '$baseUrl/account/$accountId/watchlist';

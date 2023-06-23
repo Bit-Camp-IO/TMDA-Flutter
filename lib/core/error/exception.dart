@@ -41,7 +41,7 @@ class InternalServerErrorException extends ServerException {
 
 class NoInternetConnectionException extends ServerException {
   const NoInternetConnectionException([message])
-      : super("Couldn't Lunch Url");
+      : super("Please Check Your Internet Connection");
 }
 
 class LaunchUrlException extends ServerException {

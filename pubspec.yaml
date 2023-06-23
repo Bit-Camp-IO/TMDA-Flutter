@@ -28,23 +28,27 @@ dependencies:
   flutter_screenutil: ^5.8.4
   flutter_svg: ^2.0.6
   auto_route: ^7.4.0
-  android_intent_plus: ^4.0.1
   bloc_concurrency: ^0.2.2
+  lottie: ^2.4.0
+  injectable: ^2.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   auto_route_generator: ^7.1.1
+  injectable_generator: 
   build_runner: ^2.4.4
+  
 
 flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/app_logo.svg
+    - assets/images/app_logo.png
     - assets/images/neon_button.png
     - assets/images/play_button.svg
+    - assets/lottie/neon_loading.json
   fonts:
     - family: Poppins
       fonts:

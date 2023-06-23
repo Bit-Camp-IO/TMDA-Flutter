@@ -5,13 +5,14 @@ class TvShowModel extends TvShow {
   const TvShowModel({
     required super.backDropPath,
     required super.posterPath,
-    required super.name,
+    required super.title,
     required super.language,
     required super.overview,
     required super.voteAverage,
     required super.voteCount,
     required super.genres,
     required super.firstAirDate,
+    required super.tvShowId,
   });
 
   factory TvShowModel.fromJson(Map<String, dynamic> jsonData) {
@@ -36,12 +37,13 @@ class TvShowModel extends TvShow {
     List<dynamic> tvShowGenres = [];
     for (int genreId in jsonData['genre_ids']) {
       tvShowGenres
-          .add(genresList.firstWhere((element) => element['id'] == genreId));
+          .add(genresList.firstWhere((element) => element['id'] == genreId || element['id'] == 9648));
     }
     return TvShowModel(
-      backDropPath: jsonData['backdrop_path'],
-      posterPath: jsonData['poster_path'],
-      name: jsonData['name'],
+      tvShowId: jsonData['id'],
+      backDropPath: jsonData['backdrop_path'] ?? '',
+      posterPath: jsonData['poster_path'] ?? '',
+      title: jsonData['name'],
       language: jsonData['original_language'],
       overview: jsonData['overview'],
       voteAverage: jsonData['vote_average'],

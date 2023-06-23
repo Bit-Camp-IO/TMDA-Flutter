@@ -1,13 +1,18 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/core/util/data_source/local_data_source.dart';
 import 'package:tmda/features/tv/data/datasources/tv_data_source.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show/tv_show.dart';
-import 'package:tmda/features/tv/domain/repositories/tv_repository.dart';
+import 'package:tmda/features/tv/data/models/tv_details/season_episode_model.dart';
+import 'package:tmda/features/tv/data/models/tv_details/tv_show_account_status_model.dart';
+import 'package:tmda/features/tv/data/models/tv_details/tv_show_details_model.dart';
+import 'package:tmda/features/tv/data/models/tv_details/tv_show_video_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show/tv_show_model.dart';
+import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart';
 
-class TvRepositoryImpl extends TvRepository {
-
+@LazySingleton(as: TvShowsRepository)
+class TvRepositoryImpl extends TvShowsRepository {
   final TvDataSource tvDataSource;
   final LocalDataSource localDataSource;
   TvRepositoryImpl({
@@ -15,9 +20,9 @@ class TvRepositoryImpl extends TvRepository {
     required this.localDataSource,
   });
   @override
-  Future<Either<Failure, List<TvShow>>> getTvShowsAiringToday() async{
+  Future<Either<Failure, List<TvShowModel>>> getTvShowsAiringToday(int pageNumber) async{
     try{
-    final result = await tvDataSource.getTvShowsAiringToday();
+    final result = await tvDataSource.getTvShowsAiringToday(pageNumber);
     return right(result);
     } on ServerException catch(exception){
       return left(Failure(exception.message!));
@@ -25,7 +30,7 @@ class TvRepositoryImpl extends TvRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getPopularTvShows(int pageNumber) async{
+  Future<Either<Failure, List<TvShowModel>>> getPopularTvShows(int pageNumber) async{
     try{
       final result = await tvDataSource.getPopularTvShows(pageNumber);
     return right(result);
@@ -35,7 +40,7 @@ class TvRepositoryImpl extends TvRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getTvShowsAiringThisWeek(int pageNumber) async{
+  Future<Either<Failure, List<TvShowModel>>> getTvShowsAiringThisWeek(int pageNumber) async{
     try{
       final result = await tvDataSource.getTvShowsAiringThisWeek(pageNumber);
     return right(result);
@@ -45,7 +50,7 @@ class TvRepositoryImpl extends TvRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getTopRatedTvShows(int pageNumber) async{
+  Future<Either<Failure, List<TvShowModel>>> getTopRatedTvShows(int pageNumber) async{
     try{
       final result = await tvDataSource.getTopRatedTopRatedTvShows(pageNumber);
     return right(result);
@@ -53,4 +58,76 @@ class TvRepositoryImpl extends TvRepository {
       return left(Failure(exception.message!));
     }
   }
+  
+  @override
+  Future<Either<Failure, List<TvShowModel>>> getRecommendedTvShows({required int tvShowId, required int pageNumber}) async{
+    try{
+      final result = await tvDataSource.getRecommendedTvShows(tvShowId: tvShowId, pageNumber: pageNumber);
+      return right(result);
+    } on ServerException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<TvShowModel>>> getSimilarTvShows({required int tvShowId, required int pageNumber}) async{
+    try{
+      final result = await tvDataSource.getSimilarTvShows(tvShowId: tvShowId, pageNumber: pageNumber);
+      return right(result);
+    } on ServerException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, TvShowDetailsModel>> getTvShowDetails({required int tvShowId, required String sessionKey}) async{
+    try{
+      final result = await tvDataSource.getTvShowDetails(tvShowId: tvShowId, sessionKey: sessionKey);
+      return right(result);
+    } on ServerException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+
+  @override
+  Future<String> getSessionKey() async{
+     return await localDataSource.retrieveSessionId();
+  }
+
+  @override
+  Future<Either<Failure, List<SeasonEpisodeModel>>> getSeasonEpisodes({required int tvShowId, required int seasonNumber}) async{
+    try{
+      final result = await tvDataSource.getSeasonEpisodes(tvShowId: tvShowId, seasonNumber: seasonNumber);
+      return right(result);
+    }on ServerException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvShowAccountStatusModel>> addOrRemoveTvFromWatchList({required int tvShowId, required bool isInWatchList, required String sessionId}) async{
+   try{
+      final result = await tvDataSource.addOrRemoveMovieFromWatchList(tvShowId: tvShowId, isInWatchList: isInWatchList, sessionId: sessionId);
+      return right(result);
+    }on ServerException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, void>> playTvShowVideo({required String youtubeVideoKey}) async{
+    try{
+      final result = await tvDataSource.playTvShowVideo(youtubeVideoKey);
+      return right(result);
+    }on LaunchUrlException catch(exception){
+      return left(Failure(exception.message!));
+    }
+  }
+
+  @override
+  Future<TvShowVideoModel> getEpisodeVideo({required int tvShowId, required seasonNumber, required int episodeNumber}) async{
+    return await tvDataSource.getEpisodeVideo(tvShowId: tvShowId, seasonNumber: seasonNumber, episodeNumber: episodeNumber);
+
+  }
+
 }

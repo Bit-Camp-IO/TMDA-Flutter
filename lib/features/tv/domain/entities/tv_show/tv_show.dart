@@ -2,19 +2,22 @@ import 'package:equatable/equatable.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show/tv_show_genres.dart';
 
 class TvShow extends Equatable {
+  final String title;
+  final int tvShowId;
   final String backDropPath;
   final String posterPath;
-  final String name;
+  final String firstAirDate;
   final String language;
   final String overview;
   final dynamic voteAverage;
   final int voteCount;
   final List<TvShowGenres> genres;
-  final String firstAirDate;
+
   const TvShow({
+    required this.title,
+    required this.tvShowId,
     required this.backDropPath,
     required this.posterPath,
-    required this.name,
     required this.language,
     required this.overview,
     required this.voteAverage,
@@ -25,9 +28,10 @@ class TvShow extends Equatable {
 
   @override
   List<Object?> get props => [
+        tvShowId,
         backDropPath,
         posterPath,
-        name,
+        title,
         language,
         overview,
         voteAverage,

@@ -5,10 +5,10 @@ import 'package:tmda/app.dart';
 import 'package:tmda/bloc_observer.dart';
 import 'package:tmda/injection_container.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await InjectionContainer().init();
+  configureDependencies(); 
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }

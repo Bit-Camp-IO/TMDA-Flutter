@@ -16,12 +16,13 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
+
         routerDelegate: AutoRouterDelegate(
           navigatorObservers: () => [MyRouteObserver()],
-          sl<AppRouter>(),
+          getIt<AppRouter>(),
         ),
         routeInformationParser:
-            sl<AppRouter>().defaultRouteParser(includePrefixMatches: true),
+            getIt<AppRouter>().defaultRouteParser(includePrefixMatches: true),
         theme: ThemeManager.darkTheme(),
       ),
     );

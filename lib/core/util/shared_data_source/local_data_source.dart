@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -25,7 +24,6 @@ class LocalDataSourceImpl extends LocalDataSource {
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
       final sessionKey = encryptedBox.get('session_key');
-      debugPrint('Session key Retrieved >>> $sessionKey');
       return sessionKey;
     } else {
       throw const CacheException();
@@ -41,18 +39,14 @@ class LocalDataSourceImpl extends LocalDataSource {
           key: 'key', value: base64UrlEncode(generateEncryptionKey));
       final newEncryptionKey = await secureStorage.read(key: 'key');
       final encryptionKeyUint8List = base64Url.decode(newEncryptionKey!);
-      debugPrint('Encryption key Uint8List: $encryptionKeyUint8List');
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
       encryptedBox.put('session_key', sessionKey);
-      debugPrint('Stored Key>>>>>${encryptedBox.get('session_key')}');
     } else {
       final encryptionKeyUint8List = base64Url.decode(encryptionKey);
-      debugPrint('Encryption key Uint8List: $encryptionKeyUint8List');
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
       encryptedBox.put('session_key', sessionKey);
-      debugPrint('Stored Key>>>>>${encryptedBox.get('session_key')}');
     }
   }
 
@@ -64,9 +58,7 @@ class LocalDataSourceImpl extends LocalDataSource {
         encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
     try {
       encryptedBox.delete('session_key');
-      debugPrint("key deleted >>>> Logged Out");
     } on Exception {
-      debugPrint("Error >>>> Logged Out Failed");
       throw const CacheException();
     }
   }

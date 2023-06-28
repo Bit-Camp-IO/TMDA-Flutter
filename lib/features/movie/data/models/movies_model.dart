@@ -1,5 +1,6 @@
-import 'package:tmda/features/movie/data/models/movie/movie_genres_model.dart';
-import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
+import 'package:tmda/features/movie/data/models/movie_genres_model.dart';
+import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';
+import 'package:tmda/features/movie/domain/entities/movies.dart';
 
 class MoviesModel extends Movies {
   const MoviesModel({
@@ -13,6 +14,7 @@ class MoviesModel extends Movies {
     required super.movieVoteCount,
     required super.genres,
     required super.language,
+    required super.accountStates,
   });
 
   factory MoviesModel.fromJson(Map<String, dynamic> jsonData) {
@@ -56,7 +58,8 @@ class MoviesModel extends Movies {
       genres: List<MovieGenresModel>.from(
         movieGenres.map((jsonData) => MovieGenresModel.fromJson(jsonData)),
       ),
-    language: jsonData['original_language']
+      language: jsonData['original_language'],
+      accountStates: MovieAccountStatesModel.fromJson(jsonData['account_status'] ?? {}),
     );
   }
 }

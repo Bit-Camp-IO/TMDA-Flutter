@@ -1,4 +1,4 @@
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_cast.dart';
+import 'package:tmda/features/movie/domain/entities/movie_cast.dart';
 
 class MovieCastModel extends MovieCast {
   const MovieCastModel({

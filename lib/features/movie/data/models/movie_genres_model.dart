@@ -1,4 +1,4 @@
-import 'package:tmda/features/movie/domain/entities/movie/movies_genre.dart';
+import 'package:tmda/features/movie/domain/entities/movies_genre.dart';
 
 class MovieGenresModel extends MovieGenres {
   const MovieGenresModel({required super.name, required super.id});

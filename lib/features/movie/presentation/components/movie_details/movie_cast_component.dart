@@ -44,19 +44,13 @@ class MovieCastComponent extends StatelessWidget {
                     return Row(
                       children: [
                         SizedBox(width: 16.w),
-                        MovieCastCard(
+                        CastCard(
                           onTap: () {
                             context.navigateTo(
-
-                              EmptyPersonRoutePage(
-                                children: [
-                                  PersonWrapperRoute(
-                                    children: [
-                                      PersonRoute(personId: state.movieDetails.cast[index].actorId)
-                                    ]
-                                  )
-                                ]
-                              )
+                              PersonRoute(
+                                personId:
+                                    state.movieDetails.cast[index].actorId,
+                              ),
                             );
                           },
                           actorPicPath: state.movieDetails.cast[index]

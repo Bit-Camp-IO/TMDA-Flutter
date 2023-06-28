@@ -9,7 +9,7 @@ import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
-import 'package:tmda/features/movie/presentation/components/movie_poster_card.dart';
+import 'package:tmda/core/widgets/poster_card.dart';
 
 class PopularMoviesComponent extends StatelessWidget {
   const PopularMoviesComponent({super.key});
@@ -41,7 +41,7 @@ class PopularMoviesComponent extends StatelessWidget {
                   return Row(
                     children: [
                       SizedBox(width: 16.w),
-                      MoviePosterCard(
+                      PosterCard(
                         onTap: () {
                           context.pushRoute(
                             MovieDetailsRoute(

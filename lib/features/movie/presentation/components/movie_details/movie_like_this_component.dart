@@ -14,6 +14,7 @@ import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
+import 'package:tmda/features/movie/presentation/screens/see_all_movies_screen.dart';
 
 class MoviesLikeThisComponent extends StatelessWidget {
   const MoviesLikeThisComponent({
@@ -57,7 +58,7 @@ class MoviesLikeThisComponent extends StatelessWidget {
                         return Row(
                           children: [
                             SizedBox(width: 16.w),
-                            MovieDetailsPosterCard(
+                            DetailsPosterCard(
                               imagePath: state.movieDetails.similarMovies[index]
                                       .posterPath.isNotEmpty
                                   ? ApiConstants.imageUrl(
@@ -67,17 +68,13 @@ class MoviesLikeThisComponent extends StatelessWidget {
                                   : AssetsManager.noPoster,
                               title:
                                   state.movieDetails.similarMovies[index].title,
-                              rating: state
-                                  .movieDetails.similarMovies[index].voteAverage,
+                              rating: state.movieDetails.similarMovies[index]
+                                  .voteAverage,
                               onTap: () {
                                 AutoRouter.of(context).push(
-                                  MovieDetailsWrapperRoute(
-                                    children: [
-                                      MovieDetailsRoute(
-                                        movieId: state
-                                            .movieDetails.similarMovies[index].id,
-                                      ),
-                                    ],
+                                  MovieDetailsRoute(
+                                    movieId: state
+                                        .movieDetails.similarMovies[index].id,
                                   ),
                                 );
                               },

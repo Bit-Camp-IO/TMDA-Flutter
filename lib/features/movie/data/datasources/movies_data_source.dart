@@ -2,30 +2,32 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_account_states_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_cast_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_details_model.dart';
-import 'package:tmda/features/movie/data/models/movie/movies_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_review_model.dart';
+import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';
+import 'package:tmda/features/movie/data/models/movie_details_model.dart';
+import 'package:tmda/features/movie/data/models/movies_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class MoviesDataSource {
   Future<List<MoviesModel>> getNowPlayingMovies();
-  Future<List<MoviesModel>> getNewMovies(int pageNumber);
-  Future<List<MoviesModel>> getPopularMovies(int pageNumber);
-  Future<List<MoviesModel>> getTopRatedMovies(int pageNumber);
+  Future<List<MoviesModel>> getNewMovies();
+  Future<List<MoviesModel>> getPopularMovies();
+  Future<List<MoviesModel>> getTopRatedMovies();
   Future<MovieDetailsModel> getMovieDetails(
       {required int movieId, required String sessionId});
-  Future<List<MoviesModel>> getMoviesLikeThis(
-      {required int movieId, required int pageNumber});
-  Future<List<MovieCastModel>> getMovieCast(int movieId);
-  Future<List<MovieReviewsModel>> getMovieReviews(int movieId);
   Future<void> playMovieVideo(String movieVideoKey);
   Future<MovieAccountStatesModel> addOrRemoveMovieFromWatchList({
     required int movieId,
     required bool isInWatchList,
     required String sessionId,
   });
+  Future<List<MoviesModel>> getAllNewMovies({required int pageNumber, required String sessionId});
+  Future<List<MoviesModel>> getAllPopularMovies({required int pageNumber, required String sessionId});
+  Future<List<MoviesModel>> getAllTopRatedMovies({required int pageNumber, required String sessionId});
+  Future<List<MoviesModel>>getAllSimilarMovies(
+      {required int movieId, required int pageNumber, required String sessionId});
+  Future<List<MoviesModel>> getAllRecommendedMovies(
+      {required int movieId, required int pageNumber, required String sessionId});
+  Future<MovieAccountStatesModel> getMovieStates({required String sessionId, required int movieId});
 }
 
 @LazySingleton(as: MoviesDataSource)
@@ -35,20 +37,19 @@ class MoviesDataSourceImpl extends MoviesDataSource {
 
   @override
   Future<List<MoviesModel>> getNowPlayingMovies() async {
-    final response =
+    final listOfMovies =
         await apiConsumer.get(ApiConstants.nowPlayingMoviesEndPoint);
     return List<MoviesModel>.from(
-      (response['results'] as List).map(
-        (e) => MoviesModel.fromJson(e),
+      (listOfMovies['results'] as List).map(
+        (nowPlayingMovies) => MoviesModel.fromJson(nowPlayingMovies),
       ),
     );
   }
 
   @override
-  Future<List<MoviesModel>> getNewMovies(int pageNumber) async {
+  Future<List<MoviesModel>> getNewMovies() async {
     final response = await apiConsumer.get(
       ApiConstants.newMoviesEndPoints,
-      queryParameters: {'page': pageNumber},
     );
     return List<MoviesModel>.from(
       (response['results'] as List).map(
@@ -58,10 +59,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   }
 
   @override
-  Future<List<MoviesModel>> getPopularMovies(int pageNumber) async {
+  Future<List<MoviesModel>> getPopularMovies() async {
     final response = await apiConsumer.get(
       ApiConstants.popularMoviesEndPoint,
-      queryParameters: {'page': pageNumber},
     );
     return List<MoviesModel>.from(
       (response['results'] as List).map(
@@ -71,10 +71,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   }
 
   @override
-  Future<List<MoviesModel>> getTopRatedMovies(int pageNumber) async {
+  Future<List<MoviesModel>> getTopRatedMovies() async {
     final response = await apiConsumer.get(
       ApiConstants.topRatedMoviesEndPoint,
-      queryParameters: {'page': pageNumber},
     );
     return List<MoviesModel>.from(
       (response['results'] as List)
@@ -93,48 +92,6 @@ class MoviesDataSourceImpl extends MoviesDataSource {
       },
     );
     return MovieDetailsModel.fromJson(response);
-  }
-
-  @override
-  Future<List<MoviesModel>> getMoviesLikeThis({
-    required int movieId,
-    required int pageNumber,
-  }) async {
-    final response = await apiConsumer.get(
-      '${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.similarPath}',
-      queryParameters: {
-        'page': pageNumber,
-      },
-    );
-    return List<MoviesModel>.from(
-      (response['results'] as List).map(
-        (jsonData) => MoviesModel.fromJson(jsonData),
-      ),
-    );
-  }
-
-  @override
-  Future<List<MovieCastModel>> getMovieCast(int movieId) async {
-    final response = await apiConsumer.get(
-      '${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.castPath}',
-    );
-    return List<MovieCastModel>.from(
-      response['cast'].map(
-        (jsonData) => MovieCastModel.fromJson(jsonData),
-      ),
-    );
-  }
-
-  @override
-  Future<List<MovieReviewsModel>> getMovieReviews(int movieId) async {
-    final response = await apiConsumer.get(
-      '${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.reviewsPath}',
-    );
-    return List<MovieReviewsModel>.from(
-      response['results'].map(
-        (jsonData) => MovieReviewsModel.fromJson(jsonData),
-      ),
-    );
   }
 
   @override
@@ -166,5 +123,86 @@ class MoviesDataSourceImpl extends MoviesDataSource {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw LaunchUrlException('Could not launch $url');
     }
+  }
+
+  @override
+  Future<List<MoviesModel>> getAllNewMovies({required int pageNumber, required String sessionId}) async{
+    final listOfMovies = await apiConsumer.get(ApiConstants.newMoviesEndPoints,  queryParameters: {'page': pageNumber},);
+    final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
+    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+     return List<MoviesModel>.generate(movieIds.length, (index) {
+      final Map<String, dynamic> movie = listOfMovies['results'][index];
+      movie.addAll({'account_status' : movieStatuses[index]});
+      return MoviesModel.fromJson(movie);
+    });
+  }
+
+  @override
+  Future<List<MoviesModel>> getAllPopularMovies({required int pageNumber, required String sessionId}) async{
+    final listOfMovies = await apiConsumer.get(ApiConstants.popularMoviesEndPoint, queryParameters: {'page': pageNumber},);
+    final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
+    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<MoviesModel>.generate(movieIds.length, (index) {
+      final Map<String, dynamic> movie = listOfMovies['results'][index];
+      movie.addAll({'account_status' : movieStatuses[index]});
+      return MoviesModel.fromJson(movie);
+    });
+  }
+
+  @override
+  Future<List<MoviesModel>> getAllTopRatedMovies({required int pageNumber, required String sessionId}) async{
+    final listOfMovies = await apiConsumer.get(ApiConstants.topRatedMoviesEndPoint, queryParameters: {
+      'page': pageNumber,
+    });
+    final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
+    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<MoviesModel>.generate(movieIds.length, (index) {
+      final Map<String, dynamic> movie = listOfMovies['results'][index];
+      movie.addAll({'account_status' : movieStatuses[index]});
+      return MoviesModel.fromJson(movie);
+    });
+  }
+
+  @override
+  Future<List<MoviesModel>> getAllRecommendedMovies({required int movieId, required int pageNumber, required String sessionId}) async{
+    final listOfMovies = await apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.recommendationsPath}', queryParameters: {'page': pageNumber},);
+    final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
+    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<MoviesModel>.generate(movieIds.length, (index) {
+      final Map<String, dynamic> movie = listOfMovies['results'][index];
+      movie.addAll({'account_status' : movieStatuses[index]});
+      return MoviesModel.fromJson(movie);
+    });
+  }
+
+  @override
+  Future<List<MoviesModel>> getAllSimilarMovies({required int movieId, required int pageNumber, required String sessionId}) async{
+    final listOfMovies = await apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.similarPath}', queryParameters: {'page': pageNumber},);
+    final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
+    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<MoviesModel>.generate(movieIds.length, (index) {
+      final Map<String, dynamic> movie = listOfMovies['results'][index];
+      movie.addAll({'account_status' : movieStatuses[index]});
+      return MoviesModel.fromJson(movie);
+    });
+  }
+
+  @override
+  Future<MovieAccountStatesModel> getMovieStates({required String sessionId, required int movieId}) async{
+    final Map<String, dynamic> movieStates = await apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    });
+    movieStates.addAll({'movie_id' : movieId});
+    return MovieAccountStatesModel.fromJson(movieStates);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_video.dart';
+import 'package:tmda/features/movie/domain/entities/movie_video.dart';
 
 class MovieVideoModel extends MovieVideo{
   const MovieVideoModel({

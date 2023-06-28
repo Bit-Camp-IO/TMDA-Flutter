@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_review_owner.dart';
+import 'package:tmda/features/movie/domain/entities/movie_review_owner.dart';
 
 class MovieReviews extends Equatable {
   final String reviewAuthorName;

@@ -1,11 +1,11 @@
-import 'package:tmda/features/movie/data/models/movie/movie_genres_model.dart';
-import 'package:tmda/features/movie/data/models/movie/movies_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_account_states_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_cast_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_production_countries_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_review_model.dart';
-import 'package:tmda/features/movie/data/models/movie_details/movie_video_model.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_details.dart';
+import 'package:tmda/features/movie/data/models/movie_genres_model.dart';
+import 'package:tmda/features/movie/data/models/movies_model.dart';
+import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';
+import 'package:tmda/features/movie/data/models/movie_cast_model.dart';
+import 'package:tmda/features/movie/data/models/movie_production_countries_model.dart';
+import 'package:tmda/features/movie/data/models/movie_review_model.dart';
+import 'package:tmda/features/movie/data/models/movie_video_model.dart';
+import 'package:tmda/features/movie/domain/entities/movie_details.dart';
 
 class MovieDetailsModel extends MovieDetails {
   const MovieDetailsModel({
@@ -22,7 +22,7 @@ class MovieDetailsModel extends MovieDetails {
     required super.productionCountry,
     required super.video,
     required super.language,
-    required super.status,
+    required super.accountStates,
     required super.cast,
     required super.reviews,
     required super.similarMovies,
@@ -51,7 +51,7 @@ class MovieDetailsModel extends MovieDetails {
         jsonData['videos']['results'],
       ),
       language: jsonData['original_language'],
-      status:
+      accountStates:
           MovieAccountStatesModel.fromJson(jsonData['account_states']),
       cast: List<MovieCastModel>.from(
         jsonData['credits']['cast'].map(

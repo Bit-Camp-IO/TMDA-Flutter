@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/movie/domain/entities/movie/movies.dart';
-import 'package:tmda/features/movie/domain/entities/movie/movies_genre.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_account_states.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_cast.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_production_countries.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_reviews.dart';
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_video.dart';
+import 'package:tmda/features/movie/domain/entities/movies.dart';
+import 'package:tmda/features/movie/domain/entities/movies_genre.dart';
+import 'package:tmda/features/movie/domain/entities/movie_account_states.dart';
+import 'package:tmda/features/movie/domain/entities/movie_cast.dart';
+import 'package:tmda/features/movie/domain/entities/movie_production_countries.dart';
+import 'package:tmda/features/movie/domain/entities/movie_reviews.dart';
+import 'package:tmda/features/movie/domain/entities/movie_video.dart';
 
 class MovieDetails extends Equatable {
+  final int id;
   final String backDropPath;
   final String posterPath;
-  final int id;
   final String overview;
   final String releaseDate;
   final String language;
@@ -19,17 +19,17 @@ class MovieDetails extends Equatable {
   final double voteAverage;
   final dynamic popularity;
   final MovieProductionCountries productionCountry;
-  final MovieAccountStatus status;
+  final MovieAccountStates accountStates;
   final List<MovieGenres> genres;
   final MovieVideo video;
   final List<MovieReviews> reviews;
   final List<MovieCast> cast;
   final List<Movies> similarMovies;
   const MovieDetails({
-   required this.posterPath,
+    required this.id,
+    required this.posterPath,
     required this.genres,
     required this.backDropPath,
-    required this.id,
     required this.overview,
     required this.releaseDate,
     required this.title,
@@ -39,7 +39,7 @@ class MovieDetails extends Equatable {
     required this.productionCountry,
     required this.video,
     required this.language,
-    required this.status,
+    required this.accountStates,
     required this.reviews,
     required this.cast,
     required this.similarMovies,
@@ -58,7 +58,7 @@ class MovieDetails extends Equatable {
         video,
         productionCountry,
         language,
-        status,
+        accountStates,
         reviews,
         cast,
         similarMovies,
@@ -76,7 +76,7 @@ class MovieDetails extends Equatable {
     double? voteAverage,
     dynamic popularity,
     MovieProductionCountries? productionCountry,
-    MovieAccountStatus? status,
+    MovieAccountStates? accountStates,
     List<MovieGenres>? genres,
     MovieVideo? video,
     List<MovieReviews>? reviews,
@@ -95,7 +95,7 @@ class MovieDetails extends Equatable {
       voteAverage: voteAverage ?? this.voteAverage,
       popularity: popularity ?? this.popularity,
       productionCountry: productionCountry ?? this.productionCountry,
-      status: status ?? this.status,
+      accountStates: accountStates ?? this.accountStates,
       genres: genres ?? this.genres,
       video: video ?? this.video,
       reviews: reviews ?? this.reviews,

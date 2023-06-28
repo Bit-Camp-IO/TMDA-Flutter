@@ -131,7 +131,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                             children: [
                               const Icon(
                                 SolarSystemIcons.star,
-                                color: ColorsManager.starsColor,
+                                color: ColorsManager.ratingIconColor,
                                 size: 30,
                               ),
                               SizedBox(height: 4.h),
@@ -168,8 +168,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 onTap: () {
                                   context.read<MovieDetailsBloc>().add(
                                         AddOrRemoveFromWatchListEvent(
-                                          isInWatchList: !state
-                                              .movieDetails.status.inWatchList,
+                                          isInWatchList: !state.movieDetails
+                                              .accountStates.inWatchList,
                                           movieId: widget.movieId,
                                         ),
                                       );
@@ -177,7 +177,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 child: Column(
                                   children: [
                                     Icon(
-                                      state.movieDetails.status.inWatchList
+                                      state.movieDetails.accountStates
+                                              .inWatchList
                                           ? SolarSystemIcons.save_outlined
                                           : SolarSystemIcons.save,
                                       color: ColorsManager.primaryColor,
@@ -218,6 +219,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                         return 'Unknown';
                       } else if (state.movieDetails.genres.length == 1) {
                         return state.movieDetails.genres[0].name;
+                      } else if (state.movieDetails.genres.length == 2) {
+                        return '${state.movieDetails.genres[0].name}/${state.movieDetails.genres[1].name}';
                       } else {
                         return '${state.movieDetails.genres[0].name}/${state.movieDetails.genres[1].name}/${state.movieDetails.genres[2].name}';
                       }

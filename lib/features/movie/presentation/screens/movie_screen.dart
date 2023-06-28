@@ -12,17 +12,24 @@ import 'package:tmda/features/movie/presentation/components/movie_main/now_playi
 import 'package:tmda/features/movie/presentation/components/movie_main/popular_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_main/top_rated_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_main/new_movies_component.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class MovieScreen extends StatefulWidget {
+class MovieScreen extends StatelessWidget implements AutoRouteWrapper{
   const MovieScreen({super.key});
 
   @override
-  State<MovieScreen> createState() => _MovieScreenState();
-}
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<MoviesBloc>()
+        ..add(GetNowPlayingMoviesEvent())
+        ..add(GetNewMoviesEvent())
+        ..add(GetPopularMoviesEvent())
+        ..add(GetTopRatedMoviesEvent()),
+      child: this,
+    );
+  }
 
-class _MovieScreenState extends State<MovieScreen> {
-  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +55,9 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
             BlocBuilder<MoviesBloc, MoviesState>(
               buildWhen: (previous, current) =>
-                  previous.movieState != current.movieState,
+                  previous.moviesState != current.moviesState,
               builder: (context, state) {
-                switch (state.movieState) {
+                switch (state.moviesState) {
                   case BlocState.failure:
                     return NoConnection(
                       onTap: () {
@@ -85,11 +92,5 @@ class _MovieScreenState extends State<MovieScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
   }
 }

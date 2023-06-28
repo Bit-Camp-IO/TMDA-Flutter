@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 import 'package:tmda/core/widgets/carousel_card.dart';
 import 'package:tmda/core/widgets/animated_indicator.dart';
@@ -25,7 +26,7 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                     itemCount: 4,
                     itemBuilder: (context, index, realIndex) {
                       if (state.nowPlayingMovies.isNotEmpty) {
-                        return MovieCarouselCard(
+                        return CarouselCard(
                           imagePath: ApiConstants.imageUrl(
                             state.nowPlayingMovies[index].posterPath,
                           ),
@@ -61,6 +62,11 @@ class NowPlayingMoviesComponent extends StatelessWidget {
               currentIndex: state.indicatorIndex,
               dotsCount: 4,
               axisDirection: Axis.horizontal,
+              selectedColor: ColorsManager.primaryColor,
+              unSelectedColor: Colors.white,
+              dotHeight: 10,
+              dotWidth: 10,
+              selectedDotWidth: 30,
             );
           },
         ),

@@ -9,6 +9,7 @@ class MovieDetailsState extends Equatable {
   final bool isMoviesLikeThisListReachedMax;
   final double animatedContainerHeight;
   final double animatedPosterHeight;
+
   const MovieDetailsState({
     this.movieDetails = const MovieDetails(
       posterPath: '',
@@ -21,10 +22,6 @@ class MovieDetailsState extends Equatable {
       voteAverage: 0,
       popularity: 0,
       language: '',
-      status: MovieAccountStatus(
-        isFavoriteMovie: false,
-        inWatchList: false,
-      ),
       productionCountry: MovieProductionCountries(
         countryCode: '',
         countryName: '',
@@ -38,6 +35,9 @@ class MovieDetailsState extends Equatable {
       reviews: [],
       similarMovies: [],
       genres: [],
+      accountStates: MovieAccountStates(
+        inWatchList: false,
+      ),
     ),
     this.movieDetailsState = BlocState.loading,
     this.movieDetailsFailMessage = '',
@@ -61,11 +61,17 @@ class MovieDetailsState extends Equatable {
     return MovieDetailsState(
       movieDetails: movieDetails ?? this.movieDetails,
       movieDetailsState: movieDetailsState ?? this.movieDetailsState,
-      movieDetailsFailMessage: movieDetailsFailMessage ?? this.movieDetailsFailMessage,
-      addOrRemoveFromWatchListFailMessage: addOrRemoveFromWatchListFailMessage ?? this.addOrRemoveFromWatchListFailMessage,
-      getMoreMoviesLikeThisFailMessage: getMoreMoviesLikeThisFailMessage ?? this.getMoreMoviesLikeThisFailMessage,
-      isMoviesLikeThisListReachedMax: isMoviesLikeThisListReachedMax ?? this.isMoviesLikeThisListReachedMax,
-      animatedContainerHeight: animatedContainerHeight ?? this.animatedContainerHeight,
+      movieDetailsFailMessage:
+          movieDetailsFailMessage ?? this.movieDetailsFailMessage,
+      addOrRemoveFromWatchListFailMessage:
+          addOrRemoveFromWatchListFailMessage ??
+              this.addOrRemoveFromWatchListFailMessage,
+      getMoreMoviesLikeThisFailMessage: getMoreMoviesLikeThisFailMessage ??
+          this.getMoreMoviesLikeThisFailMessage,
+      isMoviesLikeThisListReachedMax:
+          isMoviesLikeThisListReachedMax ?? this.isMoviesLikeThisListReachedMax,
+      animatedContainerHeight:
+          animatedContainerHeight ?? this.animatedContainerHeight,
       animatedPosterHeight: animatedPosterHeight ?? this.animatedPosterHeight,
     );
   }

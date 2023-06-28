@@ -1,4 +1,4 @@
-import 'package:tmda/features/movie/domain/entities/movie_details/movie_production_countries.dart';
+import 'package:tmda/features/movie/domain/entities/movie_production_countries.dart';
 
 class MovieProductionCountriesModel extends MovieProductionCountries {
   const MovieProductionCountriesModel({

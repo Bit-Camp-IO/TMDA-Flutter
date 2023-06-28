@@ -67,7 +67,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     final result = await addOrRemoveFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       movieId: event.movieId,
-      sessionKey: userSessionId,
+      sessionId: userSessionId,
     );
     result.fold(
       (watchListFailure) => emit(

@@ -26,7 +26,8 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   final GetAllTopRatedMoviesUseCase getAllTopRatedMoviesUseCase;
   final GetAllRecommendedMoviesUseCase getAllRecommendedMoviesUseCase;
   final GetAllSimilarMoviesUseCase getAllSimilarMoviesUseCase;
-  final AddOrRemoveMovieFromWatchListUseCase addOrRemoveMovieFromWatchListUseCase;
+  final AddOrRemoveMovieFromWatchListUseCase
+      addOrRemoveMovieFromWatchListUseCase;
   final GetMovieStateUseCase getMovieStateUseCase;
   int newMoviesPageNumber = 1;
   int popularMoviesPageNumber = 1;
@@ -222,7 +223,7 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
     final result = await addOrRemoveMovieFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       movieId: event.movieId,
-      sessionKey: sessionId,
+      sessionId: sessionId,
     );
     result.fold(
       (watchListFailure) => emit(
@@ -246,7 +247,9 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
 
   Future<void> _checkForMovieStatesEvent(event, emit) async {
     final result = await getMovieStateUseCase(
-        movieId: event.movieId, sessionId: sessionId);
+      movieId: event.movieId,
+      sessionId: sessionId,
+    );
     result.fold(
       (checkFailure) => emit(
         state.copyWith(
@@ -269,7 +272,10 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
 
   Future<void> _checkForMoviesListStatesEvent(event, emit) async {
     final movieIds = state.seeAllMovies.map((movie) => movie.id).toList();
-    final movieUpdatedState = await Future.wait(movieIds.map((movieId) => getMovieStateUseCase(movieId: movieId, sessionId: sessionId)).toList()
+    final movieUpdatedState = await Future.wait(movieIds
+        .map((movieId) =>
+            getMovieStateUseCase(movieId: movieId, sessionId: sessionId))
+        .toList()
         .cast<Future<dynamic>>());
     for (Either either in movieUpdatedState) {
       either.fold(
@@ -282,9 +288,10 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
           emit(
             state.copyWith(
               seeAllMovies: List.from(
-                state.seeAllMovies.map((movie) => movie.id == movieStatesUpdated.movieId
-                    ? movie.copyWith(accountStates: movieStatesUpdated)
-                    : movie),
+                state.seeAllMovies.map((movie) =>
+                    movie.id == movieStatesUpdated.movieId
+                        ? movie.copyWith(accountStates: movieStatesUpdated)
+                        : movie),
               ),
             ),
           );

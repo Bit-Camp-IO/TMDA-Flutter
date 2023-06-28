@@ -39,7 +39,7 @@ class TvShowDetailsState extends Equatable {
       similarTvShows: [],
       recommendedTvShows: [],
       cast: [],
-      status: TvShowAccountStates(isFavoriteMovie: false, isInWatchList: false),
+      status: TvShowAccountStates(isInWatchList: false),
       reviews: []
     ),
     this.tvShowDetailsState = BlocState.loading,

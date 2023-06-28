@@ -19,7 +19,6 @@ final class ApiConstants {
   static const String validateWithLoginEndPoint =
       '$baseUrl/authentication/token/validate_with_login';
   static const String newSessionEndpoint = '$baseUrl/authentication/session/new';
-  static const String deleteSessionEndPoint = '$baseUrl/authentication/session';
 
   //! Shared Api Paths
   static const String castPath = '/credits';
@@ -52,6 +51,7 @@ final class ApiConstants {
   static const accountTvWatchListPath = '/watchlist/tv';
   static const addOrRemoveFromWatchListEndPoint =
       '$baseUrl/account/$accountId/watchlist';
+  static const String accountLogoutEndPoint = '$baseUrl/authentication/session';
 
   static String imageUrl(String apiImagePath) => '$baseImageUrl$apiImagePath';
 }

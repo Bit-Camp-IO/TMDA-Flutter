@@ -26,15 +26,15 @@ enum WatchListType {
   const WatchListType(this.name);
   final String name;
 }
-enum MediaType {
-  movie('movie'),
-  tvShow('tv');
 
-  const MediaType(this.name);
-  final String name;
-}
 enum BlocState {
   loading,
   success,
   failure,
+}
+
+enum UserAccountState {
+  loggedIn,
+  loggedOut,
+  fail,
 }

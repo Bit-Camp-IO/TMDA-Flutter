@@ -24,7 +24,7 @@ class DioInterceptor extends Interceptor{
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     if (kDebugMode) {
       print('ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     }

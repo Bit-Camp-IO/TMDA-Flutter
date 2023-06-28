@@ -11,6 +11,6 @@ class GetWatchListStatesUseCase{
   const GetWatchListStatesUseCase(this.accountRepository);
 
   Future<Either<Failure, AccountStates>> call({required int contentId, required String sessionId, required MediaType mediaType}) async{
-    return await accountRepository.getWatchListStates(tvShowId: contentId, sessionId: sessionId, mediaType: mediaType);
+    return await accountRepository.getTvWatchListStates(tvShowId: contentId, sessionId: sessionId, mediaType: mediaType);
   }
 }

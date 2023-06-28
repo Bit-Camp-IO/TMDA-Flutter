@@ -1,11 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/account/data/models/account_states_model.dart';
 import 'package:tmda/features/account/domain/entities/account_states.dart';
-import 'package:tmda/features/account/domain/entities/account_watchlist_genres.dart';
-import 'package:tmda/features/movie/domain/entities/movie_account_states.dart';
-import 'package:tmda/features/movie/domain/entities/movies_genre.dart';
+import 'package:tmda/features/account/domain/entities/watchlist_genres.dart';
 
-class AccountWatchListMovie extends Equatable {
+class WatchListMovie extends Equatable {
   final int id;
   final String title;
   final String posterPath;
@@ -13,10 +10,10 @@ class AccountWatchListMovie extends Equatable {
   final String language;
   final dynamic voteAverage;
   final int movieVoteCount;
-  final List<AccountWatchListGenres> genres;
+  final List<WatchListGenres> genres;
   final AccountStates accountStates;
 
-  const AccountWatchListMovie({
+  const WatchListMovie({
     required this.id,
     required this.title,
     required this.posterPath,
@@ -41,7 +38,7 @@ class AccountWatchListMovie extends Equatable {
     accountStates,
   ];
 
-  AccountWatchListMovie copyWith({
+  WatchListMovie copyWith({
     int? id,
     String? title,
     String? posterPath,
@@ -49,11 +46,11 @@ class AccountWatchListMovie extends Equatable {
     String? releaseDate,
     String? language,
     dynamic voteAverage,
-    List<AccountWatchListGenres>? genres,
+    List<WatchListGenres>? genres,
     int? movieVoteCount,
     AccountStates? accountStates,
   }) {
-    return AccountWatchListMovie(
+    return WatchListMovie(
       id: id ?? this.id,
       title: title ?? this.title,
       posterPath: posterPath ?? this.posterPath,

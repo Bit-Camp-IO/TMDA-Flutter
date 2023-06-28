@@ -1,9 +1,9 @@
 import 'package:tmda/features/account/data/models/account_states_model.dart';
-import 'package:tmda/features/account/data/models/account_watchlist_genres_model.dart';
-import 'package:tmda/features/account/domain/entities/account_watchlist_tv_show.dart';
+import 'package:tmda/features/account/data/models/watchlist_genres_model.dart';
+import 'package:tmda/features/account/domain/entities/watchlist_tv_show.dart';
 
-class AccountWatchListTvShowModel extends AccountWatchListTvShow {
-  const AccountWatchListTvShowModel({
+class WatchListTvShowModel extends WatchListTvShow {
+  const WatchListTvShowModel({
     required super.title,
     required super.id,
     required super.posterPath,
@@ -15,7 +15,7 @@ class AccountWatchListTvShowModel extends AccountWatchListTvShow {
     required super.accountStates,
   });
 
-  factory AccountWatchListTvShowModel.fromJson(Map<String, dynamic> jsonData) {
+  factory WatchListTvShowModel.fromJson(Map<String, dynamic> jsonData) {
     final List<Map<String, dynamic>> genresList = [
       {"id": 10759, "name": "Action"},
       {"id": 16, "name": "Animation"},
@@ -36,15 +36,15 @@ class AccountWatchListTvShowModel extends AccountWatchListTvShow {
     ];
     List<Map<String, dynamic>> tvShowGenres = genresList.where((genre) => jsonData['genre_ids'].contains(genre['id'])).toList();
 
-    return AccountWatchListTvShowModel(
+    return WatchListTvShowModel(
       id: jsonData['id'],
       posterPath: jsonData['poster_path'] ?? '',
       title: jsonData['name'],
       language: jsonData['original_language'],
       voteAverage: jsonData['vote_average'],
       voteCount: jsonData['vote_count'],
-      genres: List<AccountWatchListGenresModel>.from(
-          tvShowGenres.map((jsonData) => AccountWatchListGenresModel.fromJson(jsonData))),
+      genres: List<WatchListGenresModel>.from(
+          tvShowGenres.map((jsonData) => WatchListGenresModel.fromJson(jsonData))),
       firstAirDate: jsonData['first_air_date'],
       accountStates: AccountStatesModel.fromJson(jsonData['account_status'] ?? {}),
     );

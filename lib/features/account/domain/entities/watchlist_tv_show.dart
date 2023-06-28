@@ -1,11 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:tmda/features/account/domain/entities/account_states.dart';
-import 'package:tmda/features/account/domain/entities/account_watchlist_genres.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
+import 'package:tmda/features/account/domain/entities/watchlist_genres.dart';
 
-import 'package:tmda/features/tv/domain/entities/tv_show_genres.dart';
-
-class AccountWatchListTvShow extends Equatable {
+class WatchListTvShow extends Equatable {
   final String title;
   final int id;
   final String posterPath;
@@ -13,10 +10,10 @@ class AccountWatchListTvShow extends Equatable {
   final String language;
   final dynamic voteAverage;
   final int voteCount;
-  final List<AccountWatchListGenres> genres;
+  final List<WatchListGenres> genres;
   final AccountStates accountStates;
 
-  const AccountWatchListTvShow({
+  const WatchListTvShow({
     required this.title,
     required this.id,
     required this.posterPath,
@@ -28,7 +25,7 @@ class AccountWatchListTvShow extends Equatable {
     required this.accountStates,
   });
 
-  AccountWatchListTvShow copyWith({
+  WatchListTvShow copyWith({
     String? title,
     int? id,
     String? backDropPath,
@@ -38,10 +35,10 @@ class AccountWatchListTvShow extends Equatable {
     String? overview,
     dynamic voteAverage,
     int? voteCount,
-    List<AccountWatchListGenres>? genres,
+    List<WatchListGenres>? genres,
     AccountStates? accountStates,
   }) {
-    return AccountWatchListTvShow(
+    return WatchListTvShow(
       title: title ?? this.title,
       id: id ?? this.id,
       posterPath: posterPath ?? this.posterPath,

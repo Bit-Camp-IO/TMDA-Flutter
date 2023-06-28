@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-class AccountWatchListGenres extends Equatable {
+class WatchListGenres extends Equatable {
   final int id;
   final String name;
-  const AccountWatchListGenres({
+  const WatchListGenres({
     required this.name,
     required this.id,
   });

@@ -1,9 +1,9 @@
 import 'package:tmda/features/account/data/models/account_states_model.dart';
-import 'package:tmda/features/account/data/models/account_watchlist_genres_model.dart';
-import 'package:tmda/features/account/domain/entities/account_watchlist_movie.dart';
+import 'package:tmda/features/account/data/models/watchlist_genres_model.dart';
+import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
 
-class AccountWatchListMovieModel extends AccountWatchListMovie {
-  const AccountWatchListMovieModel({
+class WatchListMovieModel extends WatchListMovie {
+  const WatchListMovieModel({
     required super.id,
     required super.title,
     required super.posterPath,
@@ -15,7 +15,7 @@ class AccountWatchListMovieModel extends AccountWatchListMovie {
     required super.accountStates,
   });
 
-  factory AccountWatchListMovieModel.fromJson(Map<String, dynamic> jsonData) {
+  factory WatchListMovieModel.fromJson(Map<String, dynamic> jsonData) {
     final List<Map<String, dynamic>> genresList = [
       {'id': 28, 'name': 'Action'},
       {'id': 12, 'name': 'Adventure'},
@@ -38,15 +38,15 @@ class AccountWatchListMovieModel extends AccountWatchListMovie {
       {'id': 37, 'name': 'Western'},
     ];
     List<Map<String, dynamic>> movieGenres = genresList.where((genre) => jsonData['genre_ids'].contains(genre['id'])).toList();
-    return AccountWatchListMovieModel(
+    return WatchListMovieModel(
       id: jsonData['id'],
       title: jsonData['title'],
       posterPath: jsonData['poster_path'] ?? '',
       releaseDate: jsonData['release_date'],
       voteAverage: jsonData['vote_average'],
       movieVoteCount: jsonData['vote_count'],
-      genres: List<AccountWatchListGenresModel>.from(
-        movieGenres.map((jsonData) => AccountWatchListGenresModel.fromJson(jsonData)),
+      genres: List<WatchListGenresModel>.from(
+        movieGenres.map((jsonData) => WatchListGenresModel.fromJson(jsonData)),
       ),
       language: jsonData['original_language'],
       accountStates: AccountStatesModel.fromJson(jsonData['account_status'] ?? {}),

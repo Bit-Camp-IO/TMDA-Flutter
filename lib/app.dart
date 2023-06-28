@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
-
         routerDelegate: AutoRouterDelegate(
-          navigatorObservers: () => [MyRouteObserver()],
+          navigatorObservers: () => [MyRouteObserver(), AutoRouteObserver()],
           getIt<AppRouter>(),
         ),
         routeInformationParser:

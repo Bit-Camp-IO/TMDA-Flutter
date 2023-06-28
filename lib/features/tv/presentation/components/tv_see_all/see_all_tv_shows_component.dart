@@ -7,7 +7,6 @@ import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/see_all_card.dart';
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_tv_card.dart';
 
 class SeeAllTvShowsComponent extends StatefulWidget {
   const SeeAllTvShowsComponent(

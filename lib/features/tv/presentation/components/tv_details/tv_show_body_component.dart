@@ -135,7 +135,6 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                       BlocProvider.of<TvShowDetailsBloc>(context)
                           .add(ChangeBodyTabsIndexEvent(tabController.index));
                       tabController.animateTo(tabController.index);
-                      print('>>>>>>>> tab index : ${state.bodyTabIndex}');
                     },
                     tabs: const [
                       Tab(

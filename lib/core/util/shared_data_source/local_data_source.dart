@@ -5,8 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 
 abstract class LocalDataSource {
-  Future<void> storeSessionId(String sessionKey);
-  Future<String> retrieveSessionId();
+  Future<void> storeSessionId(String sessionId);
+  Future<String> getSessionId();
   Future<void> deleteSessionId();
 }
 
@@ -17,13 +17,13 @@ class LocalDataSourceImpl extends LocalDataSource {
   LocalDataSourceImpl({required this.secureStorage});
 
   @override
-  Future<String> retrieveSessionId() async {
+  Future<String> getSessionId() async {
     final encryptionKey = await secureStorage.read(key: 'key');
     if (encryptionKey != null) {
       final encryptionKeyUint8List = base64Url.decode(encryptionKey);
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-      final sessionKey = encryptedBox.get('session_key');
+      final sessionKey = encryptedBox.get('session_id');
       return sessionKey;
     } else {
       throw const CacheException();
@@ -31,7 +31,7 @@ class LocalDataSourceImpl extends LocalDataSource {
   }
 
   @override
-  Future<void> storeSessionId(String sessionKey) async {
+  Future<void> storeSessionId(String sessionId) async {
     final encryptionKey = await secureStorage.read(key: 'key');
     if (encryptionKey == null) {
       final generateEncryptionKey = Hive.generateSecureKey();
@@ -41,12 +41,12 @@ class LocalDataSourceImpl extends LocalDataSource {
       final encryptionKeyUint8List = base64Url.decode(newEncryptionKey!);
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-      encryptedBox.put('session_key', sessionKey);
+      encryptedBox.put('session_id', sessionId);
     } else {
       final encryptionKeyUint8List = base64Url.decode(encryptionKey);
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-      encryptedBox.put('session_key', sessionKey);
+      encryptedBox.put('session_id', sessionId);
     }
   }
 
@@ -57,7 +57,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     final encryptedBox = await Hive.openBox('vaultBox',
         encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
     try {
-      encryptedBox.delete('session_key');
+      encryptedBox.delete('session_id');
     } on Exception {
       throw const CacheException();
     }

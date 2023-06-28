@@ -27,6 +27,7 @@ final class ApiConstants {
   static const String reviewsPath = '/reviews';
   static const String accountStatusPath = '/account_states';
   static const String recommendationsPath = '/recommendations';
+
   //! Movie Endpoints
   static const String nowPlayingMoviesEndPoint = '$baseUrl/movie/now_playing';
   static const String newMoviesEndPoints = '$baseUrl/movie/upcoming';
@@ -44,7 +45,11 @@ final class ApiConstants {
   static const String seasonPath = '/season/';
   static const String episodePath = '/episode/';
   static const String episodeVideoPath = '/videos';
+
   //! Account Endpoints
+  static const accountEndPoint = '/account/';
+  static const accountMoviesWatchListPath = '/watchlist/movies';
+  static const accountTvWatchListPath = '/watchlist/tv';
   static const addOrRemoveFromWatchListEndPoint =
       '$baseUrl/account/$accountId/watchlist';
 

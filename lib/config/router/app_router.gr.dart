@@ -45,28 +45,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EmptyPersonRoute(),
       );
     },
-    EmptyNavBarRoutePage.name: (routeData) {
+    AuthRoutesPage.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const EmptyNavBarRoute(),
+        child: const AuthRoutes(),
       );
     },
     AccountRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AccountScreen(),
-      );
-    },
-    AuthWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AuthWrapperScreen(),
+        child: WrappedRoute(child: const AccountScreen()),
       );
     },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LoginScreen(),
+        child: WrappedRoute(child: const LoginScreen()),
       );
     },
     SelectionRoute.name: (routeData) {
@@ -78,7 +72,7 @@ abstract class _$AppRouter extends RootStackRouter {
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SplashScreen(),
+        child: WrappedRoute(child: const SplashScreen()),
       );
     },
     MovieDetailsRoute.name: (routeData) {
@@ -88,28 +82,17 @@ abstract class _$AppRouter extends RootStackRouter {
               MovieDetailsRouteArgs(movieId: pathParams.getInt('movieId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: MovieDetailsScreen(
+        child: WrappedRoute(
+            child: MovieDetailsScreen(
           key: args.key,
           movieId: args.movieId,
-        ),
-      );
-    },
-    MovieDetailsWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MovieDetailsWrapperScreen(),
+        )),
       );
     },
     MovieRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MovieScreen(),
-      );
-    },
-    MovieWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MovieWrapperScreen(),
+        child: WrappedRoute(child: const MovieScreen()),
       );
     },
     SeeAllMoviesRoute.name: (routeData) {
@@ -119,17 +102,18 @@ abstract class _$AppRouter extends RootStackRouter {
               movieType: pathParams.get(':seeAllMovies')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SeeAllMoviesScreen(
+        child: WrappedRoute(
+            child: SeeAllMoviesScreen(
           key: args.key,
           movieType: args.movieType,
           movieId: args.movieId,
-        ),
+        )),
       );
     },
-    MainRoutePage.name: (routeData) {
+    MainNavigationTabs.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MainNavigationBar(),
+        child: const NavigationTabs(),
       );
     },
     PersonRoute.name: (routeData) {
@@ -139,16 +123,11 @@ abstract class _$AppRouter extends RootStackRouter {
               PersonRouteArgs(personId: pathParams.getInt('personId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PersonScreen(
+        child: WrappedRoute(
+            child: PersonScreen(
           key: args.key,
           personId: args.personId,
-        ),
-      );
-    },
-    PersonWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const PersonWrapperScreen(),
+        )),
       );
     },
     ActorSearchRoute.name: (routeData) {
@@ -182,11 +161,12 @@ abstract class _$AppRouter extends RootStackRouter {
               tvShowType: pathParams.get(':seeAllTvShow')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SeeAllTvShowsScreen(
+        child: WrappedRoute(
+            child: SeeAllTvShowsScreen(
           key: args.key,
           tvShowType: args.tvShowType,
           tvShowId: args.tvShowId,
-        ),
+        )),
       );
     },
     TvDetailsRoute.name: (routeData) {
@@ -196,28 +176,33 @@ abstract class _$AppRouter extends RootStackRouter {
               TvDetailsRouteArgs(tvShowId: pathParams.getInt('tvShowId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: TvDetailsScreen(
+        child: WrappedRoute(
+            child: TvDetailsScreen(
           key: args.key,
           tvShowId: args.tvShowId,
-        ),
-      );
-    },
-    TvShowsWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const TvShowsWrapperScreen(),
-      );
-    },
-    TvShowDetailsWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const TvShowDetailsWrapperScreen(),
+        )),
       );
     },
     TvShowRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const TvShowScreen(),
+        child: WrappedRoute(child: const TvShowScreen()),
+      );
+    },
+    AccountSeeAllRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<AccountSeeAllRouteArgs>(
+          orElse: () => AccountSeeAllRouteArgs(
+              seeAllType: pathParams.get(':accountSeeAllType')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: AccountSeeAllScreen(
+          key: args.key,
+          seeAllType: args.seeAllType,
+          movieId: args.movieId,
+          tvShowId: args.tvShowId,
+        )),
       );
     },
   };
@@ -294,15 +279,15 @@ class EmptyPersonRoutePage extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [EmptyNavBarRoute]
-class EmptyNavBarRoutePage extends PageRouteInfo<void> {
-  const EmptyNavBarRoutePage({List<PageRouteInfo>? children})
+/// [AuthRoutes]
+class AuthRoutesPage extends PageRouteInfo<void> {
+  const AuthRoutesPage({List<PageRouteInfo>? children})
       : super(
-          EmptyNavBarRoutePage.name,
+          AuthRoutesPage.name,
           initialChildren: children,
         );
 
-  static const String name = 'EmptyNavBarRoutePage';
+  static const String name = 'AuthRoutesPage';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -317,20 +302,6 @@ class AccountRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AccountRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AuthWrapperScreen]
-class AuthWrapperRoute extends PageRouteInfo<void> {
-  const AuthWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          AuthWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AuthWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -417,20 +388,6 @@ class MovieDetailsRouteArgs {
 }
 
 /// generated route for
-/// [MovieDetailsWrapperScreen]
-class MovieDetailsWrapperRoute extends PageRouteInfo<void> {
-  const MovieDetailsWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          MovieDetailsWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MovieDetailsWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [MovieScreen]
 class MovieRoute extends PageRouteInfo<void> {
   const MovieRoute({List<PageRouteInfo>? children})
@@ -440,20 +397,6 @@ class MovieRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MovieRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [MovieWrapperScreen]
-class MovieWrapperRoute extends PageRouteInfo<void> {
-  const MovieWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          MovieWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MovieWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -503,15 +446,15 @@ class SeeAllMoviesRouteArgs {
 }
 
 /// generated route for
-/// [MainNavigationBar]
-class MainRoutePage extends PageRouteInfo<void> {
-  const MainRoutePage({List<PageRouteInfo>? children})
+/// [NavigationTabs]
+class MainNavigationTabs extends PageRouteInfo<void> {
+  const MainNavigationTabs({List<PageRouteInfo>? children})
       : super(
-          MainRoutePage.name,
+          MainNavigationTabs.name,
           initialChildren: children,
         );
 
-  static const String name = 'MainRoutePage';
+  static const String name = 'MainNavigationTabs';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -552,20 +495,6 @@ class PersonRouteArgs {
   String toString() {
     return 'PersonRouteArgs{key: $key, personId: $personId}';
   }
-}
-
-/// generated route for
-/// [PersonWrapperScreen]
-class PersonWrapperRoute extends PageRouteInfo<void> {
-  const PersonWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          PersonWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'PersonWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -708,34 +637,6 @@ class TvDetailsRouteArgs {
 }
 
 /// generated route for
-/// [TvShowsWrapperScreen]
-class TvShowsWrapperRoute extends PageRouteInfo<void> {
-  const TvShowsWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          TvShowsWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TvShowsWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [TvShowDetailsWrapperScreen]
-class TvShowDetailsWrapperRoute extends PageRouteInfo<void> {
-  const TvShowDetailsWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          TvShowDetailsWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TvShowDetailsWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [TvShowScreen]
 class TvShowRoute extends PageRouteInfo<void> {
   const TvShowRoute({List<PageRouteInfo>? children})
@@ -747,4 +648,53 @@ class TvShowRoute extends PageRouteInfo<void> {
   static const String name = 'TvShowRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AccountSeeAllScreen]
+class AccountSeeAllRoute extends PageRouteInfo<AccountSeeAllRouteArgs> {
+  AccountSeeAllRoute({
+    Key? key,
+    required dynamic seeAllType,
+    int? movieId,
+    int? tvShowId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AccountSeeAllRoute.name,
+          args: AccountSeeAllRouteArgs(
+            key: key,
+            seeAllType: seeAllType,
+            movieId: movieId,
+            tvShowId: tvShowId,
+          ),
+          rawPathParams: {':accountSeeAllType': seeAllType},
+          initialChildren: children,
+        );
+
+  static const String name = 'AccountSeeAllRoute';
+
+  static const PageInfo<AccountSeeAllRouteArgs> page =
+      PageInfo<AccountSeeAllRouteArgs>(name);
+}
+
+class AccountSeeAllRouteArgs {
+  const AccountSeeAllRouteArgs({
+    this.key,
+    required this.seeAllType,
+    this.movieId,
+    this.tvShowId,
+  });
+
+  final Key? key;
+
+  final dynamic seeAllType;
+
+  final int? movieId;
+
+  final int? tvShowId;
+
+  @override
+  String toString() {
+    return 'AccountSeeAllRouteArgs{key: $key, seeAllType: $seeAllType, movieId: $movieId, tvShowId: $tvShowId}';
+  }
 }

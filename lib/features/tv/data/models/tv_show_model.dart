@@ -36,11 +36,7 @@ class TvShowModel extends TvShow {
       {"id": 10768, "name": "War"},
       {"id": 37, "name": "Western"}
     ];
-    List<dynamic> tvShowGenres = [];
-    for (int genreId in jsonData['genre_ids']) {
-      tvShowGenres
-          .add(genresList.firstWhere((element) => element['id'] == genreId || element['id'] == 9648));
-    }
+    List<Map<String, dynamic>> tvShowGenres = genresList.where((genre) => jsonData['genre_ids'].contains(genre['id'])).toList();
     return TvShowModel(
       id: jsonData['id'],
       backDropPath: jsonData['backdrop_path'] ?? '',

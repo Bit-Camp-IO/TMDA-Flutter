@@ -39,12 +39,8 @@ class MoviesModel extends Movies {
       {'id': 10752, 'name': 'War'},
       {'id': 37, 'name': 'Western'},
     ];
-    List<dynamic> movieGenres = [];
 
-    for (int genreId in jsonData['genre_ids']) {
-      movieGenres
-          .add(genresList.firstWhere((element) => element['id'] == genreId));
-    }
+    List<Map<String, dynamic>> movieGenres = genresList.where((genre) => jsonData['genre_ids'].contains(genre['id'])).toList();
 
     return MoviesModel(
       id: jsonData['id'],

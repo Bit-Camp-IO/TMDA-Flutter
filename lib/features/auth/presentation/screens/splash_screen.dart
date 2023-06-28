@@ -5,10 +5,18 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatelessWidget with AutoRouteWrapper{
   const SplashScreen({super.key});
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<AuthCubit>()..checkUserLoggedIn(),
+      child: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,7 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthenticatedState) {
           AutoRouter.of(context).replace(
-            const MainRoutePage(),
+            const MainNavigationTabs(),
           );
         }
       },
@@ -35,4 +43,6 @@ class SplashScreen extends StatelessWidget {
       },
     );
   }
+
+
 }

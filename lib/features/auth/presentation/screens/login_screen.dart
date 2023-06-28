@@ -10,13 +10,22 @@ import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget with AutoRouteWrapper{
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<LoginCubit>(),
+      child: this,
+    );
+  }
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -32,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginLoadingState) {
           isLoading = true;
         } else if (state is LoginSuccessState) {
-          AutoRouter.of(context).replace(const MainRoutePage());
+          AutoRouter.of(context).replace(const MainNavigationTabs());
         } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(

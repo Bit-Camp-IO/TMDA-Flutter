@@ -19,6 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> checkUserLoggedIn() async {
     final response = await checkUserLoggedInUseCase();
+
     response.fold(
       (authFailure) => emit(
         UnAuthenticatedState(),

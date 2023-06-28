@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/core/util/data_source/local_data_source.dart';
+import 'package:tmda/core/util/shared_data_source/local_data_source.dart';
 import 'package:tmda/features/auth/data/models/auth_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,7 +47,7 @@ class AuthDataSourceImpl extends AuthDataSource {
   @override
   Future<AuthModel> checkUserLoginSession() async {
     try {
-      String sessionId = await localDataSource.retrieveSessionId();
+      String sessionId = await localDataSource.getSessionId();
       return AuthModel(sessionId: sessionId, requestSuccess: true);
     } on Exception {
       throw const CacheException("User Not Logged in");

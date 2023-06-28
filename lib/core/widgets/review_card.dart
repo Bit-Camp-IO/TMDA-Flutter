@@ -42,7 +42,7 @@ class ReviewCard extends StatelessWidget {
                     children: [
                       const Icon(
                         SolarSystemIcons.star,
-                        color: ColorsManager.starsColor,
+                        color: ColorsManager.ratingIconColor,
                         size: 15,
                       ),
                       SizedBox(width: 4.w),

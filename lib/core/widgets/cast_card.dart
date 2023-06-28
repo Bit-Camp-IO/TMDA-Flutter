@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/features/movie/presentation/components/movie_poster_with_shadow.dart';
+import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
-class MovieCastCard extends StatelessWidget {
-  const MovieCastCard({
+
+class CastCard extends StatelessWidget {
+  const CastCard({
     super.key,
     required this.actorPicPath,
     required this.actorName,
@@ -24,7 +25,7 @@ class MovieCastCard extends StatelessWidget {
           SizedBox(
             width: 130.sp,
             height: 220.sp,
-            child: MoviePosterWithShadow(
+            child: TiltedImageWithShadow(
               imagePath: actorPicPath,
               width: 130.sp,
               height: 220.sp,

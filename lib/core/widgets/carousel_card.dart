@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 
-class MovieCarouselCard extends StatelessWidget {
-  const MovieCarouselCard({
+class CarouselCard extends StatelessWidget {
+  const CarouselCard({
     super.key,
     required this.title,
     required this.rating,
@@ -52,11 +52,11 @@ class MovieCarouselCard extends StatelessWidget {
                 rating: rating / 2,
                 itemBuilder: (context, index) => const Icon(
                   SolarSystemIcons.star,
-                  color: ColorsManager.starsColor,
+                  color: ColorsManager.ratingIconColor,
                 ),
                 unratedColor: ColorsManager.inActiveColor,
                 itemCount: 5,
-                itemSize: 15.sp,
+                itemSize: 15,
                 direction: Axis.horizontal,
               ),
               SizedBox(height: 8.h),

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/features/movie/presentation/components/movie_poster_with_shadow.dart';
+import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
-class MovieDetailsPosterCard extends StatelessWidget {
-  const MovieDetailsPosterCard({
+
+class DetailsPosterCard extends StatelessWidget {
+  const DetailsPosterCard({
     super.key,
     required this.imagePath,
     required this.title,
@@ -22,7 +23,7 @@ class MovieDetailsPosterCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          MoviePosterWithShadow(
+          TiltedImageWithShadow(
             imagePath: imagePath,
             width: 130.w,
             height: 200.h,
@@ -37,7 +38,7 @@ class MovieDetailsPosterCard extends StatelessWidget {
                   children: [
                     const Icon(
                       SolarSystemIcons.star,
-                      color: ColorsManager.starsColor,
+                      color: ColorsManager.ratingIconColor,
                       size: 16,
                     ),
                     Text(rating.toStringAsFixed(1),

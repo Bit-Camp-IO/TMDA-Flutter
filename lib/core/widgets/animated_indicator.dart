@@ -1,31 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tmda/core/util/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnimatedIndicator extends StatelessWidget {
-  const AnimatedIndicator({
-    super.key,
-    required this.currentIndex,
-    required this.dotsCount, required this.axisDirection,
-  });
-
   final int currentIndex;
   final int dotsCount;
   final Axis axisDirection;
+  final Color selectedColor;
+  final Color unSelectedColor;
+  final double dotWidth;
+  final double dotHeight;
+  final double selectedDotWidth;
+
+  const AnimatedIndicator({
+    super.key,
+    required this.currentIndex,
+    required this.dotsCount,
+    required this.axisDirection,
+    required this.selectedColor,
+    required this.unSelectedColor,
+    required this.dotWidth,
+    required this.dotHeight,
+    required this.selectedDotWidth,
+  });
+
+
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSmoothIndicator(
-      count: dotsCount,
-      activeIndex: currentIndex,
-      axisDirection: axisDirection,
-      effect: const ExpandingDotsEffect(
-        spacing: 8.0,
-        radius: 10.0,
-        dotWidth: 10.0,
-        dotHeight: 10.0,
-        dotColor: Colors.white,
-        activeDotColor: ColorsManager.primaryColor,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        dotsCount,
+            (index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0).r,
+          child: AnimatedContainer(
+            curve: Curves.easeIn,
+            duration: const Duration(milliseconds: 300),
+            width: index == currentIndex ? selectedDotWidth : dotWidth,
+            height: dotHeight,
+            decoration: BoxDecoration(
+              color: index == currentIndex ? selectedColor : unSelectedColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
       ),
     );
   }

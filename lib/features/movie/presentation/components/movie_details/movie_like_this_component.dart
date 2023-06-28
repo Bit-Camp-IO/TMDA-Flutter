@@ -14,7 +14,6 @@ import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
-import 'package:tmda/features/movie/presentation/screens/see_all_movies_screen.dart';
 
 class MoviesLikeThisComponent extends StatelessWidget {
   const MoviesLikeThisComponent({

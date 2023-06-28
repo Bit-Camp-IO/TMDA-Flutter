@@ -2,13 +2,13 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/features/tv/data/models/tv_details/season_episode_model.dart';
-import 'package:tmda/features/tv/data/models/tv_details/tv_show_account_status_model.dart';
-import 'package:tmda/features/tv/data/models/tv_details/tv_show_cast_model.dart';
-import 'package:tmda/features/tv/data/models/tv_details/tv_show_details_model.dart';
-import 'package:tmda/features/tv/data/models/tv_details/tv_show_reviews_model.dart';
-import 'package:tmda/features/tv/data/models/tv_details/tv_show_video_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show/tv_show_model.dart';
+import 'package:tmda/features/tv/data/models/season_episode_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_cast_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_reviews_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_video_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class TvDataSource {
@@ -33,12 +33,10 @@ abstract class TvDataSource {
 
   Future<List<TvShowModel>> getSimilarTvShows({
     required int tvShowId,
-    required int pageNumber,
   });
 
   Future<List<TvShowModel>> getRecommendedTvShows({
     required int tvShowId,
-    required int pageNumber,
   });
 
   Future<List<SeasonEpisodeModel>> getSeasonEpisodes({
@@ -46,16 +44,43 @@ abstract class TvDataSource {
     required int seasonNumber,
   });
 
-  Future<TvShowAccountStatusModel> addOrRemoveMovieFromWatchList({
+  Future<TvShowAccountStatesModel> addOrRemoveMovieFromWatchList({
     required int tvShowId,
     required bool isInWatchList,
     required String sessionId,
   });
 
-  Future<TvShowVideoModel> getEpisodeVideo(
-      {required int tvShowId,
-      required seasonNumber,
-      required int episodeNumber});
+  Future<TvShowVideoModel> getEpisodeVideo({
+    required int tvShowId,
+    required seasonNumber,
+    required int episodeNumber,
+  });
+
+  Future<List<TvShowModel>> getAllAiringTodayTvShows(
+      {required int pageNumber, required String sessionId});
+
+  Future<List<TvShowModel>> getAllPopularTvShows(
+      {required int pageNumber, required String sessionId});
+
+  Future<List<TvShowModel>> getAllTopRatedTvShows(
+      {required int pageNumber, required String sessionId});
+
+  Future<List<TvShowModel>> getAllSimilarTvShows({
+    required int tvShowId,
+    required int pageNumber,
+    required String sessionId,
+  });
+
+  Future<List<TvShowModel>> getAllRecommendedTvShows({
+    required int tvShowId,
+    required int pageNumber,
+    required String sessionId,
+  });
+
+  Future<TvShowAccountStatesModel> getTvShowStates({
+    required String sessionId,
+    required int tvShowId,
+  });
 }
 
 @LazySingleton(as: TvDataSource)
@@ -119,11 +144,9 @@ class TvDataSourceImpl extends TvDataSource {
   @override
   Future<List<TvShowModel>> getRecommendedTvShows({
     required int tvShowId,
-    required int pageNumber,
   }) async {
     final response = await apiConsumer.get(
       '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.recommendationsPath}',
-      queryParameters: {'page': pageNumber},
     );
     return List<TvShowModel>.from((response['results'] as List)
         .map((jsonData) => TvShowModel.fromJson(jsonData)));
@@ -132,11 +155,9 @@ class TvDataSourceImpl extends TvDataSource {
   @override
   Future<List<TvShowModel>> getSimilarTvShows({
     required int tvShowId,
-    required int pageNumber,
   }) async {
     final response = await apiConsumer.get(
       '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.similarPath}',
-      queryParameters: {'page': pageNumber},
     );
     return List<TvShowModel>.from(
       response['results'].map(
@@ -187,7 +208,7 @@ class TvDataSourceImpl extends TvDataSource {
   }
 
   @override
-  Future<TvShowAccountStatusModel> addOrRemoveMovieFromWatchList(
+  Future<TvShowAccountStatesModel> addOrRemoveMovieFromWatchList(
       {required int tvShowId,
       required bool isInWatchList,
       required String sessionId}) async {
@@ -201,7 +222,7 @@ class TvDataSourceImpl extends TvDataSource {
       },
     );
     if (response['success'] == true) {
-      return TvShowAccountStatusModel(isInWatchList: isInWatchList);
+      return TvShowAccountStatesModel(isInWatchList: isInWatchList);
     } else {
       throw ServerException('${response['status_message']}');
     }
@@ -224,5 +245,86 @@ class TvDataSourceImpl extends TvDataSource {
     final response = await apiConsumer.get(
         '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.seasonPath}$seasonNumber${ApiConstants.episodePath}$episodeNumber${ApiConstants.episodeVideoPath}');
     return TvShowVideoModel.fromJson(response['results']);
+  }
+
+  @override
+  Future<List<TvShowModel>> getAllAiringTodayTvShows({required int pageNumber, required String sessionId}) async{
+    final listOfTvShows = await apiConsumer.get(ApiConstants.tvAiringTodayEndPoint, queryParameters: {'page': pageNumber},);
+    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<TvShowModel>.generate(tvShowsIds.length, (index) {
+      final Map<String, dynamic> tvShow = listOfTvShows['results'][index];
+      tvShow.addAll({'account_status' : tvShowsStates[index]});
+      return TvShowModel.fromJson(tvShow);
+    });
+  }
+
+  @override
+  Future<List<TvShowModel>> getAllPopularTvShows({required int pageNumber, required String sessionId}) async{
+    final listOfTvShows = await apiConsumer.get(ApiConstants.popularTvShowsEndPoint, queryParameters: {'page': pageNumber},);
+    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<TvShowModel>.generate(tvShowsIds.length, (index) {
+      final Map<String, dynamic> tvShow = listOfTvShows['results'][index];
+      tvShow.addAll({'account_status' : tvShowsStates[index]});
+      return TvShowModel.fromJson(tvShow);
+    });
+  }
+
+  @override
+  Future<List<TvShowModel>> getAllTopRatedTvShows({required int pageNumber, required String sessionId}) async{
+    final listOfTvShows = await apiConsumer.get(ApiConstants.topRatedTvShowsEndPoint, queryParameters: {'page': pageNumber},);
+    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<TvShowModel>.generate(tvShowsIds.length, (index) {
+      final Map<String, dynamic> tvShow = listOfTvShows['results'][index];
+      tvShow.addAll({'account_status' : tvShowsStates[index]});
+      return TvShowModel.fromJson(tvShow);
+    });
+  }
+
+  @override
+  Future<List<TvShowModel>> getAllRecommendedTvShows({required int tvShowId, required int pageNumber, required String sessionId}) async{
+    final listOfTvShows = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.recommendationsPath}', queryParameters: {'page': pageNumber},);
+    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<TvShowModel>.generate(tvShowsIds.length, (index) {
+      final Map<String, dynamic> tvShow = listOfTvShows['results'][index];
+      tvShow.addAll({'account_status' : tvShowsStates[index]});
+      return TvShowModel.fromJson(tvShow);
+    });
+  }
+
+  @override
+  Future<List<TvShowModel>> getAllSimilarTvShows({required int tvShowId, required int pageNumber, required String sessionId}) async{
+    final listOfTvShows = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.similarPath}', queryParameters: {'page': pageNumber},);
+    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    })).toList().cast<Future<dynamic>>());
+    return List<TvShowModel>.generate(tvShowsIds.length, (index) {
+      final Map<String, dynamic> tvShow = listOfTvShows['results'][index];
+      tvShow.addAll({'account_status' : tvShowsStates[index]});
+      return TvShowModel.fromJson(tvShow);
+    });
+  }
+
+
+
+  @override
+  Future<TvShowAccountStatesModel> getTvShowStates({required String sessionId, required int tvShowId}) async{
+    final Map<String, dynamic> movieStates = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.accountStatusPath}', queryParameters: {
+      'session_id' : sessionId,
+    });
+    movieStates.addAll({'tv_show_id' : tvShowId});
+    return TvShowAccountStatesModel.fromJson(movieStates);
   }
 }

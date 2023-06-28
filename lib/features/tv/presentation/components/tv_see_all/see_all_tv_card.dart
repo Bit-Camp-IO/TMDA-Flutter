@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/features/tv/presentation/components/tv_poster.dart';
+import 'package:tmda/core/widgets/tilted_image.dart';
 
 class SeeAllTvCard extends StatelessWidget {
   const SeeAllTvCard({
@@ -39,7 +39,7 @@ class SeeAllTvCard extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TvPoster(
+              child: TiltedImage(
                 imagePath: posterPath,
                 width: 120.w,
                 height: 170.h,
@@ -86,7 +86,7 @@ class SeeAllTvCard extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.star,
-                      color: ColorsManager.starsColor,
+                      color: ColorsManager.ratingIconColor,
                       size: 16,
                     ),
                     Text(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/episode_card.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/episode_card.dart';
 
 class TvShowSeasons extends StatefulWidget {
   const TvShowSeasons({super.key, required this.tvShowId});
@@ -16,7 +16,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
   @override
   void initState() {
     tabController = TabController(
-      length: context.read<TvDetailsBloc>().state.tvShowDetails.seasons.length,
+      length: context.read<TvShowDetailsBloc>().state.tvShowDetails.seasons.length,
       initialIndex: 0,
       vsync: this,
     );
@@ -26,7 +26,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvDetailsBloc, TvDetailsState>(
+    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
         return Column(
           children: [
@@ -38,11 +38,11 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                 tabs: List.generate(
                   tabController.length,
                   (index) => Tab(
-                    text: state.tvShowDetails.seasons[index].seasonName,
+                    text: state.tvShowDetails.seasons[index].name,
                   ),
                 ),
                 onTap: (index) {
-                  BlocProvider.of<TvDetailsBloc>(context)
+                  BlocProvider.of<TvShowDetailsBloc>(context)
                       .add(ChangeSeasonsTabsIndexEvent(tabController.index));
                   tabController.animateTo(tabController.index);
                 },

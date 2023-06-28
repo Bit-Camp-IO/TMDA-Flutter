@@ -11,16 +11,16 @@ import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
 
-class TopRatedTvShowsComponent extends StatelessWidget {
-  const TopRatedTvShowsComponent({super.key});
+class TvShowsAiringTodayComponent extends StatelessWidget {
+  const TvShowsAiringTodayComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowsBloc, TvShowsState>(
       buildWhen: (previous, current) =>
-          previous.topRatedState != current.topRatedState,
+          previous.airingTodayState != current.airingTodayState,
       builder: (context, state) {
-        switch (state.topRatedState) {
+        switch (state.airingTodayState) {
           case BlocState.loading:
             return SizedBox(
               height: 270.h,
@@ -32,21 +32,21 @@ class TopRatedTvShowsComponent extends StatelessWidget {
             return Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: 'Top Rated',
+                  title: 'Airing Today',
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     context.pushRoute(
                       SeeAllTvShowsRoute(
-                        tvShowType: TvShowType.topRatedTvShows,
+                        tvShowType: TvShowType.airingToday,
                       ),
                     );
                   },
                 ),
                 SizedBox(
-                  height: 260.h,
+                  height: 280.h,
                   child: ListView.builder(
+                    itemCount: state.airingTodayTvShows.length,
                     scrollDirection: Axis.horizontal,
-                    itemCount: 20,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Row(
@@ -57,18 +57,18 @@ class TopRatedTvShowsComponent extends StatelessWidget {
                               context.pushRoute(
                                 TvDetailsRoute(
                                   tvShowId:
-                                      state.topRatedTvShows[index].id,
+                                      state.airingTodayTvShows[index].id,
                                 ),
                               );
                             },
-                            title: state.topRatedTvShows[index].title,
+                            title: state.airingTodayTvShows[index].title,
                             imagePath: ApiConstants.imageUrl(
-                                state.topRatedTvShows[index].posterPath),
+                                state.airingTodayTvShows[index].posterPath),
                             releaseDate:
-                                state.topRatedTvShows[index].firstAirDate,
-                            rating: state.topRatedTvShows[index].voteAverage,
-                            genres: state.topRatedTvShows[index].genres,
-                            language: state.topRatedTvShows[index].language,
+                                state.airingTodayTvShows[index].firstAirDate,
+                            rating: state.airingTodayTvShows[index].voteAverage,
+                            genres: state.airingTodayTvShows[index].genres,
+                            language: state.airingTodayTvShows[index].language,
                           ),
                         ],
                       );
@@ -77,8 +77,7 @@ class TopRatedTvShowsComponent extends StatelessWidget {
                 ),
               ],
             );
-
-          case BlocState.failure:
+          case (BlocState.failure):
             return const Text('There was an error');
         }
       },

@@ -8,20 +8,22 @@ import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/cast_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_cast_card.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 
 class TvShowCastComponent extends StatelessWidget {
   const TvShowCastComponent({
     super.key,
     required this.tvShowId,
   });
+
   final int tvShowId;
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvDetailsBloc, TvDetailsState>(
+    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
         return Animate(
           effects: [FadeEffect(duration: 150.ms)],
@@ -42,15 +44,12 @@ class TvShowCastComponent extends StatelessWidget {
                     return Row(
                       children: [
                         SizedBox(width: 20.w),
-                        TvCastCard(
+                        CastCard(
                           onTap: () {
-                            AutoRouter.of(context).push(
-                              PersonWrapperRoute(
-                                children: [
-                                  PersonRoute(
-                                    personId: state.tvShowDetails.cast[index].actorId,
-                                  ),
-                                ],
+                            context.navigateTo(
+                              PersonRoute(
+                                personId:
+                                    state.tvShowDetails.cast[index].actorId,
                               ),
                             );
                           },

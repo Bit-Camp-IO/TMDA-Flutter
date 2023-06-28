@@ -8,9 +8,9 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_poster_card.dart';
 
 class PopularTvShowsComponent extends StatelessWidget {
   const PopularTvShowsComponent({super.key});
@@ -55,17 +55,12 @@ class PopularTvShowsComponent extends StatelessWidget {
                         return Row(
                           children: [
                             SizedBox(width: 24.w),
-                            TvPosterCard(
+                            PosterCard(
                               onTap: () {
-                                AutoRouter.of(context).push(
-                                  TvShowDetailsWrapperRoute(
-                                    children: [
-                                      TvDetailsRoute(
-                                        tvShowId: state
-                                            .popularTvShows[index]
-                                            .tvShowId,
-                                      ),
-                                    ],
+                                context.pushRoute(
+                                  TvDetailsRoute(
+                                    tvShowId:
+                                        state.popularTvShows[index].id,
                                   ),
                                 );
                               },

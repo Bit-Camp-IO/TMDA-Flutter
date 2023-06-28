@@ -15,8 +15,8 @@ import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 
-class SimilarTvShowsComponent extends StatelessWidget {
-  const SimilarTvShowsComponent({
+class RecommendedTvShowsComponent extends StatelessWidget {
+  const RecommendedTvShowsComponent({
     super.key,
     required this.tvShowId,
   });
@@ -27,19 +27,19 @@ class SimilarTvShowsComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
-        if (state.tvShowDetails.similarTvShows.isNotEmpty) {
+        if (state.tvShowDetails.recommendedTvShows.isNotEmpty) {
           return Animate(
             effects: [FadeEffect(duration: 150.ms)],
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: StringsManager.movieDetailsSimilarSectionTitle,
+                  title: 'Recommended',
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     AutoRouter.of(context).push(
                       SeeAllTvShowsRoute(
                         tvShowId: tvShowId,
-                        tvShowType: TvShowType.similarTvShows,
+                        tvShowType: TvShowType.recommendedTvShows,
                       ),
                     );
                   },
@@ -50,26 +50,29 @@ class SimilarTvShowsComponent extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.tvShowDetails.similarTvShows.length,
+                    itemCount: state.tvShowDetails.recommendedTvShows.length,
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            imagePath: state.tvShowDetails.similarTvShows[index]
-                                    .posterPath.isNotEmpty
+                            imagePath: state
+                                    .tvShowDetails
+                                    .recommendedTvShows[index]
+                                    .posterPath
+                                    .isNotEmpty
                                 ? ApiConstants.imageUrl(state.tvShowDetails
-                                    .similarTvShows[index].posterPath)
+                                    .recommendedTvShows[index].posterPath)
                                 : AssetsManager.noPoster,
-                            title:
-                                state.tvShowDetails.similarTvShows[index].title,
-                            rating: state.tvShowDetails.similarTvShows[index]
-                                .voteAverage,
+                            title: state
+                                .tvShowDetails.recommendedTvShows[index].title,
+                            rating: state.tvShowDetails
+                                .recommendedTvShows[index].voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
                                   tvShowId: state.tvShowDetails
-                                      .similarTvShows[index].id,
+                                      .recommendedTvShows[index].id,
                                 ),
                               );
                             },

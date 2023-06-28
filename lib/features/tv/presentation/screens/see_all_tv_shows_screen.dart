@@ -2,25 +2,38 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_airing_this_week_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_airing_today_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_popular_tv_shows_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_recommended_tv_shows_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_similar_tv_shows_component.dart';
+import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_tv_shows_component.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class SeeAllTvShowsScreen extends StatefulWidget {
-  const SeeAllTvShowsScreen({super.key,@PathParam(':seeAllTvShow') required this.tvShowType, this.tvShowId});
+class SeeAllTvShowsScreen extends StatefulWidget with AutoRouteWrapper {
   final dynamic tvShowType;
   final int? tvShowId;
+
+  const SeeAllTvShowsScreen(
+      {super.key,
+      @PathParam(':seeAllTvShow') required this.tvShowType,
+      this.tvShowId});
+
   @override
   State<SeeAllTvShowsScreen> createState() => _SeeAllTvShowsScreenState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<SeeAllTvShowsBloc>(),
+      child: this,
+    );
+  }
 }
 
 class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
@@ -28,6 +41,20 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
 
   @override
   void initState() {
+    final seeAllBloc = context.read<SeeAllTvShowsBloc>();
+    switch (widget.tvShowType) {
+      case (TvShowType.airingToday):
+        seeAllBloc.add(GetAllAiringTodayTvShowsEvent());
+      case (TvShowType.popularTvShows):
+        seeAllBloc.add(GetAllPopularTvShowsEvent());
+      case (TvShowType.topRatedTvShows):
+        seeAllBloc.add(GetAllTopRatedTvShowsEvent());
+      case (TvShowType.similarTvShows):
+        seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
+      case (TvShowType.recommendedTvShows):
+        seeAllBloc
+            .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
+    }
     super.initState();
     scrollController.addListener(_onScroll);
   }
@@ -35,20 +62,20 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
   void _onScroll() {
     final maxScroll = scrollController.position.maxScrollExtent;
     final currentScroll = scrollController.offset;
-    final tvShowBloc = context.read<TvShowsBloc>();
-    final tvDetailsBloc = context.read<TvDetailsBloc>();
+    final seeAllBloc = context.read<SeeAllTvShowsBloc>();
     if (currentScroll >= maxScroll * 0.9) {
       switch (widget.tvShowType) {
-        case (TvShowType.airingThisWeek):
-          tvShowBloc.add(GetTvShowsAiringThisWeekEvent());
+        case (TvShowType.airingToday):
+          seeAllBloc.add(GetAllAiringTodayTvShowsEvent());
         case (TvShowType.popularTvShows):
-          tvShowBloc.add(GetPopularTvShowsEvent());
+          seeAllBloc.add(GetAllPopularTvShowsEvent());
         case (TvShowType.topRatedTvShows):
-          tvShowBloc.add(GetTopRatedTvShowsEvent());
-        case(TvShowType.similarTvShows):
-          tvDetailsBloc.add(GetMoreSimilarTvShowsEvent(widget.tvShowId!));
-        case(TvShowType.recommendedTvShows):
-          tvDetailsBloc.add(GetMoreRecommendedTvShowsEvent(widget.tvShowId!));
+          seeAllBloc.add(GetAllTopRatedTvShowsEvent());
+        case (TvShowType.similarTvShows):
+          seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
+        case (TvShowType.recommendedTvShows):
+          seeAllBloc
+              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
       }
     }
   }
@@ -63,7 +90,6 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TvShowType tvShowType = widget.tvShowType as TvShowType;
     return Scaffold(
       body: Stack(
         children: [
@@ -82,28 +108,20 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
             left: 10,
             child: NeonLightPainter(color: ColorsManager.primaryColor),
           ),
-          Builder(
-            builder: (context) {
-              switch (tvShowType) {
-                case (TvShowType.topRatedTvShows):
-                  return SeeAllTopRatedComponent(
+          BlocBuilder<SeeAllTvShowsBloc, SeeAllTvShowsState>(
+            builder: (context, state) {
+              switch (state.seeAllState) {
+                case BlocState.loading:
+                  return Center(
+                    child: Lottie.asset(AssetsManager.neonLoading),
+                  );
+                case BlocState.success:
+                  return SeeAllTvShowsComponent(
                     scrollController: scrollController,
                   );
-                case (TvShowType.airingThisWeek):
-                  return SeeAllAiringThisWeekComponent(
-                    scrollController: scrollController,
-                  );
-                case (TvShowType.popularTvShows):
-                  return SeeAllPopularTvShowsComponent(
-                    scrollController: scrollController,
-                  );
-                case (TvShowType.recommendedTvShows):
-                  return SeeAllRecommendedTvShowsComponent(
-                    scrollController: scrollController,
-                  );
-                case (TvShowType.similarTvShows):
-                  return SeeAllSimilarTvShowsComponent(
-                    scrollController: scrollController,
+                case BlocState.failure:
+                  return const Center(
+                    child: Text('Load Data Failed'),
                   );
               }
             },

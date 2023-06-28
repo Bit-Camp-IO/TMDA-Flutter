@@ -7,10 +7,10 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
 import 'package:tmda/core/widgets/simple_alert_dialog.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_overview_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_seasons_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details_poster.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/tv_details_poster.dart';
 
 class TvShowDetailsBodyComponent extends StatefulWidget {
   const TvShowDetailsBodyComponent({
@@ -33,7 +33,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
   double containerHeight = 420;
 
   void _scrollListener() {
-    final tvDetailsBloc = context.read<TvDetailsBloc>();
+    final tvDetailsBloc = context.read<TvShowDetailsBloc>();
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
       if (tvDetailsBloc.state.animatedHeight != 0) {
@@ -52,7 +52,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
   void initState() {
     scrollController = ScrollController()..addListener(_scrollListener);
     context
-        .read<TvDetailsBloc>()
+        .read<TvShowDetailsBloc>()
         .add(GetSeasonEpisodesEvent(tvShowId: widget.tvShowId));
     tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     super.initState();
@@ -60,7 +60,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvDetailsBloc, TvDetailsState>(
+    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       buildWhen: (previous, current) =>
           previous.tvShowDetailsState != current.tvShowDetailsState,
       builder: (context, state) {
@@ -70,8 +70,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
             controller: scrollController,
             padding: EdgeInsets.zero,
             children: [
-              BlocBuilder<TvDetailsBloc, TvDetailsState>(
-                buildWhen: (previous, current) => previous.animatedHeight != current.animatedHeight,
+              BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+                buildWhen: (previous, current) =>
+                    previous.animatedHeight != current.animatedHeight,
                 builder: (context, state) {
                   return AnimatedContainer(
                     duration: const Duration(seconds: 1),
@@ -96,7 +97,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                             onTap: () {
                               if (state
                                   .tvShowDetails.tvShowVideo.key.isNotEmpty) {
-                                BlocProvider.of<TvDetailsBloc>(
+                                BlocProvider.of<TvShowDetailsBloc>(
                                   context,
                                   listen: false,
                                 ).add(
@@ -131,9 +132,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                     controller: tabController,
                     labelStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: (value) {
-                      BlocProvider.of<TvDetailsBloc>(context)
+                      BlocProvider.of<TvShowDetailsBloc>(context)
                           .add(ChangeBodyTabsIndexEvent(tabController.index));
                       tabController.animateTo(tabController.index);
+                      print('>>>>>>>> tab index : ${state.bodyTabIndex}');
                     },
                     tabs: const [
                       Tab(
@@ -146,18 +148,22 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                   ),
                 ],
               ),
-              IndexedStack(
-                index: state.bodyTabIndex,
-                children: [
-                  Visibility(
-                    visible: state.bodyTabIndex == 0,
-                    child: TvShowOverview(tvShowId: widget.tvShowId),
-                  ),
-                  Visibility(
-                    visible: state.bodyTabIndex == 1,
-                    child: TvShowSeasons(tvShowId: widget.tvShowId),
-                  ),
-                ],
+              BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+                builder: (context, state) {
+                  return IndexedStack(
+                    index: state.bodyTabIndex,
+                    children: [
+                      Visibility(
+                        visible: state.bodyTabIndex == 0,
+                        child: TvShowOverview(tvShowId: widget.tvShowId),
+                      ),
+                      Visibility(
+                        visible: state.bodyTabIndex == 1,
+                        child: TvShowSeasons(tvShowId: widget.tvShowId),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),

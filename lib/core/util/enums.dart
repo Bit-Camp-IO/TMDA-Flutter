@@ -2,6 +2,7 @@ enum MovieType {
   newMovies('New Movies'),
   popularMovies('Popular Movies'),
   topRatedMovies('Top Rated Movies'),
+  recommendedMovies('Recommended Movies'),
   moreMoviesLikeThis('Similar Movies');
 
   const MovieType(this.name);
@@ -10,9 +11,9 @@ enum MovieType {
 
 enum TvShowType {
   topRatedTvShows('Top Rated Shows'),
-  airingThisWeek('Airing This week'),
+  airingToday('Airing Today'),
   popularTvShows('Popular Shows'),
-  recommendedTvShows('Recommended Tv Shows'),
+  recommendedTvShows('Recommended Shows'),
   similarTvShows('Similar Shows');
 
   const TvShowType(this.name);

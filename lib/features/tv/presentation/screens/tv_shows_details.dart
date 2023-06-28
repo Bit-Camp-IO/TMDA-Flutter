@@ -7,23 +7,33 @@ import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_body_component.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class TvDetailsScreen extends StatefulWidget {
+class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
   const TvDetailsScreen(
       {super.key, @PathParam('tvShowId') required this.tvShowId});
   final int tvShowId;
 
   @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<TvShowDetailsBloc>(),
+      child: this,
+    );
+  }
+
+  @override
   State<TvDetailsScreen> createState() => _TvDetailsScreenState();
+
 }
 
 class _TvDetailsScreenState extends State<TvDetailsScreen> {
   @override
   void initState() {
-    context.read<TvDetailsBloc>().add(GetTvShowDetailsEvent(widget.tvShowId));
+    context.read<TvShowDetailsBloc>().add(GetTvShowDetailsEvent(widget.tvShowId));
     
     super.initState();
   }
@@ -48,7 +58,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
               left: 10,
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            BlocBuilder<TvDetailsBloc, TvDetailsState>(
+            BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
               builder: (context, state) {
                 switch (state.tvShowDetailsState) {
                   case BlocState.loading:
@@ -61,7 +71,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
                     return NoConnection(
                       onTap: () {
                         context
-                            .read<TvDetailsBloc>()
+                            .read<TvShowDetailsBloc>()
                             .add(GetTvShowDetailsEvent(widget.tvShowId));
                       },
                     );

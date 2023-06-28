@@ -1,23 +1,32 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/popular_tv_shows_component.dart';
+import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_today_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_this_week_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_today_component.dart.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/top_rated_tv_shows_component.dart';
+import 'package:tmda/injection_container.dart';
+
+import '../bloc/tv_show/tv_show_bloc.dart';
 
 @RoutePage()
-class TvShowScreen extends StatefulWidget {
+class TvShowScreen extends StatelessWidget with AutoRouteWrapper{
   const TvShowScreen({super.key});
-
   @override
-  State<TvShowScreen> createState() => _TvShowScreenState();
-}
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<TvShowsBloc>()
+        ..add(GetTvShowsAiringTodayEvent())
+        ..add(GetTvShowsAiringThisWeekEvent())
+        ..add(GetPopularTvShowsEvent())
+        ..add(GetTopRatedTvShowsEvent()),
+      child: this,
+    );
+  }
 
-class _TvShowScreenState extends State<TvShowScreen> {
-  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +51,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
             ListView(
               padding: EdgeInsets.zero,
               children: [
-                const TvShowsAiringTodayComponent(),
                 const TvShowsAiringThisWeekComponent(),
+                const TvShowsAiringTodayComponent(),
                 const PopularTvShowsComponent(),
                 const TopRatedTvShowsComponent(),
                 SizedBox(height: 60.h),
@@ -53,11 +62,5 @@ class _TvShowScreenState extends State<TvShowScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
   }
 }

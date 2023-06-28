@@ -5,8 +5,8 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_details/tv_details_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/recommended_tv_shows_componenet.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/recommended_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_cast_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_reviews_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_shows_component.dart';
@@ -16,7 +16,7 @@ class TvShowOverview extends StatelessWidget {
   final int tvShowId;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvDetailsBloc, TvDetailsState>(
+    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
         return Column(
           children: [
@@ -31,7 +31,7 @@ class TvShowOverview extends StatelessWidget {
                       children: [
                         const Icon(
                           SolarSystemIcons.star,
-                          color: ColorsManager.starsColor,
+                          color: ColorsManager.ratingIconColor,
                           size: 30,
                         ),
                         SizedBox(height: 4.h),
@@ -59,14 +59,14 @@ class TvShowOverview extends StatelessWidget {
                   Positioned(
                     right: 45,
                     bottom: 35,
-                    child: BlocBuilder<TvDetailsBloc, TvDetailsState>(
+                    child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
                       buildWhen: (previous, current) =>
                           previous.tvShowDetails.status.isInWatchList !=
                           current.tvShowDetails.status.isInWatchList,
                       builder: (context, state) {
                         return InkWell(
                           onTap: () {
-                            context.read<TvDetailsBloc>().add(
+                            context.read<TvShowDetailsBloc>().add(
                                   AddOrRemoveTvFromWatchListEvent(
                                     isInWatchList: !state
                                         .tvShowDetails.status.isInWatchList,

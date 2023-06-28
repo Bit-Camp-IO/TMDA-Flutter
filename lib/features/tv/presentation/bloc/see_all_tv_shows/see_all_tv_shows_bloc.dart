@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_similar_movies_usecase.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show.dart';
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_popular_tv_shows_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_recommended_tv_shows_usecase.dart';
@@ -269,7 +268,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
   }
 
   Future<void> _checkForTvShowsListStatesEvent(event, emit) async {
-    final tvShowsIds = state.seeAllTvShows.map((movie) => movie.id).toList();
+    final tvShowsIds = state.seeAllTvShows.map((tvShow) => tvShow.id).toList();
     final tvShowUpdatedState = await Future.wait(tvShowsIds
         .map((tvShowId) =>
             getTvShowStateUseCase(tvShowId: tvShowId, sessionId: sessionId))

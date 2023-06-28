@@ -18,8 +18,8 @@ class DioApiConsumer extends ApiConsumer {
 
   DioApiConsumer({required this.dioClient}) {
     // Fix for dio handshake error
-    (dioClient.httpClientAdapter as IOHttpClientAdapter)
-        .onHttpClientCreate = (HttpClient dioClient) {
+    (dioClient.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+      final dioClient = HttpClient();
       dioClient.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
       return dioClient;
@@ -45,7 +45,7 @@ class DioApiConsumer extends ApiConsumer {
     try {
       final Response response = await dioClient.get(endPointPath, queryParameters: queryParameters);
       return _handleResponseAsJson(response);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       _handelDioError(error);
     }
   }
@@ -56,7 +56,7 @@ class DioApiConsumer extends ApiConsumer {
     try {
       final Response response = await dioClient.post(endPointPath, queryParameters: queryParameters, data: body);
       return _handleResponseAsJson(response);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       _handelDioError(error);
     }
   }
@@ -67,7 +67,7 @@ class DioApiConsumer extends ApiConsumer {
     try {
       final Response response = await dioClient.put(endPointPath,queryParameters: queryParameters, data: formDataIsEnabled ? FormData.fromMap(body!) : body);
       return _handleResponseAsJson(response);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       _handelDioError(error);
     }
   }
@@ -77,7 +77,7 @@ class DioApiConsumer extends ApiConsumer {
     try{
       final Response response = await dioClient.delete(endPointPath, queryParameters: queryParameters, data: body);
       return _handleResponseAsJson(response);
-    } on DioError catch(error){
+    } on DioException catch(error){
       _handelDioError(error);
     }
   }
@@ -86,16 +86,18 @@ class DioApiConsumer extends ApiConsumer {
     final responseJson = jsonDecode(response.data.toString());
     return responseJson;
   }
-  
-  dynamic _handelDioError(DioError error) {
+
+  dynamic _handelDioError(DioException error) {
     switch (error.type) {
-      case DioErrorType.connectionTimeout:
-      case DioErrorType.connectionError:
-      case DioErrorType.sendTimeout:
-      case DioErrorType.badCertificate:
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.connectionTimeout:
+        throw const NoInternetConnectionException();
+      case DioExceptionType.connectionError:
+        throw const NoInternetConnectionException();
+      case DioExceptionType.sendTimeout:
+        throw const NoInternetConnectionException();
+      case DioExceptionType.receiveTimeout:
         throw const FetchDataException();
-      case DioErrorType.badResponse:
+      case DioExceptionType.badResponse:
         switch (error.response?.statusCode) {
           case ApiStatusCodes.badRequest:
             throw const BadRequestException();
@@ -110,9 +112,11 @@ class DioApiConsumer extends ApiConsumer {
             throw const InternalServerErrorException();
         }
         break;
-      case DioErrorType.cancel:
+      case DioExceptionType.badCertificate:
         break;
-      case DioErrorType.unknown:
+      case DioExceptionType.cancel:
+        break;
+      case DioExceptionType.unknown:
         throw const NoInternetConnectionException();
     }
   }

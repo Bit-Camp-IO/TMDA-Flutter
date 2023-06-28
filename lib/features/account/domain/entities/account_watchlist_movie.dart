@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:tmda/features/account/data/models/account_states_model.dart';
+import 'package:tmda/features/account/domain/entities/account_states.dart';
+import 'package:tmda/features/account/domain/entities/account_watchlist_genres.dart';
 import 'package:tmda/features/movie/domain/entities/movie_account_states.dart';
 import 'package:tmda/features/movie/domain/entities/movies_genre.dart';
 
@@ -10,8 +13,8 @@ class AccountWatchListMovie extends Equatable {
   final String language;
   final dynamic voteAverage;
   final int movieVoteCount;
-  final List<MovieGenres> genres;
-  final MovieAccountStates accountStates;
+  final List<AccountWatchListGenres> genres;
+  final AccountStates accountStates;
 
   const AccountWatchListMovie({
     required this.id,
@@ -46,9 +49,9 @@ class AccountWatchListMovie extends Equatable {
     String? releaseDate,
     String? language,
     dynamic voteAverage,
-    List<MovieGenres>? genres,
+    List<AccountWatchListGenres>? genres,
     int? movieVoteCount,
-    MovieAccountStates? accountStates,
+    AccountStates? accountStates,
   }) {
     return AccountWatchListMovie(
       id: id ?? this.id,

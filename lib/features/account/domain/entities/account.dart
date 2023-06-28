@@ -4,13 +4,13 @@ import 'package:tmda/features/account/domain/entities/account_avatar.dart';
 class Account extends Equatable {
   final String? name;
   final String username;
-  final int accountId;
+  final int id;
   final AccountAvatar accountAvatar;
 
   const Account({
     this.name,
     required this.username,
-    required this.accountId,
+    required this.id,
     required this.accountAvatar,
   });
 
@@ -19,6 +19,6 @@ class Account extends Equatable {
     name,
     username,
     accountAvatar,
-    accountId,
+    id,
   ];
 }

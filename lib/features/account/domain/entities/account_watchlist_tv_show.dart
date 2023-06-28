@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:tmda/features/account/domain/entities/account_states.dart';
+import 'package:tmda/features/account/domain/entities/account_watchlist_genres.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
 
 import 'package:tmda/features/tv/domain/entities/tv_show_genres.dart';
@@ -11,8 +13,8 @@ class AccountWatchListTvShow extends Equatable {
   final String language;
   final dynamic voteAverage;
   final int voteCount;
-  final List<TvShowGenres> genres;
-  final TvShowAccountStates accountStates;
+  final List<AccountWatchListGenres> genres;
+  final AccountStates accountStates;
 
   const AccountWatchListTvShow({
     required this.title,
@@ -36,8 +38,8 @@ class AccountWatchListTvShow extends Equatable {
     String? overview,
     dynamic voteAverage,
     int? voteCount,
-    List<TvShowGenres>? genres,
-    TvShowAccountStates? accountStates,
+    List<AccountWatchListGenres>? genres,
+    AccountStates? accountStates,
   }) {
     return AccountWatchListTvShow(
       title: title ?? this.title,

@@ -5,15 +5,15 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 
-@RoutePage(name: 'MainRoutePage')
-class MainNavigationBar extends StatefulWidget {
-  const MainNavigationBar({super.key});
+@RoutePage(name: 'MainNavigationTabs')
+class NavigationTabs extends StatefulWidget {
+  const NavigationTabs({super.key});
 
   @override
-  State<MainNavigationBar> createState() => _MainNavigationBarState();
+  State<NavigationTabs> createState() => _NavigationTabsState();
 }
 
-class _MainNavigationBarState extends State<MainNavigationBar> {
+class _NavigationTabsState extends State<NavigationTabs> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(

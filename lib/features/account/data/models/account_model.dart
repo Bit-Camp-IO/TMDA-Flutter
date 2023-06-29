@@ -1,3 +1,4 @@
+import 'package:tmda/features/account/data/models/account_avatar_model.dart';
 import 'package:tmda/features/account/domain/entities/account.dart';
 
 class AccountModel extends Account {
@@ -12,8 +13,8 @@ class AccountModel extends Account {
     return AccountModel(
       username: jsonData['username'],
       id: jsonData['id'],
-      accountAvatar: jsonData['tmdb'],
-      name: jsonData['name'],
+      accountAvatar: AccountAvatarModel.fromJson(jsonData['avatar']['tmdb']),
+      name: jsonData['name'] ?? '',
     );
   }
 }

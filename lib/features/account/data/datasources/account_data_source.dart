@@ -13,8 +13,8 @@ abstract class AccountDataSource{
   Future<List<WatchListTvShowModel>> getTvShowsWatchList(String sessionId);
   Future<List<WatchListMovieModel>> getAllMoviesWatchList({required String sessionId, required int pageNumber});
   Future<List<WatchListTvShowModel>> getAllTvShowsWatchList({required String sessionId, required int pageNumber});
-  Future<AccountStatesModel> addOrRemoveTvShowFromAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList});
-  Future<AccountStatesModel> addOrRemoveMovieFromAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList});
+  Future<AccountStatesModel> removeTvShowFromWatchList({required int contentId, required String sessionId});
+  Future<AccountStatesModel> removeMovieFromWatchList({required int contentId, required String sessionId});
   Future<AccountStatesModel> getTvShowWatchListStates({required int contentId,required String sessionId});
   Future<AccountStatesModel> getMovieWatchListStates({required int contentId,required String sessionId});
   Future<void> accountLogOut({required String sessionId});
@@ -54,7 +54,7 @@ class AccountDataSourceImpl extends AccountDataSource{
     });
     return List<WatchListTvShowModel>.from(
       (listOfTvShows['results'] as List).map(
-            (watchlistTvShow) => WatchListMovieModel.fromJson(watchlistTvShow),
+            (watchlistTvShow) => WatchListTvShowModel.fromJson(watchlistTvShow),
       ),
     );
   }
@@ -96,33 +96,33 @@ class AccountDataSourceImpl extends AccountDataSource{
   }
 
   @override
-  Future<AccountStatesModel> addOrRemoveTvShowFromAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList}) async{
+  Future<AccountStatesModel> removeTvShowFromWatchList({required int contentId, required String sessionId}) async{
     final response = await apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
       'session_id': sessionId},
       body: {
         'media_type': 'tv',
         "media_id": contentId,
-        "watchlist": isInWatchList
+        "watchlist": false
       },
     );
     if (response['success'] == true) {
-      return AccountStatesModel(inWatchList: isInWatchList);
+      return const AccountStatesModel(inWatchList: false);
     } else {
       throw ServerException('${response['status_message']}');
     }
   }
   @override
-  Future<AccountStatesModel> addOrRemoveMovieFromAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList}) async{
+  Future<AccountStatesModel> removeMovieFromWatchList({required int contentId, required String sessionId}) async{
     final response = await apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
       'session_id': sessionId},
       body: {
         'media_type': 'movie',
         "media_id": contentId,
-        "watchlist": isInWatchList
+        "watchlist": false
       },
     );
     if (response['success'] == true) {
-      return AccountStatesModel(inWatchList: isInWatchList);
+      return const AccountStatesModel(inWatchList: false);
     } else {
       throw ServerException('${response['status_message']}');
     }

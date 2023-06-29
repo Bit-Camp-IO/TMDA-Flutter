@@ -8,12 +8,11 @@ abstract class AccountSeeAllEvent extends Equatable {
 
 class GetAllMoviesWatchListEvent extends AccountSeeAllEvent{}
 class GetAllTvShowsWatchListEvent extends AccountSeeAllEvent{}
-class AddOrRemoveMovieFromWatchListEvent extends AccountSeeAllEvent{
+class RemoveMovieFromWatchListEvent extends AccountSeeAllEvent{
   final int movieId;
-  final bool isInWatchList;
-  const AddOrRemoveMovieFromWatchListEvent({required this.movieId, required this.isInWatchList});
+  const RemoveMovieFromWatchListEvent({required this.movieId});
   @override
-  List<Object> get props => [movieId, isInWatchList];
+  List<Object> get props => [movieId];
 }
 class CheckForMovieStatesEvent extends AccountSeeAllEvent {
   final int movieId;
@@ -29,12 +28,11 @@ class CheckForTvShowStatesEvent extends AccountSeeAllEvent {
   List<Object> get props => [tvShowId];
 }
 
-class AddOrRemoveTvShowFromWatchListEvent extends AccountSeeAllEvent{
+class RemoveTvShowFromWatchListEvent extends AccountSeeAllEvent{
   final int tvShowId;
-  final bool isInWatchList;
-  const AddOrRemoveTvShowFromWatchListEvent({required this.tvShowId, required this.isInWatchList});
+  const RemoveTvShowFromWatchListEvent({required this.tvShowId});
   @override
-  List<Object> get props => [tvShowId, isInWatchList];
+  List<Object> get props => [tvShowId];
 }
 class CheckForMoviesWatchListStatesEvent extends AccountSeeAllEvent{
   const CheckForMoviesWatchListStatesEvent();

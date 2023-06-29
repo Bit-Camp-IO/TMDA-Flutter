@@ -48,6 +48,7 @@ flutter:
     - assets/images/neon_button.png
     - assets/images/play_button.svg
     - assets/lottie/neon_loading.json
+    - assets/images/neon_avatar.jpg
   fonts:
     - family: Poppins
       fonts:

@@ -12,8 +12,8 @@ abstract class AccountRepository {
   Future<Either<Failure, List<WatchListTvShow>>> getTvShowsWatchList(String sessionId);
   Future<Either<Failure, List<WatchListMovie>>> getAllMoviesWatchList({required String sessionId, required int pageNumber});
   Future<Either<Failure, List<WatchListTvShow>>> getAllTvShowsWatchList({required String sessionId, required int pageNumber});
-  Future<Either<Failure, AccountStates>> addOrRemoveMovieToAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList});
-  Future<Either<Failure, AccountStates>> addOrRemoveTvShowToAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList});
+  Future<Either<Failure, AccountStates>> removeMovieFromWatchList({required int contentId, required String sessionId});
+  Future<Either<Failure, AccountStates>> removeTvShowFromWatchList({required int contentId, required String sessionId});
   Future<Either<Failure, AccountStates>> getMovieWatchListStates({required int tvShowId,required String sessionId});
   Future<Either<Failure, AccountStates>> getTvShowWatchListStates({required int tvShowId,required String sessionId});
   Future<Either<Failure, void>> accountLogOut({required String sessionId});

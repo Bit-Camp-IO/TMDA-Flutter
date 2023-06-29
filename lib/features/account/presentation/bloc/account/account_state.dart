@@ -4,7 +4,7 @@ class AccountState extends Equatable {
   final Account account;
   final List<WatchListMovie> watchListMovies;
   final List<WatchListTvShow> watchListTvShows;
-  final BlocState accountState;
+  final BlocState accountTabState;
   final String accountFailMessage;
   final UserAccountState userAccountState;
   const AccountState({
@@ -16,7 +16,7 @@ class AccountState extends Equatable {
     ),
     this.watchListMovies = const [],
     this.watchListTvShows = const [],
-    this.accountState = BlocState.loading,
+    this.accountTabState = BlocState.loading,
     this.accountFailMessage = '',
     this.userAccountState = UserAccountState.loggedIn,
   });
@@ -33,7 +33,7 @@ class AccountState extends Equatable {
       account: account ?? this.account,
       watchListMovies: watchListMovies ?? this.watchListMovies,
       watchListTvShows: watchListTvShows ?? this.watchListTvShows,
-      accountState: accountState ?? this.accountState,
+      accountTabState: accountState ?? this.accountTabState,
       accountFailMessage: accountFailMessage ?? this.accountFailMessage,
       userAccountState: userAccountState ?? this.userAccountState,
     );
@@ -44,7 +44,7 @@ class AccountState extends Equatable {
         account,
         watchListMovies,
         watchListTvShows,
-        accountState,
+        accountTabState,
         accountFailMessage,
         userAccountState,
       ];

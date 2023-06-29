@@ -16,6 +16,7 @@ class NavigationTabs extends StatefulWidget {
 class _NavigationTabsState extends State<NavigationTabs> {
   @override
   Widget build(BuildContext context) {
+
     return AutoTabsScaffold(
       extendBody: true,
       routes: const [

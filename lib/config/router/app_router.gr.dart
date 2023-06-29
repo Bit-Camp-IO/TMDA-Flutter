@@ -200,8 +200,6 @@ abstract class _$AppRouter extends RootStackRouter {
             child: AccountSeeAllScreen(
           key: args.key,
           seeAllType: args.seeAllType,
-          movieId: args.movieId,
-          tvShowId: args.tvShowId,
         )),
       );
     },
@@ -656,16 +654,12 @@ class AccountSeeAllRoute extends PageRouteInfo<AccountSeeAllRouteArgs> {
   AccountSeeAllRoute({
     Key? key,
     required dynamic seeAllType,
-    int? movieId,
-    int? tvShowId,
     List<PageRouteInfo>? children,
   }) : super(
           AccountSeeAllRoute.name,
           args: AccountSeeAllRouteArgs(
             key: key,
             seeAllType: seeAllType,
-            movieId: movieId,
-            tvShowId: tvShowId,
           ),
           rawPathParams: {':accountSeeAllType': seeAllType},
           initialChildren: children,
@@ -681,20 +675,14 @@ class AccountSeeAllRouteArgs {
   const AccountSeeAllRouteArgs({
     this.key,
     required this.seeAllType,
-    this.movieId,
-    this.tvShowId,
   });
 
   final Key? key;
 
   final dynamic seeAllType;
 
-  final int? movieId;
-
-  final int? tvShowId;
-
   @override
   String toString() {
-    return 'AccountSeeAllRouteArgs{key: $key, seeAllType: $seeAllType, movieId: $movieId, tvShowId: $tvShowId}';
+    return 'AccountSeeAllRouteArgs{key: $key, seeAllType: $seeAllType}';
   }
 }

@@ -5,8 +5,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
-class SeeAllCard extends StatelessWidget {
-  const SeeAllCard({
+class SeeAllWatchListCard extends StatelessWidget {
+  const SeeAllWatchListCard({
     super.key,
     required this.title,
     required this.posterPath,
@@ -16,8 +16,6 @@ class SeeAllCard extends StatelessWidget {
     required this.genres,
     required this.releaseYear,
     required this.language,
-    required this.isInWatchList,
-    required this.onSaved,
   });
 
   final String title;
@@ -28,8 +26,6 @@ class SeeAllCard extends StatelessWidget {
   final List genres;
   final String language;
   final void Function() onTap;
-  final void Function() onSaved;
-  final bool isInWatchList;
 
 
   @override
@@ -65,8 +61,8 @@ class SeeAllCard extends StatelessWidget {
                             ? '${title.substring(0, 15)}..'
                             : title,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       SizedBox(height: 4.h),
                       Row(
@@ -115,19 +111,6 @@ class SeeAllCard extends StatelessWidget {
                     ],
                   )
                 ],
-              ),
-              Positioned(
-                top: 15,
-                right: 15,
-                child: IconButton(
-                  onPressed: onSaved,
-                  icon: Icon(
-                    isInWatchList
-                        ? SolarSystemIcons.save_outlined
-                        : SolarSystemIcons.save,
-                    color: ColorsManager.primaryColor,
-                  ),
-                ),
               ),
             ],
           ),

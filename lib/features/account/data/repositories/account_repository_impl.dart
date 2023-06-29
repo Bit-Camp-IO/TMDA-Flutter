@@ -74,18 +74,18 @@ class AccountRepositoryImpl extends AccountRepository{
     }
   }
   @override
-  Future<Either<Failure, AccountStates>> addOrRemoveMovieToAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList}) async{
+  Future<Either<Failure, AccountStates>> removeMovieFromWatchList({required int contentId, required String sessionId}) async{
     try{
-      final result = await accountDataSource.addOrRemoveMovieFromAccountWatchList(contentId: contentId, sessionId: sessionId, isInWatchList: isInWatchList);
+      final result = await accountDataSource.removeMovieFromWatchList(contentId: contentId, sessionId: sessionId);
       return right(result);
     }on ServerException catch(exception){
       return left(Failure(exception.message!));
     }
   }
   @override
-  Future<Either<Failure, AccountStatesModel>> addOrRemoveTvShowToAccountWatchList({required int contentId, required String sessionId, required bool isInWatchList}) async{
+  Future<Either<Failure, AccountStatesModel>> removeTvShowFromWatchList({required int contentId, required String sessionId}) async{
     try{
-      final result = await accountDataSource.addOrRemoveTvShowFromAccountWatchList(contentId: contentId, sessionId: sessionId, isInWatchList: isInWatchList);
+      final result = await accountDataSource.removeTvShowFromWatchList(contentId: contentId, sessionId: sessionId);
       return right(result);
     }on ServerException catch(exception){
       return left(Failure(exception.message!));

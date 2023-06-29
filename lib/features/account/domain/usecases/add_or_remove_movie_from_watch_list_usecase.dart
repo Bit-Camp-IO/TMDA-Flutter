@@ -5,11 +5,11 @@ import 'package:tmda/features/account/domain/entities/account_states.dart';
 import 'package:tmda/features/account/domain/repositories/account_repository.dart';
 
 @lazySingleton
-class AddOrRemoveMovieFromAccountWatchListUseCase{
+class RemoveMovieFromWatchListUseCase{
   final AccountRepository accountRepository;
-  const AddOrRemoveMovieFromAccountWatchListUseCase(this.accountRepository);
+  const RemoveMovieFromWatchListUseCase(this.accountRepository);
 
-  Future<Either<Failure, AccountStates>> call({required int movieId, required String sessionId, required bool isInWatchList}) async{
-    return await accountRepository.addOrRemoveMovieToAccountWatchList(contentId: movieId, sessionId: sessionId, isInWatchList: isInWatchList);
+  Future<Either<Failure, AccountStates>> call({required int movieId, required String sessionId}) async{
+    return await accountRepository.removeMovieFromWatchList(contentId: movieId, sessionId: sessionId);
   }
 }

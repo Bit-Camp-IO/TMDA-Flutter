@@ -25,12 +25,10 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   final GetAllTvShowsWatchListUseCase getAllTvShowsWatchListUseCase;
   final GetTvShowWatchListStatesUseCase getTvShowWatchListStatesUseCase;
   final GetMovieWatchListStatesUseCase getMovieWatchListStatesUseCase;
-  final AddOrRemoveTvShowFromAccountWatchListUseCase
-      addOrRemoveTvShowFromAccountWatchListUseCase;
-  final AddOrRemoveMovieFromAccountWatchListUseCase
-      addOrRemoveMovieFromAccountWatchListUseCase;
-  int movieWatchlistPage = 0;
-  int tvShowWatchListPAge = 0;
+  final RemoveTvShowFromWatchListUseCase removeTvShowFromWatchListUseCase;
+  final RemoveMovieFromWatchListUseCase removeMovieFromWatchListUseCase;
+  int movieWatchlistPage = 1;
+  int tvShowWatchListPage = 1;
   late String sessionId;
 
   AccountSeeAllBloc(
@@ -38,9 +36,9 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
     this.getAllMoviesWatchListUseCase,
     this.getAllTvShowsWatchListUseCase,
     this.getTvShowWatchListStatesUseCase,
-    this.addOrRemoveTvShowFromAccountWatchListUseCase,
+    this.removeTvShowFromWatchListUseCase,
     this.getMovieWatchListStatesUseCase,
-    this.addOrRemoveMovieFromAccountWatchListUseCase,
+    this.removeMovieFromWatchListUseCase,
   ) : super(const AccountSeeAllState()) {
     on<GetAllMoviesWatchListEvent>(
       _getAllMoviesWatchListEvent,
@@ -50,9 +48,8 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
       _getAllTvShowsWatchListEvent,
       transformer: droppable(),
     );
-    on<AddOrRemoveMovieFromWatchListEvent>(_addOrRemoveMovieFromWatchListEvent);
-    on<AddOrRemoveTvShowFromWatchListEvent>(
-        _addOrRemoveTvShowFromWatchListEvent);
+    on<RemoveMovieFromWatchListEvent>(_removeMovieFromWatchListEvent);
+    on<RemoveTvShowFromWatchListEvent>(_removeTvShowFromWatchListEvent);
     on<CheckForTvShowStatesEvent>(_checkForTvShowStatesEvent);
     on<CheckForMovieStatesEvent>(_checkForMovieStatesEvent);
     on<CheckForMoviesWatchListStatesEvent>(_checkForMoviesWatchListStatesEvent);
@@ -71,22 +68,17 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
           state.copyWith(seeAllState: BlocState.failure),
         ),
         (moviesWatchList) {
-          moviesWatchList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasMoviesWatchListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    moviesWatchList: List.of(state.moviesWatchList)
-                      ..addAll(moviesWatchList),
-                    hasMoviesWatchListReachedMax: false,
-                  ),
-                );
-          movieWatchlistPage++;
+          List<WatchListMovie> newMovies =
+              {...state.moviesWatchList, ...moviesWatchList}.toList();
+          emit(
+            state.copyWith(
+              seeAllState: BlocState.success,
+              moviesWatchList: newMovies,
+            ),
+          );
+          if (moviesWatchList.length == 20) {
+            movieWatchlistPage++;
+          }
         },
       ),
     );
@@ -95,7 +87,7 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _getAllTvShowsWatchListEvent(event, emit) async {
     sessionId = await getAccountSessionIdUseCase();
     await getAllTvShowsWatchListUseCase(
-      pageNumber: tvShowWatchListPAge,
+      pageNumber: tvShowWatchListPage,
       sessionId: sessionId,
     ).then(
       (value) => value.fold(
@@ -105,31 +97,50 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
           ),
         ),
         (tvShowsWatchList) {
-          tvShowsWatchList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasTvShowsWatchListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    tvShowsWatchList: List.of(state.tvShowsWatchList)
-                      ..addAll(tvShowsWatchList),
-                    hasTvShowsWatchListReachedMax: false,
-                  ),
-                );
-          tvShowWatchListPAge++;
+          List<WatchListTvShow> newTvShows =
+              {...state.tvShowsWatchList, ...tvShowsWatchList}.toList();
+          emit(
+            state.copyWith(
+              seeAllState: BlocState.success,
+              tvShowsWatchList: newTvShows,
+            ),
+          );
+          if (tvShowsWatchList.length == 20) {
+            tvShowWatchListPage++;
+          }
         },
       ),
     );
   }
 
-  Future<void> _addOrRemoveMovieFromWatchListEvent(event, emit) async {
-    final result = await addOrRemoveMovieFromAccountWatchListUseCase(
-      isInWatchList: event.isInWatchList,
+  Future<void> _removeMovieFromWatchListEvent(event, emit) async {
+    final result = await removeMovieFromWatchListUseCase(
       movieId: event.movieId,
+      sessionId: sessionId,
+    );
+    result.fold(
+        (watchListFailure) => emit(
+              state.copyWith(
+                addOrRemoveFromWatchListFailMessage: watchListFailure.message,
+              ),
+            ), (statesUpdated) {
+      List<WatchListMovie> updatedMovies = state.moviesWatchList
+          .where(
+            (movie) =>
+                movie.id != statesUpdated.contentId ||
+                movie.accountStates.inWatchList == statesUpdated.inWatchList,
+          ).toList();
+      return emit(
+        state.copyWith(
+          moviesWatchList: updatedMovies,
+        ),
+      );
+    });
+  }
+
+  Future<void> _removeTvShowFromWatchListEvent(event, emit) async {
+    final result = await removeTvShowFromWatchListUseCase(
+      tvShowId: event.tvShowId,
       sessionId: sessionId,
     );
     result.fold(
@@ -138,43 +149,20 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
           addOrRemoveFromWatchListFailMessage: watchListFailure.message,
         ),
       ),
-      (statesUpdated) => emit(
-        state.copyWith(
-          moviesWatchList: List.from(
-            state.moviesWatchList.map(
-              (movie) => movie.id == event.movieId
-                  ? movie.copyWith(accountStates: statesUpdated)
-                  : movie,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+      (statesUpdated) {
+        List<WatchListTvShow> updatedTvShowList = state.tvShowsWatchList
+            .where((tvShow) =>
+                tvShow.id != statesUpdated.contentId ||
+                tvShow.accountStates.inWatchList == statesUpdated.inWatchList)
+            .toList();
 
-  Future<void> _addOrRemoveTvShowFromWatchListEvent(event, emit) async {
-    final result = await addOrRemoveTvShowFromAccountWatchListUseCase(
-      isInWatchList: event.isInWatchList,
-      tvShowId: event.tvShowId,
-      sessionId: sessionId,
+        emit(
+          state.copyWith(
+            tvShowsWatchList: updatedTvShowList,
+          ),
+        );
+      },
     );
-    result.fold(
-        (watchListFailure) => emit(
-              state.copyWith(
-                addOrRemoveFromWatchListFailMessage: watchListFailure.message,
-              ),
-            ),
-        (statesUpdated) => emit(
-              state.copyWith(
-                tvShowsWatchList: List.from(
-                  state.moviesWatchList.map(
-                    (tvShow) => tvShow.id == event.movieId
-                        ? tvShow.copyWith(accountStates: statesUpdated)
-                        : tvShow,
-                  ),
-                ),
-              ),
-            ));
   }
 
   Future<void> _checkForTvShowStatesEvent(event, emit) async {
@@ -188,41 +176,47 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
           updateStatesFailMessage: checkFailure.message,
         ),
       ),
-      (statesUpdated) => emit(
-        state.copyWith(
-          tvShowsWatchList: List.from(
-            state.tvShowsWatchList.map(
-              (tvShow) => tvShow.id == event.movieId
-                  ? tvShow.copyWith(accountStates: statesUpdated)
-                  : tvShow,
-            ),
+      (statesUpdated) {
+        List<WatchListTvShow> updatedTvShowList = state.tvShowsWatchList
+            .where((tvShow) =>
+                tvShow.id != statesUpdated.contentId ||
+                tvShow.accountStates.inWatchList == statesUpdated.inWatchList)
+            .toList();
+        return emit(
+          state.copyWith(
+            tvShowsWatchList: updatedTvShowList,
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   Future<void> _checkForMovieStatesEvent(event, emit) async {
-    final result = await getMovieWatchListStatesUseCase(
+    await getMovieWatchListStatesUseCase(
       movieId: event.movieId,
       sessionId: sessionId,
-    );
-    result.fold(
-      (checkFailure) => emit(
-        state.copyWith(
-          updateStatesFailMessage: checkFailure.message,
-        ),
-      ),
-      (statesUpdated) => emit(
-        state.copyWith(
-          tvShowsWatchList: List.from(
-            state.moviesWatchList.map(
-              (movie) => movie.id == event.movieId
-                  ? movie.copyWith(accountStates: statesUpdated)
-                  : movie,
-            ),
+    ).then(
+      (value) => value.fold(
+        (checkFailure) => emit(
+          state.copyWith(
+            updateStatesFailMessage: checkFailure.message,
           ),
         ),
+        (statesUpdated) {
+          List<WatchListMovie> updatedMovies = state.moviesWatchList
+              .where(
+                (movie) =>
+                    movie.id != statesUpdated.contentId ||
+                    movie.accountStates.inWatchList ==
+                        statesUpdated.inWatchList,
+              )
+              .toList();
+          return emit(
+            state.copyWith(
+              moviesWatchList: updatedMovies,
+            ),
+          );
+        },
       ),
     );
   }
@@ -242,15 +236,17 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
           ),
         ),
         (movieStatesUpdated) {
-          emit(
+          List<WatchListMovie> updatedMovies = state.moviesWatchList
+              .where(
+                (movie) =>
+                    movie.id != movieStatesUpdated.contentId ||
+                    movie.accountStates.inWatchList ==
+                        movieStatesUpdated.inWatchList,
+              )
+              .toList();
+          return emit(
             state.copyWith(
-              moviesWatchList: List.from(
-                state.moviesWatchList.map(
-                  (movie) => movie.id == movieStatesUpdated.movieId
-                      ? movie.copyWith(accountStates: movieStatesUpdated)
-                      : movie,
-                ),
-              ),
+              moviesWatchList: updatedMovies,
             ),
           );
         },
@@ -259,14 +255,16 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   }
 
   Future<void> _checkForTvShowsWatchListStatesEvent(event, emit) async {
-    final tvShowsIds = state.moviesWatchList.map((movie) => movie.id).toList();
+    final tvShowsIds = state.tvShowsWatchList.map((tvShow) => tvShow.id).toList();
     final tvShowUpdatedState = await Future.wait(tvShowsIds
         .map(
           (tvShowId) => getTvShowWatchListStatesUseCase(
             tvShowId: tvShowId,
             sessionId: sessionId,
           ),
-        ).toList().cast<Future<dynamic>>());
+        )
+        .toList()
+        .cast<Future<dynamic>>());
     for (Either either in tvShowUpdatedState) {
       either.fold(
         (checkFailure) => emit(
@@ -274,16 +272,15 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
             updateStatesFailMessage: checkFailure.message,
           ),
         ),
-        (tvShowStatesUpdated) {
-          emit(
+        (tvShowStates) {
+          List<WatchListTvShow> updatedTvShowList = state.tvShowsWatchList
+              .where((tvShow) =>
+                  tvShow.id != tvShowStates.contentId ||
+                  tvShow.accountStates.inWatchList ==
+                      tvShowStates.inWatchList).toList();
+          return emit(
             state.copyWith(
-              tvShowsWatchList: List.from(
-                state.tvShowsWatchList.map(
-                  (tvShow) => tvShow.id == tvShowStatesUpdated.movieId
-                      ? tvShow.copyWith(accountStates: tvShowStatesUpdated)
-                      : tvShow,
-                ),
-              ),
+              tvShowsWatchList: updatedTvShowList,
             ),
           );
         },

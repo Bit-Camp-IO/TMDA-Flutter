@@ -16,6 +16,8 @@ class PosterCard extends StatelessWidget {
     required this.onTap,
     required this.genres,
     required this.language,
+    this.width = 160,
+    this.height = 250,
   });
   final String imagePath;
   final String title;
@@ -24,6 +26,10 @@ class PosterCard extends StatelessWidget {
   final dynamic rating;
   final String language;
   final void Function() onTap;
+  final double width;
+  final double height;
+
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -32,8 +38,8 @@ class PosterCard extends StatelessWidget {
         children: [
           TiltedImageWithShadow(
             imagePath: imagePath,
-            width: 160.w,
-            height: 250.h,
+            width: width.w,
+            height: height.h,
           ),
           Positioned(
             left: 1,
@@ -43,7 +49,7 @@ class PosterCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  title.length > 20 ? '${title.substring(0, 20)}..' : title,
+                  title.length > 15 ? '${title.substring(0, 15)}..' : title,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                 ),
@@ -54,13 +60,10 @@ class PosterCard extends StatelessWidget {
                     Text(
                       releaseDate.isEmpty
                           ? 'Unknown '
-                          : '${releaseDate.substring(0, 4)} ‧ ',
+                          : '${releaseDate.substring(0, 4)}‧',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                     ),
-                    Text(
-                      genres.length < 2
-                          ? '${genres[0].name} ‧ '
-                          : '${genres[0].name}/${genres[1].name} ‧ ',
+                    Text(_buildGenresText(genres),
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                     ),
                     Text(language.toUpperCase(),
@@ -96,5 +99,16 @@ class PosterCard extends StatelessWidget {
         ],
       ),
     );
+  }
+  String _buildGenresText(List genres){
+    if(genres.length < 2){
+      return '${genres[0].name}‧';
+    }else{
+      if(genres[0].name.length > 5 && genres[0].name.length > 5){
+        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)}‧';
+      }else{
+        return '${genres[0].name}/${genres[1].name}‧';
+      }
+    }
   }
 }

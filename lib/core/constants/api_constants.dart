@@ -7,6 +7,7 @@ final class ApiConstants {
   static const String baseImageUrl = 'https://image.tmdb.org/t/p/w500';
   static const String baseYoutubeUrl = 'https://m.youtube.com/watch?v=';
   static const String baseRegisterUrl = 'https://www.themoviedb.org/signup';
+  static const String baseUpdateProfileUrl = 'https://www.themoviedb.org/settings/profile';
   static const String baseForgetPasswordUrl =
       'https://www.themoviedb.org/reset-password';
   static const String headerContentTypeValue = 'application/json';
@@ -46,7 +47,7 @@ final class ApiConstants {
   static const String episodeVideoPath = '/videos';
 
   //! Account Endpoints
-  static const accountEndPoint = '/account/';
+  static const accountEndPoint = '/account/$accountId';
   static const accountMoviesWatchListPath = '/watchlist/movies';
   static const accountTvWatchListPath = '/watchlist/tv';
   static const addOrRemoveFromWatchListEndPoint =

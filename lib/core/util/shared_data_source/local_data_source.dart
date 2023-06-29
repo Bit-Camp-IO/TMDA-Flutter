@@ -6,7 +6,9 @@ import 'package:tmda/core/error/exception.dart';
 
 abstract class LocalDataSource {
   Future<void> storeSessionId(String sessionId);
+
   Future<String> getSessionId();
+
   Future<void> deleteSessionId();
 }
 
@@ -24,7 +26,11 @@ class LocalDataSourceImpl extends LocalDataSource {
       final encryptedBox = await Hive.openBox('vaultBox',
           encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
       final sessionKey = encryptedBox.get('session_id');
-      return sessionKey;
+      if (sessionKey != null) {
+        return sessionKey;
+      } else {
+        throw const CacheException();
+      }
     } else {
       throw const CacheException();
     }

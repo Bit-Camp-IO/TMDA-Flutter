@@ -27,7 +27,7 @@ import 'package:tmda/features/account/data/repositories/account_repository_impl.
 import 'package:tmda/features/account/domain/repositories/account_repository.dart'
     as _i26;
 import 'package:tmda/features/account/domain/usecases/account_logout_usecase.dart'
-    as _i77;
+    as _i76;
 import 'package:tmda/features/account/domain/usecases/add_or_remove_movie_from_watch_list_usecase.dart'
     as _i28;
 import 'package:tmda/features/account/domain/usecases/add_or_remove_tv_show_from_watch_list_usecase.dart'
@@ -49,9 +49,9 @@ import 'package:tmda/features/account/domain/usecases/get_tv_show_watchlist_stat
 import 'package:tmda/features/account/domain/usecases/get_tv_shows_watchlist_usecase.dart'
     as _i67;
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart'
-    as _i76;
+    as _i79;
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart'
-    as _i78;
+    as _i77;
 import 'package:tmda/features/auth/data/datasources/auth_data_source.dart'
     as _i11;
 import 'package:tmda/features/auth/data/repositories/auth_repository_impl.dart'
@@ -150,7 +150,7 @@ import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_th
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_today.dart'
     as _i66;
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart'
-    as _i79;
+    as _i78;
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart'
     as _i75;
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart'
@@ -216,8 +216,8 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i25.AccountDataSource>(),
           gh<_i8.LocalDataSource>(),
         ));
-    gh.lazySingleton<_i28.AddOrRemoveMovieFromAccountWatchListUseCase>(() =>
-        _i28.AddOrRemoveMovieFromAccountWatchListUseCase(
+    gh.lazySingleton<_i28.RemoveMovieFromWatchListUseCase>(() =>
+        _i28.RemoveMovieFromWatchListUseCase(
             gh<_i26.AccountRepository>()));
     gh.lazySingleton<_i29.AddOrRemoveMovieFromWatchListUseCase>(() =>
         _i29.AddOrRemoveMovieFromWatchListUseCase(
@@ -225,8 +225,8 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i30.AddOrRemoveTvFromWatchListUseCase>(() =>
         _i30.AddOrRemoveTvFromWatchListUseCase(
             tvShowsRepository: gh<_i20.TvShowsRepository>()));
-    gh.lazySingleton<_i31.AddOrRemoveTvShowFromAccountWatchListUseCase>(() =>
-        _i31.AddOrRemoveTvShowFromAccountWatchListUseCase(
+    gh.lazySingleton<_i31.RemoveTvShowFromWatchListUseCase>(() =>
+        _i31.RemoveTvShowFromWatchListUseCase(
             gh<_i26.AccountRepository>()));
     gh.lazySingleton<_i32.AuthCubit>(() => _i32.AuthCubit(
           checkUserLoggedInUseCase: gh<_i14.CheckUserLoginSessionUseCase>(),
@@ -377,23 +377,18 @@ extension GetItInjectableX on _i1.GetIt {
           getPopularTvShowsUseCase: gh<_i55.GetPopularTvShowsUseCase>(),
           getTopRatedTvShowsUseCase: gh<_i61.GetTopRatedTvShowsUseCase>(),
         ));
-    gh.factory<_i76.AccountBloc>(() => _i76.AccountBloc(
-          gh<_i33.GetAccountDetailsUseCase>(),
-          gh<_i51.GetMoviesWatchListUseCase>(),
-          gh<_i67.GetTvShowsWatchListUseCase>(),
-          gh<_i77.AccountLogoutUseCase>(),
-          gh<_i34.GetAccountSessionIdUseCase>(),
-        ));
-    gh.factory<_i78.AccountSeeAllBloc>(() => _i78.AccountSeeAllBloc(
+    gh.lazySingleton<_i76.AccountLogoutUseCase>(
+        () => _i76.AccountLogoutUseCase(gh<_i26.AccountRepository>()));
+    gh.factory<_i77.AccountSeeAllBloc>(() => _i77.AccountSeeAllBloc(
           gh<_i34.GetAccountSessionIdUseCase>(),
           gh<_i36.GetAllMoviesWatchListUseCase>(),
           gh<_i46.GetAllTvShowsWatchListUseCase>(),
           gh<_i64.GetTvShowWatchListStatesUseCase>(),
-          gh<_i31.AddOrRemoveTvShowFromAccountWatchListUseCase>(),
+          gh<_i31.RemoveTvShowFromWatchListUseCase>(),
           gh<_i50.GetMovieWatchListStatesUseCase>(),
-          gh<_i28.AddOrRemoveMovieFromAccountWatchListUseCase>(),
+          gh<_i28.RemoveMovieFromWatchListUseCase>(),
         ));
-    gh.factory<_i79.SeeAllTvShowsBloc>(() => _i79.SeeAllTvShowsBloc(
+    gh.factory<_i78.SeeAllTvShowsBloc>(() => _i78.SeeAllTvShowsBloc(
           gh<_i73.TvGetSessionIdUseCase>(),
           gh<_i35.GetAllAiringTodayTvShowsUseCase>(),
           gh<_i39.GetAllPopularTvShowsUseCase>(),
@@ -402,6 +397,13 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i43.GetAllSimilarTvShowsUseCase>(),
           gh<_i63.GetTvShowStateUseCase>(),
           gh<_i30.AddOrRemoveTvFromWatchListUseCase>(),
+        ));
+    gh.factory<_i79.AccountBloc>(() => _i79.AccountBloc(
+          gh<_i33.GetAccountDetailsUseCase>(),
+          gh<_i51.GetMoviesWatchListUseCase>(),
+          gh<_i67.GetTvShowsWatchListUseCase>(),
+          gh<_i76.AccountLogoutUseCase>(),
+          gh<_i34.GetAccountSessionIdUseCase>(),
         ));
     return this;
   }

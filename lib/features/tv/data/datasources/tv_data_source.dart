@@ -182,6 +182,7 @@ class TvDataSourceImpl extends TvDataSource {
       queryParameters: {
         'session_id': sessionKey,
         'append_to_response': ApiConstants.endPointsAppendedToResponse,
+        'page': 1,
       },
     );
     return TvShowDetailsModel.fromJson(response);
@@ -292,7 +293,7 @@ class TvDataSourceImpl extends TvDataSource {
   @override
   Future<List<TvShowModel>> getAllRecommendedTvShows({required int tvShowId, required int pageNumber, required String sessionId}) async{
     final listOfTvShows = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.recommendationsPath}', queryParameters: {'page': pageNumber},);
-    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsIds = listOfTvShows['results'].map((tvShow) => tvShow['id']).toList();
     final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
       'session_id' : sessionId,
     })).toList().cast<Future<dynamic>>());
@@ -306,7 +307,7 @@ class TvDataSourceImpl extends TvDataSource {
   @override
   Future<List<TvShowModel>> getAllSimilarTvShows({required int tvShowId, required int pageNumber, required String sessionId}) async{
     final listOfTvShows = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.similarPath}', queryParameters: {'page': pageNumber},);
-    final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
+    final tvShowsIds = listOfTvShows['results'].map((tvShow) => tvShow['id']).toList();
     final tvShowsStates = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
       'session_id' : sessionId,
     })).toList().cast<Future<dynamic>>());

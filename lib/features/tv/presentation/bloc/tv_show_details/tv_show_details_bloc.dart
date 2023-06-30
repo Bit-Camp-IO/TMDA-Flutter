@@ -9,13 +9,12 @@ import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_network.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_production_country.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_video.dart';
+import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_tv_show_states_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/add_or_remove_tv_from_watchlist_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_episode_video_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_recommended_tv_shows_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_season_episodes_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/play_tv_show_video_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/tv_get_session_key_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_similar_tv_shows_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_tv_show_details_usecase.dart';
 
 part 'tv_show_details_event.dart';
@@ -25,32 +24,29 @@ part 'tv_show_details_state.dart';
 @injectable
 class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   final GetTvShowDetailsUseCase getTvShowDetailsUseCase;
-  final GetSimilarTvShowsUseCase getSimilarTvShowsUseCase;
-  final GetRecommendedTvShowsUseCase getRecommendedTvShowsUseCase;
-  final TvGetSessionIdUseCase getSessionKeyUseCase;
+  final TvGetSessionIdUseCase getSessionIdUseCase;
   final GetSeasonsEpisodesUseCase getSeasonsEpisodesUseCase;
   final AddOrRemoveTvFromWatchListUseCase addOrRemoveTvFromWatchListUseCase;
   final PlayTvShowVideoUseCase playTvShowVideoUseCase;
   final GetEpisodeVideoUseCase getEpisodeVideoUseCase;
-  late String sessionKey;
+  final GetTvShowStateUseCase getTvShowStateUseCase;
+  late String sessionId;
   int similarTvShowsPageNumber = 1;
   int recommendedTvShowsPageNumber = 1;
 
   TvShowDetailsBloc({
     required this.getTvShowDetailsUseCase,
-    required this.getSimilarTvShowsUseCase,
-    required this.getRecommendedTvShowsUseCase,
     required this.getSeasonsEpisodesUseCase,
-    required this.getSessionKeyUseCase,
+    required this.getSessionIdUseCase,
     required this.addOrRemoveTvFromWatchListUseCase,
     required this.playTvShowVideoUseCase,
     required this.getEpisodeVideoUseCase,
+    required this.getTvShowStateUseCase,
   }) : super(const TvShowDetailsState()) {
     on<GetTvShowDetailsEvent>(_getTvShowDetailsEvent);
+    on<GetTvShowStatesEvent>(_getTvShowStatesEvent);
     on<GetSeasonEpisodesEvent>(_getSeasonEpisodesEvent);
     on<AddOrRemoveTvFromWatchListEvent>(_addOrRemoveTvFromWatchListEvent);
-    on<GetMoreSimilarTvShowsEvent>(_getSimilarTvShowsEvent);
-    on<GetMoreRecommendedTvShowsEvent>(_getRecommendedTvShowsEvent);
     on<PlayTvShowVideoEvent>(_playTvShowVideoEvent);
     on<ChangeBodyTabsIndexEvent>(_changeBodyTabsIndexEvent);
     on<ChangeSeasonsTabsIndexEvent>(_changeSeasonsTabsIndexEvent);
@@ -58,8 +54,8 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   }
 
   Future<void> _getTvShowDetailsEvent(event, emit) async {
-    sessionKey = await getSessionKeyUseCase();
-    await getTvShowDetailsUseCase(event.tvShowId, sessionKey).then(
+    sessionId = await getSessionIdUseCase();
+    await getTvShowDetailsUseCase(event.tvShowId, sessionId).then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
           state.copyWith(
@@ -78,50 +74,27 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
       ),
     );
   }
-
-  Future<void> _getSimilarTvShowsEvent(event, emit) async {
-    final result = await getSimilarTvShowsUseCase(
-      tvShowId: event.tvShowId,
-      pageNumber: similarTvShowsPageNumber,
-    );
-    result.fold(
-      (loadSimilarTvShowsFail) => emit(
-        state.copyWith(
-          getSimilarTvShowsFailMessage: loadSimilarTvShowsFail.message,
-        ),
-      ),
-      (similarTvShows) => emit(
-        state.copyWith(
-          tvShowDetails: state.tvShowDetails.copyWith(
-            similarTvShows: similarTvShows,
+  Future<void> _getTvShowStatesEvent(event, emit) async {
+    sessionId = await getSessionIdUseCase();
+    await getTvShowStateUseCase(tvShowId: event.tvShowId, sessionId: sessionId).then(
+          (value) => value.fold(
+            (tvShowDetailsLoadFail) => emit(
+          state.copyWith(
+            tvShowDetailsState: BlocState.failure,
+            tvShowDetailsFailMessage: tvShowDetailsLoadFail.message,
           ),
         ),
+            (updatedTvShowStates) {
+          emit(
+            state.copyWith(
+              tvShowDetailsState: BlocState.success,
+              tvShowDetails: state.tvShowDetails.copyWith(status: updatedTvShowStates),
+            ),
+          );
+        },
       ),
     );
   }
-
-  Future<void> _getRecommendedTvShowsEvent(event, emit) async {
-    final result = await getRecommendedTvShowsUseCase(
-      tvShowId: event.tvShowId,
-      pageNumber: similarTvShowsPageNumber,
-    );
-    result.fold(
-      (loadRecommendedTvShowsThisFail) => emit(
-        state.copyWith(
-          getRecommendedTvShowsFailMessage:
-              loadRecommendedTvShowsThisFail.message,
-        ),
-      ),
-      (recommendedTvShowsList) => emit(
-        state.copyWith(
-          tvShowDetails: state.tvShowDetails.copyWith(
-            recommendedTvShows: recommendedTvShowsList,
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> _getSeasonEpisodesEvent(event, emit) async {
     final seasonsNumbers =
         state.tvShowDetails.seasons.map((season) => season.number).toList();
@@ -153,7 +126,7 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     await addOrRemoveTvFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       tvShowId: event.tvShowId,
-      sessionId: sessionKey,
+      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (l) => emit(

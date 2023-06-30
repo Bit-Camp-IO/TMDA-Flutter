@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/see_all_watchlist_card.dart';
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
@@ -20,9 +20,30 @@ class SeeAllTvShowsWatchListComponent extends StatefulWidget {
 }
 
 class _SeeAllTvShowsWatchListComponentState
-    extends State<SeeAllTvShowsWatchListComponent>
-    with AutoRouteAwareStateMixin {
+    extends State<SeeAllTvShowsWatchListComponent> with AutoRouteAware {
   late int tappedTvShowId;
+  AutoRouteObserver? _observer;
+  TabsRouter? _tabsRouter;
+
+  @override
+  void didChangeDependencies() {
+    _observer =
+        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    if (_observer != null) {
+      _observer!.subscribe(this, context.routeData);
+    }
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
+  }
+
+  void _tabListener() {
+    if (context.tabsRouter.activeIndex == 3) {
+      context.read<AccountSeeAllBloc>()
+        ..add(const CheckForTvShowsWatchListStatesEvent())
+        ..add(GetAllTvShowsWatchListEvent());
+    }
+  }
 
   @override
   void didPopNext() {
@@ -35,51 +56,65 @@ class _SeeAllTvShowsWatchListComponentState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountSeeAllBloc, AccountSeeAllState>(
+    return BlocConsumer<AccountSeeAllBloc, AccountSeeAllState>(
+      listener: (context, state) {
+        if (state.tvShowsWatchList.isEmpty) {
+          context.router.pop();
+        }
+      },
       buildWhen: (previous, current) =>
           previous.tvShowsWatchList != current.tvShowsWatchList,
       builder: (context, state) {
-        return ListView.builder(
-          itemCount: state.tvShowsWatchList.length,
-          controller: widget.scrollController,
-          scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.symmetric(vertical: 100).r,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(
-                left: 24,
-                right: 24,
-                top: 14,
-                bottom: 16.0,
-              ).r,
-              child: Dismissible(
-                key: ObjectKey(state.tvShowsWatchList[index]),
-                resizeDuration: const Duration(milliseconds: 200),
-                onDismissed: (direction) => context
-                    .read<AccountSeeAllBloc>()
-                    .add(RemoveTvShowFromWatchListEvent(
-                        tvShowId: state.tvShowsWatchList[index].id)),
-                child: SeeAllWatchListCard(
-                  title: state.tvShowsWatchList[index].title,
-                  posterPath: state.tvShowsWatchList[index].posterPath.isNotEmpty ? ApiConstants.imageUrl(
-                              state.tvShowsWatchList[index].posterPath)
-                          : AssetsManager.noPoster,
-                  vote: state.tvShowsWatchList[index].voteAverage,
-                  voteCount: state.tvShowsWatchList[index].voteCount,
-                  onTap: () {
-                    tappedTvShowId = state.tvShowsWatchList[index].id;
-                    context.pushRoute(TvDetailsRoute(
-                        tvShowId: state.tvShowsWatchList[index].id));
-                  },
-                  genres: state.tvShowsWatchList[index].genres,
-                  releaseYear: state.tvShowsWatchList[index].firstAirDate,
-                  language: state.tvShowsWatchList[index].language,
+        return Animate(
+          effects: [FadeEffect(duration: 400.ms)],
+          child: ListView.builder(
+            itemCount: state.tvShowsWatchList.length,
+            controller: widget.scrollController,
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.symmetric(vertical: 100).r,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 14,
+                  bottom: 16.0,
+                ).r,
+                child: Dismissible(
+                  key: ObjectKey(state.tvShowsWatchList[index]),
+                  resizeDuration: const Duration(milliseconds: 200),
+                  onDismissed: (direction) => context
+                      .read<AccountSeeAllBloc>()
+                      .add(RemoveTvShowFromWatchListEvent(
+                          tvShowId: state.tvShowsWatchList[index].id)),
+                  child: SeeAllWatchListCard(
+                    title: state.tvShowsWatchList[index].title,
+                    errorImagePath: AssetsManager.noPoster,
+                    posterPath: state.tvShowsWatchList[index].posterPath,
+                    vote: state.tvShowsWatchList[index].voteAverage,
+                    voteCount: state.tvShowsWatchList[index].voteCount,
+                    onTap: () {
+                      tappedTvShowId = state.tvShowsWatchList[index].id;
+                      context.pushRoute(TvDetailsRoute(
+                          tvShowId: state.tvShowsWatchList[index].id));
+                    },
+                    genres: state.tvShowsWatchList[index].genres,
+                    releaseYear: state.tvShowsWatchList[index].firstAirDate,
+                    language: state.tvShowsWatchList[index].language,
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _observer!.unsubscribe(this);
+    _tabsRouter?.removeListener(_tabListener);
   }
 }

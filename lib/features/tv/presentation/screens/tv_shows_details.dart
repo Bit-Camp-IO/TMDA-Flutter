@@ -30,11 +30,34 @@ class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
 
 }
 
-class _TvDetailsScreenState extends State<TvDetailsScreen> {
+class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
+  AutoRouteObserver? _observer;
+  TabsRouter? _tabsRouter;
+
+  @override
+  void didChangeDependencies() {
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    if (_observer != null) {
+      _observer!.subscribe(this, context.routeData);
+    }
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
+  }
+  void _tabListener(){
+    if (context.tabsRouter.activeIndex != 0) {
+      context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
+    }
+  }
+  @override
+  void didPopNext() {
+    context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
+    super.didPopNext();
+  }
+
   @override
   void initState() {
     context.read<TvShowDetailsBloc>().add(GetTvShowDetailsEvent(widget.tvShowId));
-    
     super.initState();
   }
   @override
@@ -66,12 +89,11 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
                       child: Lottie.asset('assets/lottie/neon_loading.json'),
                     );
                   case BlocState.success:
-                    return TvShowDetailsBodyComponent(tvShowId: widget.tvShowId);
+                    return const TvShowDetailsBodyComponent();
                   case BlocState.failure:
                     return NoConnection(
                       onTap: () {
-                        context
-                            .read<TvShowDetailsBloc>()
+                        context.read<TvShowDetailsBloc>()
                             .add(GetTvShowDetailsEvent(widget.tvShowId));
                       },
                     );
@@ -92,5 +114,11 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _observer!.unsubscribe(this);
+    _tabsRouter?.removeListener(_tabListener);
   }
 }

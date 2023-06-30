@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
@@ -18,10 +17,7 @@ import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_detai
 class RecommendedTvShowsComponent extends StatelessWidget {
   const RecommendedTvShowsComponent({
     super.key,
-    required this.tvShowId,
   });
-
-  final int tvShowId;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +32,9 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                   title: 'Recommended',
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
-                    AutoRouter.of(context).push(
+                    context.pushRoute(
                       SeeAllTvShowsRoute(
-                        tvShowId: tvShowId,
+                        tvShowId: state.tvShowDetails.id,
                         tvShowType: TvShowType.recommendedTvShows,
                       ),
                     );
@@ -56,23 +52,14 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            imagePath: state
-                                    .tvShowDetails
-                                    .recommendedTvShows[index]
-                                    .posterPath
-                                    .isNotEmpty
-                                ? ApiConstants.imageUrl(state.tvShowDetails
-                                    .recommendedTvShows[index].posterPath)
-                                : AssetsManager.noPoster,
-                            title: state
-                                .tvShowDetails.recommendedTvShows[index].title,
-                            rating: state.tvShowDetails
-                                .recommendedTvShows[index].voteAverage,
+                            errorImagePath: AssetsManager.noPoster,
+                            imagePath: state.tvShowDetails.recommendedTvShows[index].posterPath,
+                            title: state.tvShowDetails.recommendedTvShows[index].title,
+                            rating: state.tvShowDetails.recommendedTvShows[index].voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.tvShowDetails
-                                      .recommendedTvShows[index].id,
+                                  tvShowId: state.tvShowDetails.recommendedTvShows[index].id,
                                 ),
                               );
                             },
@@ -93,7 +80,7 @@ class RecommendedTvShowsComponent extends StatelessWidget {
             child: Column(
               children: [
                 const SectionWidget(
-                  title: StringsManager.movieDetailsSimilarSectionTitle,
+                  title: StringsManager.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(

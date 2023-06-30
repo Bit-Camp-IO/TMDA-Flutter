@@ -2,8 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/popular_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_today_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_this_week_component.dart';
@@ -13,8 +17,9 @@ import 'package:tmda/injection_container.dart';
 import '../bloc/tv_show/tv_show_bloc.dart';
 
 @RoutePage()
-class TvShowScreen extends StatelessWidget with AutoRouteWrapper{
+class TvShowScreen extends StatelessWidget with AutoRouteWrapper {
   const TvShowScreen({super.key});
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
@@ -36,7 +41,9 @@ class TvShowScreen extends StatelessWidget with AutoRouteWrapper{
             const Positioned(
               top: 30,
               left: 20,
-              child: NeonLightPainter(color: ColorsManager.primaryColor,),
+              child: NeonLightPainter(
+                color: ColorsManager.primaryColor,
+              ),
             ),
             const Positioned(
               bottom: 350,
@@ -48,15 +55,36 @@ class TvShowScreen extends StatelessWidget with AutoRouteWrapper{
               left: 10,
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const TvShowsAiringThisWeekComponent(),
-                const TvShowsAiringTodayComponent(),
-                const PopularTvShowsComponent(),
-                const TopRatedTvShowsComponent(),
-                SizedBox(height: 60.h),
-              ],
+            BlocBuilder<TvShowsBloc, TvShowsState>(
+              builder: (context, state) {
+                switch (state.tvShowsState) {
+                  case BlocState.loading:
+                    return Center(
+                      child: Lottie.asset(AssetsManager.neonLoading),
+                    );
+                  case BlocState.success:
+                    return ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        const TvShowsAiringThisWeekComponent(),
+                        const TvShowsAiringTodayComponent(),
+                        const PopularTvShowsComponent(),
+                        const TopRatedTvShowsComponent(),
+                        SizedBox(height: 60.h),
+                      ],
+                    );
+                  case BlocState.failure:
+                    return NoConnection(
+                      onTap: () {
+                        context.read<TvShowsBloc>()
+                          ..add(GetTvShowsAiringTodayEvent())
+                          ..add(GetTvShowsAiringThisWeekEvent())
+                          ..add(GetPopularTvShowsEvent())
+                          ..add(GetTopRatedTvShowsEvent());
+                      },
+                    );
+                }
+              },
             ),
           ],
         ),

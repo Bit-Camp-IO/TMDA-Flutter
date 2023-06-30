@@ -12,7 +12,7 @@ import 'package:tmda/features/tv/domain/entities/tv_show.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_genres.dart';
 
 class TvShowDetails extends Equatable {
-  final int tvShowId;
+  final int id;
   final String backDropPath;
   final String posterPath;
   final String overview;
@@ -37,7 +37,7 @@ class TvShowDetails extends Equatable {
   final List<TvShowReviews> reviews;
 
   const TvShowDetails({
-    required this.tvShowId,
+    required this.id,
     required this.backDropPath,
     required this.posterPath,
     required this.overview,
@@ -65,7 +65,7 @@ class TvShowDetails extends Equatable {
   @override
   List<Object?> get props => [
         backDropPath,
-        tvShowId,
+        id,
         overview,
         firstAirDate,
         lastAirDate,
@@ -112,7 +112,7 @@ class TvShowDetails extends Equatable {
     List<TvShowReviews>? reviews,
   }) {
     return TvShowDetails(
-      tvShowId: tvShowId ?? this.tvShowId,
+      id: tvShowId ?? this.id,
       backDropPath: backDropPath ?? this.backDropPath,
       posterPath: posterPath ?? this.posterPath,
       overview: overview ?? this.overview,

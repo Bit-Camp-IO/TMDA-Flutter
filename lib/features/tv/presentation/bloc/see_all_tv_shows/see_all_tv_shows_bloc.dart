@@ -27,7 +27,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
   final GetAllSimilarTvShowsUseCase getAllSimilarTvShowsUseCase;
   final GetTvShowStateUseCase getTvShowStateUseCase;
   final AddOrRemoveTvFromWatchListUseCase addOrRemoveTvFromWatchListUseCase;
-  int airingTodayTvShowsPageNumber = 2;
+  int airingTodayTvShowsPageNumber = 1;
   int popularTvShowsPageNumber = 2;
   int topRatedTvShowsPageNumber = 1;
   int recommendedTvShowsPageNumber = 1;
@@ -234,7 +234,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
         emit(
           state.copyWith(
             seeAllTvShows: List.from(
-              state.seeAllTvShows.map((tvShow) => tvShow.id == event.tvShowId
+              state.seeAllTvShows.map((tvShow) => tvShow.id == event.id
                   ? tvShow.copyWith(accountStates: tvShowStatesUpdated)
                   : tvShow),
             ),
@@ -257,7 +257,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
         emit(
           state.copyWith(
             seeAllTvShows: List.from(
-              state.seeAllTvShows.map((tvShow) => tvShow.id == event.tvShowId
+              state.seeAllTvShows.map((tvShow) => tvShow.id == event.id
                   ? tvShow.copyWith(accountStates: tvShowStatesUpdated)
                   : tvShow),
             ),
@@ -286,7 +286,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
             state.copyWith(
               seeAllTvShows: List.from(
                 state.seeAllTvShows.map((tvShow) =>
-                    tvShow.id == tvShowStatesUpdated.tvShowId
+                    tvShow.id == tvShowStatesUpdated.id
                         ? tvShow.copyWith(accountStates: tvShowStatesUpdated)
                         : tvShow),
               ),

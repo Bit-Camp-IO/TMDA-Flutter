@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -16,10 +15,8 @@ import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_detai
 class TvShowCastComponent extends StatelessWidget {
   const TvShowCastComponent({
     super.key,
-    required this.tvShowId,
   });
 
-  final int tvShowId;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +50,10 @@ class TvShowCastComponent extends StatelessWidget {
                               ),
                             );
                           },
-                          actorPicPath: state.tvShowDetails.cast[index]
-                                  .actorPicPath.isNotEmpty
-                              ? ApiConstants.imageUrl(
-                                  state.tvShowDetails.cast[index].actorPicPath,
-                                )
-                              : AssetsManager.actorNoPic,
+                          errorImagePath: AssetsManager.noPoster,
+                          actorPicPath: state.tvShowDetails.cast[index].actorPicPath,
                           actorName: state.tvShowDetails.cast[index].actorName,
-                          actorCharacterName:
-                              state.tvShowDetails.cast[index].movieCharacter,
+                          actorCharacterName: state.tvShowDetails.cast[index].movieCharacter,
                         ),
                       ],
                     );

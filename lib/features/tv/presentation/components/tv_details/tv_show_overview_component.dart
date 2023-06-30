@@ -12,8 +12,7 @@ import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_revi
 import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_shows_component.dart';
 
 class TvShowOverview extends StatelessWidget {
-  const TvShowOverview({super.key, required this.tvShowId});
-  final int tvShowId;
+  const TvShowOverview({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
@@ -70,7 +69,7 @@ class TvShowOverview extends StatelessWidget {
                                   AddOrRemoveTvFromWatchListEvent(
                                     isInWatchList: !state
                                         .tvShowDetails.status.isInWatchList,
-                                    tvShowId: tvShowId,
+                                    tvShowId: state.tvShowDetails.id,
                                   ),
                                 );
                           },
@@ -78,8 +77,8 @@ class TvShowOverview extends StatelessWidget {
                             children: [
                               Icon(
                                 state.tvShowDetails.status.isInWatchList
-                                    ? SolarSystemIcons.save_outlined
-                                    : SolarSystemIcons.save,
+                                    ? SolarSystemIcons.saved
+                                    : SolarSystemIcons.unsaved,
                                 color: ColorsManager.primaryColor,
                                 size: 30,
                               ),
@@ -229,10 +228,10 @@ class TvShowOverview extends StatelessWidget {
               ),
             ),
             const SectionDivider(),
-            TvShowCastComponent(tvShowId: tvShowId),
-            RecommendedTvShowsComponent(tvShowId: tvShowId),
-            SimilarTvShowsComponent(tvShowId: tvShowId),
-            TvShowReviewsComponent(tvShowId: tvShowId),
+            const TvShowCastComponent(),
+            const RecommendedTvShowsComponent(),
+            const SimilarTvShowsComponent(),
+            const TvShowReviewsComponent(),
             SizedBox(height: 70.h),
           ],
         );

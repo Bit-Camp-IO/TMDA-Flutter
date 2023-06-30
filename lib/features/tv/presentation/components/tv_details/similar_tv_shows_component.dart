@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
@@ -18,10 +17,7 @@ import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_detai
 class SimilarTvShowsComponent extends StatelessWidget {
   const SimilarTvShowsComponent({
     super.key,
-    required this.tvShowId,
   });
-
-  final int tvShowId;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +29,12 @@ class SimilarTvShowsComponent extends StatelessWidget {
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: StringsManager.movieDetailsSimilarSectionTitle,
+                  title: StringsManager.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
-                    AutoRouter.of(context).push(
+                    context.pushRoute(
                       SeeAllTvShowsRoute(
-                        tvShowId: tvShowId,
+                        tvShowId: state.tvShowDetails.id,
                         tvShowType: TvShowType.similarTvShows,
                       ),
                     );
@@ -56,20 +52,14 @@ class SimilarTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            imagePath: state.tvShowDetails.similarTvShows[index]
-                                    .posterPath.isNotEmpty
-                                ? ApiConstants.imageUrl(state.tvShowDetails
-                                    .similarTvShows[index].posterPath)
-                                : AssetsManager.noPoster,
-                            title:
-                                state.tvShowDetails.similarTvShows[index].title,
-                            rating: state.tvShowDetails.similarTvShows[index]
-                                .voteAverage,
+                            errorImagePath: AssetsManager.noPoster,
+                            imagePath: state.tvShowDetails.similarTvShows[index].posterPath,
+                            title: state.tvShowDetails.similarTvShows[index].title,
+                            rating: state.tvShowDetails.similarTvShows[index].voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.tvShowDetails
-                                      .similarTvShows[index].id,
+                                  tvShowId: state.tvShowDetails.similarTvShows[index].id,
                                 ),
                               );
                             },
@@ -90,15 +80,21 @@ class SimilarTvShowsComponent extends StatelessWidget {
             child: Column(
               children: [
                 const SectionWidget(
-                  title: StringsManager.movieDetailsSimilarSectionTitle,
+                  title: StringsManager.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
-                  child: Text(
-                    'We couldn\'t find movies like this.',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  child: SizedBox(
+                    height: 200.h,
+                    child: Text(
+                      'We couldn\'t similar TvShows.',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: ColorsManager.primaryColor,
+                      ),
+                    ),
                   ),
                 ),
+                const SectionDivider(),
               ],
             ),
           );

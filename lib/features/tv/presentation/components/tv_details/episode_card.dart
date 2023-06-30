@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
@@ -36,9 +36,8 @@ class EpisodeCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TiltedImage(
-              imagePath: posterPath.isNotEmpty
-                  ? ApiConstants.imageUrl(posterPath)
-                  : posterPath,
+              errorImagePath: AssetsManager.noPoster,
+              imagePath: posterPath,
               width: 120.w,
               height: 170.h,
             ),

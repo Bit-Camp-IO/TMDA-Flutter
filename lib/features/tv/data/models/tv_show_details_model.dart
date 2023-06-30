@@ -11,7 +11,7 @@ import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
 
 class TvShowDetailsModel extends TvShowDetails {
   const TvShowDetailsModel({
-    required super.tvShowId,
+    required super.id,
     required super.backDropPath,
     required super.posterPath,
     required super.overview,
@@ -38,7 +38,7 @@ class TvShowDetailsModel extends TvShowDetails {
 
   factory TvShowDetailsModel.fromJson(Map<String, dynamic> jsonData) {
     return TvShowDetailsModel(
-      tvShowId: jsonData['id'],
+      id: jsonData['id'],
       backDropPath: jsonData['backdrop_path'] ?? '',
       posterPath: jsonData['poster_path'] ?? '',
       overview: jsonData['overview'],

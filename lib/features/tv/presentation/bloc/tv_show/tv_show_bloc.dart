@@ -18,8 +18,8 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   final GetTvShowsAiringThisWeekUseCase getTvShowsAiringThisWeekUseCase;
   final GetPopularTvShowsUseCase getPopularTvShowsUseCase;
   final GetTopRatedTvShowsUseCase getTopRatedTvShowsUseCase;
-  int airingThisWeekPage = 1;
-  int airingTodayPage = 2;
+  int airingThisWeekPage = 2;
+  int airingTodayPage = 1;
   int popularTvShowsPage = 2;
   int topRatedTvShowPage = 1;
 
@@ -40,14 +40,14 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     result.fold(
       (airingTodayFail) => emit(
         state.copyWith(
-          airingTodayFailMessage: airingTodayFail.message,
-          airingTodayState: BlocState.failure,
+          tvShowsFailMessage: airingTodayFail.message,
+          tvShowsState: BlocState.failure,
         ),
       ),
       (airingTodayList) => emit(
         state.copyWith(
-          airingTodayState: BlocState.success,
-          airingTodayTvShows: airingTodayList,
+          tvShowsState: BlocState.success,
+          airingTodayTvShows: airingTodayList.reversed.toList(),
         ),
       ),
     );
@@ -58,15 +58,14 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     result.fold(
       (airingThisWeekFail) => emit(
         state.copyWith(
-          airingThisWeekFailMessage: airingThisWeekFail.message,
-          airingThisWeekState: BlocState.failure,
+          tvShowsFailMessage: airingThisWeekFail.message,
+          tvShowsState: BlocState.failure,
         ),
       ),
       (airingThisWeekList) => emit(
         state.copyWith(
-          airingThisWeekState: BlocState.success,
-          hasAiringThisWeekListReachedMax: false,
-          airingThisWeekTvShows: List.from(airingThisWeekList.reversed),
+          tvShowsState: BlocState.success,
+          airingThisWeekTvShows: List.from(airingThisWeekList),
         ),
       ),
     );
@@ -77,14 +76,13 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     result.fold(
       (popularTvShowsFail) => emit(
         state.copyWith(
-          popularTvShowsFailMessage: popularTvShowsFail.message,
-          popularTvShowsState: BlocState.failure,
+          tvShowsFailMessage: popularTvShowsFail.message,
+          tvShowsState: BlocState.failure,
         ),
       ),
       (popularTvShowsList) => emit(
         state.copyWith(
-            popularTvShowsState: BlocState.success,
-            hasPopularListReachedMax: false,
+            tvShowsState: BlocState.success,
             popularTvShows: List.from(popularTvShowsList.reversed)),
       ),
     );
@@ -95,15 +93,14 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     result.fold(
       (topRatedTvShowsFail) => emit(
         state.copyWith(
-          topRatedFailMessage: topRatedTvShowsFail.message,
-          topRatedState: BlocState.failure,
+          tvShowsFailMessage: topRatedTvShowsFail.message,
+          tvShowsState: BlocState.failure,
         ),
       ),
       (topRatedTvShowsList) => emit(
         state.copyWith(
           topRatedTvShows: topRatedTvShowsList,
-          topRatedState: BlocState.success,
-          hasTopRatedListReachedMax: false,
+          tvShowsState: BlocState.success,
         ),
       ),
     );

@@ -183,7 +183,7 @@ class TvRepositoryImpl extends TvShowsRepository {
   @override
   Future<Either<Failure, List<TvShow>>> getAllSimilarTvShows({required int pageNumber, required int tvShowId, required String sessionId}) async{
     try {
-      final result = await tvDataSource.getAllRecommendedTvShows(tvShowId: tvShowId, pageNumber: pageNumber, sessionId: sessionId);
+      final result = await tvDataSource.getAllSimilarTvShows(tvShowId: tvShowId, pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(

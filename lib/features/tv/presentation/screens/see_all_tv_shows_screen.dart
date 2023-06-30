@@ -8,6 +8,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_tv_shows_component.dart';
 import 'package:tmda/injection_container.dart';
@@ -118,8 +119,23 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
                     scrollController: scrollController,
                   );
                 case BlocState.failure:
-                  return const Center(
-                    child: Text('Load Data Failed'),
+                  return NoConnection(
+                    onTap: () {
+                      final seeAllBloc = context.read<SeeAllTvShowsBloc>();
+                      switch (widget.tvShowType) {
+                        case (TvShowType.airingToday):
+                          seeAllBloc.add(GetAllAiringTodayTvShowsEvent());
+                        case (TvShowType.popularTvShows):
+                          seeAllBloc.add(GetAllPopularTvShowsEvent());
+                        case (TvShowType.topRatedTvShows):
+                          seeAllBloc.add(GetAllTopRatedTvShowsEvent());
+                        case (TvShowType.similarTvShows):
+                          seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
+                        case (TvShowType.recommendedTvShows):
+                          seeAllBloc
+                              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
+                      }
+                    },
                   );
               }
             },

@@ -9,8 +9,7 @@ import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 
 class TvShowReviewsComponent extends StatelessWidget {
-  const TvShowReviewsComponent({super.key, required this.tvShowId});
-  final int tvShowId;
+  const TvShowReviewsComponent({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(

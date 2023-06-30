@@ -4,8 +4,7 @@ import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_detai
 import 'package:tmda/features/tv/presentation/components/tv_details/episode_card.dart';
 
 class TvShowSeasons extends StatefulWidget {
-  const TvShowSeasons({super.key, required this.tvShowId});
-  final int tvShowId;
+  const TvShowSeasons({super.key});
   @override
   State<TvShowSeasons> createState() => _TvShowSeasonsState();
 }

@@ -15,10 +15,8 @@ import 'package:tmda/features/tv/presentation/components/tv_details/tv_details_p
 class TvShowDetailsBodyComponent extends StatefulWidget {
   const TvShowDetailsBodyComponent({
     super.key,
-    required this.tvShowId,
   });
 
-  final int tvShowId;
 
   @override
   State<TvShowDetailsBodyComponent> createState() =>
@@ -50,10 +48,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void initState() {
+    final tvShowDetailsBloc =  context.read<TvShowDetailsBloc>();
     scrollController = ScrollController()..addListener(_scrollListener);
-    context
-        .read<TvShowDetailsBloc>()
-        .add(GetSeasonEpisodesEvent(tvShowId: widget.tvShowId));
+    tvShowDetailsBloc.add(GetSeasonEpisodesEvent(tvShowId: tvShowDetailsBloc.state.tvShowDetails.id));
     tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     super.initState();
   }
@@ -154,11 +151,11 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                     children: [
                       Visibility(
                         visible: state.bodyTabIndex == 0,
-                        child: TvShowOverview(tvShowId: widget.tvShowId),
+                        child: const TvShowOverview(),
                       ),
                       Visibility(
                         visible: state.bodyTabIndex == 1,
-                        child: TvShowSeasons(tvShowId: widget.tvShowId),
+                        child: const TvShowSeasons(),
                       ),
                     ],
                   );

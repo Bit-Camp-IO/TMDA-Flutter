@@ -15,29 +15,19 @@ class GetTvShowDetailsEvent extends TvDetailsEvent {
   @override
   List<Object> get props => [tvShowId];
 }
+class GetTvShowStatesEvent extends TvDetailsEvent {
+  final int tvShowId;
+
+  const GetTvShowStatesEvent({required this.tvShowId});
+
+  @override
+  List<Object> get props => [tvShowId];
+}
 
 class GetTvShowCastEvent extends TvDetailsEvent {
   final int tvShowId;
 
   const GetTvShowCastEvent(this.tvShowId);
-
-  @override
-  List<Object> get props => [tvShowId];
-}
-
-class GetMoreSimilarTvShowsEvent extends TvDetailsEvent {
-  final int tvShowId;
-
-  const GetMoreSimilarTvShowsEvent(this.tvShowId);
-
-  @override
-  List<Object> get props => [tvShowId];
-}
-
-class GetMoreRecommendedTvShowsEvent extends TvDetailsEvent {
-  final int tvShowId;
-
-  const GetMoreRecommendedTvShowsEvent(this.tvShowId);
 
   @override
   List<Object> get props => [tvShowId];

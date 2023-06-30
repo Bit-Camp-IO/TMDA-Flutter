@@ -17,7 +17,7 @@ class TvShowDetailsState extends Equatable {
   final double animatedHeight;
   const TvShowDetailsState({
     this.tvShowDetails = const TvShowDetails(
-      tvShowId: 0,
+      id: 0,
       backDropPath: '',
       posterPath: '',
       overview: '',

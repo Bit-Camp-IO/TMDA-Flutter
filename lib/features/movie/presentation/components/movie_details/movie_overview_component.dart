@@ -17,11 +17,10 @@ import 'package:tmda/features/movie/presentation/components/movie_details_poster
 class MovieOverviewComponent extends StatefulWidget {
   const MovieOverviewComponent({
     super.key,
-    required this.movieId,
     required this.scrollController,
   });
 
-  final int movieId;
+
   final ScrollController scrollController;
 
   @override
@@ -170,7 +169,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                         AddOrRemoveFromWatchListEvent(
                                           isInWatchList: !state.movieDetails
                                               .accountStates.inWatchList,
-                                          movieId: widget.movieId,
+                                          movieId: state.movieDetails.id,
                                         ),
                                       );
                                 },
@@ -179,8 +178,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                     Icon(
                                       state.movieDetails.accountStates
                                               .inWatchList
-                                          ? SolarSystemIcons.save_outlined
-                                          : SolarSystemIcons.save,
+                                          ? SolarSystemIcons.saved
+                                          : SolarSystemIcons.unsaved,
                                       color: ColorsManager.primaryColor,
                                       size: 30,
                                     ),

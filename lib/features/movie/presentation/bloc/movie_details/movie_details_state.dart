@@ -34,6 +34,7 @@ class MovieDetailsState extends Equatable {
       cast: [],
       reviews: [],
       similarMovies: [],
+      recommendedMovies: [],
       genres: [],
       accountStates: MovieAccountStates(
         inWatchList: false,

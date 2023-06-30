@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -16,10 +15,8 @@ import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_detail
 class MovieCastComponent extends StatelessWidget {
   const MovieCastComponent({
     super.key,
-    required this.movieId,
   });
 
-  final int movieId;
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +43,17 @@ class MovieCastComponent extends StatelessWidget {
                         SizedBox(width: 16.w),
                         CastCard(
                           onTap: () {
-                            context.navigateTo(
+                            context.pushRoute(
                               PersonRoute(
                                 personId:
                                     state.movieDetails.cast[index].actorId,
                               ),
                             );
                           },
-                          actorPicPath: state.movieDetails.cast[index]
-                                  .actorPicPath.isNotEmpty
-                              ? ApiConstants.imageUrl(
-                                  state.movieDetails.cast[index].actorPicPath)
-                              : AssetsManager.actorNoPic,
+                          errorImagePath: AssetsManager.noPoster,
+                          actorPicPath: state.movieDetails.cast[index].actorPicPath,
                           actorName: state.movieDetails.cast[index].actorName,
-                          actorCharacterName:
-                              state.movieDetails.cast[index].movieCharacter,
+                          actorCharacterName: state.movieDetails.cast[index].movieCharacter,
                         ),
                       ],
                     );

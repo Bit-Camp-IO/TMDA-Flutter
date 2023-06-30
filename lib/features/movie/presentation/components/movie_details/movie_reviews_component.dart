@@ -9,8 +9,7 @@ import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 
 class MovieReviewsComponent extends StatelessWidget {
-  const MovieReviewsComponent({super.key, required this.movieId});
-  final int movieId;
+  const MovieReviewsComponent({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(

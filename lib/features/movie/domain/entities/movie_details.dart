@@ -25,6 +25,7 @@ class MovieDetails extends Equatable {
   final List<MovieReviews> reviews;
   final List<MovieCast> cast;
   final List<Movies> similarMovies;
+  final List<Movies> recommendedMovies;
   const MovieDetails({
     required this.id,
     required this.posterPath,
@@ -43,6 +44,7 @@ class MovieDetails extends Equatable {
     required this.reviews,
     required this.cast,
     required this.similarMovies,
+    required this.recommendedMovies,
   });
 
   @override
@@ -62,6 +64,7 @@ class MovieDetails extends Equatable {
         reviews,
         cast,
         similarMovies,
+        recommendedMovies,
       ];
 
   MovieDetails copyWith({
@@ -82,6 +85,7 @@ class MovieDetails extends Equatable {
     List<MovieReviews>? reviews,
     List<MovieCast>? cast,
     List<Movies>? similarMovies,
+    List<Movies>? recommendedMovies,
   }) {
     return MovieDetails(
       backDropPath: backDropPath ?? this.backDropPath,
@@ -101,6 +105,7 @@ class MovieDetails extends Equatable {
       reviews: reviews ?? this.reviews,
       cast: cast ?? this.cast,
       similarMovies: similarMovies ?? this.similarMovies,
+      recommendedMovies: recommendedMovies ?? this.recommendedMovies
     );
   }
 }

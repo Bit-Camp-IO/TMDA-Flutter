@@ -13,6 +13,7 @@ import 'package:tmda/features/movie/presentation/components/movie_details/movie_
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_like_this_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_reviews_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/recommended_movies_component.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -35,9 +36,31 @@ class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
 }
 
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteAware{
   late ScrollController _scrollController;
+  AutoRouteObserver? _observer;
+  TabsRouter? _tabsRouter;
 
+  @override
+  void didChangeDependencies() {
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    if (_observer != null) {
+      _observer!.subscribe(this, context.routeData);
+    }
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
+  }
+  void _tabListener(){
+    if (context.tabsRouter.activeIndex != 1) {
+      context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
+    }
+  }
+  @override
+  void didPopNext() {
+    context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
+    super.didPopNext();
+  }
   @override
   initState() {
     super.initState();
@@ -84,21 +107,19 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       padding: EdgeInsets.zero,
                       children: [
                         MovieOverviewComponent(
-                          movieId: widget.movieId,
                           scrollController: _scrollController,
                         ),
-                        MovieCastComponent(movieId: widget.movieId),
-                        MoviesLikeThisComponent(movieId: widget.movieId),
-                        MovieReviewsComponent(movieId: widget.movieId),
+                        const MovieCastComponent(),
+                        const RecommendedMoviesComponent(),
+                        const SimilarMoviesComponent(),
+                        const MovieReviewsComponent(),
                         SizedBox(height: 70.h)
                       ],
                     );
                   case BlocState.failure:
                     return NoConnection(
                       onTap: () {
-                        context
-                            .read<MovieDetailsBloc>()
-                            .add(GetMovieDetailsEvent(widget.movieId));
+                        context.read<MovieDetailsBloc>().add(GetMovieDetailsEvent(widget.movieId));
                       },
                     );
                 }
@@ -122,7 +143,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+    _observer!.unsubscribe(this);
+    _tabsRouter?.removeListener(_tabListener);
   }
 }

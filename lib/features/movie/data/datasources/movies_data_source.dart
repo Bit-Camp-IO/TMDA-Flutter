@@ -89,6 +89,7 @@ class MoviesDataSourceImpl extends MoviesDataSource {
       queryParameters: {
         'session_id': sessionId,
         'append_to_response': ApiConstants.endPointsAppendedToResponse,
+        'page': 1,
       },
     );
     return MovieDetailsModel.fromJson(response);

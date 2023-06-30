@@ -39,7 +39,10 @@ class GetMovieReviewsEvent extends MovieDetailsEvent {
   @override
   List<Object> get props => [movieId];
 }
-
+class GetMovieStatesEvent extends MovieDetailsEvent{
+  final int movieId;
+  const GetMovieStatesEvent({required this.movieId});
+}
 class PlayMovieTrailerEvent extends MovieDetailsEvent {
   final String movieVideoKey;
 
@@ -48,7 +51,6 @@ class PlayMovieTrailerEvent extends MovieDetailsEvent {
   @override
   List<Object> get props => [movieVideoKey];
 }
-
 
 
 class AddOrRemoveFromWatchListEvent extends MovieDetailsEvent{

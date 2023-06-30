@@ -26,6 +26,7 @@ class MovieDetailsModel extends MovieDetails {
     required super.cast,
     required super.reviews,
     required super.similarMovies,
+    required super.recommendedMovies,
   });
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> jsonData) {
@@ -66,6 +67,11 @@ class MovieDetailsModel extends MovieDetails {
       similarMovies: List<MoviesModel>.from(
         jsonData['similar']['results'].map(
           (jsonData) => MoviesModel.fromJson(jsonData),
+        ),
+      ),
+      recommendedMovies: List<MoviesModel>.from(
+        jsonData['recommendations']['results'].map(
+              (jsonData) => MoviesModel.fromJson(jsonData),
         ),
       ),
     );

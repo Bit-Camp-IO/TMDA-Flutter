@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -50,9 +50,8 @@ class NewMoviesComponent extends StatelessWidget {
                           );
                         },
                         title: state.newMovies[index].title,
-                        imagePath: ApiConstants.imageUrl(
-                          state.newMovies[index].posterPath,
-                        ),
+                        errorImagePath: AssetsManager.noPoster,
+                        imagePath: state.newMovies[index].posterPath,
                         releaseDate: state.newMovies[index].releaseDate,
                         rating: state.newMovies[index].voteAverage,
                         genres: state.newMovies[index].genres,

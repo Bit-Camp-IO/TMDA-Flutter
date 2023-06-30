@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
@@ -27,6 +29,9 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                     itemBuilder: (context, index, realIndex) {
                       if (state.nowPlayingMovies.isNotEmpty) {
                         return CarouselCard(
+                          onTap: () {
+                            context.pushRoute(MovieDetailsRoute(movieId: state.nowPlayingMovies[index].id));
+                          },
                           imagePath: ApiConstants.imageUrl(
                             state.nowPlayingMovies[index].posterPath,
                           ),

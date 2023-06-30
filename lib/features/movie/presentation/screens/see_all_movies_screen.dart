@@ -8,6 +8,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_see_all/see_all_movies_component.dart';
 import 'package:tmda/injection_container.dart';
@@ -47,10 +48,9 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
       case (MovieType.topRatedMovies):
         context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
       case (MovieType.recommendedMovies):
-        context
-            .read<SeeAllMoviesBloc>()
+        context.read<SeeAllMoviesBloc>()
             .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
-      case (MovieType.moreMoviesLikeThis):
+      case (MovieType.similarMovies):
         context
             .read<SeeAllMoviesBloc>()
             .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
@@ -74,7 +74,7 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
           context
               .read<SeeAllMoviesBloc>()
               .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
-        case (MovieType.moreMoviesLikeThis):
+        case (MovieType.similarMovies):
           context
               .read<SeeAllMoviesBloc>()
               .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
@@ -122,8 +122,21 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
                     scrollController: scrollController,
                   );
                 case BlocState.failure:
-                  return const Center(
-                    child: Text('Load Data Failed'),
+                  return NoConnection(
+                    onTap: () {
+                      switch (widget.movieType) {
+                        case (MovieType.newMovies):
+                          context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
+                        case (MovieType.popularMovies):
+                          context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
+                        case (MovieType.topRatedMovies):
+                          context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
+                        case (MovieType.recommendedMovies):
+                          context.read<SeeAllMoviesBloc>().add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+                        case (MovieType.similarMovies):
+                          context.read<SeeAllMoviesBloc>().add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
+                      }
+                    },
                   );
               }
             },

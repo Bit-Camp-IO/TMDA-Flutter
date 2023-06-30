@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -53,8 +53,8 @@ class TopRatedMoviesComponent extends StatelessWidget {
                             );
                           },
                           title: state.topRatedMovies[index].title,
-                          imagePath: ApiConstants.imageUrl(
-                              state.topRatedMovies[index].posterPath),
+                          errorImagePath: AssetsManager.noPoster,
+                          imagePath: state.topRatedMovies[index].posterPath,
                           releaseDate: state.topRatedMovies[index].releaseDate,
                           rating: state.topRatedMovies[index].voteAverage,
                           genres: state.topRatedMovies[index].genres,

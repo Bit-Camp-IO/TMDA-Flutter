@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
 import 'package:tmda/core/widgets/see_all_card.dart';
@@ -61,10 +60,8 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                       );
                     },
                     title: state.seeAllMovies[index].title,
-                    posterPath: state.seeAllMovies[index].posterPath.isNotEmpty
-                        ? ApiConstants.imageUrl(
-                            state.seeAllMovies[index].posterPath)
-                        : AssetsManager.noPoster,
+                    errorImagePath: AssetsManager.noPoster,
+                    posterPath: state.seeAllMovies[index].posterPath,
                     vote: state.seeAllMovies[index].voteAverage,
                     voteCount: state.seeAllMovies[index].movieVoteCount,
                     genres: state.seeAllMovies[index].genres,

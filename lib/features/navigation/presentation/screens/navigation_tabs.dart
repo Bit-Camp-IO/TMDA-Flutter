@@ -36,50 +36,50 @@ class _NavigationTabsState extends State<NavigationTabs> {
             }
           },
           child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 50,
-                sigmaY: 50,
-              ),
-              child: BottomNavigationBar(
-                currentIndex: tabsRouter.activeIndex,
-                onTap: (value) {
-                  tabsRouter.setActiveIndex(value);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(SolarSystemIcons.movie),
-                    label: StringsManager.movie,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(SolarSystemIcons.tv),
-                    label: StringsManager.tv,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(SolarSystemIcons.search),
-                    label: StringsManager.search,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(SolarSystemIcons.person),
-                    label: StringsManager.account,
-                  ),
-                ],
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
               ),
             ),
-          ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 50,
+                  sigmaY: 50,
+                ),
+                child: BottomNavigationBar(
+                  currentIndex: tabsRouter.activeIndex,
+                  onTap: (value) {
+                      tabsRouter.setActiveIndex(value);
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(SolarSystemIcons.movie),
+                      label: StringsManager.movie,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(SolarSystemIcons.tv),
+                      label: StringsManager.tv,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(SolarSystemIcons.search),
+                      label: StringsManager.search,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(SolarSystemIcons.person),
+                      label: StringsManager.account,
+                    ),
+                  ],
+                ),
+              ),
             ),
+              ),
         );
       },
     );

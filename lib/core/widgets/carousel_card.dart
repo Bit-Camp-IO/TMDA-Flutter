@@ -12,62 +12,67 @@ class CarouselCard extends StatelessWidget {
     required this.rating,
     required this.voteCount,
     required this.imagePath,
+    required this.onTap,
   });
 
   final String title;
   final dynamic rating;
   final int voteCount;
   final String imagePath;
+  final void Function() onTap;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: 360.w,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                imagePath,
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Container(
+            width: 360.w,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  imagePath,
+                ),
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3),
+                  BlendMode.darken,
+                ),
+                fit: BoxFit.cover,
               ),
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.darken,
-              ),
-              fit: BoxFit.cover,
             ),
           ),
-        ),
-        Positioned(
-          left: 10,
-          bottom: 10,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(height: 8.h),
-              RatingBarIndicator(
-                rating: rating / 2,
-                itemBuilder: (context, index) => const Icon(
-                  SolarSystemIcons.star,
-                  color: ColorsManager.ratingIconColor,
+          Positioned(
+            left: 10,
+            bottom: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                unratedColor: ColorsManager.inActiveColor,
-                itemCount: 5,
-                itemSize: 15,
-                direction: Axis.horizontal,
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'From $voteCount users',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
+                SizedBox(height: 8.h),
+                RatingBarIndicator(
+                  rating: rating / 2,
+                  itemBuilder: (context, index) => const Icon(
+                    SolarSystemIcons.star,
+                    color: ColorsManager.ratingIconColor,
+                  ),
+                  unratedColor: ColorsManager.inActiveColor,
+                  itemCount: 5,
+                  itemSize: 15,
+                  direction: Axis.horizontal,
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  'From $voteCount users',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

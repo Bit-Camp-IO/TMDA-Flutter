@@ -30,18 +30,11 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          page: AuthRoutesPage.page,
-          path: '/auth',
-          initial: true,
-          children: [
-            AutoRoute(
-              page: SplashRoute.page,
-              path: '',
-            ),
-            AutoRoute(page: SelectionRoute.page, path: 'selection'),
-            AutoRoute(page: LoginRoute.page, path: 'login'),
-          ],
+          page: SplashRoute.page,
+          path: '/',
         ),
+        AutoRoute(page: SelectionRoute.page, path: '/selection'),
+        AutoRoute(page: LoginRoute.page, path: '/login'),
         CustomRoute(
           page: MainNavigationTabs.page,
           path: '/main',
@@ -65,6 +58,12 @@ class AppRouter extends _$AppRouter {
                 CustomRoute(
                   page: MovieDetailsRoute.page,
                   path: ':movieId',
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  durationInMilliseconds: 400,
+                ),
+                CustomRoute(
+                  page: PersonRoute.page,
+                  path: ':personId',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
@@ -118,9 +117,11 @@ class AppRouter extends _$AppRouter {
                 ),
               ],
             ),
-            AutoRoute(
+            CustomRoute(
               page: AccountTabRoutePage.page,
               path: 'account',
+              transitionsBuilder: TransitionsBuilders.fadeIn,
+              durationInMilliseconds: 400,
               children: [
                 AutoRoute(
                   page: AccountRoute.page,
@@ -145,10 +146,6 @@ class AppRouter extends _$AppRouter {
                   path: ':tvId',
                 ),
               ],
-            ),
-            AutoRoute(
-              page: PersonRoute.page,
-              path: ':personId',
             ),
           ],
         ),

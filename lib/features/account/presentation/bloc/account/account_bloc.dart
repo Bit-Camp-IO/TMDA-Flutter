@@ -43,13 +43,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       (value) => value.fold(
         (accountDetailsFail) => emit(
           state.copyWith(
-            accountState: BlocState.failure,
+            accountTabState: BlocState.failure,
             accountFailMessage: accountDetailsFail.message,
           ),
         ),
         (accountDetails) => emit(
           state.copyWith(
-            accountState: BlocState.success,
+            accountTabState: BlocState.success,
             account: accountDetails,
           ),
         ),
@@ -63,13 +63,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
-            accountState: BlocState.failure,
+            accountTabState: BlocState.failure,
             accountFailMessage: watchlistFail.message,
           ),
         ),
         (watchListMovies) => emit(
           state.copyWith(
-            accountState: BlocState.success,
+            moviesWatchListState: BlocState.success,
             watchListMovies: watchListMovies,
           ),
         ),
@@ -83,13 +83,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
-            accountState: BlocState.failure,
+            accountTabState: BlocState.failure,
             accountFailMessage: watchlistFail.message,
           ),
         ),
         (watchListTvShows) => emit(
           state.copyWith(
-            accountState: BlocState.success,
+            moviesWatchListState: BlocState.success,
             watchListTvShows: watchListTvShows,
           ),
         ),

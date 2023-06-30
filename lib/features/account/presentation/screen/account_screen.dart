@@ -13,6 +13,7 @@ import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dar
 import 'package:tmda/features/account/presentation/components/account/movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
 import 'package:tmda/features/account/presentation/components/account/tv_show_watchlist_component.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -25,46 +26,37 @@ class AccountScreen extends StatefulWidget with AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AccountBloc>(),
+      create: (context) => getIt<AccountBloc>()
+        ..add(GetAccountDetailsEvent())
+        ..add(GetAccountMoviesWatchListEvent())
+        ..add(GetAccountTvShowsWatchListEvent()),
       child: this,
     );
   }
 }
 
-class _AccountScreenState extends State<AccountScreen>
-    with AutoRouteAware {
+class _AccountScreenState extends State<AccountScreen> with AutoRouteAware {
   AutoRouteObserver? _observer;
-
+  TabsRouter? _tabsRouter;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    _observer =
+        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
     if (_observer != null) {
       _observer!.subscribe(this, context.routeData);
     }
-    context.tabsRouter.addListener(() {
-      if (context.tabsRouter.activeIndex == 3) { //your tab index here
-        context.read<AccountBloc>()
-          ..add(GetAccountMoviesWatchListEvent())
-          ..add(GetAccountTvShowsWatchListEvent());
-      }
-    });
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
   }
 
-
-  @override
-  void dispose() {
-    super.dispose();
-    _observer!.unsubscribe(this);
-  }
-  @override
-  void initState() {
-    context.read<AccountBloc>()
-      ..add(GetAccountDetailsEvent())
-      ..add(GetAccountMoviesWatchListEvent())
-      ..add(GetAccountTvShowsWatchListEvent());
-    super.initState();
+  void _tabListener(){
+    if (context.tabsRouter.activeIndex == 3) {
+      context.read<AccountBloc>()
+        ..add(GetAccountMoviesWatchListEvent())
+        ..add(GetAccountTvShowsWatchListEvent());
+    }
   }
 
   @override
@@ -73,6 +65,7 @@ class _AccountScreenState extends State<AccountScreen>
       ..add(GetAccountMoviesWatchListEvent())
       ..add(GetAccountTvShowsWatchListEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,12 +91,8 @@ class _AccountScreenState extends State<AccountScreen>
           BlocConsumer<AccountBloc, AccountState>(
             listener: (context, state) {
               if (state.userAccountState == UserAccountState.loggedOut) {
-                context.router.replace(
-                  const AuthRoutesPage(
-                    children: [
-                      SelectionRoute(),
-                    ],
-                  ),
+                AutoRouter.of(context).replace(
+                  const SelectionRoute(),
                 );
               }
             },
@@ -128,8 +117,13 @@ class _AccountScreenState extends State<AccountScreen>
                     ],
                   );
                 case BlocState.failure:
-                  return const Center(
-                    child: Text('Load Data Failed'),
+                  return NoConnection(
+                    onTap: () {
+                      context.read<AccountBloc>()
+                        ..add(GetAccountDetailsEvent())
+                        ..add(GetAccountMoviesWatchListEvent())
+                        ..add(GetAccountTvShowsWatchListEvent());
+                    },
                   );
               }
             },
@@ -137,5 +131,11 @@ class _AccountScreenState extends State<AccountScreen>
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _observer!.unsubscribe(this);
+    _tabsRouter?.removeListener(_tabListener);
   }
 }

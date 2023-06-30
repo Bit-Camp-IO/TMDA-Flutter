@@ -12,6 +12,7 @@ import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
 import 'package:tmda/features/account/presentation/components/see_all/see_all_movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/see_all/see_all_tv_shows_watchlist_component.dart';
+import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -51,14 +52,17 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
   void _onScroll() {
     final maxScroll = scrollController.position.maxScrollExtent;
     final currentScroll = scrollController.offset;
-    if(currentScroll != maxScroll && scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse){
+    if (currentScroll != maxScroll &&
+        scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
       if (currentScroll >= maxScroll * 0.9) {
         switch (widget.seeAllType) {
           case (WatchListType.moviesWatchList):
             context.read<AccountSeeAllBloc>().add(GetAllMoviesWatchListEvent());
           case (WatchListType.tvShowWatchList):
-            context.read<AccountSeeAllBloc>().add(GetAllTvShowsWatchListEvent());
+            context
+                .read<AccountSeeAllBloc>()
+                .add(GetAllTvShowsWatchListEvent());
         }
       }
     }
@@ -67,7 +71,7 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: Stack(
+      body: Stack(
         children: [
           const Positioned(
             top: 30,
@@ -107,8 +111,15 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
                     },
                   );
                 case BlocState.failure:
-                  return const Center(
-                    child: Text('load data failed'),
+                  return NoConnection(
+                    onTap: () {
+                      switch (widget.seeAllType) {
+                        case (WatchListType.moviesWatchList):
+                          context.read<AccountSeeAllBloc>().add(GetAllMoviesWatchListEvent());
+                        case (WatchListType.tvShowWatchList):
+                          context.read<AccountSeeAllBloc>().add(GetAllTvShowsWatchListEvent());
+                      }
+                    },
                   );
               }
             },

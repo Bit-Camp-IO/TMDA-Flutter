@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
-
 class CastCard extends StatelessWidget {
   const CastCard({
     super.key,
@@ -10,12 +9,15 @@ class CastCard extends StatelessWidget {
     required this.actorName,
     required this.actorCharacterName,
     required this.onTap,
+    required this.errorImagePath,
   });
 
   final String actorPicPath;
   final String actorName;
   final String actorCharacterName;
+  final String errorImagePath;
   final void Function() onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,6 +28,7 @@ class CastCard extends StatelessWidget {
             width: 130.sp,
             height: 220.sp,
             child: TiltedImageWithShadow(
+              errorImagePath: errorImagePath,
               imagePath: actorPicPath,
               width: 130.sp,
               height: 220.sp,

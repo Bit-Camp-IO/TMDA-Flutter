@@ -12,11 +12,13 @@ class DetailsPosterCard extends StatelessWidget {
     required this.title,
     required this.rating,
     required this.onTap,
+    required this.errorImagePath,
   });
   final String imagePath;
   final String title;
   final dynamic rating;
   final void Function() onTap;
+  final String errorImagePath;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,6 +26,7 @@ class DetailsPosterCard extends StatelessWidget {
       child: Stack(
         children: [
           TiltedImageWithShadow(
+            errorImagePath: errorImagePath,
             imagePath: imagePath,
             width: 130.w,
             height: 200.h,

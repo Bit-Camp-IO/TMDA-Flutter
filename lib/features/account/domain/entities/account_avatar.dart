@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class AccountAvatar extends Equatable{
-  final String avatarPath;
-  const AccountAvatar({required this.avatarPath});
+  final String path;
+  const AccountAvatar({required this.path});
 
 
   @override
-  List<Object?> get props => [avatarPath];
+  List<Object?> get props => [path];
 }

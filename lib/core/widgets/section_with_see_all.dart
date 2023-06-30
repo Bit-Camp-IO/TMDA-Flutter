@@ -45,7 +45,7 @@ class SectionWidgetWithSeeAll extends StatelessWidget {
             style: Theme.of(context).textButtonTheme.style,
             onPressed: textButtonOnPressed,
             child: Text(
-              StringsManager.seeAll,
+              StringsManager.seeAllButtonTitle,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w700,
                     color: ColorsManager.darkPrimary,

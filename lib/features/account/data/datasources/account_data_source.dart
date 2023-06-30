@@ -106,7 +106,7 @@ class AccountDataSourceImpl extends AccountDataSource{
       },
     );
     if (response['success'] == true) {
-      return const AccountStatesModel(inWatchList: false);
+      return AccountStatesModel(inWatchList: false, contentId: contentId);
     } else {
       throw ServerException('${response['status_message']}');
     }
@@ -122,7 +122,7 @@ class AccountDataSourceImpl extends AccountDataSource{
       },
     );
     if (response['success'] == true) {
-      return const AccountStatesModel(inWatchList: false);
+      return  AccountStatesModel(inWatchList: false, contentId: contentId);
     } else {
       throw ServerException('${response['status_message']}');
     }

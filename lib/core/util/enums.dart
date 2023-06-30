@@ -3,7 +3,7 @@ enum MovieType {
   popularMovies('Popular Movies'),
   topRatedMovies('Top Rated Movies'),
   recommendedMovies('Recommended Movies'),
-  moreMoviesLikeThis('Similar Movies');
+  similarMovies('Similar Movies');
 
   const MovieType(this.name);
   final String name;
@@ -15,7 +15,6 @@ enum TvShowType {
   popularTvShows('Popular Shows'),
   recommendedTvShows('Recommended Shows'),
   similarTvShows('Similar Shows');
-
   const TvShowType(this.name);
   final String name;
 }

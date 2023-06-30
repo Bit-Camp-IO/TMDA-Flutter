@@ -1,10 +1,7 @@
 class StringsManager {
   //! Core Strings
-  /// App Strings
   static const String appName = 'TMDA';
-  static const String noRouteFound = 'We couldn\'t find this route';
-  // shared strings
-  static const String seeAll = 'See All';
+  static const String noRouteFound = "We couldn't find this route";
 
   // Bottom NavigationBar label
   static const String movie = 'Movie';
@@ -20,25 +17,30 @@ class StringsManager {
   static const String registerNow = 'Register Now';
   static const String noAccount = 'Don\'t have an account ?';
   static const String forgetPassword = 'Forget Password?';
-  static const String overview =
-      'Your guide to movies, TV shows\n and celebrities';
+  static const String overview = 'Your guide to movies, TV shows\n and celebrities';
   static const String loginWelcome = 'Welcome to our\n community';
 
   //! Movie Feature Strings
-  // Home Screen
   static const String newMoviesSectionTitle = 'New movies';
   static const String popularMoviesSectionTitle = 'Popular movies';
   static const String topRatedMoviesSectionTitle = 'Top Rated movies';
   static const String seeAllMoviesButtonTitle = 'See All';
-  static const String movieDetailsSimilarSectionTitle = 'Similar';
   static const String movieDetailsUserReviews = 'User Reviews';
   static const String movieDetailsReviewTitle = 'Review By';
   static const String movieDetailsNoRating = 'No rating';
-  static const String movieDetailsAlertContent =
-      'There is no videos for this movie.';
+  static const String movieDetailsAlertContent = 'There is no videos for this movie.';
   static const String movieDetailsAlertButtonTitle = 'close';
 
+  //! Account Feature Strings
+  static const String moviesWatchlistTitle = 'Movies Watchlist';
+  static const String emptyMoviesWatchListButtonTitle = 'Add Movies ';
+  static const String tvShowsWatchlistTitle = 'TvShows Watchlist';
+  static const String emptyTvShowsWatchListButtonTitle = 'Add TvShows ';
+  static const String noAccountName = 'No Account Name';
   //! Shared
+  static const String seeAllButtonTitle = 'See All';
+  static const String detailsSimilarSectionTitle = 'Similar';
+  static const String detailsRecommendedSectionTitle = 'Recommended';
   static const String maxRate = '/10';
   static const String addToWatchlist = 'Add';
   static const String removeFromWatchList = 'Remove';
@@ -50,4 +52,5 @@ class StringsManager {
   static const String duration = 'Min';
   static const String unknown = 'Unknown';
   static const String from = 'From';
+
 }

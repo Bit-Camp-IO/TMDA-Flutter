@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
@@ -36,7 +37,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper{
         } else {
           return Scaffold(
             body: Center(
-              child: Image.asset(AssetsManager.appLogo),
+              child: Image.asset(AssetsManager.appLogo, width: 150.w, height: 150.h,),
             ),
           );
         }

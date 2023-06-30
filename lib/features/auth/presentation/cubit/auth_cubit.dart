@@ -7,7 +7,7 @@ import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart';
 
 part 'auth_state.dart';
 
-@lazySingleton
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   CheckUserLoginSessionUseCase checkUserLoggedInUseCase;
   UserRegisterUseCase userRegisterUseCase;

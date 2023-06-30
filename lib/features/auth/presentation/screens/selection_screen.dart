@@ -48,8 +48,8 @@ class SelectionScreen extends StatelessWidget {
                   ),
                   const Spacer(flex: 1),
                   NeonButton(
-                    onTap: () async {
-                      await AutoRouter.of(context).push(const LoginRoute());
+                    onTap: () {
+                      context.pushRoute(const LoginRoute());
                     },
                     child: Text(
                       StringsManager.login,

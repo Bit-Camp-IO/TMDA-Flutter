@@ -96,10 +96,7 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SeeAllMoviesRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<SeeAllMoviesRouteArgs>(
-          orElse: () => SeeAllMoviesRouteArgs(
-              movieType: pathParams.get(':seeAllMovies')));
+      final args = routeData.argsAs<SeeAllMoviesRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(
@@ -117,16 +114,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PersonRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<PersonRouteArgs>(
-          orElse: () =>
-              PersonRouteArgs(personId: pathParams.getInt('personId')));
+      final args = routeData.argsAs<PersonRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(
             child: PersonScreen(
           key: args.key,
           personId: args.personId,
+          personScreenType: args.personScreenType,
         )),
       );
     },
@@ -155,10 +150,7 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SeeAllTvShowsRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<SeeAllTvShowsRouteArgs>(
-          orElse: () => SeeAllTvShowsRouteArgs(
-              tvShowType: pathParams.get(':seeAllTvShow')));
+      final args = routeData.argsAs<SeeAllTvShowsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(
@@ -190,16 +182,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AccountSeeAllRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<AccountSeeAllRouteArgs>(
-          orElse: () => AccountSeeAllRouteArgs(
-              seeAllType: pathParams.get(':accountSeeAllType')));
+      final args = routeData.argsAs<AccountSeeAllRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(
             child: AccountSeeAllScreen(
           key: args.key,
-          seeAllType: args.seeAllType,
+          watchListType: args.watchListType,
         )),
       );
     },
@@ -414,7 +403,6 @@ class SeeAllMoviesRoute extends PageRouteInfo<SeeAllMoviesRouteArgs> {
             movieType: movieType,
             movieId: movieId,
           ),
-          rawPathParams: {':seeAllMovies': movieType},
           initialChildren: children,
         );
 
@@ -463,14 +451,15 @@ class PersonRoute extends PageRouteInfo<PersonRouteArgs> {
   PersonRoute({
     Key? key,
     required int personId,
+    required PersonScreenType personScreenType,
     List<PageRouteInfo>? children,
   }) : super(
           PersonRoute.name,
           args: PersonRouteArgs(
             key: key,
             personId: personId,
+            personScreenType: personScreenType,
           ),
-          rawPathParams: {'personId': personId},
           initialChildren: children,
         );
 
@@ -483,15 +472,18 @@ class PersonRouteArgs {
   const PersonRouteArgs({
     this.key,
     required this.personId,
+    required this.personScreenType,
   });
 
   final Key? key;
 
   final int personId;
 
+  final PersonScreenType personScreenType;
+
   @override
   String toString() {
-    return 'PersonRouteArgs{key: $key, personId: $personId}';
+    return 'PersonRouteArgs{key: $key, personId: $personId, personScreenType: $personScreenType}';
   }
 }
 
@@ -556,7 +548,7 @@ class TvSearchRoute extends PageRouteInfo<void> {
 class SeeAllTvShowsRoute extends PageRouteInfo<SeeAllTvShowsRouteArgs> {
   SeeAllTvShowsRoute({
     Key? key,
-    required dynamic tvShowType,
+    required TvShowType tvShowType,
     int? tvShowId,
     List<PageRouteInfo>? children,
   }) : super(
@@ -566,7 +558,6 @@ class SeeAllTvShowsRoute extends PageRouteInfo<SeeAllTvShowsRouteArgs> {
             tvShowType: tvShowType,
             tvShowId: tvShowId,
           ),
-          rawPathParams: {':seeAllTvShow': tvShowType},
           initialChildren: children,
         );
 
@@ -585,7 +576,7 @@ class SeeAllTvShowsRouteArgs {
 
   final Key? key;
 
-  final dynamic tvShowType;
+  final TvShowType tvShowType;
 
   final int? tvShowId;
 
@@ -653,15 +644,14 @@ class TvShowRoute extends PageRouteInfo<void> {
 class AccountSeeAllRoute extends PageRouteInfo<AccountSeeAllRouteArgs> {
   AccountSeeAllRoute({
     Key? key,
-    required dynamic seeAllType,
+    required WatchListType watchListType,
     List<PageRouteInfo>? children,
   }) : super(
           AccountSeeAllRoute.name,
           args: AccountSeeAllRouteArgs(
             key: key,
-            seeAllType: seeAllType,
+            watchListType: watchListType,
           ),
-          rawPathParams: {':accountSeeAllType': seeAllType},
           initialChildren: children,
         );
 
@@ -674,15 +664,15 @@ class AccountSeeAllRoute extends PageRouteInfo<AccountSeeAllRouteArgs> {
 class AccountSeeAllRouteArgs {
   const AccountSeeAllRouteArgs({
     this.key,
-    required this.seeAllType,
+    required this.watchListType,
   });
 
   final Key? key;
 
-  final dynamic seeAllType;
+  final WatchListType watchListType;
 
   @override
   String toString() {
-    return 'AccountSeeAllRouteArgs{key: $key, seeAllType: $seeAllType}';
+    return 'AccountSeeAllRouteArgs{key: $key, watchListType: $watchListType}';
   }
 }

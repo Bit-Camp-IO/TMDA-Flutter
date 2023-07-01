@@ -15,13 +15,10 @@ import 'package:tmda/injection_container.dart';
 
 @RoutePage()
 class SeeAllTvShowsScreen extends StatefulWidget with AutoRouteWrapper {
-  final dynamic tvShowType;
+  final TvShowType tvShowType;
   final int? tvShowId;
 
-  const SeeAllTvShowsScreen(
-      {super.key,
-      @PathParam(':seeAllTvShow') required this.tvShowType,
-      this.tvShowId});
+  const SeeAllTvShowsScreen({super.key, required this.tvShowType, this.tvShowId});
 
   @override
   State<SeeAllTvShowsScreen> createState() => _SeeAllTvShowsScreenState();

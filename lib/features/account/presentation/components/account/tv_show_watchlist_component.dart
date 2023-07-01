@@ -60,7 +60,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                     color: ColorsManager.primaryColor,
                     textButtonOnPressed: () {
                       context.pushRoute(
-                        AccountSeeAllRoute(seeAllType: WatchListType.tvShowWatchList),
+                        AccountSeeAllRoute(watchListType: WatchListType.tvShowWatchList),
                       );
                     },
                   ),

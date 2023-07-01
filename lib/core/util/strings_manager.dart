@@ -4,8 +4,8 @@ class StringsManager {
   static const String noRouteFound = "We couldn't find this route";
 
   // Bottom NavigationBar label
-  static const String movie = 'Movie';
-  static const String tv = 'TV';
+  static const String movie = 'Movies';
+  static const String tv = 'TV Shows';
   static const String search = 'Search';
   static const String account = 'Account';
 
@@ -17,7 +17,7 @@ class StringsManager {
   static const String registerNow = 'Register Now';
   static const String noAccount = 'Don\'t have an account ?';
   static const String forgetPassword = 'Forget Password?';
-  static const String overview = 'Your guide to movies, TV shows\n and celebrities';
+  static const String appOverview = 'Your guide to movies, TV shows\n and celebrities';
   static const String loginWelcome = 'Welcome to our\n community';
 
   //! Movie Feature Strings
@@ -37,6 +37,11 @@ class StringsManager {
   static const String tvShowsWatchlistTitle = 'TvShows Watchlist';
   static const String emptyTvShowsWatchListButtonTitle = 'Add TvShows ';
   static const String noAccountName = 'No Account Name';
+
+  //! Person Screen
+  static const String biography = 'Biography';
+  static const String emptyBiography = "Couldn't Find biography.";
+
   //! Shared
   static const String seeAllButtonTitle = 'See All';
   static const String detailsSimilarSectionTitle = 'Similar';

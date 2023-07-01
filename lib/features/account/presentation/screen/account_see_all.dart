@@ -17,10 +17,9 @@ import 'package:tmda/injection_container.dart';
 
 @RoutePage()
 class AccountSeeAllScreen extends StatefulWidget with AutoRouteWrapper {
-  const AccountSeeAllScreen(
-      {super.key, @PathParam(':accountSeeAllType') required this.seeAllType});
+  const AccountSeeAllScreen({super.key, required this.watchListType});
 
-  final dynamic seeAllType;
+  final WatchListType watchListType;
 
   @override
   State<AccountSeeAllScreen> createState() => _AccountSeeAllScreenState();
@@ -40,7 +39,7 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
   @override
   void initState() {
     scrollController.addListener(_onScroll);
-    switch (widget.seeAllType) {
+    switch (widget.watchListType) {
       case (WatchListType.moviesWatchList):
         context.read<AccountSeeAllBloc>().add(GetAllMoviesWatchListEvent());
       case (WatchListType.tvShowWatchList):
@@ -56,7 +55,7 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
         scrollController.position.userScrollDirection ==
             ScrollDirection.reverse) {
       if (currentScroll >= maxScroll * 0.9) {
-        switch (widget.seeAllType) {
+        switch (widget.watchListType) {
           case (WatchListType.moviesWatchList):
             context.read<AccountSeeAllBloc>().add(GetAllMoviesWatchListEvent());
           case (WatchListType.tvShowWatchList):
@@ -100,7 +99,7 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
                 case BlocState.success:
                   return Builder(
                     builder: (context) {
-                      switch (widget.seeAllType as WatchListType) {
+                      switch (widget.watchListType) {
                         case (WatchListType.moviesWatchList):
                           return SeeAllMoviesWatchListComponent(
                               scrollController: scrollController);
@@ -113,11 +112,13 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
                 case BlocState.failure:
                   return NoConnection(
                     onTap: () {
-                      switch (widget.seeAllType) {
+                      switch (widget.watchListType) {
                         case (WatchListType.moviesWatchList):
-                          context.read<AccountSeeAllBloc>().add(GetAllMoviesWatchListEvent());
+                          context.read<AccountSeeAllBloc>().add(
+                              GetAllMoviesWatchListEvent());
                         case (WatchListType.tvShowWatchList):
-                          context.read<AccountSeeAllBloc>().add(GetAllTvShowsWatchListEvent());
+                          context.read<AccountSeeAllBloc>().add(
+                              GetAllTvShowsWatchListEvent());
                       }
                     },
                   );
@@ -137,7 +138,7 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
                 ),
                 SizedBox(width: 16.w),
                 Text(
-                  widget.seeAllType.name,
+                  widget.watchListType.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,

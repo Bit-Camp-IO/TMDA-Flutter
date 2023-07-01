@@ -12,6 +12,7 @@ final class ApiConstants {
       'https://www.themoviedb.org/reset-password';
   static const String headerContentTypeValue = 'application/json';
   static const String headerContentType = 'Content-Type';
+  static const String personEndPointAppendedToResponse = 'movie_credits,tv_credits';
   static const String endPointsAppendedToResponse = 'videos,account_states,credits,similar,reviews,recommendations';
   static const String movieMediaTypeTitle = 'movie';
   static const String tvMediaTypeTitle = 'tv';
@@ -54,5 +55,7 @@ final class ApiConstants {
       '$baseUrl/account/$accountId/watchlist';
   static const String accountLogoutEndPoint = '$baseUrl/authentication/session';
 
+  //! Person EndPoints
+  static const personEndPoint = '/person/';
   static String imageUrl(String apiImagePath) => '$baseImageUrl$apiImagePath';
 }

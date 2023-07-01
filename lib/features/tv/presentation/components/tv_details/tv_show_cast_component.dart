@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/cast_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
@@ -43,12 +44,22 @@ class TvShowCastComponent extends StatelessWidget {
                         SizedBox(width: 20.w),
                         CastCard(
                           onTap: () {
-                            context.navigateTo(
-                              PersonRoute(
-                                personId:
-                                    state.tvShowDetails.cast[index].actorId,
-                              ),
-                            );
+                            if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3){
+                              context.pushRoute(
+                                PersonRoute(
+                                  personId:
+                                  state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withAllContent
+                                ),
+                              );
+                            }else{
+                              context.pushRoute(
+                                PersonRoute(
+                                    personId:
+                                    state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withTvShows
+                                ),
+                              );
+                            }
+
                           },
                           errorImagePath: AssetsManager.noPoster,
                           actorPicPath: state.tvShowDetails.cast[index].actorPicPath,

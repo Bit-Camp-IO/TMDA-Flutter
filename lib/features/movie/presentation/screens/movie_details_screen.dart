@@ -28,7 +28,7 @@ class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<MovieDetailsBloc>(),
+      create: (context) => getIt<MovieDetailsBloc>()..add(GetMovieDetailsEvent(movieId)),
       child: this,
     );
   }
@@ -89,10 +89,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
             BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
-              bloc: context.read<MovieDetailsBloc>()
-                ..add(
-                  GetMovieDetailsEvent(widget.movieId),
-                ),
               buildWhen: (previous, current) =>
                   previous.movieDetailsState != current.movieDetailsState,
               builder: (context, state) {
@@ -144,6 +140,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
   @override
   void dispose() {
     super.dispose();
+    _scrollController.dispose();
     _observer!.unsubscribe(this);
     _tabsRouter?.removeListener(_tabListener);
   }

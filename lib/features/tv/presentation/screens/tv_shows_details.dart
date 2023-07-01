@@ -20,7 +20,7 @@ class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TvShowDetailsBloc>(),
+      create: (context) => getIt<TvShowDetailsBloc>()..add(GetTvShowDetailsEvent(tvShowId)),
       child: this,
     );
   }
@@ -53,12 +53,6 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
   void didPopNext() {
     context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
     super.didPopNext();
-  }
-
-  @override
-  void initState() {
-    context.read<TvShowDetailsBloc>().add(GetTvShowDetailsEvent(widget.tvShowId));
-    super.initState();
   }
   @override
   Widget build(BuildContext context) {

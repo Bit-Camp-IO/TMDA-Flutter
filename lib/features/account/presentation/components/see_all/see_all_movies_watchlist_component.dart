@@ -93,7 +93,7 @@ class _SeeAllMoviesWatchListComponentState
                     errorImagePath: AssetsManager.noPoster,
                     posterPath: state.moviesWatchList[index].posterPath,
                     vote: state.moviesWatchList[index].voteAverage,
-                    voteCount: state.moviesWatchList[index].movieVoteCount,
+                    voteCount: state.moviesWatchList[index].voteCount,
                     onTap: () {
                       tappedMovieId = state.moviesWatchList[index].id;
                       context.pushRoute(MovieDetailsRoute(

@@ -8,7 +8,6 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
 import 'package:tmda/features/account/presentation/components/account/movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
@@ -35,15 +34,15 @@ class AccountScreen extends StatefulWidget with AutoRouteWrapper {
   }
 }
 
-class _AccountScreenState extends State<AccountScreen> with AutoRouteAware {
+class _AccountScreenState extends State<AccountScreen>
+    with AutoRouteAware{
   AutoRouteObserver? _observer;
   TabsRouter? _tabsRouter;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _observer =
-        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
     if (_observer != null) {
       _observer!.subscribe(this, context.routeData);
     }
@@ -109,10 +108,6 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAware {
                       const ProfileComponent(),
                       SizedBox(height: 20.h),
                       const MoviesWatchListComponent(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0).r,
-                        child: const SectionDivider(),
-                      ),
                       const TvShowWatchListComponent(),
                     ],
                   );
@@ -132,6 +127,7 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAware {
       ),
     );
   }
+
   @override
   void dispose() {
     super.dispose();

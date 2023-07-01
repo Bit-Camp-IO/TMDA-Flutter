@@ -26,6 +26,19 @@ enum WatchListType {
   final String name;
 }
 
+enum PersonScreenType {
+  withAllContent(),
+  withMovies(),
+  withTvShows()
+}
+
+enum PersonSeeAllType {
+  moviesList('Movies'),
+  tvShowsList('TvShows');
+  const PersonSeeAllType(this.name);
+  final String name;
+}
+
 enum BlocState {
   loading,
   success,

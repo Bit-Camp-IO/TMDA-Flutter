@@ -1,9 +1,8 @@
-import 'package:tmda/features/account/data/models/account_states_model.dart';
-import 'package:tmda/features/account/data/models/watchlist_genres_model.dart';
-import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
+import 'package:tmda/features/person/data/models/person_contents_genres_model.dart';
+import 'package:tmda/features/person/domain/entities/person_movie.dart';
 
-class WatchListMovieModel extends WatchListMovie {
-  const WatchListMovieModel({
+class PersonMovieModel extends PersonMovie{
+  const PersonMovieModel({
     required super.id,
     required super.title,
     required super.posterPath,
@@ -12,10 +11,9 @@ class WatchListMovieModel extends WatchListMovie {
     required super.voteCount,
     required super.genres,
     required super.language,
-    required super.accountStates,
   });
 
-  factory WatchListMovieModel.fromJson(Map<String, dynamic> jsonData) {
+  factory PersonMovieModel.fromJson(Map<String, dynamic> jsonData) {
     final List<Map<String, dynamic>> genresList = [
       {'id': 28, 'name': 'Action'},
       {'id': 12, 'name': 'Adventure'},
@@ -38,18 +36,17 @@ class WatchListMovieModel extends WatchListMovie {
       {'id': 37, 'name': 'Western'},
     ];
     List<Map<String, dynamic>> movieGenres = genresList.where((genre) => jsonData['genre_ids'].contains(genre['id'])).toList();
-    return WatchListMovieModel(
+    return PersonMovieModel(
       id: jsonData['id'],
       title: jsonData['title'],
       posterPath: jsonData['poster_path'] ?? '',
       releaseDate: jsonData['release_date'],
       voteAverage: jsonData['vote_average'],
       voteCount: jsonData['vote_count'],
-      genres: List<WatchListGenresModel>.from(
-        movieGenres.map((jsonData) => WatchListGenresModel.fromJson(jsonData)),
+      genres: List<PersonContentsGenresModel>.from(
+        movieGenres.map((jsonData) => PersonContentsGenresModel.fromJson(jsonData)),
       ),
       language: jsonData['original_language'],
-      accountStates: AccountStatesModel.fromJson(jsonData['account_status'] ?? {}),
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
+import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
@@ -44,6 +45,10 @@ class MoviesWatchListComponent extends StatelessWidget {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0).r,
+                  child: const SectionDivider(),
+                ),
               ],
             ),
           );
@@ -57,7 +62,7 @@ class MoviesWatchListComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     context.pushRoute(AccountSeeAllRoute(
-                        seeAllType: WatchListType.moviesWatchList));
+                        watchListType: WatchListType.moviesWatchList));
                   },
                 ),
                 SizedBox(
@@ -91,6 +96,10 @@ class MoviesWatchListComponent extends StatelessWidget {
                       },
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0).r,
+                  child: const SectionDivider(),
                 ),
               ],
             ),

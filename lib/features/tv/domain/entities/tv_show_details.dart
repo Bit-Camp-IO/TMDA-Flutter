@@ -87,7 +87,7 @@ class TvShowDetails extends Equatable {
       ];
 
   TvShowDetails copyWith({
-    int? tvShowId,
+    int? id,
     String? backDropPath,
     String? posterPath,
     String? overview,
@@ -112,7 +112,7 @@ class TvShowDetails extends Equatable {
     List<TvShowReviews>? reviews,
   }) {
     return TvShowDetails(
-      id: tvShowId ?? this.id,
+      id: id ?? this.id,
       backDropPath: backDropPath ?? this.backDropPath,
       posterPath: posterPath ?? this.posterPath,
       overview: overview ?? this.overview,

@@ -30,6 +30,7 @@ dependencies:
   bloc_concurrency: ^0.2.2
   lottie: ^2.4.0
   injectable: ^2.1.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

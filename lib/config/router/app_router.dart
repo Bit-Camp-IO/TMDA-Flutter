@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/account/presentation/screen/account_screen.dart';
 import 'package:tmda/features/account/presentation/screen/account_see_all.dart';
 import 'package:tmda/features/navigation/presentation/screens/navigation_tabs.dart';
@@ -51,19 +52,16 @@ class AppRouter extends _$AppRouter {
                 ),
                 CustomRoute(
                   page: SeeAllMoviesRoute.page,
-                  path: ':seeAllMoviesType',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
-                  path: ':movieId',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
                 CustomRoute(
                   page: PersonRoute.page,
-                  path: ':personId',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
@@ -83,13 +81,16 @@ class AppRouter extends _$AppRouter {
                   page: TvDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
-                  path: ':tvId',
                 ),
                 CustomRoute(
                   page: SeeAllTvShowsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
-                  path: ':seeAllTvShows',
+                ),
+                CustomRoute(
+                  page: PersonRoute.page,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  durationInMilliseconds: 400,
                 ),
               ],
             ),
@@ -129,13 +130,11 @@ class AppRouter extends _$AppRouter {
                 ),
                 CustomRoute(
                   page: AccountSeeAllRoute.page,
-                  path: ':accountSeeAllType',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
-                  path: ':movieId',
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
                 ),
@@ -143,7 +142,11 @@ class AppRouter extends _$AppRouter {
                   page: TvDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,
-                  path: ':tvId',
+                ),
+                CustomRoute(
+                  page: PersonRoute.page,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  durationInMilliseconds: 400,
                 ),
               ],
             ),

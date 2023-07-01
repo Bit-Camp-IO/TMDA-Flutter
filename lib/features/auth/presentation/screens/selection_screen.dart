@@ -42,7 +42,7 @@ class SelectionScreen extends StatelessWidget {
                   Image.asset(AssetsManager.appLogo),
                   const Spacer(flex: 1),
                   Text(
-                    StringsManager.overview,
+                    StringsManager.appOverview,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),

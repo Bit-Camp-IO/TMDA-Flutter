@@ -1,10 +1,46 @@
-part of 'person_bloc.dart';
+part of 'person_cubit.dart';
 
-abstract class PersonState extends Equatable {
-  const PersonState();
-}
+class PersonState extends Equatable {
+  final Person personData;
+  final BlocState personDataState;
+  final String personDataLoadFailMessage;
+  final double animatedHeight;
+  final bool isTextExpanded;
+  const PersonState({
+    this.personData = const Person(
+      name: '',
+      biography: '',
+      id: 0,
+      birthDay: '',
+      knowingFor: '',
+      movies: [],
+      placeOfBirth: '',
+      profilePath: '',
+      tvShows: [],
+    ),
+  this.personDataState = BlocState.loading,
+    this.animatedHeight = 480,
+    this.personDataLoadFailMessage = '',
+    this.isTextExpanded = false,
+  });
 
-class PersonInitial extends PersonState {
+  PersonState copyWith({
+    Person? personData,
+    BlocState? personDataState,
+    String? personDataLoadFailMessage,
+    double? animatedHeight,
+    bool? isTextExpanded
+  }) {
+    return PersonState(
+      personData: personData ?? this.personData,
+      personDataState: personDataState ?? this.personDataState,
+      personDataLoadFailMessage: personDataLoadFailMessage ?? this.personDataLoadFailMessage,
+      animatedHeight: animatedHeight ?? this.animatedHeight,
+      isTextExpanded: isTextExpanded ?? this.isTextExpanded,
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [personData, personDataLoadFailMessage, personDataState, animatedHeight, isTextExpanded];
+
 }

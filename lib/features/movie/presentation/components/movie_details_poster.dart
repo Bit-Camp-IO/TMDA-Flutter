@@ -1,35 +1,61 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tmda/core/constants/api_constants.dart';
 
 class MovieDetailsPoster extends StatelessWidget {
+  final String posterPath;
+  final String errorPosterPath;
+  final double height;
+
   const MovieDetailsPoster({
     super.key,
     required this.posterPath,
     required this.height,
+    required this.errorPosterPath,
   });
-  final String posterPath;
-  final double height;
+
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: MovieDetailsCLipper(),
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        width: MediaQuery.of(context).size.width,
-        curve: Curves.linear,
-        height: height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              posterPath,
+      child: CachedNetworkImage(
+        imageUrl: ApiConstants.imageUrl(posterPath),
+        imageBuilder: (context, imageProvider) {
+          return AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            width: MediaQuery.of(context).size.width,
+            curve: Curves.linear,
+            height: height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3),
+                  BlendMode.darken,
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
-              BlendMode.darken,
+          );
+        },
+        errorWidget: (context, url, error) {
+          return AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            width: MediaQuery.of(context).size.width,
+            curve: Curves.linear,
+            height: height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(errorPosterPath),
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3),
+                  BlendMode.darken,
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
-            fit: BoxFit.cover,
-          ),
-        ),
+          );
+        },
       ),
     );
   }

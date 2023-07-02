@@ -64,8 +64,8 @@ class PosterCard extends StatelessWidget {
                     children: [
                       Text(
                         releaseDate.isEmpty
-                            ? 'Unknown '
-                            : '${releaseDate.substring(0, 4)}‧',
+                            ? 'Unknown ‧ '
+                            : '${releaseDate.substring(0, 4)} ‧ ',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                       ),
                       Text(_buildGenresText(genres),
@@ -81,7 +81,7 @@ class PosterCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'TMDB $rating',
+                        'TMDB ${rating.toStringAsFixed(1)}',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                       ),
                       SizedBox(width: 8.w),

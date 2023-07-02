@@ -61,7 +61,7 @@ class TvShowCastComponent extends StatelessWidget {
                             }
 
                           },
-                          errorImagePath: AssetsManager.noPoster,
+                          errorImagePath: AssetsManager.neonAvatar,
                           actorPicPath: state.tvShowDetails.cast[index].actorPicPath,
                           actorName: state.tvShowDetails.cast[index].actorName,
                           actorCharacterName: state.tvShowDetails.cast[index].movieCharacter,

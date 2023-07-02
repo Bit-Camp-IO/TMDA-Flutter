@@ -58,7 +58,7 @@ class TvShowScreen extends StatelessWidget with AutoRouteWrapper {
             BlocBuilder<TvShowsBloc, TvShowsState>(
               builder: (context, state) {
                 switch (state.tvShowsState) {
-                  case BlocState.loading:
+                  case BlocState.initial || BlocState.loading:
                     return Center(
                       child: Lottie.asset(AssetsManager.neonLoading),
                     );

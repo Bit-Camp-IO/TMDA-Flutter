@@ -17,10 +17,10 @@ final class ApiConstants {
   static const String movieMediaTypeTitle = 'movie';
   static const String tvMediaTypeTitle = 'tv';
   //! Auth Endpoints & Urls
-  static const String requestTokenEndpoint = '$baseUrl/authentication/token/new';
+  static const String requestTokenEndpoint = '/authentication/token/new';
   static const String validateWithLoginEndPoint =
-      '$baseUrl/authentication/token/validate_with_login';
-  static const String newSessionEndpoint = '$baseUrl/authentication/session/new';
+      '/authentication/token/validate_with_login';
+  static const String newSessionEndpoint = '/authentication/session/new';
 
   //! Shared Api Paths
   static const String castPath = '/credits';
@@ -30,19 +30,19 @@ final class ApiConstants {
   static const String recommendationsPath = '/recommendations';
 
   //! Movie Endpoints
-  static const String nowPlayingMoviesEndPoint = '$baseUrl/movie/now_playing';
-  static const String newMoviesEndPoints = '$baseUrl/movie/upcoming';
-  static const String popularMoviesEndPoint = '$baseUrl/movie/popular';
-  static const String topRatedMoviesEndPoint = '$baseUrl/movie/top_rated';
-  static const String movieDetailsEndPoint = '$baseUrl/movie/';
+  static const String nowPlayingMoviesEndPoint = '/movie/now_playing';
+  static const String newMoviesEndPoints = '/movie/upcoming';
+  static const String popularMoviesEndPoint = '/movie/popular';
+  static const String topRatedMoviesEndPoint = '/movie/top_rated';
+  static const String movieDetailsEndPoint = '/movie/';
 
 
   //! Tv Endpoints
-  static const String tvAiringTodayEndPoint = '$baseUrl/tv/airing_today';
-  static const String tvAiringThisWeekEndPoint = '$baseUrl/tv/on_the_air';
-  static const String popularTvShowsEndPoint = '$baseUrl/tv/popular';
-  static const String topRatedTvShowsEndPoint = '$baseUrl/tv/top_rated';
-  static const String tvShowDetailsEndPoint = '$baseUrl/tv/';
+  static const String tvAiringTodayEndPoint = '/tv/airing_today';
+  static const String tvAiringThisWeekEndPoint = '/tv/on_the_air';
+  static const String popularTvShowsEndPoint = '/tv/popular';
+  static const String topRatedTvShowsEndPoint = '/tv/top_rated';
+  static const String tvShowDetailsEndPoint = '/tv/';
   static const String seasonPath = '/season/';
   static const String episodePath = '/episode/';
   static const String episodeVideoPath = '/videos';
@@ -52,10 +52,15 @@ final class ApiConstants {
   static const accountMoviesWatchListPath = '/watchlist/movies';
   static const accountTvWatchListPath = '/watchlist/tv';
   static const addOrRemoveFromWatchListEndPoint =
-      '$baseUrl/account/$accountId/watchlist';
-  static const String accountLogoutEndPoint = '$baseUrl/authentication/session';
+      '/account/$accountId/watchlist';
+  static const String accountLogoutEndPoint = '/authentication/session';
 
   //! Person EndPoints
   static const personEndPoint = '/person/';
   static String imageUrl(String apiImagePath) => '$baseImageUrl$apiImagePath';
+
+  //! Search Endpoints
+  static const movieSearch = '/search/movie';
+  static const tvShowSearch = '/search/tv';
+  static const personSearch = '/search/person';
 }

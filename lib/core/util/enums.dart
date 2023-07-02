@@ -40,6 +40,7 @@ enum PersonSeeAllType {
 }
 
 enum BlocState {
+  initial,
   loading,
   success,
   failure,

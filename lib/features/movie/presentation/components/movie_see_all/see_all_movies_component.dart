@@ -43,7 +43,6 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                 left: 24,
                 right: 24,
                 top: 14,
-                bottom: 16.0,
               ).r,
               child: BlocBuilder<SeeAllMoviesBloc, SeeAllMoviesState>(
                 buildWhen: (previous, current) =>

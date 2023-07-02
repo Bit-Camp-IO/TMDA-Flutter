@@ -109,7 +109,7 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
           BlocBuilder<SeeAllMoviesBloc, SeeAllMoviesState>(
             builder: (context, state) {
               switch (state.seeAllState) {
-                case BlocState.loading:
+                case BlocState.initial || BlocState.loading:
                   return Center(
                     child: Lottie.asset(AssetsManager.neonLoading),
                   );

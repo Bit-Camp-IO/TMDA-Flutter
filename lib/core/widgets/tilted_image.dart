@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 
@@ -28,23 +27,14 @@ class TiltedImage extends StatelessWidget {
           width: width,
           imageUrl: ApiConstants.imageUrl(imagePath),
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Transform(
-            transform: Matrix4.skewX(-0.05),
-            child: Animate(
-              effects: [FadeEffect(duration: 1000.ms)],
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(const Radius.circular(20).w),
-                child: Container(
-                  height: height,
-                  width: width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(errorImagePath),
-                      fit: BoxFit.cover
-                    )
-                  ),
-                ),
-              ),
+          errorWidget: (context, url, error) => Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(errorImagePath),
+                fit: BoxFit.cover
+              )
             ),
           ),
         ),

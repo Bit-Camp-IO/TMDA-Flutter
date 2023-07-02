@@ -97,7 +97,7 @@ class _AccountScreenState extends State<AccountScreen>
             },
             builder: (context, state) {
               switch (state.accountTabState) {
-                case BlocState.loading:
+                case BlocState.initial || BlocState.loading:
                   return Center(
                     child: Lottie.asset(AssetsManager.neonLoading),
                   );

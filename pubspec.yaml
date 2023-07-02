@@ -31,6 +31,7 @@ dependencies:
   lottie: ^2.4.0
   injectable: ^2.1.2
   intl: ^0.18.1
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +51,7 @@ flutter:
     - assets/images/play_button.svg
     - assets/lottie/neon_loading.json
     - assets/images/neon_avatar.jpg
+    - assets/images/no_poster.jpg
   fonts:
     - family: Poppins
       fonts:

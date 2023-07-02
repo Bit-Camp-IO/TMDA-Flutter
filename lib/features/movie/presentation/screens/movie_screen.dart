@@ -15,7 +15,7 @@ import 'package:tmda/features/movie/presentation/components/movie_main/new_movie
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class MovieScreen extends StatelessWidget implements AutoRouteWrapper{
+class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
   const MovieScreen({super.key});
 
   @override
@@ -58,15 +58,9 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper{
                   previous.moviesState != current.moviesState,
               builder: (context, state) {
                 switch (state.moviesState) {
-                  case BlocState.failure:
-                    return NoConnection(
-                      onTap: () {
-                        context.read<MoviesBloc>()
-                          ..add(GetNowPlayingMoviesEvent())
-                          ..add(GetNewMoviesEvent())
-                          ..add(GetPopularMoviesEvent())
-                          ..add(GetTopRatedMoviesEvent());
-                      },
+                  case BlocState.initial || BlocState.loading:
+                    return Center(
+                      child: Lottie.asset('assets/lottie/neon_loading.json'),
                     );
                   case BlocState.success:
                     return ListView(
@@ -81,9 +75,15 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper{
                         SizedBox(height: 60.h),
                       ],
                     );
-                  case BlocState.loading:
-                    return Center(
-                      child: Lottie.asset('assets/lottie/neon_loading.json'),
+                  case BlocState.failure:
+                    return NoConnection(
+                      onTap: () {
+                        context.read<MoviesBloc>()
+                          ..add(GetNowPlayingMoviesEvent())
+                          ..add(GetNewMoviesEvent())
+                          ..add(GetPopularMoviesEvent())
+                          ..add(GetTopRatedMoviesEvent());
+                      },
                     );
                 }
               },

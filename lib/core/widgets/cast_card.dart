@@ -25,13 +25,13 @@ class CastCard extends StatelessWidget {
       child: Stack(
         children: [
           SizedBox(
-            width: 130.sp,
-            height: 220.sp,
+            width: 130.w,
+            height: 220.h,
             child: TiltedImageWithShadow(
               errorImagePath: errorImagePath,
               imagePath: actorPicPath,
-              width: 130.sp,
-              height: 220.sp,
+              width: 130.w,
+              height: 220.h,
             ),
           ),
           Positioned(

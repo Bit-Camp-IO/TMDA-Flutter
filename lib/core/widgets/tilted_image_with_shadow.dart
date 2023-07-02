@@ -24,42 +24,32 @@ class TiltedImageWithShadow extends StatelessWidget {
       transform: Matrix4.skewX(-0.05),
       child: ClipRRect(
         borderRadius: BorderRadius.all(const Radius.circular(20).w),
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: CachedNetworkImage(
-            imageUrl: ApiConstants.imageUrl(imagePath),
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3),
-                    BlendMode.darken,
-                  ),
+        child: CachedNetworkImage(
+          imageUrl: ApiConstants.imageUrl(imagePath),
+          imageBuilder: (context, imageProvider) => Container(
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3),
+                  BlendMode.darken,
                 ),
               ),
             ),
-            errorWidget: (context, url, error) => Transform(
-              transform: Matrix4.skewX(-0.05),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(const Radius.circular(20).w),
-                child: SizedBox(
-                  width: width,
-                  height: height,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image:  NetworkImage(errorImagePath),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.3),
-                          BlendMode.darken,
-                        ),
-                      ),
-                    ),
-                  ),
+          ),
+          errorWidget: (context, url, error) => Container(
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:  AssetImage(errorImagePath),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3),
+                  BlendMode.darken,
                 ),
               ),
             ),

@@ -85,10 +85,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                     child: Stack(
                       children: [
                         MovieDetailsPoster(
-                          posterPath: state.movieDetails.posterPath.isNotEmpty
-                              ? ApiConstants.imageUrl(
-                                  state.movieDetails.posterPath)
-                              : AssetsManager.noPoster,
+                          posterPath: state.movieDetails.posterPath,
+                          errorPosterPath: AssetsManager.noPoster,
                           height: state.animatedPosterHeight,
                         ),
                         Positioned(

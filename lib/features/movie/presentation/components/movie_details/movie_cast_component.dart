@@ -63,7 +63,7 @@ class MovieCastComponent extends StatelessWidget {
                             }
 
                           },
-                          errorImagePath: AssetsManager.noPoster,
+                          errorImagePath: AssetsManager.neonAvatar,
                           actorPicPath: state.movieDetails.cast[index].actorPicPath,
                           actorName: state.movieDetails.cast[index].actorName,
                           actorCharacterName: state.movieDetails.cast[index].movieCharacter,

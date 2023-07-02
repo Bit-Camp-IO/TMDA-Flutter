@@ -22,7 +22,7 @@ class _NavigationTabsState extends State<NavigationTabs> {
       routes: const [
         MovieRoute(),
         TvShowRoute(),
-        MainSearchRoute(),
+        SearchRoute(),
         AccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {

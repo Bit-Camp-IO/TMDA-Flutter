@@ -49,99 +49,96 @@ class _PersonScreenState extends State<PersonScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
-        child: Stack(
-          children: [
-            const Positioned(
-              top: 30,
-              left: 20,
-              child: NeonLightPainter(
-                color: ColorsManager.primaryColor,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.zero,
+          child: Stack(
+            children: [
+              const Positioned(
+                top: 30,
+                left: 20,
+                child: NeonLightPainter(
+                  color: ColorsManager.primaryColor,
+                ),
               ),
-            ),
-            const Positioned(
-              bottom: 350,
-              right: 0,
-              child: NeonLightPainter(color: ColorsManager.secondaryColor),
-            ),
-            const Positioned(
-              bottom: 10,
-              left: 10,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
-            BlocBuilder<PersonCubit, PersonState>(
-              buildWhen: (previous, current) =>
-                  previous.personDataState != current.personDataState ||
-                  previous.animatedHeight != current.animatedHeight,
-              builder: (context, state) {
-                switch (state.personDataState) {
-                  case BlocState.loading:
-                    return Center(
-                      child: Lottie.asset(AssetsManager.neonLoading),
-                    );
-                  case BlocState.success:
-                    CustomScrollView(
-                      slivers: [
-                        SliverList(delegate: SliverChildListDelegate([
-
-                        ],),),
-                      ],
-                    );
-                    return ListView(
-                      controller: _scrollController,
-                      padding: EdgeInsets.zero,
-                      children: [
-                        const PersonOverviewComponent(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0).r,
-                          child: const SectionDivider(),
-                        ),
-                        Builder(
-                          builder: (context) {
-                            if (widget.personScreenType ==
-                                PersonScreenType.withMovies) {
-                              return const PersonMoviesComponent();
-                            } else if (widget.personScreenType ==
-                                PersonScreenType.withTvShows) {
-                              return const PersonTvShowsComponent();
-                            } else {
-                              return Column(
-                                children: [
-                                  const PersonMoviesComponent(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0).r,
-                                    child: const SectionDivider(),
-                                  ),
-                                  const PersonTvShowsComponent(),
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                        SizedBox(height: 70.h)
-                      ],
-                    );
-                  case BlocState.failure:
-                    return NoConnection(
-                      onTap: () {
-                        context
-                            .read<PersonCubit>()
-                            .getPersonDetails(widget.personId);
-                      },
-                    );
-                }
-              },
-            ),
-            Positioned(
-              top: 40,
-              left: 20,
-              child: CustomIconButton(
-                onPressed: () {
-                  context.popRoute();
+              const Positioned(
+                bottom: 350,
+                right: 0,
+                child: NeonLightPainter(color: ColorsManager.secondaryColor),
+              ),
+              const Positioned(
+                bottom: 10,
+                left: 10,
+                child: NeonLightPainter(color: ColorsManager.primaryColor),
+              ),
+              BlocBuilder<PersonCubit, PersonState>(
+                buildWhen: (previous, current) =>
+                    previous.personDataState != current.personDataState ||
+                    previous.animatedHeight != current.animatedHeight,
+                builder: (context, state) {
+                  switch (state.personDataState) {
+                    case BlocState.initial || BlocState.loading:
+                      return Center(
+                        child: Lottie.asset(AssetsManager.neonLoading),
+                      );
+                    case BlocState.success:
+                      return ListView(
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        children: [
+                          const PersonOverviewComponent(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0).r,
+                            child: const SectionDivider(),
+                          ),
+                          Builder(
+                            builder: (context) {
+                              if (widget.personScreenType ==
+                                  PersonScreenType.withMovies) {
+                                return const PersonMoviesComponent();
+                              } else if (widget.personScreenType ==
+                                  PersonScreenType.withTvShows) {
+                                return const PersonTvShowsComponent();
+                              } else {
+                                return Column(
+                                  children: [
+                                    const PersonMoviesComponent(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0).r,
+                                      child: const SectionDivider(),
+                                    ),
+                                    const PersonTvShowsComponent(),
+                                  ],
+                                );
+                              }
+                            },
+                          ),
+                          SizedBox(height: 70.h)
+                        ],
+                      );
+                    case BlocState.failure:
+                      return NoConnection(
+                        onTap: () {
+                          context
+                              .read<PersonCubit>()
+                              .getPersonDetails(widget.personId);
+                        },
+                      );
+                  }
                 },
-                icon: Icons.arrow_back,
               ),
-            ),
-          ],
+              Positioned(
+                top: 40,
+                left: 20,
+                child: CustomIconButton(
+                  onPressed: () {
+                    context.popRoute();
+                  },
+                  icon: Icons.arrow_back,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

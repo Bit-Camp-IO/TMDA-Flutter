@@ -19,7 +19,7 @@ class NoConnection extends StatelessWidget {
         children: [
           const Icon(
             SolarSystemIcons.wifi,
-            color: ColorsManager.darkPrimary,
+            color: ColorsManager.primaryColor,
             size: 100,
           ),
           SizedBox(height: 30.h),

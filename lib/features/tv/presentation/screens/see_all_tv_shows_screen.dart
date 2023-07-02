@@ -107,7 +107,7 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
           BlocBuilder<SeeAllTvShowsBloc, SeeAllTvShowsState>(
             builder: (context, state) {
               switch (state.seeAllState) {
-                case BlocState.loading:
+                case BlocState.initial || BlocState.loading:
                   return Center(
                     child: Lottie.asset(AssetsManager.neonLoading),
                   );

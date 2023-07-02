@@ -143,14 +143,14 @@ class SeeAllCard extends StatelessWidget {
   }
   String _buildGenres(List genres){
     if(genres.isEmpty){
-      return 'Unknown ‧';
+      return 'Unknown ‧ ';
     } else if(genres.length == 1){
-      return '${genres[0].name}‧';
+      return '${genres[0].name} ‧ ';
     }else{
       if(genres[0].name.length > 7 && genres[1].name.length > 7){
-        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)}‧';
+        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)} ‧ ';
       }else{
-        return '${genres[0].name}/${genres[1].name}‧';
+        return '${genres[0].name}/${genres[1].name} ‧ ';
       }
     }
   }

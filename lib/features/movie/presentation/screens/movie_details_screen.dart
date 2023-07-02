@@ -93,7 +93,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
                   previous.movieDetailsState != current.movieDetailsState,
               builder: (context, state) {
                 switch (state.movieDetailsState) {
-                  case BlocState.loading:
+                  case BlocState.initial || BlocState.loading:
                     return Center(
                       child: Lottie.asset('assets/lottie/neon_loading.json'),
                     );

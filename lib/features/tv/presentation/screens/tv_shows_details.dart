@@ -78,7 +78,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
             BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
               builder: (context, state) {
                 switch (state.tvShowDetailsState) {
-                  case BlocState.loading:
+                  case BlocState.initial || BlocState.loading:
                     return Center(
                       child: Lottie.asset('assets/lottie/neon_loading.json'),
                     );

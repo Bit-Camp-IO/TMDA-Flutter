@@ -131,7 +131,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
         icon,
         const SizedBox(width: 8),
         Text(
-          text,
+          text.isNotEmpty ? text : StringsManager.unknown,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: ColorsManager.inActiveColor,
                 fontWeight: FontWeight.w400,
@@ -142,9 +142,14 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
   }
 
   String _formatDate({required String date}) {
-    DateTime dateTime = DateTime.parse(date);
-    String formattedDate = DateFormat('d MMMM y').format(dateTime);
-    return formattedDate;
+    if(date.isNotEmpty){
+      DateTime dateTime = DateTime.parse(date);
+      String formattedDate = DateFormat('d MMMM y').format(dateTime);
+      return formattedDate;
+    }else{
+      return StringsManager.unknown;
+    }
+
   }
 }
 

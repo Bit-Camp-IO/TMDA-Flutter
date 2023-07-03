@@ -85,6 +85,9 @@ class StringsManager {
   static const String unknown = 'Unknown';
   static const String from = 'From';
   static const String noReviews = "Couldn't find any reviews.";
+  static const String error = 'There was an error';
+  static const String checkYourConnection = 'Please check your connection';
+  static const String tryAgain = 'Try Again';
 
   //! Text build functions
   static String voteCount(String voteCount) => 'From $voteCount users';

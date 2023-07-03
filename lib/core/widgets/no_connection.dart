@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/normal_button.dart';
 
 class NoConnection extends StatelessWidget {
@@ -24,14 +25,14 @@ class NoConnection extends StatelessWidget {
           ),
           SizedBox(height: 30.h),
           Text(
-            'There was an error',
+            StringsManager.error,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge!
                 .copyWith(color: ColorsManager.primaryColor),
           ),
           Text(
-            'Please check your connection',
+            StringsManager.checkYourConnection,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
@@ -43,7 +44,7 @@ class NoConnection extends StatelessWidget {
             width: 180,
             height: 48,
             child: Text(
-              'Try Again',
+              StringsManager.tryAgain,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!

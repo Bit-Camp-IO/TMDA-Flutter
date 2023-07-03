@@ -48,8 +48,8 @@ class PosterCard extends StatelessWidget {
               height: height.h,
             ),
             Positioned(
-              left: 1,
-              right: 20,
+              left: 0,
+              right: 10,
               bottom: 10,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -69,8 +69,9 @@ class PosterCard extends StatelessWidget {
                     children: [
                       Text(
                         releaseDate.isEmpty
-                            ? '${StringsManager.unknown} ‧ '
-                            : '${releaseDate.substring(0, 4)} ‧ ',
+                            ? '${StringsManager.unknown}‧'
+                            : '${releaseDate.substring(0, 4)}‧',
+                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -86,6 +87,7 @@ class PosterCard extends StatelessWidget {
                       ),
                       Text(
                         language.toUpperCase(),
+                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!

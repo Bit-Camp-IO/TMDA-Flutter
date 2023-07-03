@@ -23,20 +23,18 @@ class CastCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Stack(
+        fit: StackFit.passthrough,
         children: [
-          SizedBox(
+          TiltedImageWithShadow(
+            errorImagePath: errorImagePath,
+            imagePath: actorPicPath,
             width: 130.w,
             height: 220.h,
-            child: TiltedImageWithShadow(
-              errorImagePath: errorImagePath,
-              imagePath: actorPicPath,
-              width: 130.w,
-              height: 220.h,
-            ),
           ),
           Positioned(
-            bottom: 30,
             left: 5,
+            right: 20,
+            bottom: 30,
             child: Text(
               actorName,
               overflow: TextOverflow.ellipsis,
@@ -44,14 +42,15 @@ class CastCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 15,
             left: 5,
+            right: 15,
+            bottom: 15,
             child: Text(
               actorCharacterName,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          ),
+          )
         ],
       ),
     );

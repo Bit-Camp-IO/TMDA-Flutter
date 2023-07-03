@@ -150,9 +150,9 @@ class ListCardWithSave extends StatelessWidget {
     if (genres.isEmpty) {
       return '${StringsManager.unknown}‧';
     } else if (genres.length == 1) {
-      return '${genres[0].name}‧';
+      return '${genres[0].name} ‧ ';
     } else {
-        return '${genres[0].name}/${genres[1].name}‧';
+        return '${genres[0].name}/${genres[1].name} ‧ ';
     }
   }
 }

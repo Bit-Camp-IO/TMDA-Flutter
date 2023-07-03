@@ -72,7 +72,7 @@ class ListCard extends StatelessWidget {
                               Text(
                                 releaseYear.isEmpty
                                     ? StringsManager.unknown
-                                    : '${releaseYear.substring(0, 4)}‧',
+                                    : '${releaseYear.substring(0, 4)} ‧ ',
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
@@ -127,11 +127,11 @@ class ListCard extends StatelessWidget {
 
   String _buildGenres(List genres) {
     if (genres.isEmpty) {
-      return '${StringsManager.unknown}‧';
+      return '${StringsManager.unknown} ‧ ';
     } else if (genres.length == 1) {
       return '${genres[0].name}‧';
     } else {
-        return '${genres[0].name}/${genres[1].name}‧';
+        return '${genres[0].name}/${genres[1].name} ‧ ';
     }
   }
 }

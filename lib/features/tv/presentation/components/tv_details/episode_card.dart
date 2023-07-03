@@ -43,50 +43,54 @@ class EpisodeCard extends StatelessWidget {
               height: 170.h,
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(title,
-              overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(title,
+                overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                SizedBox(height: 10.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(airDate),
+                    SizedBox(width: 10.w),
+                    Text('${episodeDuration}m'),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: ColorsManager.ratingIconColor,
+                      size: 16,
                     ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                children: [
-                  Text(airDate),
-                  SizedBox(width: 10.w),
-                  Text('${episodeDuration}m'),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star,
-                    color: ColorsManager.ratingIconColor,
-                    size: 16,
-                  ),
-                  Text(
-                    vote.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontSize: 11),
-                  ),
-                  SizedBox(width: 20.w),
-                  Text(
-                    '$voteCount ${StringsManager.votes}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontSize: 11),
-                  )
-                ],
-              ),
-              SizedBox(height: 5.h),
-            ],
+                    Text(
+                      vote.toString(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 11),
+                    ),
+                    SizedBox(width: 20.w),
+                    Text(
+                      '$voteCount ${StringsManager.votes}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 11),
+                    )
+                  ],
+                ),
+                SizedBox(height: 5.h),
+              ],
+            ),
           )
         ],
       ),

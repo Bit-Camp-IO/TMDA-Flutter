@@ -35,33 +35,31 @@ class DetailsPosterCard extends StatelessWidget {
           Positioned(
             left: 5,
             right: 0,
-            bottom: 10,
-            child: Column(
+            bottom: 30,
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      SolarSystemIcons.star,
-                      color: ColorsManager.ratingIconColor,
-                      size: 16,
-                    ),
-                    Text(rating.toStringAsFixed(1),
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ],
+                const Icon(
+                  SolarSystemIcons.star,
+                  color: ColorsManager.ratingIconColor,
+                  size: 16,
                 ),
-                SizedBox(height: 5.w),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontSize: 8.sp),
-                  ),
-                ),
+                const SizedBox(width: 2),
+                Text(
+                    rating.toStringAsFixed(1),
+                    style: Theme.of(context).textTheme.bodyMedium),
               ],
+            ),
+          ),
+          Positioned(
+            left: 5,
+            right: 15,
+            bottom: 10,
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall,
             ),
           ),
         ],

@@ -1,6 +1,3 @@
-import 'package:tmda/features/account/data/models/account_states_model.dart';
-import 'package:tmda/features/account/data/models/watchlist_genres_model.dart';
-import 'package:tmda/features/search/data/models/search_content_states_model.dart';
 import 'package:tmda/features/search/data/models/search_genre_model.dart';
 import 'package:tmda/features/search/domain/entities/tv_show_search.dart';
 
@@ -14,7 +11,6 @@ class SearchTvShowModel extends TvShowSearch {
     required super.voteCount,
     required super.genres,
     required super.firstAirDate,
-    required super.contentStates,
   });
 
   factory SearchTvShowModel.fromJson(Map<String, dynamic> jsonData) {
@@ -23,7 +19,7 @@ class SearchTvShowModel extends TvShowSearch {
       {"id": 16, "name": "Animation"},
       {"id": 35, "name": "Comedy"},
       {"id": 80, "name": "Crime"},
-      {"id": 99, "name": "Documentary"},
+      {"id": 99, "name": "Document"},
       {"id": 18, "name": "Drama"},
       {"id": 10751, "name": "Family"},
       {"id": 10762, "name": "Kids"},
@@ -48,7 +44,6 @@ class SearchTvShowModel extends TvShowSearch {
       genres: List<SearchGenreModel>.from(
           tvShowGenres.map((jsonData) => SearchGenreModel.fromJson(jsonData))),
       firstAirDate: jsonData['first_air_date'],
-      contentStates: SearchContentStatesModel.fromJson(jsonData['account_status']),
     );
   }
 }

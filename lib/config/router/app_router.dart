@@ -110,6 +110,16 @@ class AppRouter extends _$AppRouter {
                   durationInMilliseconds: 400,
                 ),
                 CustomRoute(
+                  page: SeeAllMoviesRoute.page,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  durationInMilliseconds: 400,
+                ),
+                CustomRoute(
+                  page: SeeAllTvShowsRoute.page,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  durationInMilliseconds: 400,
+                ),
+                CustomRoute(
                   page: PersonRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
                   durationInMilliseconds: 400,

@@ -6,8 +6,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
-class SeeAllCard extends StatelessWidget {
-  const SeeAllCard({
+class ListCardWithSave extends StatelessWidget {
+  const ListCardWithSave({
     super.key,
     required this.title,
     required this.posterPath,

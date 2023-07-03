@@ -5,8 +5,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
-class SeeAllWatchListCard extends StatelessWidget {
-  const SeeAllWatchListCard({
+class ListCard extends StatelessWidget {
+  const ListCard({
     super.key,
     required this.title,
     required this.posterPath,
@@ -124,13 +124,15 @@ class SeeAllWatchListCard extends StatelessWidget {
     );
   }
   String _buildGenres(List genres){
-    if(genres.length < 2){
-      return '${genres[0].name}‧';
+    if(genres.isEmpty){
+      return '${StringsManager.unknown} ‧ ';
+    }else if(genres.length == 1){
+      return '${genres[0].name} ‧ ';
     }else{
       if(genres[0].name.length > 7 && genres[1].name.length > 7){
-        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)}‧';
+        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)} ‧ ';
       }else{
-        return '${genres[0].name}/${genres[1].name}‧';
+        return '${genres[0].name}/${genres[1].name} ‧ ';
       }
     }
   }

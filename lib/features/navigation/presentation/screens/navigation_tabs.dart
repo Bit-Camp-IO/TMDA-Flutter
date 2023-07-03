@@ -19,6 +19,7 @@ class _NavigationTabsState extends State<NavigationTabs> {
 
     return AutoTabsScaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       routes: const [
         MovieRoute(),
         TvShowRoute(),

@@ -29,4 +29,5 @@ class SolarSystemIcons {
   static const IconData visibility_on = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData warning = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData wifi = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData play = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

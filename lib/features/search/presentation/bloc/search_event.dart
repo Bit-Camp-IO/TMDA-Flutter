@@ -37,34 +37,24 @@ class ChangeSearchTabEvent extends SearchEvent{
   @override
   List<Object?> get props => [tabIndex];
 }
-class LoadMoreMoviesEvent extends SearchEvent{}
-class LoadMoreTvShowsEvent extends SearchEvent{}
-class LoadMorePersonsEvent extends SearchEvent{}
-
-class AddOrRemoveContentFromWatchListEvent extends SearchEvent{
-  final int contentId;
-  final bool isInWatchList;
-  const AddOrRemoveContentFromWatchListEvent(this.contentId, this.isInWatchList);
+class LoadMoreMoviesEvent extends SearchEvent{
+  final String movieName;
+  const LoadMoreMoviesEvent(this.movieName);
 
   @override
-  List<Object?> get props => [contentId];
+  List<Object?> get props => [movieName];
 }
+class LoadMoreTvShowsEvent extends SearchEvent{
+  final String tvShowName;
+  const LoadMoreTvShowsEvent(this.tvShowName);
 
-class CheckForTappedMovieStatesEvent extends SearchEvent {
-  final int contentId;
-
-  const CheckForTappedMovieStatesEvent(this.contentId);
   @override
-  List<Object> get props => [contentId];
+  List<Object?> get props => [tvShowName];
 }
+class LoadMorePersonsEvent extends SearchEvent{
+  final String personName;
+  const LoadMorePersonsEvent(this.personName);
 
-class CheckForMoviesListStatesEvent extends SearchEvent  {}
-class CheckForTappedTvShowStatesEvent extends SearchEvent {
-  final int contentId;
-
-  const CheckForTappedTvShowStatesEvent(this.contentId);
   @override
-  List<Object> get props => [contentId];
+  List<Object?> get props => [personName];
 }
-
-class CheckForTvShowsListStatesEvent extends SearchEvent  {}

@@ -25,16 +25,22 @@ class TiltedImage extends StatelessWidget {
         child: CachedNetworkImage(
           height: height,
           width: width,
-          imageUrl: ApiConstants.imageUrl(imagePath),
+          imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Container(
-            height: height,
-            width: width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(errorImagePath),
-                fit: BoxFit.cover
-              )
+          errorWidget: (context, url, error) => Transform(
+            transform: Matrix4.skewX(-0.05),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(const Radius.circular(20).w),
+              child: Container(
+                width: width,
+                height: height,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(errorImagePath),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
           ),
         ),

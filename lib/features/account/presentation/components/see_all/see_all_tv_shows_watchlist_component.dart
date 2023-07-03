@@ -88,8 +88,9 @@ class _SeeAllTvShowsWatchListComponentState
                       .add(RemoveTvShowFromWatchListEvent(
                           tvShowId: state.tvShowsWatchList[index].id)),
                   child: ListCard(
+                    localErrorImagePath: AssetsManager.localErrorPoster,
                     title: state.tvShowsWatchList[index].title,
-                    errorImagePath: AssetsManager.noPoster,
+                    errorImagePath: AssetsManager.errorPoster,
                     posterPath: state.tvShowsWatchList[index].posterPath,
                     vote: state.tvShowsWatchList[index].voteAverage,
                     voteCount: state.tvShowsWatchList[index].voteCount,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
@@ -12,15 +11,15 @@ class PersonCard extends StatelessWidget {
     required this.onTap,
     required this.knownFor,
     required this.imagePath,
-    required this.errorImagePath,
+    required this.errorAvatarPath, required this.errorLocalAvatarPath,
   });
 
   final String name;
   final String knownFor;
   final String imagePath;
   final void Function() onTap;
-  final String errorImagePath;
-
+  final String errorAvatarPath;
+  final String errorLocalAvatarPath;
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -43,7 +42,8 @@ class PersonCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TiltedImage(
-                        errorImagePath: errorImagePath,
+                        localErrorImagePath: errorLocalAvatarPath,
+                        errorImagePath: errorAvatarPath,
                         imagePath: imagePath,
                         width: 120.w,
                         height: 170.h,

@@ -39,8 +39,9 @@ class PersonTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
+                            localErrorImagePath: AssetsManager.localErrorPoster,
                             imagePath: state.personData.tvShows[index].posterPath,
-                            errorImagePath: AssetsManager.noPoster,
+                            errorImagePath: AssetsManager.errorPoster,
                             title: state.personData.tvShows[index].title,
                             rating: state.personData.tvShows[index].voteAverage,
                             onTap: () {

@@ -51,9 +51,10 @@ class RecommendedMoviesComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
+                            localErrorImagePath: AssetsManager.localErrorPoster,
                             imagePath: state
                                 .movieDetails.recommendedMovies[index].posterPath,
-                            errorImagePath: AssetsManager.noPoster,
+                            errorImagePath: AssetsManager.errorPoster,
                             title: state.movieDetails.recommendedMovies[index].title,
                             rating: state
                                 .movieDetails.recommendedMovies[index].voteAverage,

@@ -65,8 +65,9 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                               ),
                             );
                           },
+                          localErrorImagePath: AssetsManager.localErrorPoster,
                           title: state.seeAllMovies[index].title,
-                          errorImagePath: AssetsManager.noPoster,
+                          errorImagePath: AssetsManager.errorPoster,
                           posterPath: state.seeAllMovies[index].posterPath,
                           vote: state.seeAllMovies[index].voteAverage,
                           voteCount: state.seeAllMovies[index].movieVoteCount,

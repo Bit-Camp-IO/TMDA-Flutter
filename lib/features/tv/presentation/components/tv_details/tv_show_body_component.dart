@@ -80,11 +80,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                       children: [
                         TvDetailsPoster(
                           height: state.animatedHeight,
-                          posterPath: state.tvShowDetails.posterPath.isNotEmpty
-                              ? ApiConstants.imageUrl(
-                                  state.tvShowDetails.posterPath,
-                                )
-                              : AssetsManager.noPoster,
+                          errorPosterPath: AssetsManager.errorPoster,
+                          localErrorPosterPAth: AssetsManager.localErrorPoster,
+                          posterPath: state.tvShowDetails.posterPath,
                         ),
                         Positioned(
                           left: 0,

@@ -9,13 +9,14 @@ class TiltedImageWithShadow extends StatelessWidget {
     required this.imagePath,
     required this.width,
     required this.height,
-    required this.errorImagePath,
+    required this.errorImagePath, required this.localErrorImagePath,
   });
 
   final String imagePath;
   final double width;
   final double height;
   final String errorImagePath;
+  final String localErrorImagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class TiltedImageWithShadow extends StatelessWidget {
             height: height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(errorImagePath),
+                image: AssetImage(localErrorImagePath),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.3),

@@ -4,7 +4,6 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
-
 class DetailsPosterCard extends StatelessWidget {
   const DetailsPosterCard({
     super.key,
@@ -13,12 +12,16 @@ class DetailsPosterCard extends StatelessWidget {
     required this.rating,
     required this.onTap,
     required this.errorImagePath,
+    required this.localErrorImagePath,
   });
+
   final String imagePath;
   final String title;
   final dynamic rating;
   final void Function() onTap;
   final String errorImagePath;
+  final String localErrorImagePath;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -26,6 +29,7 @@ class DetailsPosterCard extends StatelessWidget {
       child: Stack(
         children: [
           TiltedImageWithShadow(
+            localErrorImagePath: localErrorImagePath,
             errorImagePath: errorImagePath,
             imagePath: imagePath,
             width: 130.w,
@@ -53,7 +57,10 @@ class DetailsPosterCard extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   child: Text(
                     title.length > 20 ? '${title.substring(0, 20)}..' : title,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontSize: 8.sp),
                   ),
                 ),
               ],

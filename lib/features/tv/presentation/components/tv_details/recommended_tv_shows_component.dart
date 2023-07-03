@@ -52,7 +52,8 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            errorImagePath: AssetsManager.noPoster,
+                            localErrorImagePath: AssetsManager.localErrorPoster,
+                            errorImagePath: AssetsManager.errorPoster,
                             imagePath: state.tvShowDetails.recommendedTvShows[index].posterPath,
                             title: state.tvShowDetails.recommendedTvShows[index].title,
                             rating: state.tvShowDetails.recommendedTvShows[index].voteAverage,

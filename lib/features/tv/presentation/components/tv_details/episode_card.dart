@@ -37,7 +37,8 @@ class EpisodeCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TiltedImage(
-              errorImagePath: AssetsManager.noPoster,
+              localErrorImagePath: AssetsManager.localErrorPoster,
+              errorImagePath: AssetsManager.errorPoster,
               imagePath: posterPath,
               width: 120.w,
               height: 170.h,

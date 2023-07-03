@@ -49,8 +49,9 @@ class TvShowsAiringTodayComponent extends StatelessWidget {
                             ),
                           );
                         },
+                        localErrorImagePath: AssetsManager.localErrorPoster,
                         title: state.airingTodayTvShows[index].title,
-                        errorImagePath: AssetsManager.noPoster,
+                        errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.airingTodayTvShows[index].posterPath,
                         releaseDate: state.airingTodayTvShows[index].firstAirDate,
                         rating: state.airingTodayTvShows[index].voteAverage,

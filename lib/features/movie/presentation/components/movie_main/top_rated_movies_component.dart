@@ -52,8 +52,9 @@ class TopRatedMoviesComponent extends StatelessWidget {
                               ),
                             );
                           },
+                          localErrorImagePath: AssetsManager.localErrorPoster,
                           title: state.topRatedMovies[index].title,
-                          errorImagePath: AssetsManager.noPoster,
+                          errorImagePath: AssetsManager.errorPoster,
                           imagePath: state.topRatedMovies[index].posterPath,
                           releaseDate: state.topRatedMovies[index].releaseDate,
                           rating: state.topRatedMovies[index].voteAverage,

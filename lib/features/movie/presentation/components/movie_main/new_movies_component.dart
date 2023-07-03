@@ -49,8 +49,9 @@ class NewMoviesComponent extends StatelessWidget {
                             ),
                           );
                         },
+                        localErrorImagePath: AssetsManager.localErrorPoster,
                         title: state.newMovies[index].title,
-                        errorImagePath: AssetsManager.noPoster,
+                        errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.newMovies[index].posterPath,
                         releaseDate: state.newMovies[index].releaseDate,
                         rating: state.newMovies[index].voteAverage,

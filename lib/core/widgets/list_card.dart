@@ -16,7 +16,7 @@ class ListCard extends StatelessWidget {
     required this.genres,
     required this.releaseYear,
     required this.language,
-    required this.errorImagePath,
+    required this.errorImagePath, required this.localErrorImagePath,
   });
 
   final String title;
@@ -28,7 +28,7 @@ class ListCard extends StatelessWidget {
   final String language;
   final void Function() onTap;
   final String errorImagePath;
-
+  final String localErrorImagePath;
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -51,6 +51,7 @@ class ListCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TiltedImage(
+                        localErrorImagePath: localErrorImagePath,
                         errorImagePath: errorImagePath,
                         imagePath: posterPath,
                         width: 120.w,
@@ -131,10 +132,10 @@ class ListCard extends StatelessWidget {
     } else if (genres.length == 1) {
       return '${genres[0].name}‧';
     } else {
-      if (genres[0].name.length <= 10 && genres[1].name.length <= 10) {
-        return '${genres[0].name}/${genres[1].name}‧';
-      } else {
+      if (genres[0].name.length >= 10 && genres[1].name.length >= 10){
         return '${genres[0].name.substring(0, 6)}/${genres[1].name.substring(0, 6)}‧';
+      }else{
+        return '${genres[0].name}/${genres[1].name}‧';
       }
     }
   }

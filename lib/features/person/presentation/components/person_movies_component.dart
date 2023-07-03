@@ -39,8 +39,9 @@ class PersonMoviesComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
+                            localErrorImagePath: AssetsManager.localNeonAvatar,
                             imagePath: state.personData.movies[index].posterPath,
-                            errorImagePath: AssetsManager.noPoster,
+                            errorImagePath: AssetsManager.errorPoster,
                             title: state.personData.movies[index].title,
                             rating: state.personData.movies[index].voteAverage,
                             onTap: () {

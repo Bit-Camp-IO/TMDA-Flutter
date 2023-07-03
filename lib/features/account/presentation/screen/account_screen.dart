@@ -13,6 +13,7 @@ import 'package:tmda/features/account/presentation/components/account/movies_wat
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
 import 'package:tmda/features/account/presentation/components/account/tv_show_watchlist_component.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
+import 'package:tmda/features/auth/domain/entities/auth.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -91,7 +92,11 @@ class _AccountScreenState extends State<AccountScreen>
             listener: (context, state) {
               if (state.userAccountState == UserAccountState.loggedOut) {
                 AutoRouter.of(context).replace(
-                  const SelectionRoute(),
+                  const AuthRoutesPage(
+                    children: [
+                      SelectionRoute(),
+                    ]
+                  )
                 );
               }
             },

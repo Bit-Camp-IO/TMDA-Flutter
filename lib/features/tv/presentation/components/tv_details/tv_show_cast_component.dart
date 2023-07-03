@@ -59,8 +59,8 @@ class TvShowCastComponent extends StatelessWidget {
                                 ),
                               );
                             }
-
                           },
+                          localErrorImagePath: AssetsManager.localNeonAvatar,
                           errorImagePath: AssetsManager.neonAvatar,
                           actorPicPath: state.tvShowDetails.cast[index].actorPicPath,
                           actorName: state.tvShowDetails.cast[index].actorName,

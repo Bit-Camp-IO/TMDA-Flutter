@@ -5,6 +5,7 @@ import 'package:tmda/core/constants/api_constants.dart';
 class MovieDetailsPoster extends StatelessWidget {
   final String posterPath;
   final String errorPosterPath;
+  final String localErrorPosterPath;
   final double height;
 
   const MovieDetailsPoster({
@@ -12,6 +13,7 @@ class MovieDetailsPoster extends StatelessWidget {
     required this.posterPath,
     required this.height,
     required this.errorPosterPath,
+    required this.localErrorPosterPath,
   });
 
   @override
@@ -19,7 +21,7 @@ class MovieDetailsPoster extends StatelessWidget {
     return ClipPath(
       clipper: MovieDetailsCLipper(),
       child: CachedNetworkImage(
-        imageUrl: ApiConstants.imageUrl(posterPath),
+        imageUrl: posterPath.isNotEmpty ? ApiConstants.imageUrl(posterPath) : errorPosterPath,
         imageBuilder: (context, imageProvider) {
           return AnimatedContainer(
             duration: const Duration(seconds: 1),
@@ -46,7 +48,7 @@ class MovieDetailsPoster extends StatelessWidget {
             height: height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(errorPosterPath),
+                image: AssetImage(localErrorPosterPath),
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.3),
                   BlendMode.darken,

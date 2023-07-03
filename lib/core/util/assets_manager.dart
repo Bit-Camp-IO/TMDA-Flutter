@@ -8,6 +8,8 @@ class AssetsManager {
   static const neonPlayButton = 'assets/images/play_button.svg';
   static const neonLoading = 'assets/lottie/neon_loading.json';
   static const neonAvatar = 'https://i.imgur.com/5fSzEvQ.jpg';
-  static const noPoster = 'https://i.imgur.com/NUkCTEs.jpg';
+  static const errorPoster = 'https://i.imgur.com/NUkCTEs.jpg';
+  static const localNeonAvatar = 'assets/images/neon_avatar.jpg';
+  static const localErrorPoster = 'assets/images/no_poster.jpg';
   
 }

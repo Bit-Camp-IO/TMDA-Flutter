@@ -10,12 +10,14 @@ class CastCard extends StatelessWidget {
     required this.actorCharacterName,
     required this.onTap,
     required this.errorImagePath,
+    required this.localErrorImagePath,
   });
 
   final String actorPicPath;
   final String actorName;
   final String actorCharacterName;
   final String errorImagePath;
+  final String localErrorImagePath;
   final void Function() onTap;
 
   @override
@@ -28,6 +30,7 @@ class CastCard extends StatelessWidget {
             width: 130.w,
             height: 220.h,
             child: TiltedImageWithShadow(
+              localErrorImagePath: localErrorImagePath,
               errorImagePath: errorImagePath,
               imagePath: actorPicPath,
               width: 130.w,

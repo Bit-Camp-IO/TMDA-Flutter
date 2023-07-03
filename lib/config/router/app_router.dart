@@ -28,11 +28,18 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          page: SplashRoute.page,
-          path: '/',
+          page: AuthRoutesPage.page,
+          path: '/auth',
+          initial: true,
+          children: [
+            AutoRoute(
+              page: SplashRoute.page,
+              path: '',
+            ),
+            AutoRoute(page: SelectionRoute.page, path: 'selection'),
+            AutoRoute(page: LoginRoute.page, path: 'login'),
+          ],
         ),
-        AutoRoute(page: SelectionRoute.page, path: '/selection'),
-        AutoRoute(page: LoginRoute.page, path: '/login'),
         CustomRoute(
           page: MainNavigationTabs.page,
           path: '/main',

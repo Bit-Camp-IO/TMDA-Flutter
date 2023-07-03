@@ -43,14 +43,16 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginLoadingState) {
           isLoading = true;
         } else if (state is LoginSuccessState) {
-          AutoRouter.of(context).replace(const MainNavigationTabs());
+          AutoRouter.of(context).replace(
+            const MainNavigationTabs(children: [
+              MovieTabRoutePage(),
+            ]),
+          );
         } else if (state is LoginFailState) {
           isLoading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            ErrorSnackBar(
-              errorMessage: state.failMessage,
-            ) as SnackBar
-          );
+          ScaffoldMessenger.of(context).showSnackBar(ErrorSnackBar(
+            errorMessage: state.failMessage,
+          ) as SnackBar);
         } else if (state is ObscuredState) {
           isObscured = state.isObscured;
         }
@@ -193,8 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    formKey.currentState?..dispose()..dispose();
+    formKey.currentState
+      ?..dispose()
+      ..dispose();
     super.dispose();
   }
 }
-

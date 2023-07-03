@@ -1,32 +1,59 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tmda/core/constants/api_constants.dart';
 
 class TvDetailsPoster extends StatelessWidget {
   const TvDetailsPoster({
     super.key,
-    required this.posterPath, required this.height,
+    required this.posterPath,
+    required this.height,
+    required this.errorPosterPath,
+    required this.localErrorPosterPAth,
   });
+
   final String posterPath;
+  final String errorPosterPath;
+  final String localErrorPosterPAth;
   final double height;
+
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: MovieDetailsCLipper(),
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        curve: Curves.linear,
-        width: MediaQuery.of(context).size.width,
-        height: height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              posterPath,
+      child: CachedNetworkImage(
+        imageUrl: posterPath.isNotEmpty
+            ? ApiConstants.imageUrl(posterPath)
+            : errorPosterPath,
+        imageBuilder: (context, imageProvider) => AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          curve: Curves.linear,
+          width: MediaQuery.of(context).size.width,
+          height: height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3),
+                BlendMode.darken,
+              ),
+              fit: BoxFit.cover,
             ),
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
-              BlendMode.darken,
+          ),
+        ),
+        errorWidget: (context, url, error) => AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          curve: Curves.linear,
+          width: MediaQuery.of(context).size.width,
+          height: height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(localErrorPosterPAth),
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3),
+                BlendMode.darken,
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
         ),
       ),
@@ -37,13 +64,21 @@ class TvDetailsPoster extends StatelessWidget {
 class MovieDetailsCLipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
-     Path path0 = Path();
-    path0.moveTo(0,size.height*0.0023810);
-    path0.lineTo(0,size.height);
-    path0.quadraticBezierTo(size.width*0.1281389,size.height*0.9059524,size.width*0.2073056,size.height*0.9023810);
-    path0.cubicTo(size.width*0.2513889,size.height*0.8815476,size.width*0.7232778,size.height*0.8845238,size.width*0.7656389,size.height*0.9038810);
-    path0.quadraticBezierTo(size.width*0.8489722,size.height*0.9038810,size.width,size.height*0.9976190);
-    path0.lineTo(size.width,0);
+    Path path0 = Path();
+    path0.moveTo(0, size.height * 0.0023810);
+    path0.lineTo(0, size.height);
+    path0.quadraticBezierTo(size.width * 0.1281389, size.height * 0.9059524,
+        size.width * 0.2073056, size.height * 0.9023810);
+    path0.cubicTo(
+        size.width * 0.2513889,
+        size.height * 0.8815476,
+        size.width * 0.7232778,
+        size.height * 0.8845238,
+        size.width * 0.7656389,
+        size.height * 0.9038810);
+    path0.quadraticBezierTo(size.width * 0.8489722, size.height * 0.9038810,
+        size.width, size.height * 0.9976190);
+    path0.lineTo(size.width, 0);
     path0.close();
     return path0;
   }

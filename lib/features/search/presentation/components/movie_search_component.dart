@@ -77,10 +77,11 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                                   movieId: state.movieSearchList[index].id),
                             );
                           },
+                          localErrorImagePath: AssetsManager.localErrorPoster,
                           genres: state.movieSearchList[index].genres,
                           releaseYear: state.movieSearchList[index].releaseDate,
                           language: state.movieSearchList[index].language,
-                          errorImagePath: AssetsManager.noPoster,
+                          errorImagePath: AssetsManager.errorPoster,
                         ),
                       ),
                     );

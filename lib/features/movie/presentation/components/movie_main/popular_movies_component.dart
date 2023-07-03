@@ -49,9 +49,10 @@ class PopularMoviesComponent extends StatelessWidget {
                             ),
                           );
                         },
+                        localErrorImagePath: AssetsManager.localErrorPoster,
                         title: state.popularMovies[index].title,
                         imagePath: state.popularMovies[index].posterPath,
-                        errorImagePath: AssetsManager.noPoster,
+                        errorImagePath: AssetsManager.errorPoster,
                         releaseDate: state.popularMovies[index].releaseDate,
                         rating: state.popularMovies[index].voteAverage,
                         genres: state.popularMovies[index].genres,

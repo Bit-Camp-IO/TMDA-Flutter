@@ -9,11 +9,12 @@ class PersonPictureCard extends StatelessWidget {
     required this.imagePath,
     required this.errorImagePath,
     required this.name,
-    required this.height,
+    required this.height, required this.localErrorImagePath,
   });
 
   final String imagePath;
   final String errorImagePath;
+  final String localErrorImagePath;
   final String name;
   final double height;
   @override
@@ -21,7 +22,7 @@ class PersonPictureCard extends StatelessWidget {
     return Stack(
       children: [
         CachedNetworkImage(
-          imageUrl: ApiConstants.imageUrl(imagePath),
+          imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
           imageBuilder: (context, imageProvider) {
             return AnimatedContainer(
               curve: Curves.linear,
@@ -51,7 +52,7 @@ class PersonPictureCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(errorImagePath),
+                  image: AssetImage(localErrorImagePath),
                   colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.3),
                     BlendMode.darken,

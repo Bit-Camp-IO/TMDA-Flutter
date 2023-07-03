@@ -19,7 +19,7 @@ class ListCardWithSave extends StatelessWidget {
     required this.language,
     required this.isInWatchList,
     required this.onSaved,
-    required this.errorImagePath,
+    required this.errorImagePath, required this.localErrorImagePath,
   });
 
   final String title;
@@ -33,7 +33,7 @@ class ListCardWithSave extends StatelessWidget {
   final void Function() onSaved;
   final bool isInWatchList;
   final String errorImagePath;
-
+  final String localErrorImagePath;
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -56,6 +56,7 @@ class ListCardWithSave extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TiltedImage(
+                        localErrorImagePath: localErrorImagePath,
                         errorImagePath: errorImagePath,
                         imagePath: posterPath,
                         width: 120.w,
@@ -141,16 +142,16 @@ class ListCardWithSave extends StatelessWidget {
       ),
     );
   }
-  String _buildGenres(List genres){
-    if(genres.isEmpty){
-      return '${StringsManager.unknown} ‧ ';
-    } else if(genres.length == 1){
-      return '${genres[0].name} ‧ ';
-    }else{
-      if(genres[0].name.length > 7 && genres[1].name.length > 7){
-        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)} ‧ ';
+  String _buildGenres(List genres) {
+    if (genres.isEmpty) {
+      return '${StringsManager.unknown}‧';
+    } else if (genres.length == 1) {
+      return '${genres[0].name}‧';
+    } else {
+      if (genres[0].name.length >= 10 && genres[1].name.length >= 10){
+        return '${genres[0].name.substring(0, 6)}/${genres[1].name.substring(0, 6)}‧';
       }else{
-        return '${genres[0].name}/${genres[1].name} ‧ ';
+        return '${genres[0].name}/${genres[1].name}‧';
       }
     }
   }

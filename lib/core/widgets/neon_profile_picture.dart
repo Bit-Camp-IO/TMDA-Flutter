@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 
 class NeonProfilePicture extends StatelessWidget {
@@ -34,7 +35,7 @@ class NeonProfilePicture extends StatelessWidget {
             color: ColorsManager.darkPrimary,
           ),
           child: CachedNetworkImage(
-            imageUrl: ApiConstants.imageUrl(imagePath),
+            imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : AssetsManager.neonAvatar,
             imageBuilder: (context, imageProvider) {
               return Container(
                 decoration: BoxDecoration(

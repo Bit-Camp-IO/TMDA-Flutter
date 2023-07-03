@@ -79,7 +79,8 @@ class MoviesWatchListComponent extends StatelessWidget {
                             PosterCard(
                               width: 140,
                               height: 220,
-                              errorImagePath: AssetsManager.noPoster,
+                              localErrorImagePath: AssetsManager.localErrorPoster,
+                              errorImagePath: AssetsManager.errorPoster,
                               imagePath: state.watchListMovies[index].posterPath,
                               title: state.watchListMovies[index].title,
                               releaseDate: state.watchListMovies[index].releaseDate,

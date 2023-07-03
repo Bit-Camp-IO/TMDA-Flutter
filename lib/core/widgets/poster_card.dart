@@ -20,8 +20,9 @@ class PosterCard extends StatelessWidget {
     required this.language,
     required this.errorImagePath,
     this.width = 160,
-    this.height = 250,
+    this.height = 250, required this.localErrorImagePath,
   });
+
   final String imagePath;
   final String title;
   final String releaseDate;
@@ -32,6 +33,7 @@ class PosterCard extends StatelessWidget {
   final double width;
   final double height;
   final String errorImagePath;
+  final String localErrorImagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class PosterCard extends StatelessWidget {
         child: Stack(
           children: [
             TiltedImageWithShadow(
+              localErrorImagePath: localErrorImagePath,
               errorImagePath: errorImagePath,
               imagePath: imagePath,
               width: width.w,
@@ -57,7 +60,11 @@ class PosterCard extends StatelessWidget {
                   Text(
                     title.length > 15 ? '${title.substring(0, 15)}..' : title,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 2.5.h),
                   Row(
@@ -67,13 +74,25 @@ class PosterCard extends StatelessWidget {
                         releaseDate.isEmpty
                             ? '${StringsManager.unknown} ‧ '
                             : '${releaseDate.substring(0, 4)} ‧ ',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 8.sp),
                       ),
                       Text(_buildGenresText(genres),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 8.sp),
                       ),
                       Text(language.toUpperCase(),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 8.sp),
                       ),
                     ],
                   ),
@@ -83,13 +102,18 @@ class PosterCard extends StatelessWidget {
                     children: [
                       Text(
                         StringsManager.tmdbRating(rating),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 8.sp),
                       ),
                       SizedBox(width: 8.w),
                       RatingBarIndicator(
                         rating: rating / 2,
                         unratedColor: ColorsManager.inActiveColor,
-                        itemBuilder: (context, index) => const Icon(
+                        itemBuilder: (context, index) =>
+                        const Icon(
                           SolarSystemIcons.star,
                           color: Colors.amber,
                         ),
@@ -107,15 +131,17 @@ class PosterCard extends StatelessWidget {
       ),
     );
   }
-  String _buildGenresText(List genres){
-    if(genres.isEmpty){
+
+  String _buildGenresText(List genres) {
+    if (genres.isEmpty) {
       return StringsManager.unknown;
-    } else if(genres.length == 1){
+    } else if (genres.length == 1) {
       return '${genres[0].name}‧';
-    }else{
-      if(genres[0].name.length > 5 && genres[1].name.length > 5){
-        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)}‧';
-      }else{
+    } else {
+      if (genres[0].name.length > 5 && genres[1].name.length > 5) {
+        return '${genres[0].name.substring(0, 5)}/${genres[1].name.substring(
+            0, 5)}‧';
+      } else {
         return '${genres[0].name}/${genres[1].name}‧';
       }
     }

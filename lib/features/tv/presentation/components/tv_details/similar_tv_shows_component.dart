@@ -52,7 +52,8 @@ class SimilarTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            errorImagePath: AssetsManager.noPoster,
+                            localErrorImagePath: AssetsManager.localErrorPoster,
+                            errorImagePath: AssetsManager.errorPoster,
                             imagePath: state.tvShowDetails.similarTvShows[index].posterPath,
                             title: state.tvShowDetails.similarTvShows[index].title,
                             rating: state.tvShowDetails.similarTvShows[index].voteAverage,

@@ -92,7 +92,7 @@ class MovieCastComponent extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "Couldn't find movie cast.",
+                    StringsManager.noMovieCast,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

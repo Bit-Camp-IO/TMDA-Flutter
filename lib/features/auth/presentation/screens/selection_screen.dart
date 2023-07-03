@@ -6,10 +6,10 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
-import 'package:tmda/features/auth/presentation/widgets/normal_button.dart';
+import 'package:tmda/core/widgets/normal_button.dart';
 
 @RoutePage()
 class SelectionScreen extends StatelessWidget {

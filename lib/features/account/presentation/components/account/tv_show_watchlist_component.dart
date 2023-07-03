@@ -8,11 +8,11 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
-import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
 
 class TvShowWatchListComponent extends StatelessWidget {
   const TvShowWatchListComponent({super.key});
@@ -24,7 +24,7 @@ class TvShowWatchListComponent extends StatelessWidget {
       child: BlocBuilder<AccountBloc, AccountState>(
         buildWhen: (previous, current) => previous.watchListTvShows != current.watchListTvShows,
         builder: (context, state) {
-          if(state.watchListTvShows.isEmpty){
+          if(state.watchListTvShows.isEmpty && state.tvShowsWatchListState == BlocState.success){
             return Animate(
               effects: [FadeEffect(duration: 150.ms)],
               child: Column(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
 class EpisodeCard extends StatelessWidget {
@@ -78,7 +79,7 @@ class EpisodeCard extends StatelessWidget {
                   ),
                   SizedBox(width: 20.w),
                   Text(
-                    '$voteCount Votes',
+                    '$voteCount ${StringsManager.votes}',
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!

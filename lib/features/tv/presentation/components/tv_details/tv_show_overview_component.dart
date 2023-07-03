@@ -115,7 +115,7 @@ class TvShowOverview extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${state.tvShowDetails.numberOfSeasons} Seasons  ',
+                        StringsManager.tvShowSeasons(state.tvShowDetails.numberOfSeasons),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -123,7 +123,7 @@ class TvShowOverview extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${state.tvShowDetails.numberOfEpisodes} Episodes',
+                        StringsManager.tvShowEpisodes(state.tvShowDetails.numberOfEpisodes),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,

@@ -12,7 +12,7 @@ import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dar
 import 'package:tmda/features/account/presentation/components/account/movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
 import 'package:tmda/features/account/presentation/components/account/tv_show_watchlist_component.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()

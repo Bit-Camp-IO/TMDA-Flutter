@@ -8,6 +8,7 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/expandable_text.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/person/presentation/bloc/person_cubit.dart';
 import 'package:tmda/features/person/presentation/components/person_card.dart';
@@ -104,8 +105,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
           text: biography,
           isTextExpanded: isTextExpanded,
           onPressed: () {
-            context
-                .read<PersonCubit>()
+            context.read<PersonCubit>()
                 .changeReadMoreState(isTextExpanded: !isTextExpanded);
           },
         );
@@ -153,67 +153,4 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
   }
 }
 
-class ExpandableText extends StatelessWidget {
-  const ExpandableText(
-      {super.key,
-      required this.text,
-      required this.isTextExpanded,
-      required this.onPressed});
 
-  final bool isTextExpanded;
-  final void Function() onPressed;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AnimatedSize(
-          duration: const Duration(milliseconds: 700),
-          child: ConstrainedBox(
-            constraints: isTextExpanded
-                ? const BoxConstraints()
-                : const BoxConstraints(maxHeight: 300),
-            child: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: ColorsManager.inActiveColor,
-                  ),
-              textAlign: TextAlign.center,
-              softWrap: true,
-              overflow: TextOverflow.fade,
-            ),
-          ),
-        ),
-        isTextExpanded
-            ? OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: ColorsManager.primaryColor),
-                ),
-                icon: const Icon(
-                  Icons.arrow_upward,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  'Read less',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: onPressed,
-              )
-            : TextButton.icon(
-                icon: const Icon(
-                  Icons.arrow_downward,
-                  color: ColorsManager.primaryColor,
-                ),
-                label: const Text(
-                  'Read more',
-                  style: TextStyle(color: ColorsManager.primaryColor),
-                ),
-                onPressed: onPressed,
-              ),
-      ],
-    );
-  }
-}

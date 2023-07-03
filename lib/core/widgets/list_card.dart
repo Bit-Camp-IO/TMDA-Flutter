@@ -64,9 +64,10 @@ class ListCard extends StatelessWidget {
                           title.length > 15
                               ? '${title.substring(0, 15)}..'
                               : title,
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
                         ),
                         SizedBox(height: 4.h),
                         Row(
@@ -74,7 +75,7 @@ class ListCard extends StatelessWidget {
                             Text(
                               releaseYear.isEmpty
                                   ? StringsManager.unknown
-                                  : '${releaseYear.substring(0, 4)} ‧ ',
+                                  : '${releaseYear.substring(0, 4)}‧',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             Text(
@@ -104,7 +105,7 @@ class ListCard extends StatelessWidget {
                             ),
                             SizedBox(width: 20.w),
                             Text(
-                              '$voteCount Votes',
+                              StringsManager.voteCount(voteCount.toString()),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -123,16 +124,17 @@ class ListCard extends StatelessWidget {
       ),
     );
   }
-  String _buildGenres(List genres){
-    if(genres.isEmpty){
-      return '${StringsManager.unknown} ‧ ';
-    }else if(genres.length == 1){
-      return '${genres[0].name} ‧ ';
-    }else{
-      if(genres[0].name.length > 7 && genres[1].name.length > 7){
-        return '${genres[0].name.substring(0,5)}/${genres[1].name.substring(0,5)} ‧ ';
-      }else{
-        return '${genres[0].name}/${genres[1].name} ‧ ';
+
+  String _buildGenres(List genres) {
+    if (genres.isEmpty) {
+      return '${StringsManager.unknown}‧';
+    } else if (genres.length == 1) {
+      return '${genres[0].name}‧';
+    } else {
+      if (genres[0].name.length <= 10 && genres[1].name.length <= 10) {
+        return '${genres[0].name}/${genres[1].name}‧';
+      } else {
+        return '${genres[0].name.substring(0, 6)}/${genres[1].name.substring(0, 6)}‧';
       }
     }
   }

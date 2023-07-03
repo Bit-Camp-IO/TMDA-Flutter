@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
 
@@ -64,7 +65,7 @@ class PosterCard extends StatelessWidget {
                     children: [
                       Text(
                         releaseDate.isEmpty
-                            ? 'Unknown ‧ '
+                            ? '${StringsManager.unknown} ‧ '
                             : '${releaseDate.substring(0, 4)} ‧ ',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                       ),
@@ -81,7 +82,7 @@ class PosterCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'TMDB ${rating.toStringAsFixed(1)}',
+                        StringsManager.tmdbRating(rating),
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 8.sp),
                       ),
                       SizedBox(width: 8.w),
@@ -108,7 +109,7 @@ class PosterCard extends StatelessWidget {
   }
   String _buildGenresText(List genres){
     if(genres.isEmpty){
-      return 'Unknown';
+      return StringsManager.unknown;
     } else if(genres.length == 1){
       return '${genres[0].name}‧';
     }else{

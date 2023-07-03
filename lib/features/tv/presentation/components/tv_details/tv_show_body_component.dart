@@ -6,7 +6,7 @@ import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
-import 'package:tmda/core/widgets/simple_alert_dialog.dart';
+import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_overview_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_seasons_component.dart';
@@ -102,16 +102,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                                   ),
                                 );
                               } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const SimpleAlertDialog(
-                                      alertContent: StringsManager
-                                          .movieDetailsAlertContent,
-                                      alertButtonTitle: StringsManager
-                                          .movieDetailsAlertButtonTitle,
-                                    );
-                                  },
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const ErrorSnackBar(
+                                      errorMessage: StringsManager.tvShowNoVideosMessage,
+                                    ) as SnackBar
                                 );
                               }
                             },
@@ -134,10 +128,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                     },
                     tabs: const [
                       Tab(
-                        text: 'overview',
+                        text: StringsManager.tvDetailsOverviewTab,
                       ),
                       Tab(
-                        text: 'Seasons',
+                        text: StringsManager.tvDetailsSeasonsTab,
                       )
                     ],
                   ),

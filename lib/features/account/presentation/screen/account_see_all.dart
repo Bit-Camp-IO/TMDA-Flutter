@@ -12,7 +12,7 @@ import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
 import 'package:tmda/features/account/presentation/components/see_all/see_all_movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/see_all/see_all_tv_shows_watchlist_component.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()

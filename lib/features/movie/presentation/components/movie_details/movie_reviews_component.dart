@@ -57,8 +57,10 @@ class MovieReviewsComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
-                  child: Text('No Reviews',
-                      style: Theme.of(context).textTheme.bodyLarge),
+                  child: Text(
+                      StringsManager.noReviews,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
               ],
             ),

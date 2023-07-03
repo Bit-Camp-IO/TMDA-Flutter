@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/episode_card.dart';
 
@@ -75,7 +76,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                     } else {
                       return const Center(
                         child: Text(
-                          'No Episodes yet',
+                          StringsManager.noEpisodes,
                           style: TextStyle(color: Colors.white),
                         ),
                       );

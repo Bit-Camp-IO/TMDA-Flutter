@@ -3,9 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 
-class NoSearcResults extends StatelessWidget {
-  const NoSearcResults({
+class NoSearchResults extends StatelessWidget {
+  const NoSearchResults({
     super.key,
   });
 
@@ -24,7 +25,7 @@ class NoSearcResults extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Text(
-              "Couldn't find any results.",
+              StringsManager.noSearchResults,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

@@ -21,7 +21,7 @@ class CustomTextField extends StatelessWidget {
           fontSize: 12.sp,
           fontWeight: FontWeight.w500
         ),
-        onSaved: onSaved,     
+        onSaved: onSaved,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 16.0).r,
           filled: true,

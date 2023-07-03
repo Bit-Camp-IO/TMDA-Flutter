@@ -8,7 +8,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
-import 'package:tmda/core/widgets/simple_alert_dialog.dart';
+import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details_poster.dart';
@@ -104,16 +104,10 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                   ),
                                 );
                               } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const SimpleAlertDialog(
-                                      alertContent: StringsManager
-                                          .movieDetailsAlertContent,
-                                      alertButtonTitle: StringsManager
-                                          .movieDetailsAlertButtonTitle,
-                                    );
-                                  },
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const ErrorSnackBar(
+                                      errorMessage: StringsManager.movieNoVideosMessage,
+                                    ) as SnackBar
                                 );
                               }
                             },
@@ -212,7 +206,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                   child: Text(
                     (() {
                       if (state.movieDetails.genres.isEmpty) {
-                        return 'Unknown';
+                        return StringsManager.unknown;
                       } else if (state.movieDetails.genres.length == 1) {
                         return state.movieDetails.genres[0].name;
                       } else if (state.movieDetails.genres.length == 2) {

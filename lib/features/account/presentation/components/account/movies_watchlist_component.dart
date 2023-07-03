@@ -8,12 +8,12 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
-import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
 
 class MoviesWatchListComponent extends StatelessWidget {
   const MoviesWatchListComponent({super.key});
@@ -22,7 +22,7 @@ class MoviesWatchListComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AccountBloc, AccountState>(
       builder: (context, state) {
-        if (state.watchListMovies.isEmpty) {
+        if (state.watchListMovies.isEmpty && state.moviesWatchListState == BlocState.success) {
           return Animate(
             effects: [FadeEffect(duration: 150.ms)],
             child: Column(

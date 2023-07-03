@@ -68,13 +68,10 @@ class PersonTvShowsComponent extends StatelessWidget {
                   title: StringsManager.tv,
                   color: ColorsManager.primaryColor,
                 ),
-                SizedBox(
-                  height: 220.h,
-                  child: Center(
-                    child: Text(
-                      "We couldn't find TvShows.",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                Center(
+                  child: Text(
+                    StringsManager.noPersonTvShows,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
                 const SectionDivider(),

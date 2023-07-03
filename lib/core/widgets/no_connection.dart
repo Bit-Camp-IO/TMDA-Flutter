@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/features/auth/presentation/widgets/normal_button.dart';
+import 'package:tmda/core/widgets/normal_button.dart';
 
 class NoConnection extends StatelessWidget {
   const NoConnection({

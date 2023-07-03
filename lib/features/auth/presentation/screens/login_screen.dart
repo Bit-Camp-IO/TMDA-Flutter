@@ -5,15 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/widgets/error_snack_bar.dart';
+import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:tmda/features/auth/presentation/widgets/neon_button.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class LoginScreen extends StatefulWidget with AutoRouteWrapper{
+class LoginScreen extends StatefulWidget with AutoRouteWrapper {
   const LoginScreen({super.key});
 
   @override
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   bool isLoading = false;
   bool isObscured = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginState>(
@@ -45,9 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
         } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.failMessage),
-            ),
+            ErrorSnackBar(
+              errorMessage: state.failMessage,
+            ) as SnackBar
           );
         } else if (state is ObscuredState) {
           isObscured = state.isObscured;
@@ -191,7 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    formKey.currentState?.dispose();
+    formKey.currentState?..dispose()..dispose();
     super.dispose();
   }
 }
+

@@ -8,7 +8,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_see_all/see_all_movies_component.dart';
 import 'package:tmda/injection_container.dart';

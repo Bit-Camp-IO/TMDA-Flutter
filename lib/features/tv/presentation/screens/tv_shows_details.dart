@@ -2,11 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_body_component.dart';
 import 'package:tmda/injection_container.dart';
@@ -80,7 +81,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
                 switch (state.tvShowDetailsState) {
                   case BlocState.initial || BlocState.loading:
                     return Center(
-                      child: Lottie.asset('assets/lottie/neon_loading.json'),
+                      child: Lottie.asset(AssetsManager.neonLoading),
                     );
                   case BlocState.success:
                     return const TvShowDetailsBodyComponent();
@@ -98,8 +99,8 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
               top: 50,
               left: 20,
               child: CustomIconButton(
-                onPressed: () async {
-                  await AutoRouter.of(context).pop();
+                onPressed: () {
+                  AutoRouter.of(context).pop();
                 },
                 icon: Icons.arrow_back,
               ),

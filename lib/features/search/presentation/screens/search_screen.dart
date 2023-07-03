@@ -6,13 +6,14 @@ import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmda/features/search/presentation/components/custom_search_field.dart';
 import 'package:tmda/features/search/presentation/components/movie_search_component.dart';
 import 'package:tmda/features/search/presentation/components/people_search_component.dart';
-import 'package:tmda/features/search/presentation/components/search_body.dart';
+import 'package:tmda/features/search/presentation/components/search_initial_body.dart';
 import 'package:tmda/features/search/presentation/components/tv_shows_search_component.dart';
 import 'package:tmda/injection_container.dart';
 
@@ -74,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen>
                 builder: (context, state) {
                   switch (state.searchState) {
                     case BlocState.initial:
-                      return const SearchBody();
+                      return const SearchInitialBody();
                     case BlocState.loading:
                       return Center(
                         child: Lottie.asset(AssetsManager.neonLoading),
@@ -146,9 +147,9 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                       ),
                       tabs: const [
-                        Tab(text: 'Movies'),
-                        Tab(text: 'Tv Shows'),
-                        Tab(text: 'People',)
+                        Tab(text: StringsManager.searchMoviesTab),
+                        Tab(text: StringsManager.searchTvShowsTab),
+                        Tab(text: StringsManager.searchPeopleTab)
                       ],
                       onTap: (value) {
                         BlocProvider.of<SearchBloc>(context).add(ChangeSearchTabEvent(_tabController.index));

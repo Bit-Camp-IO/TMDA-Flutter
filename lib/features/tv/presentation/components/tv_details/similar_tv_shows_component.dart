@@ -87,7 +87,7 @@ class SimilarTvShowsComponent extends StatelessWidget {
                   child: SizedBox(
                     height: 200.h,
                     child: Text(
-                      'We couldn\'t similar TvShows.',
+                      StringsManager.noSimilarTvShows,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: ColorsManager.primaryColor,
                       ),

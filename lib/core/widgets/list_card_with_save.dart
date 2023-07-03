@@ -109,7 +109,7 @@ class ListCardWithSave extends StatelessWidget {
                             ),
                             SizedBox(width: 20.w),
                             Text(
-                              '$voteCount Votes',
+                              StringsManager.voteCount(voteCount.toString()),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -143,7 +143,7 @@ class ListCardWithSave extends StatelessWidget {
   }
   String _buildGenres(List genres){
     if(genres.isEmpty){
-      return 'Unknown ‧ ';
+      return '${StringsManager.unknown} ‧ ';
     } else if(genres.length == 1){
       return '${genres[0].name} ‧ ';
     }else{

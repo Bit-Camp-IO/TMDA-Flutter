@@ -87,7 +87,7 @@ class SimilarMoviesComponent extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "Couldn't find similar movies.",
+                    StringsManager.noSimilarMovies,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

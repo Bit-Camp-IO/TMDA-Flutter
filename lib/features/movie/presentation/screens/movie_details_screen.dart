@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/widgets/no_connection.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
-import 'package:tmda/features/movie/presentation/components/movie_details/movie_like_this_component.dart';
+import 'package:tmda/features/movie/presentation/components/movie_details/similar_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_reviews_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/recommended_movies_component.dart';
@@ -95,7 +96,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
                 switch (state.movieDetailsState) {
                   case BlocState.initial || BlocState.loading:
                     return Center(
-                      child: Lottie.asset('assets/lottie/neon_loading.json'),
+                      child: Lottie.asset(AssetsManager.neonLoading),
                     );
                   case BlocState.success:
                     return ListView(

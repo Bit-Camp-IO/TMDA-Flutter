@@ -86,7 +86,7 @@ class RecommendedMoviesComponent extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "Couldn't find similar movies.",
+                    StringsManager.noRecommendedMovies,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

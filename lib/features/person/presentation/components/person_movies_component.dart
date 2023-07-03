@@ -68,13 +68,10 @@ class PersonMoviesComponent extends StatelessWidget {
                   title: StringsManager.movie,
                   color: ColorsManager.primaryColor,
                 ),
-                SizedBox(
-                  height: 220.h,
-                  child: Center(
-                    child: Text(
-                      "We couldn't find any movies.",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                Center(
+                  child: Text(
+                    StringsManager.noPersonMovies,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
                 const SectionDivider(),

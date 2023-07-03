@@ -6,6 +6,7 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
@@ -18,7 +19,7 @@ class TopRatedTvShowsComponent extends StatelessWidget {
     return Column(
       children: [
         SectionWidgetWithSeeAll(
-          title: 'Top Rated',
+          title: StringsManager.topRatedTvShowSectionTitle,
           color: ColorsManager.primaryColor,
           textButtonOnPressed: () {
             context.pushRoute(

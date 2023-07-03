@@ -29,7 +29,7 @@ class RecommendedTvShowsComponent extends StatelessWidget {
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: 'Recommended',
+                  title: StringsManager.detailsRecommendedSectionTitle,
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     context.pushRoute(
@@ -85,7 +85,7 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    'We couldn\'t find movies like this.',
+                    StringsManager.noRecommendedTvShows,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

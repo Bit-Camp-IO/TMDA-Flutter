@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/strings_manager.dart';
 
 class CarouselCard extends StatelessWidget {
   const CarouselCard({
@@ -20,6 +21,7 @@ class CarouselCard extends StatelessWidget {
   final int voteCount;
   final String imagePath;
   final void Function() onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -65,7 +67,9 @@ class CarouselCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  'From $voteCount users',
+                  StringsManager.voteCount(
+                    voteCount.toString(),
+                  ),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

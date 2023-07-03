@@ -60,7 +60,7 @@ class PersonCard extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          'Knowing For : $knownFor',
+                          StringsManager.knownFor(knownFor),
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w400,
                           ),
@@ -80,7 +80,7 @@ class PersonCard extends StatelessWidget {
 
 String _buildPersonName(String name){
   if(name.isEmpty){
-    return 'Unknown';
+    return StringsManager.unknown;
   }else if(name.isNotEmpty && name.length > 15){
     return '${name.substring(0, 14)}..';
   }else{

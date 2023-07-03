@@ -97,6 +97,7 @@ class TvShowOverview extends StatelessWidget {
             ),
             Text(
               state.tvShowDetails.title,
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20.sp,
@@ -211,6 +212,7 @@ class TvShowOverview extends StatelessWidget {
                       ),
                       Text(
                         state.tvShowDetails.network.name,
+                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleMedium,
                       )
                     ],

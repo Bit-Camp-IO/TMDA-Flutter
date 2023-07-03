@@ -52,7 +52,6 @@ class TopRatedMoviesComponent extends StatelessWidget {
                               ),
                             );
                           },
-                          localErrorImagePath: AssetsManager.localErrorPoster,
                           title: state.topRatedMovies[index].title,
                           errorImagePath: AssetsManager.errorPoster,
                           imagePath: state.topRatedMovies[index].posterPath,

@@ -5,7 +5,6 @@ import 'package:tmda/core/constants/api_constants.dart';
 class MovieDetailsPoster extends StatelessWidget {
   final String posterPath;
   final String errorPosterPath;
-  final String localErrorPosterPath;
   final double height;
 
   const MovieDetailsPoster({
@@ -13,24 +12,22 @@ class MovieDetailsPoster extends StatelessWidget {
     required this.posterPath,
     required this.height,
     required this.errorPosterPath,
-    required this.localErrorPosterPath,
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: MovieDetailsCLipper(),
-      child: CachedNetworkImage(
-        imageUrl: posterPath.isNotEmpty ? ApiConstants.imageUrl(posterPath) : errorPosterPath,
-        imageBuilder: (context, imageProvider) {
-          return AnimatedContainer(
+      child: AnimatedContainer(
             duration: const Duration(seconds: 1),
             width: MediaQuery.of(context).size.width,
             curve: Curves.linear,
             height: height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: imageProvider,
+                image: CachedNetworkImageProvider(
+                  posterPath.isNotEmpty ? ApiConstants.imageUrl(posterPath) : errorPosterPath,
+                ),
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.3),
                   BlendMode.darken,
@@ -38,26 +35,6 @@ class MovieDetailsPoster extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-          );
-        },
-        errorWidget: (context, url, error) {
-          return AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            width: MediaQuery.of(context).size.width,
-            curve: Curves.linear,
-            height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(localErrorPosterPath),
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
-                  BlendMode.darken,
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        },
       ),
     );
   }

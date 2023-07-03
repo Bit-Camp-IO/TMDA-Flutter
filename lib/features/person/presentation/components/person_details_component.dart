@@ -39,7 +39,6 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
                   return PersonPictureCard(
                     height: state.animatedHeight,
                     imagePath: state.personData.profilePath,
-                    localErrorImagePath: AssetsManager.localNeonAvatar,
                     errorImagePath: AssetsManager.neonAvatar,
                     name: state.personData.name,
                   );
@@ -101,7 +100,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
         ),
       );
     } else {
-      if (biography.length > 300) {
+      if (biography.length > 250) {
         return ExpandableText(
           text: biography,
           isTextExpanded: isTextExpanded,

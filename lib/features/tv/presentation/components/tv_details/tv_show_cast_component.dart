@@ -23,61 +23,82 @@ class TvShowCastComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 150.ms)],
-          child: Column(
-            children: [
-              const SectionWidget(
-                title: StringsManager.castSectionTitle,
-                color: ColorsManager.primaryColor,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: state.tvShowDetails.cast.length,
-                  itemBuilder: (context, index) {
-                    return Row(
-                      children: [
-                        SizedBox(width: 20.w),
-                        CastCard(
-                          onTap: () {
-                            if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3){
-                              context.pushRoute(
-                                PersonRoute(
-                                  personId:
-                                  state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withAllContent
-                                ),
-                              );
-                            }else{
-                              context.pushRoute(
-                                PersonRoute(
-                                    personId:
-                                    state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withTvShows
-                                ),
-                              );
-                            }
-                          },
-                          localErrorImagePath: AssetsManager.localNeonAvatar,
-                          errorImagePath: AssetsManager.neonAvatar,
-                          actorPicPath: state.tvShowDetails.cast[index].actorPicPath,
-                          actorName: state.tvShowDetails.cast[index].actorName,
-                          actorCharacterName: state.tvShowDetails.cast[index].movieCharacter,
-                        ),
-                      ],
-                    );
-                  },
+        if(state.tvShowDetails.cast.isNotEmpty){
+          return Animate(
+            effects: [FadeEffect(duration: 250.ms)],
+            child: Column(
+              children: [
+                const SectionWidget(
+                  title: StringsManager.castSectionTitle,
+                  color: ColorsManager.primaryColor,
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: SectionDivider(),
-              ),
-            ],
-          ),
-        );
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: state.tvShowDetails.cast.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          SizedBox(width: 20.w),
+                          CastCard(
+                            onTap: () {
+                              if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3){
+                                context.pushRoute(
+                                  PersonRoute(
+                                      personId:
+                                      state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withAllContent
+                                  ),
+                                );
+                              }else{
+                                context.pushRoute(
+                                  PersonRoute(
+                                      personId:
+                                      state.tvShowDetails.cast[index].actorId, personScreenType: PersonScreenType.withTvShows
+                                  ),
+                                );
+                              }
+                            },
+                            errorImagePath: AssetsManager.neonAvatar,
+                            actorPicPath: state.tvShowDetails.cast[index].actorPicPath,
+                            actorName: state.tvShowDetails.cast[index].actorName,
+                            actorCharacterName: state.tvShowDetails.cast[index].movieCharacter,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: SectionDivider(),
+                ),
+              ],
+            ),
+          );
+        }else{
+          return Animate(
+            effects: [FadeEffect(duration: 250.ms)],
+            child: Column(
+              children: [
+                const SectionWidget(
+                  title: StringsManager.castSectionTitle,
+                  color: ColorsManager.primaryColor,
+                ),
+                Center(
+                  child: Text(
+                    StringsManager.noTvShowCast,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                const SectionDivider(),
+              ],
+            ),
+          );
+        }
       },
     );
   }

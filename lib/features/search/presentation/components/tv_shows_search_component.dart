@@ -84,7 +84,6 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
                           genres: state.tvSearchList[index].genres,
                           releaseYear: state.tvSearchList[index].firstAirDate,
                           language: state.tvSearchList[index].language,
-                          localErrorImagePath: AssetsManager.localErrorPoster,
                           errorImagePath: AssetsManager.errorPoster,
                         ),
                       ),

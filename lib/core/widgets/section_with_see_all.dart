@@ -24,8 +24,8 @@ class SectionWidgetWithSeeAll extends StatelessWidget {
             width: 5.h,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
+              borderRadius: BorderRadius.all(
+                const Radius.circular(10).w,
               ),
             ),
           ),

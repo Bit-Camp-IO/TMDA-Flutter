@@ -22,8 +22,7 @@ class CustomObscuredTextField extends StatelessWidget {
       width: 300.w,
       height: 40.h,
       child: TextFormField(
-        style: TextStyle(
-            color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
         onSaved: onSaved,
         obscureText: obscureText,
         decoration: InputDecoration(
@@ -38,10 +37,8 @@ class CustomObscuredTextField extends StatelessWidget {
           filled: true,
           fillColor: Colors.white.withOpacity(0.15),
           hintText: hintText,
-          hintStyle: TextStyle(
+          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Colors.white.withOpacity(0.6),
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
           ),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,

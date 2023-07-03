@@ -25,7 +25,7 @@ class RecommendedTvShowsComponent extends StatelessWidget {
       builder: (context, state) {
         if (state.tvShowDetails.recommendedTvShows.isNotEmpty) {
           return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+            effects: [FadeEffect(duration: 250.ms)],
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
@@ -52,7 +52,6 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
-                            localErrorImagePath: AssetsManager.localErrorPoster,
                             errorImagePath: AssetsManager.errorPoster,
                             imagePath: state.tvShowDetails.recommendedTvShows[index].posterPath,
                             title: state.tvShowDetails.recommendedTvShows[index].title,
@@ -90,6 +89,7 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
+                SizedBox(height: 20.h),
               ],
             ),
           );

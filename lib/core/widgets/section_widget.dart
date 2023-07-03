@@ -20,7 +20,7 @@ class SectionWidget extends StatelessWidget {
             width: 5.h,
             decoration: BoxDecoration(
                 color: color,
-                borderRadius: const BorderRadius.all(Radius.circular(10))),
+                borderRadius: BorderRadius.all(const Radius.circular(10).w)),
           ),
           SizedBox(width: 8.w),
           Text(

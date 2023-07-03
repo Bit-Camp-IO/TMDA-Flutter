@@ -143,7 +143,7 @@ class _SearchScreenState extends State<SearchScreen>
                           color: ColorsManager.darkPrimary,
                           shape: OutlineInputBorder(
                               borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(40),
+                              borderRadius: BorderRadius.circular(40).w,
                           ),
                       ),
                       tabs: const [

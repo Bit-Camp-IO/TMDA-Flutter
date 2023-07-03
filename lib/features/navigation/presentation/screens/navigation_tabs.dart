@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -39,15 +40,15 @@ class _NavigationTabsState extends State<NavigationTabs> {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.5),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0),
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(15.0).w,
+                topRight: const Radius.circular(15.0).w,
               ),
             ),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0),
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(15.0).w,
+                topRight: const Radius.circular(15.0).w,
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(

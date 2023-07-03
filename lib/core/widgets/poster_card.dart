@@ -7,7 +7,6 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
-
 class PosterCard extends StatelessWidget {
   const PosterCard({
     super.key,
@@ -20,7 +19,7 @@ class PosterCard extends StatelessWidget {
     required this.language,
     required this.errorImagePath,
     this.width = 160,
-    this.height = 250, required this.localErrorImagePath,
+    this.height = 250,
   });
 
   final String imagePath;
@@ -33,7 +32,6 @@ class PosterCard extends StatelessWidget {
   final double width;
   final double height;
   final String errorImagePath;
-  final String localErrorImagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,6 @@ class PosterCard extends StatelessWidget {
         child: Stack(
           children: [
             TiltedImageWithShadow(
-              localErrorImagePath: localErrorImagePath,
               errorImagePath: errorImagePath,
               imagePath: imagePath,
               width: width.w,
@@ -58,10 +55,10 @@ class PosterCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    title.length > 15 ? '${title.substring(0, 15)}..' : title,
+                    title,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(fontWeight: FontWeight.w500),
@@ -74,22 +71,22 @@ class PosterCard extends StatelessWidget {
                         releaseDate.isEmpty
                             ? '${StringsManager.unknown} ‧ '
                             : '${releaseDate.substring(0, 4)} ‧ ',
-                        style: Theme
-                            .of(context)
+                        style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(fontSize: 8.sp),
                       ),
-                      Text(_buildGenresText(genres),
-                        style: Theme
-                            .of(context)
+                      Text(
+                        _buildGenresText(genres),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(fontSize: 8.sp),
                       ),
-                      Text(language.toUpperCase(),
-                        style: Theme
-                            .of(context)
+                      Text(
+                        language.toUpperCase(),
+                        style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(fontSize: 8.sp),
@@ -102,8 +99,7 @@ class PosterCard extends StatelessWidget {
                     children: [
                       Text(
                         StringsManager.tmdbRating(rating),
-                        style: Theme
-                            .of(context)
+                        style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(fontSize: 8.sp),
@@ -112,8 +108,7 @@ class PosterCard extends StatelessWidget {
                       RatingBarIndicator(
                         rating: rating / 2,
                         unratedColor: ColorsManager.inActiveColor,
-                        itemBuilder: (context, index) =>
-                        const Icon(
+                        itemBuilder: (context, index) => const Icon(
                           SolarSystemIcons.star,
                           color: Colors.amber,
                         ),
@@ -138,12 +133,7 @@ class PosterCard extends StatelessWidget {
     } else if (genres.length == 1) {
       return '${genres[0].name}‧';
     } else {
-      if (genres[0].name.length > 5 && genres[1].name.length > 5) {
-        return '${genres[0].name.substring(0, 5)}/${genres[1].name.substring(
-            0, 5)}‧';
-      } else {
-        return '${genres[0].name}/${genres[1].name}‧';
-      }
+      return '${genres[0].name}/${genres[1].name}‧';
     }
   }
 }

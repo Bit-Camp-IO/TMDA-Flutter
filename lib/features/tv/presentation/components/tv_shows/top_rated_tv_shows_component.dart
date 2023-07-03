@@ -49,7 +49,6 @@ class TopRatedTvShowsComponent extends StatelessWidget {
                             ),
                           );
                         },
-                        localErrorImagePath: AssetsManager.localErrorPoster,
                         title: state.topRatedTvShows[index].title,
                         errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.topRatedTvShows[index].posterPath,

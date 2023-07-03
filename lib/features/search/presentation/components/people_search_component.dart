@@ -73,7 +73,6 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
                           name: state.peopleSearchList[index].name,
                           knownFor: state.peopleSearchList[index].knowingFor,
                           imagePath: state.peopleSearchList[index].profilePath,
-                          errorLocalAvatarPath: AssetsManager.localNeonAvatar,
                           errorAvatarPath: AssetsManager.neonAvatar,
                           onTap: () {
                             FocusManager.instance.primaryFocus?.unfocus();

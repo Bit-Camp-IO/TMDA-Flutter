@@ -62,6 +62,7 @@ class MovieReviewsComponent extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
+                SizedBox(height: 20.h),
               ],
             ),
           );

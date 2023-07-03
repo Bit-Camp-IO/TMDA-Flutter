@@ -89,7 +89,6 @@ class _SeeAllMoviesWatchListComponentState
                       .add(RemoveMovieFromWatchListEvent(
                           movieId: state.moviesWatchList[index].id)),
                   child: ListCard(
-                    localErrorImagePath: AssetsManager.localErrorPoster,
                     title: state.moviesWatchList[index].title,
                     errorImagePath: AssetsManager.errorPoster,
                     posterPath: state.moviesWatchList[index].posterPath,

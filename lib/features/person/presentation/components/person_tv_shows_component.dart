@@ -39,7 +39,6 @@ class PersonTvShowsComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            localErrorImagePath: AssetsManager.localErrorPoster,
                             imagePath: state.personData.tvShows[index].posterPath,
                             errorImagePath: AssetsManager.errorPoster,
                             title: state.personData.tvShows[index].title,
@@ -75,6 +74,7 @@ class PersonTvShowsComponent extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
+                SizedBox(height: 20.h),
                 const SectionDivider(),
               ],
             ),

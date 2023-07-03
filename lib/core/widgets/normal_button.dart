@@ -23,7 +23,7 @@ class NormalButton extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           color: ColorsManager.darkPrimary,
-          borderRadius: BorderRadius.circular(10).r,
+          borderRadius: BorderRadius.circular(10).w,
         ),
         child: Center(
           child: child,

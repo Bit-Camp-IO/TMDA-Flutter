@@ -29,10 +29,12 @@ class ProfileComponent extends StatelessWidget {
                       state.account.name.isEmpty
                           ? StringsManager.noAccountName
                           : state.account.name,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
                       '@${state.account.username}',
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

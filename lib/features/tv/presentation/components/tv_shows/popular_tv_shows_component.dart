@@ -52,7 +52,6 @@ class PopularTvShowsComponent extends StatelessWidget {
                               ),
                             );
                           },
-                          localErrorImagePath: AssetsManager.localErrorPoster,
                           title: state.popularTvShows[index].title,
                           errorImagePath: AssetsManager.errorPoster,
                           imagePath: state.popularTvShows[index].posterPath,

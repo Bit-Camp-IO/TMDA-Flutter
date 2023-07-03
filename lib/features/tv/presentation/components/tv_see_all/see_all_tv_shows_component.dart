@@ -59,7 +59,6 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
                           ),
                         );
                       },
-                      localErrorImagePath: AssetsManager.localErrorPoster,
                       title: state.seeAllTvShows[index].title,
                       errorImagePath: AssetsManager.errorPoster,
                       posterPath: state.seeAllTvShows[index].posterPath,

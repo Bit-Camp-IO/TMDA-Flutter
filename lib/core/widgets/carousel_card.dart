@@ -52,6 +52,7 @@ class CarouselCard extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleLarge,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 8.h),
                 RatingBarIndicator(

@@ -78,7 +78,6 @@ class TvShowWatchListComponent extends StatelessWidget {
                               PosterCard(
                                 width: 140,
                                 height: 220,
-                                localErrorImagePath: AssetsManager.localErrorPoster,
                                 errorImagePath: AssetsManager.errorPoster,
                                 imagePath: state.watchListTvShows[index].posterPath,
                                 title: state.watchListTvShows[index].title,

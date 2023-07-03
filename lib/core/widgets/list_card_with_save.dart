@@ -19,7 +19,7 @@ class ListCardWithSave extends StatelessWidget {
     required this.language,
     required this.isInWatchList,
     required this.onSaved,
-    required this.errorImagePath, required this.localErrorImagePath,
+    required this.errorImagePath,
   });
 
   final String title;
@@ -33,7 +33,6 @@ class ListCardWithSave extends StatelessWidget {
   final void Function() onSaved;
   final bool isInWatchList;
   final String errorImagePath;
-  final String localErrorImagePath;
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -46,79 +45,84 @@ class ListCardWithSave extends StatelessWidget {
             width: 312,
             height: 210,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30).w,
               color: Colors.black.withOpacity(0.3),
+              
             ),
             child: Stack(
               children: [
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(left: 16, right: 5).r,
                       child: TiltedImage(
-                        localErrorImagePath: localErrorImagePath,
                         errorImagePath: errorImagePath,
                         imagePath: posterPath,
                         width: 120.w,
                         height: 170.h,
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          title.length > 15
-                              ? '${title.substring(0, 15)}..'
-                              : title,
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            title,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                releaseYear.isEmpty
+                                    ? StringsManager.unknown
+                                    : '${releaseYear.substring(0, 4)} ‧ ',
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Row(
-                          children: [
-                            Text(
-                              releaseYear.isEmpty
-                                  ? StringsManager.unknown
-                                  : '${releaseYear.substring(0, 4)} ‧ ',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            Text(
-                              _buildGenres(genres),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            Text(
-                              language.toUpperCase(),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 7.h),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: ColorsManager.ratingIconColor,
-                              size: 16,
-                            ),
-                            Text(
-                              vote.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(fontSize: 11),
-                            ),
-                            SizedBox(width: 20.w),
-                            Text(
-                              StringsManager.voteCount(voteCount.toString()),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(fontSize: 11),
-                            )
-                          ],
-                        )
-                      ],
+                              Text(
+                                _buildGenres(genres),
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              Text(
+                                language.toUpperCase(),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 7.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: ColorsManager.ratingIconColor,
+                                size: 16,
+                              ),
+                              Text(
+                                vote.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(fontSize: 11),
+                              ),
+                              SizedBox(width: 20.w),
+                              Text(
+                                StringsManager.voteCount(voteCount.toString()),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(fontSize: 11),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -148,11 +152,7 @@ class ListCardWithSave extends StatelessWidget {
     } else if (genres.length == 1) {
       return '${genres[0].name}‧';
     } else {
-      if (genres[0].name.length >= 10 && genres[1].name.length >= 10){
-        return '${genres[0].name.substring(0, 6)}/${genres[1].name.substring(0, 6)}‧';
-      }else{
         return '${genres[0].name}/${genres[1].name}‧';
-      }
     }
   }
 }

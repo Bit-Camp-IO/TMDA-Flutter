@@ -80,7 +80,6 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                         TvDetailsPoster(
                           height: state.animatedHeight,
                           errorPosterPath: AssetsManager.errorPoster,
-                          localErrorPosterPAth: AssetsManager.localErrorPoster,
                           posterPath: state.tvShowDetails.posterPath,
                         ),
                         Positioned(

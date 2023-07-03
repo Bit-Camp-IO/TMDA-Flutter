@@ -16,7 +16,7 @@ class TvShowReviewsComponent extends StatelessWidget {
       builder: (context, state) {
         if (state.tvShowDetails.reviews.isNotEmpty) {
           return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+            effects: [FadeEffect(duration: 250.ms)],
             child: Column(
               children: [
                 const SectionWidget(
@@ -49,7 +49,7 @@ class TvShowReviewsComponent extends StatelessWidget {
           );
         } else {
           return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+            effects: [FadeEffect(duration: 250.ms)],
             child: Column(
               children: [
                 const SectionWidget(
@@ -60,6 +60,7 @@ class TvShowReviewsComponent extends StatelessWidget {
                   child: Text(StringsManager.noReviews,
                       style: Theme.of(context).textTheme.bodyLarge),
                 ),
+                SizedBox(height: 20.h),
               ],
             ),
           );

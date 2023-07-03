@@ -8,52 +8,33 @@ class TvDetailsPoster extends StatelessWidget {
     required this.posterPath,
     required this.height,
     required this.errorPosterPath,
-    required this.localErrorPosterPAth,
   });
 
   final String posterPath;
   final String errorPosterPath;
-  final String localErrorPosterPAth;
   final double height;
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: MovieDetailsCLipper(),
-      child: CachedNetworkImage(
-        imageUrl: posterPath.isNotEmpty
-            ? ApiConstants.imageUrl(posterPath)
-            : errorPosterPath,
-        imageBuilder: (context, imageProvider) => AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          curve: Curves.linear,
-          width: MediaQuery.of(context).size.width,
-          height: height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.darken,
-              ),
-              fit: BoxFit.cover,
+      child: AnimatedContainer(
+        duration: const Duration(seconds: 1),
+        curve: Curves.linear,
+        width: MediaQuery.of(context).size.width,
+        height: height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+              posterPath.isNotEmpty
+                  ? ApiConstants.imageUrl(posterPath)
+                  : errorPosterPath,
             ),
-          ),
-        ),
-        errorWidget: (context, url, error) => AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          curve: Curves.linear,
-          width: MediaQuery.of(context).size.width,
-          height: height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(localErrorPosterPAth),
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.darken,
-              ),
-              fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.darken,
             ),
+            fit: BoxFit.cover,
           ),
         ),
       ),

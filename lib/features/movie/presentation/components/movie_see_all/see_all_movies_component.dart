@@ -65,7 +65,6 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                               ),
                             );
                           },
-                          localErrorImagePath: AssetsManager.localErrorPoster,
                           title: state.seeAllMovies[index].title,
                           errorImagePath: AssetsManager.errorPoster,
                           posterPath: state.seeAllMovies[index].posterPath,

@@ -43,6 +43,7 @@ class StringsManager {
   static const String tvDetailsOverviewTab = 'Overview';
   static const String tvDetailsSeasonsTab = 'Seasons';
   static const String noEpisodes = 'No Episodes yet';
+  static const String noTvShowCast = "Couldn't find tv show cast.";
 
   //! Account Feature Strings
   static const String moviesWatchlistTitle = 'Movies Watchlist';

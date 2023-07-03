@@ -11,7 +11,7 @@ class PersonCard extends StatelessWidget {
     required this.onTap,
     required this.knownFor,
     required this.imagePath,
-    required this.errorAvatarPath, required this.errorLocalAvatarPath,
+    required this.errorAvatarPath,
   });
 
   final String name;
@@ -19,7 +19,6 @@ class PersonCard extends StatelessWidget {
   final String imagePath;
   final void Function() onTap;
   final String errorAvatarPath;
-  final String errorLocalAvatarPath;
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -42,7 +41,6 @@ class PersonCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TiltedImage(
-                        localErrorImagePath: errorLocalAvatarPath,
                         errorImagePath: errorAvatarPath,
                         imagePath: imagePath,
                         width: 120.w,
@@ -53,7 +51,8 @@ class PersonCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          _buildPersonName(name),
+                          name.isNotEmpty ? name : StringsManager.unknown,
+                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w500,
                           ),
@@ -75,15 +74,5 @@ class PersonCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-String _buildPersonName(String name){
-  if(name.isEmpty){
-    return StringsManager.unknown;
-  }else if(name.isNotEmpty && name.length > 15){
-    return '${name.substring(0, 14)}..';
-  }else{
-    return name;
   }
 }

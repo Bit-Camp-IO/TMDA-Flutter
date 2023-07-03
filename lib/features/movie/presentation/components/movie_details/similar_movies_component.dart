@@ -52,7 +52,6 @@ class SimilarMoviesComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            localErrorImagePath: AssetsManager.localErrorPoster,
                             imagePath: state
                                 .movieDetails.similarMovies[index].posterPath,
                             errorImagePath: AssetsManager.errorPoster,
@@ -92,6 +91,7 @@ class SimilarMoviesComponent extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
+                SizedBox(height: 20.h),
                 const SectionDivider(),
               ],
             ),

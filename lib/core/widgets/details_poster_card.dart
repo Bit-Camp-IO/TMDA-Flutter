@@ -12,7 +12,6 @@ class DetailsPosterCard extends StatelessWidget {
     required this.rating,
     required this.onTap,
     required this.errorImagePath,
-    required this.localErrorImagePath,
   });
 
   final String imagePath;
@@ -20,7 +19,6 @@ class DetailsPosterCard extends StatelessWidget {
   final dynamic rating;
   final void Function() onTap;
   final String errorImagePath;
-  final String localErrorImagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,6 @@ class DetailsPosterCard extends StatelessWidget {
       child: Stack(
         children: [
           TiltedImageWithShadow(
-            localErrorImagePath: localErrorImagePath,
             errorImagePath: errorImagePath,
             imagePath: imagePath,
             width: 130.w,
@@ -56,7 +53,8 @@ class DetailsPosterCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    title.length > 20 ? '${title.substring(0, 20)}..' : title,
+                    title,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!

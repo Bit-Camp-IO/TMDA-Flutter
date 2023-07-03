@@ -49,7 +49,6 @@ class PopularMoviesComponent extends StatelessWidget {
                             ),
                           );
                         },
-                        localErrorImagePath: AssetsManager.localErrorPoster,
                         title: state.popularMovies[index].title,
                         imagePath: state.popularMovies[index].posterPath,
                         errorImagePath: AssetsManager.errorPoster,

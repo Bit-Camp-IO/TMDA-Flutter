@@ -29,7 +29,7 @@ class EpisodeCard extends StatelessWidget {
       width: 312.w,
       height: 190.h,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20).w,
         color: Colors.black.withOpacity(0.3),
       ),
       child: Row(
@@ -37,7 +37,6 @@ class EpisodeCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TiltedImage(
-              localErrorImagePath: AssetsManager.localErrorPoster,
               errorImagePath: AssetsManager.errorPoster,
               imagePath: posterPath,
               width: 120.w,
@@ -47,10 +46,8 @@ class EpisodeCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                title.length > 20
-                    ? '$episodeNumber. ${title.substring(0, 20)}..'
-                    : '$episodeNumber. $title',
+              Text(title,
+              overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                     ),

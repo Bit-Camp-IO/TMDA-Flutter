@@ -51,7 +51,6 @@ class RecommendedMoviesComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            localErrorImagePath: AssetsManager.localErrorPoster,
                             imagePath: state
                                 .movieDetails.recommendedMovies[index].posterPath,
                             errorImagePath: AssetsManager.errorPoster,
@@ -91,6 +90,7 @@ class RecommendedMoviesComponent extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
+                SizedBox(height: 20.h),
                 const SectionDivider(),
               ],
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/episode_card.dart';
@@ -35,10 +37,12 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
               child: TabBar(
                 controller: tabController,
                 isScrollable: true,
+                labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(overflow: TextOverflow.ellipsis,),
                 tabs: List.generate(
                   tabController.length,
                   (index) => Tab(
                     text: state.tvShowDetails.seasons[index].name,
+
                   ),
                 ),
                 onTap: (index) {
@@ -59,27 +63,38 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                   physics: const ClampingScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (state
-                        .allSeasonsEpisodes[state.seasonsTabIndex].isNotEmpty) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: EpisodeCard(
-                          title: state.allSeasonsEpisodes[state.seasonsTabIndex][index].name,
-                          episodeNumber: state.allSeasonsEpisodes[state.seasonsTabIndex][index].number,
-                          posterPath: state.allSeasonsEpisodes[state.seasonsTabIndex][index].posterPath,
-                          vote: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteAverage,
-                          voteCount: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteCount,
-                          airDate: state.allSeasonsEpisodes[state.seasonsTabIndex][index].airDate,
-                          episodeDuration: state.allSeasonsEpisodes[state.seasonsTabIndex][index].runTime,
+                    if (state.allSeasonsEpisodes[state.seasonsTabIndex].isNotEmpty) {
+                      return Animate(
+                        effects: [FadeEffect(duration: 250.ms)],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: EpisodeCard(
+                            title: state.allSeasonsEpisodes[state.seasonsTabIndex][index].name,
+                            episodeNumber: state.allSeasonsEpisodes[state.seasonsTabIndex][index].number,
+                            posterPath: state.allSeasonsEpisodes[state.seasonsTabIndex][index].posterPath,
+                            vote: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteAverage,
+                            voteCount: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteCount,
+                            airDate: state.allSeasonsEpisodes[state.seasonsTabIndex][index].airDate,
+                            episodeDuration: state.allSeasonsEpisodes[state.seasonsTabIndex][index].runTime,
+                          ),
                         ),
                       );
                     } else {
-                      return const Center(
-                        child: Text(
-                          StringsManager.noEpisodes,
-                          style: TextStyle(color: Colors.white),
+                      return Animate(
+                        effects: [FadeEffect(duration: 250.ms)],
+                        child: Column(
+                          children: [
+                            const Center(
+                              child: Text(
+                                StringsManager.noEpisodes,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                          ],
                         ),
                       );
+
                     }
                   },
                 ),

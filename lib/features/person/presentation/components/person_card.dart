@@ -9,66 +9,40 @@ class PersonPictureCard extends StatelessWidget {
     required this.imagePath,
     required this.errorImagePath,
     required this.name,
-    required this.height, required this.localErrorImagePath,
+    required this.height,
   });
 
   final String imagePath;
   final String errorImagePath;
-  final String localErrorImagePath;
   final String name;
   final double height;
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CachedNetworkImage(
-          imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
-          imageBuilder: (context, imageProvider) {
-            return AnimatedContainer(
-              curve: Curves.linear,
-              duration: const Duration(seconds: 1),
+       Container(
               width: MediaQuery.of(context).size.width,
               height: height,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: imageProvider,
+                  image: CachedNetworkImageProvider(
+                    imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
+                  ),
                   colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.3),
                     BlendMode.darken,
                   ),
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(60),
+                borderRadius: BorderRadius.only(
+                  bottomRight: const Radius.circular(60).w,
                 ),
               ),
-            );
-          },
-          errorWidget: (context, url, error) {
-            return AnimatedContainer(
-              duration: const Duration(seconds: 1),
-              width: MediaQuery.of(context).size.width,
-              height: height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(localErrorImagePath),
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3),
-                    BlendMode.darken,
-                  ),
-                ),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(60),
-                ),
-              ),
-            );
-          },
         ),
         Positioned(
           left: 20,
           bottom: 20,
-          child: Text(name, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 28.sp),
+          child: Text(name, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 28.sp), overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

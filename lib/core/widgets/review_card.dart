@@ -22,10 +22,10 @@ class ReviewCard extends StatelessWidget {
       height: 150.h,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(15.0).w,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(15.0).w,
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 50,

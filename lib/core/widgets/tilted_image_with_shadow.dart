@@ -9,54 +9,34 @@ class TiltedImageWithShadow extends StatelessWidget {
     required this.imagePath,
     required this.width,
     required this.height,
-    required this.errorImagePath, required this.localErrorImagePath,
+    required this.errorImagePath,
   });
 
   final String imagePath;
   final double width;
   final double height;
   final String errorImagePath;
-  final String localErrorImagePath;
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
-      imageBuilder: (context, imageProvider) => Transform(
-        transform: Matrix4.skewX(-0.05),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(const Radius.circular(20).w),
-          child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
-                  BlendMode.darken,
-                ),
+    return Transform(
+      transform: Matrix4.skewX(-0.05),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(const Radius.circular(20).w),
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(
+                imagePath.isNotEmpty
+                    ? ApiConstants.imageUrl(imagePath)
+                    : errorImagePath,
               ),
-            ),
-          ),
-        ),
-      ),
-      errorWidget: (context, url, error) => Transform(
-        transform: Matrix4.skewX(-0.05),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(const Radius.circular(20).w),
-          child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(localErrorImagePath),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
-                  BlendMode.darken,
-                ),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3),
+                BlendMode.darken,
               ),
             ),
           ),

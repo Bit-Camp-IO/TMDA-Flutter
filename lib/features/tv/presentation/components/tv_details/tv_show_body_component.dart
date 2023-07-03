@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
@@ -101,9 +100,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const ErrorSnackBar(
-                                      errorMessage: StringsManager.tvShowNoVideosMessage,
-                                    ) as SnackBar
+                                    errorSnackBar(errorMessage: StringsManager.movieNoVideosMessage, context: context)
                                 );
                               }
                             },

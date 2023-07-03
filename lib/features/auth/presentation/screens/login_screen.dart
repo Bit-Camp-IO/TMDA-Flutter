@@ -50,9 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         } else if (state is LoginFailState) {
           isLoading = false;
-          ScaffoldMessenger.of(context).showSnackBar(ErrorSnackBar(
-            errorMessage: state.failMessage,
-          ) as SnackBar);
+          ScaffoldMessenger.of(context).showSnackBar(
+            errorSnackBar(errorMessage: state.failMessage, context: context),
+          );
         } else if (state is ObscuredState) {
           isObscured = state.isObscured;
         }
@@ -192,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
+
 
   @override
   void dispose() {

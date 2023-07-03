@@ -106,10 +106,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const ErrorSnackBar(
-                                      errorMessage: StringsManager.movieNoVideosMessage,
-                                    ) as SnackBar
-                                );
+                                  errorSnackBar(errorMessage: StringsManager.movieNoVideosMessage, context: context)
+                                  );
                               }
                             },
                           ),

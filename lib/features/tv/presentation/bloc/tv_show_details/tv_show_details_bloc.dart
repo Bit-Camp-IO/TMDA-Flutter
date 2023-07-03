@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -50,7 +51,7 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     on<PlayTvShowVideoEvent>(_playTvShowVideoEvent);
     on<ChangeBodyTabsIndexEvent>(_changeBodyTabsIndexEvent);
     on<ChangeSeasonsTabsIndexEvent>(_changeSeasonsTabsIndexEvent);
-    on<OnScrollAnimationEvent>(_onScrollAnimationEvent);
+    on<OnScrollAnimationEvent>(_onScrollAnimationEvent, transformer: droppable());
   }
 
   Future<void> _getTvShowDetailsEvent(event, emit) async {

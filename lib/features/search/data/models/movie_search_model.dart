@@ -1,4 +1,3 @@
-import 'package:tmda/features/search/data/models/search_content_states_model.dart';
 import 'package:tmda/features/search/data/models/search_genre_model.dart';
 import 'package:tmda/features/search/domain/entities/movie_search.dart';
 
@@ -12,7 +11,6 @@ class MovieSearchModel extends MovieSearch {
     required super.voteCount,
     required super.genres,
     required super.language,
-    required super.contentStates,
   });
 
   factory MovieSearchModel.fromJson(Map<String, dynamic> jsonData) {
@@ -44,14 +42,13 @@ class MovieSearchModel extends MovieSearch {
       id: jsonData['id'],
       title: jsonData['title'],
       posterPath: jsonData['poster_path'] ?? '',
-      releaseDate: jsonData['release_date'],
+      releaseDate: jsonData['release_date'] ?? '',
       voteAverage: jsonData['vote_average'],
       voteCount: jsonData['vote_count'],
       genres: List<SearchGenreModel>.from(
         movieGenres.map((jsonData) => SearchGenreModel.fromJson(jsonData)),
       ),
       language: jsonData['original_language'],
-      contentStates: SearchContentStatesModel.fromJson(jsonData['account_status']),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
-import 'package:tmda/core/widgets/see_all_card.dart';
+import 'package:tmda/core/widgets/list_card_with_save.dart';
 
 class SeeAllMoviesComponent extends StatefulWidget {
   const SeeAllMoviesComponent({
@@ -49,7 +49,7 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                     previous.seeAllMovies[index].accountStates !=
                     current.seeAllMovies[index].accountStates,
                 builder: (context, state) {
-                  return SeeAllCard(
+                  return ListCardWithSave(
                     onTap: () {
                       tappedMovieId = state.seeAllMovies[index].id;
                       context.pushRoute(

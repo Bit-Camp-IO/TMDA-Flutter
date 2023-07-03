@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/core/widgets/see_all_card.dart';
+import 'package:tmda/core/widgets/list_card_with_save.dart';
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
 
 class SeeAllTvShowsComponent extends StatefulWidget {
@@ -42,7 +42,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent> with Au
                 top: 14,
                 bottom: 16.0,
               ).r,
-              child: SeeAllCard(
+              child: ListCardWithSave(
                 onTap: () {
                   tappedTvShowId = state.seeAllTvShows[index].id;
                   AutoRouter.of(context).push(

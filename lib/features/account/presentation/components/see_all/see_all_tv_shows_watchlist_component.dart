@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/core/widgets/see_all_watchlist_card.dart';
+import 'package:tmda/core/widgets/list_card.dart';
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
 
 class SeeAllTvShowsWatchListComponent extends StatefulWidget {
@@ -87,7 +87,7 @@ class _SeeAllTvShowsWatchListComponentState
                       .read<AccountSeeAllBloc>()
                       .add(RemoveTvShowFromWatchListEvent(
                           tvShowId: state.tvShowsWatchList[index].id)),
-                  child: SeeAllWatchListCard(
+                  child: ListCard(
                     title: state.tvShowsWatchList[index].title,
                     errorImagePath: AssetsManager.noPoster,
                     posterPath: state.tvShowsWatchList[index].posterPath,

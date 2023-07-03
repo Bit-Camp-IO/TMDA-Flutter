@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -35,7 +36,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     on<GetMovieStatesEvent >(_getMovieStatesEvent);
     on<PlayMovieTrailerEvent>(_playMovieTrailerEvent);
     on<AddOrRemoveFromWatchListEvent>(_addOrRemoveFromWatchListEvent);
-    on<OnScrollAnimationEvent>(_onScrollAnimationEvent);
+    on<OnScrollAnimationEvent>(_onScrollAnimationEvent, transformer: droppable());
   }
 
   Future<void> _getMovieDetailsEvent(event, emit) async {

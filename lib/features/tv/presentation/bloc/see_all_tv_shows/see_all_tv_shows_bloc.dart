@@ -80,7 +80,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                   state.copyWith(
                     seeAllState: BlocState.success,
                     seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(airingTodayList),
+                      ..addAll(airingTodayList.reversed),
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );

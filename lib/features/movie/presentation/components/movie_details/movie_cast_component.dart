@@ -23,63 +23,85 @@ class MovieCastComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 150.ms)],
-          child: Column(
-            children: [
-              const SectionWidget(
-                title: StringsManager.castSectionTitle,
-                color: ColorsManager.primaryColor,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: state.movieDetails.cast.length,
-                  itemBuilder: (context, index) {
-                    return Row(
-                      children: [
-                        SizedBox(width: 16.w),
-                        CastCard(
-                          onTap: () {
-                            if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3 ){
-                              context.pushRoute(
-                                PersonRoute(
-                                  personId:
-                                  state.movieDetails.cast[index].actorId,
-                                  personScreenType: PersonScreenType.withAllContent,
-                                ),
-                              );
-                            }else{
-                              context.pushRoute(
-                                PersonRoute(
-                                  personId:
-                                  state.movieDetails.cast[index].actorId,
-                                  personScreenType: PersonScreenType.withMovies,
-                                ),
-                              );
-                            }
-
-                          },
-                          errorImagePath: AssetsManager.neonAvatar,
-                          actorPicPath: state.movieDetails.cast[index].actorPicPath,
-                          actorName: state.movieDetails.cast[index].actorName,
-                          actorCharacterName: state.movieDetails.cast[index].movieCharacter,
-                        ),
-                      ],
-                    );
-                  },
+        if(state.movieDetails.cast.isNotEmpty){
+          return Animate(
+            effects: [FadeEffect(duration: 150.ms)],
+            child: Column(
+              children: [
+                const SectionWidget(
+                  title: StringsManager.castSectionTitle,
+                  color: ColorsManager.primaryColor,
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: SectionDivider(),
-              ),
-            ],
-          ),
-        );
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: state.movieDetails.cast.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          SizedBox(width: 16.w),
+                          CastCard(
+                            onTap: () {
+                              if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3 ){
+                                context.pushRoute(
+                                  PersonRoute(
+                                    personId:
+                                    state.movieDetails.cast[index].actorId,
+                                    personScreenType: PersonScreenType.withAllContent,
+                                  ),
+                                );
+                              }else{
+                                context.pushRoute(
+                                  PersonRoute(
+                                    personId:
+                                    state.movieDetails.cast[index].actorId,
+                                    personScreenType: PersonScreenType.withMovies,
+                                  ),
+                                );
+                              }
+
+                            },
+                            errorImagePath: AssetsManager.neonAvatar,
+                            actorPicPath: state.movieDetails.cast[index].actorPicPath,
+                            actorName: state.movieDetails.cast[index].actorName,
+                            actorCharacterName: state.movieDetails.cast[index].movieCharacter,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: SectionDivider(),
+                ),
+              ],
+            ),
+          );
+        }else{
+          return Animate(
+            effects: [FadeEffect(duration: 150.ms)],
+            child: Column(
+              children: [
+                const SectionWidget(
+                  title: StringsManager.detailsSimilarSectionTitle,
+                  color: ColorsManager.primaryColor,
+                ),
+                Center(
+                  child: Text(
+                    "Couldn't find movie cast.",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                const SectionDivider(),
+              ],
+            ),
+          );
+        }
+
       },
     );
   }

@@ -72,6 +72,7 @@ class SimilarMoviesComponent extends StatelessWidget {
                     },
                   ),
                 ),
+                const SectionDivider(),
               ],
             ),
           );
@@ -84,13 +85,10 @@ class SimilarMoviesComponent extends StatelessWidget {
                   title: StringsManager.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                 ),
-                SizedBox(
-                  height: 220.h,
-                  child: Center(
-                    child: Text(
-                      'We couldn\'t find similar movies.',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                Center(
+                  child: Text(
+                    "Couldn't find similar movies.",
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
                 const SectionDivider(),

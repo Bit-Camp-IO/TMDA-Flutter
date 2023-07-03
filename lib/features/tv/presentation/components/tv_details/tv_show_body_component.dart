@@ -92,8 +92,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                           bottom: 15,
                           child: NeonPlayButton(
                             onTap: () {
-                              if (state
-                                  .tvShowDetails.tvShowVideo.key.isNotEmpty) {
+                              if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
                                 BlocProvider.of<TvShowDetailsBloc>(
                                   context,
                                   listen: false,

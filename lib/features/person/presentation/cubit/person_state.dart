@@ -4,7 +4,6 @@ class PersonState extends Equatable {
   final Person personData;
   final BlocState personDataState;
   final String personDataLoadFailMessage;
-  final double animatedHeight;
   final bool isTextExpanded;
   const PersonState({
     this.personData = const Person(
@@ -19,7 +18,6 @@ class PersonState extends Equatable {
       tvShows: [],
     ),
   this.personDataState = BlocState.loading,
-    this.animatedHeight = 480,
     this.personDataLoadFailMessage = '',
     this.isTextExpanded = false,
   });
@@ -35,12 +33,11 @@ class PersonState extends Equatable {
       personData: personData ?? this.personData,
       personDataState: personDataState ?? this.personDataState,
       personDataLoadFailMessage: personDataLoadFailMessage ?? this.personDataLoadFailMessage,
-      animatedHeight: animatedHeight ?? this.animatedHeight,
       isTextExpanded: isTextExpanded ?? this.isTextExpanded,
     );
   }
 
   @override
-  List<Object> get props => [personData, personDataLoadFailMessage, personDataState, animatedHeight, isTextExpanded];
+  List<Object> get props => [personData, personDataLoadFailMessage, personDataState, isTextExpanded];
 
 }

@@ -10,10 +10,10 @@ import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/person/presentation/bloc/person_cubit.dart';
 import 'package:tmda/features/person/presentation/components/person_details_component.dart';
 import 'package:tmda/features/person/presentation/components/person_movies_component.dart';
 import 'package:tmda/features/person/presentation/components/person_tv_shows_component.dart';
+import 'package:tmda/features/person/presentation/cubit/person_cubit.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -70,8 +70,7 @@ class _PersonScreenState extends State<PersonScreen> {
             ),
             BlocBuilder<PersonCubit, PersonState>(
               buildWhen: (previous, current) =>
-                  previous.personDataState != current.personDataState ||
-                  previous.animatedHeight != current.animatedHeight,
+                  previous.personDataState != current.personDataState,
               builder: (context, state) {
                 switch (state.personDataState) {
                   case BlocState.initial || BlocState.loading:

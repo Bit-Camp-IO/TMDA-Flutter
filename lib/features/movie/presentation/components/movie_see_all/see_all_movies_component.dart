@@ -5,29 +5,60 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
+import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
 import 'package:tmda/core/widgets/list_card_with_save.dart';
 
 class SeeAllMoviesComponent extends StatefulWidget {
-  const SeeAllMoviesComponent({
-    Key? key,
-    required this.scrollController,
-  }) : super(key: key);
-  final ScrollController scrollController;
-
+  const SeeAllMoviesComponent({Key? key, required this.movieType, this.movieId}) : super(key: key);
+  final MovieType movieType;
+  final int? movieId;
   @override
   State<SeeAllMoviesComponent> createState() => _SeeAllMoviesComponentState();
 }
 
 class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
     with AutoRouteAwareStateMixin<SeeAllMoviesComponent> {
-  late int tappedMovieId;
+  late int _tappedMovieId;
+  late ScrollController _scrollController;
+
 
   @override
   void didPopNext() {
     context.read<SeeAllMoviesBloc>()
-      ..add(CheckForMovieStatesEvent(tappedMovieId))
+      ..add(CheckForMovieStatesEvent(_tappedMovieId))
       ..add(CheckForMoviesListStatesEvent());
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    if (currentScroll >= maxScroll * 0.9) {
+      switch (widget.movieType) {
+        case (MovieType.newMovies):
+          context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
+        case (MovieType.popularMovies):
+          context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
+        case (MovieType.topRatedMovies):
+          context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
+        case (MovieType.recommendedMovies):
+          context
+              .read<SeeAllMoviesBloc>()
+              .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+        case (MovieType.similarMovies):
+          context
+              .read<SeeAllMoviesBloc>()
+              .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
+      }
+    }
+  }
+
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    super.initState();
   }
 
   @override
@@ -37,7 +68,7 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
         return ListView.builder(
           itemCount: state.seeAllMovies.length + 1,
           scrollDirection: Axis.vertical,
-          controller: widget.scrollController,
+          controller: _scrollController,
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
@@ -58,7 +89,7 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                       builder: (context, state) {
                         return ListCardWithSave(
                           onTap: () {
-                            tappedMovieId = state.seeAllMovies[index].id;
+                            _tappedMovieId = state.seeAllMovies[index].id;
                             context.pushRoute(
                               MovieDetailsRoute(
                                 movieId: state.seeAllMovies[index].id,
@@ -93,4 +124,10 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
       },
     );
   }
+  @override
+  void dispose() {
+    _scrollController..removeListener(_onScroll)..dispose();
+    super.dispose();
+  }
+
 }

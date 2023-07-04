@@ -190,11 +190,6 @@ class AccountTabRoute extends AutoRouter {
   const AccountTabRoute({super.key});
 }
 
-@RoutePage(name: 'EmptyPersonRoutePage')
-class EmptyPersonRoute extends AutoRouter {
-  const EmptyPersonRoute({super.key});
-}
-
 @RoutePage(name: 'AuthRoutesPage')
 class AuthRoutes extends AutoRouter {
   const AuthRoutes({super.key});

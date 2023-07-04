@@ -24,24 +24,6 @@ class GetTvShowStatesEvent extends TvDetailsEvent {
   List<Object> get props => [tvShowId];
 }
 
-class GetTvShowCastEvent extends TvDetailsEvent {
-  final int tvShowId;
-
-  const GetTvShowCastEvent(this.tvShowId);
-
-  @override
-  List<Object> get props => [tvShowId];
-}
-
-class GetTvShowReviewsEvent extends TvDetailsEvent {
-  final int tvShowId;
-
-  const GetTvShowReviewsEvent(this.tvShowId);
-
-  @override
-  List<Object> get props => [tvShowId];
-}
-
 class PlayTvShowVideoEvent extends TvDetailsEvent {
   final String videoKey;
 

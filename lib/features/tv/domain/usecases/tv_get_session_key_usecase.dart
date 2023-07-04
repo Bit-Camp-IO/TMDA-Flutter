@@ -3,11 +3,11 @@ import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart';
 
 @lazySingleton
 class TvGetSessionIdUseCase{
-  final TvShowsRepository tvShowsRepository;
+  final TvShowsRepository _tvShowsRepository;
 
-  const TvGetSessionIdUseCase(this.tvShowsRepository);
+  const TvGetSessionIdUseCase(this._tvShowsRepository);
 
   Future<String> call() async{
-    return await tvShowsRepository.getSessionId();
+    return await _tvShowsRepository.getSessionId();
   }
 }

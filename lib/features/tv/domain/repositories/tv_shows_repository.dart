@@ -3,7 +3,6 @@ import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/features/tv/domain/entities/season_episode.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show_video.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show.dart';
 
 
@@ -19,7 +18,6 @@ abstract class TvShowsRepository{
   Future<Either<Failure, List<SeasonEpisode>>> getSeasonEpisodes({required int tvShowId, required int seasonId});
   Future<Either<Failure, TvShowAccountStates>> addOrRemoveTvFromWatchList({required int tvShowId, required bool isInWatchList, required String sessionId});
   Future<Either<Failure, void>> playTvShowVideo({required String youtubeVideoKey});
-  Future<TvShowVideo> getEpisodeVideo({required int tvShowId, required seasonNumber, required int episodeNumber});
   Future<Either<Failure, List<TvShow>>> getAllAiringTodayTvShows({required int pageNumber, required String sessionId});
   Future<Either<Failure, List<TvShow>>> getAllPopularTvShows({required int pageNumber, required String sessionId});
   Future<Either<Failure, List<TvShow>>> getAllTopRatedTvShows({required int pageNumber, required String sessionId});

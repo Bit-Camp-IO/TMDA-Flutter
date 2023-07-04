@@ -22,13 +22,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchForTvShowUseCase _searchForTvShowUseCase;
   final SearchForMovieUseCase _searchForMovieUseCase;
   final SearchForPersonUseCase _searchForPersonUseCase;
-  late String sessionId;
-  String movieSearchInput = '';
-  String tvSearchInput = '';
-  String personSearchInput = '';
-  int moviePageNumber = 1;
-  int tvShowPageNumber = 1;
-  int personPageNumber = 1;
+  late String _sessionId;
+  String _movieSearchInput = '';
+  String _tvSearchInput = '';
+  String _personSearchInput = '';
+  int _moviePageNumber = 1;
+  int _tvShowPageNumber = 1;
+  int _personPageNumber = 1;
 
   SearchBloc(
     this._getSessionIdUseCase,
@@ -60,12 +60,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchForMoviesEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (movieSearchInput != event.movieName) {
-      movieSearchInput = event.movieName;
-      moviePageNumber = 1;
+    if (_movieSearchInput != event.movieName) {
+      _movieSearchInput = event.movieName;
+      _moviePageNumber = 1;
       await _searchForMovieUseCase(
-        pageNumber: moviePageNumber,
-        movieName: movieSearchInput,
+        pageNumber: _moviePageNumber,
+        movieName: _movieSearchInput,
         sessionId: sessionId,
       ).then(
         (value) => value.fold(
@@ -76,7 +76,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             ),
           ),
           (movies) {
-            moviePageNumber++;
+            _moviePageNumber++;
             return emit(
               state.copyWith(
                 searchState: BlocState.success,
@@ -92,13 +92,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchForTvShowEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (tvSearchInput != event.tvShowName) {
-      tvSearchInput = event.tvShowName;
-      tvShowPageNumber = 1;
+    if (_tvSearchInput != event.tvShowName) {
+      _tvSearchInput = event.tvShowName;
+      _tvShowPageNumber = 1;
       emit(state.copyWith(hasMoviesListReachedMax: false));
       await _searchForTvShowUseCase(
-        pageNumber: tvShowPageNumber,
-        tvShowName: tvSearchInput,
+        pageNumber: _tvShowPageNumber,
+        tvShowName: _tvSearchInput,
         sessionId: sessionId,
       ).then(
         (value) => value.fold(
@@ -109,7 +109,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             ),
           ),
           (tvShow) {
-            tvShowPageNumber++;
+            _tvShowPageNumber++;
             return emit(
               state.copyWith(
                 searchState: BlocState.success,
@@ -125,12 +125,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchForPersonEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (personSearchInput != event.personName) {
-      personSearchInput = event.personName;
-      personPageNumber = 1;
+    if (_personSearchInput != event.personName) {
+      _personSearchInput = event.personName;
+      _personPageNumber = 1;
       await _searchForPersonUseCase(
-        pageNumber: personPageNumber,
-        personName: movieSearchInput,
+        pageNumber: _personPageNumber,
+        personName: _movieSearchInput,
         sessionId: sessionId,
       ).then(
         (value) => value.fold(
@@ -141,7 +141,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             ),
           ),
           (personList) {
-            personPageNumber++;
+            _personPageNumber++;
             return emit(state.copyWith(
               searchState: BlocState.success,
               peopleSearchList: personList,
@@ -154,11 +154,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _loadMoreMoviesEvent(event, emit) async {
     final String sessionId = await _getSessionIdUseCase();
-    if (movieSearchInput == event.movieName &&
+    if (_movieSearchInput == event.movieName &&
         state.hasMoviesListReachedMax == false) {
       await _searchForMovieUseCase(
-        pageNumber: moviePageNumber,
-        movieName: movieSearchInput,
+        pageNumber: _moviePageNumber,
+        movieName: _movieSearchInput,
         sessionId: sessionId,
       ).then(
         (value) => value.fold(
@@ -177,7 +177,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
                 ),
               );
             } else {
-              moviePageNumber++;
+              _moviePageNumber++;
               return emit(
                 state.copyWith(
                   searchState: BlocState.success,
@@ -196,11 +196,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _loadMoreTvShowsEvent(event, emit) async {
     final String sessionId = await _getSessionIdUseCase();
-    if (tvSearchInput == event.tvShowName &&
+    if (_tvSearchInput == event.tvShowName &&
         state.hasTvShowsListReachedMax == false) {
       await _searchForTvShowUseCase(
-        pageNumber: tvShowPageNumber,
-        tvShowName: tvSearchInput,
+        pageNumber: _tvShowPageNumber,
+        tvShowName: _tvSearchInput,
         sessionId: sessionId,
       ).then(
         (value) => value.fold(
@@ -219,7 +219,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
                 ),
               );
             } else {
-              tvShowPageNumber++;
+              _tvShowPageNumber++;
               return emit(
                 state.copyWith(
                   searchState: BlocState.success,
@@ -236,11 +236,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _loadMorePersonsEvent(event, emit) async {
     final String sessionId = await _getSessionIdUseCase();
-    if (personSearchInput == event.personName &&
+    if (_personSearchInput == event.personName &&
         state.hasPersonListReachedMax == false) {
       await _searchForPersonUseCase(
-        pageNumber: personPageNumber,
-        personName: personSearchInput,
+        pageNumber: _personPageNumber,
+        personName: _personSearchInput,
         sessionId: sessionId,
       ).then(
             (value) => value.fold(
@@ -259,7 +259,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
                 ),
               );
             } else {
-              personPageNumber++;
+              _personPageNumber++;
               return emit(
                 state.copyWith(
                   searchState: BlocState.success,

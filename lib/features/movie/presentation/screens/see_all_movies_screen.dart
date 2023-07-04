@@ -17,7 +17,7 @@ import 'package:tmda/injection_container.dart';
 class SeeAllMoviesScreen extends StatefulWidget with AutoRouteWrapper{
   const SeeAllMoviesScreen({super.key, required this.movieType, this.movieId});
 
-  final dynamic movieType;
+  final MovieType movieType;
   final int? movieId;
 
   @override
@@ -33,7 +33,6 @@ class SeeAllMoviesScreen extends StatefulWidget with AutoRouteWrapper{
 }
 
 class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
-  final ScrollController scrollController = ScrollController();
   @override
   void initState() {
     switch (widget.movieType) {
@@ -52,39 +51,8 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
             .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
     }
     super.initState();
-    scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() {
-    final maxScroll = scrollController.position.maxScrollExtent;
-    final currentScroll = scrollController.offset;
-    if (currentScroll >= maxScroll * 0.9) {
-      switch (widget.movieType) {
-        case (MovieType.newMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
-        case (MovieType.popularMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
-        case (MovieType.topRatedMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
-        case (MovieType.recommendedMovies):
-          context
-              .read<SeeAllMoviesBloc>()
-              .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
-        case (MovieType.similarMovies):
-          context
-              .read<SeeAllMoviesBloc>()
-              .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +83,8 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
                   );
                 case BlocState.success:
                   return SeeAllMoviesComponent(
-                    scrollController: scrollController,
+                   movieType: widget.movieType,
+                    movieId: widget.movieId,
                   );
                 case BlocState.failure:
                   return NoConnection(

@@ -5,9 +5,9 @@ import 'package:tmda/features/account/domain/repositories/account_repository.dar
 
 @lazySingleton
 class AccountLogoutUseCase{
-  final AccountRepository accountRepository;
-  const AccountLogoutUseCase(this.accountRepository);
+  final AccountRepository _accountRepository;
+  const AccountLogoutUseCase(this._accountRepository);
   Future<Either<Failure, void>> call({required String sessionId}) async{
-    return await accountRepository.accountLogOut(sessionId: sessionId);
+    return await _accountRepository.accountLogOut(sessionId: sessionId);
   }
 }

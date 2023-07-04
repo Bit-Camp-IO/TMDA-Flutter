@@ -15,9 +15,8 @@ import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 
 class RecommendedMoviesComponent extends StatelessWidget {
-  const RecommendedMoviesComponent({
-    super.key,
-  });
+  const RecommendedMoviesComponent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
@@ -51,17 +50,18 @@ class RecommendedMoviesComponent extends StatelessWidget {
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            imagePath: state
-                                .movieDetails.recommendedMovies[index].posterPath,
+                            imagePath: state.movieDetails
+                                .recommendedMovies[index].posterPath,
                             errorImagePath: AssetsManager.errorPoster,
-                            title: state.movieDetails.recommendedMovies[index].title,
-                            rating: state
-                                .movieDetails.recommendedMovies[index].voteAverage,
+                            title: state
+                                .movieDetails.recommendedMovies[index].title,
+                            rating: state.movieDetails.recommendedMovies[index]
+                                .voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 MovieDetailsRoute(
-                                  movieId:
-                                      state.movieDetails.recommendedMovies[index].id,
+                                  movieId: state
+                                      .movieDetails.recommendedMovies[index].id,
                                 ),
                               );
                             },

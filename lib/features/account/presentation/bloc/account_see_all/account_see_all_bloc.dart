@@ -6,13 +6,13 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_tv_show.dart';
-import 'package:tmda/features/account/domain/usecases/add_or_remove_movie_from_watch_list_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/add_or_remove_tv_show_from_watch_list_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/add_or_remove_movie_from_watch_list_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/add_or_remove_tv_show_from_watch_list_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_all_movies_watchlist_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_all_tv_shows_watchlist_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_movie_show_watchlist_states_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_tv_show_watchlist_states_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_all_movies_watchlist_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_all_tv_shows_watchlist_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movie_watchlist_states_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_show_watchlist_states_usecase.dart';
 
 part 'account_see_all_event.dart';
 

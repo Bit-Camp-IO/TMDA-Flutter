@@ -14,11 +14,7 @@ import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_detail
 import 'package:tmda/features/movie/presentation/components/movie_details_poster.dart';
 
 class MovieOverviewComponent extends StatefulWidget {
-  const MovieOverviewComponent({
-    super.key,
-    required this.scrollController,
-  });
-
+  const MovieOverviewComponent({super.key, required this.scrollController});
 
   final ScrollController scrollController;
 
@@ -105,8 +101,10 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  errorSnackBar(errorMessage: StringsManager.movieNoVideosMessage, context: context)
-                                  );
+                                    errorSnackBar(
+                                        errorMessage:
+                                            StringsManager.movieNoVideosMessage,
+                                        context: context));
                               }
                             },
                           ),
@@ -125,12 +123,16 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                               SizedBox(height: 4.h),
                               Row(
                                 children: [
-                                  Text(state.movieDetails.voteAverage.toStringAsFixed(1),
-                                    style: Theme.of(context).textTheme.titleMedium,
+                                  Text(
+                                    state.movieDetails.voteAverage
+                                        .toStringAsFixed(1),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                   Text(
                                     StringsManager.maxRate,
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ],
                               ),
@@ -146,7 +148,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                           right: 30,
                           bottom: 40,
                           child:
-                          BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+                              BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
                             builder: (context, state) {
                               return InkWell(
                                 onTap: () {
@@ -161,7 +163,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 child: Column(
                                   children: [
                                     Icon(
-                                      state.movieDetails.accountStates.inWatchList
+                                      state.movieDetails.accountStates
+                                              .inWatchList
                                           ? SolarSystemIcons.saved
                                           : SolarSystemIcons.unsaved,
                                       color: ColorsManager.primaryColor,
@@ -197,7 +200,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                 width: MediaQuery.of(context).size.width,
                 height: 20,
                 child: Center(
-                  child: Text( _buildGenre(state.movieDetails.genres),
+                  child: Text(
+                    _buildGenre(state.movieDetails.genres),
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
@@ -215,7 +219,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                       children: [
                         Text(
                           StringsManager.productionYear,
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
                                     color: Colors.white.withOpacity(0.8),
                                   ),
                         ),
@@ -231,7 +236,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                       children: [
                         Text(
                           StringsManager.productionCountry,
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
                                     color: Colors.white.withOpacity(0.8),
                                   ),
                         ),
@@ -245,9 +251,10 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                       children: [
                         Text(
                           StringsManager.length,
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
                                     color: Colors.white.withOpacity(0.8),
-                          ),
+                                  ),
                         ),
                         Text(
                           '${state.movieDetails.runTime} ${StringsManager.duration}',
@@ -260,7 +267,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
+                    const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0)
+                        .r,
                 child: Text(
                   state.movieDetails.overview,
                   textAlign: TextAlign.center,
@@ -274,8 +282,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
       },
     );
   }
-  
-  String _buildGenre(List genres){
+
+  String _buildGenre(List genres) {
     if (genres.isEmpty) {
       return StringsManager.unknown;
     } else if (genres.length == 1) {

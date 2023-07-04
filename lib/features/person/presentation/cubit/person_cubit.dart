@@ -31,9 +31,6 @@ class PersonCubit extends Cubit<PersonState> {
       ),
     );
   }
-  void changeHeightOnScroll({required double animatedHeight}){
-    emit(state.copyWith(animatedHeight: animatedHeight));
-  }
   void changeReadMoreState({required bool isTextExpanded}){
     emit(state.copyWith(isTextExpanded: isTextExpanded));
   }

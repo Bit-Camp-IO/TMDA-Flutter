@@ -6,10 +6,10 @@ import 'package:tmda/features/account/domain/repositories/account_repository.dar
 
 @lazySingleton
 class GetAccountDetailsUseCase{
-  final AccountRepository accountRepository;
-  const GetAccountDetailsUseCase(this.accountRepository);
+  final AccountRepository _accountRepository;
+  const GetAccountDetailsUseCase(this._accountRepository);
 
   Future<Either<Failure, Account>> call({required String sessionId}) async{
-    return await accountRepository.getAccountDetails(sessionId);
+    return await _accountRepository.getAccountDetails(sessionId);
   }
 }

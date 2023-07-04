@@ -14,17 +14,17 @@ part 'movies_state.dart';
 
 @injectable
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
-  final GetNowPlayingMoviesUseCase getNowPlayingMoviesUseCase;
-  final GetNewMoviesUseCase getNewMoviesUseCase;
-  final GetPopularMoviesUseCase getPopularMoviesUseCase;
-  final GetTopRatedMoviesUseCase getTopRatedMoviesUseCase;
+  final GetNowPlayingMoviesUseCase _getNowPlayingMoviesUseCase;
+  final GetNewMoviesUseCase _getNewMoviesUseCase;
+  final GetPopularMoviesUseCase _getPopularMoviesUseCase;
+  final GetTopRatedMoviesUseCase _getTopRatedMoviesUseCase;
 
-  MoviesBloc({
-    required this.getNowPlayingMoviesUseCase,
-    required this.getPopularMoviesUseCase,
-    required this.getTopRatedMoviesUseCase,
-    required this.getNewMoviesUseCase,
-  }) : super(const MoviesState()) {
+  MoviesBloc(
+    this._getNowPlayingMoviesUseCase,
+    this._getPopularMoviesUseCase,
+    this._getTopRatedMoviesUseCase,
+    this._getNewMoviesUseCase,
+  ) : super(const MoviesState()) {
     on<GetNowPlayingMoviesEvent>(_getNowPlayingMovieEvent);
     on<GetPopularMoviesEvent>(_getPopularMoviesEvent);
     on<GetTopRatedMoviesEvent>(_getTopRatedMoviesEvent);
@@ -33,7 +33,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   }
 
   Future<void> _getNowPlayingMovieEvent(event, emit) async {
-    await getNowPlayingMoviesUseCase().then(
+    await _getNowPlayingMoviesUseCase().then(
       (value) => value.fold(
         (nowPlayingMoviesFail) => emit(
           state.copyWith(
@@ -52,7 +52,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   }
 
   Future<void> _getNewMoviesEvent(event, emit) async {
-    await getNewMoviesUseCase().then(
+    await _getNewMoviesUseCase().then(
       (value) => value.fold(
         (newMoviesLoadFail) => emit(
           state.copyWith(
@@ -71,7 +71,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   }
 
   Future<void> _getPopularMoviesEvent(event, emit) async {
-    await getPopularMoviesUseCase().then(
+    await _getPopularMoviesUseCase().then(
       (value) => value.fold(
         (popularMoviesLoadFail) => emit(
           state.copyWith(
@@ -90,7 +90,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   }
 
   Future<void> _getTopRatedMoviesEvent(event, emit) async {
-    await getTopRatedMoviesUseCase().then(
+    await _getTopRatedMoviesUseCase().then(
       (value) => value.fold(
         (topRatedMoviesLoadFail) => emit(
           state.copyWith(

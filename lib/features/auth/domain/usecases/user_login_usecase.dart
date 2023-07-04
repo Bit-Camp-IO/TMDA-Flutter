@@ -6,10 +6,10 @@ import 'package:tmda/features/auth/domain/repositories/auth_repository.dart';
 
 @lazySingleton
 class UserLoginUseCase {
-  AuthRepository authRepository;
-  UserLoginUseCase({required this.authRepository});
+  final AuthRepository _authRepository;
+  const UserLoginUseCase(this._authRepository);
 
   Future<Either<Failure, Auth>> call(String username, String password) async{
-    return await authRepository.userLogin(username, password);
+    return await _authRepository.userLogin(username, password);
   }
 }

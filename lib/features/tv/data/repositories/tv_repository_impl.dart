@@ -7,7 +7,6 @@ import 'package:tmda/features/tv/data/datasources/tv_data_source.dart';
 import 'package:tmda/features/tv/data/models/season_episode_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show_video_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_model.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
@@ -126,10 +125,6 @@ class TvRepositoryImpl extends TvShowsRepository {
     }
   }
 
-  @override
-  Future<TvShowVideoModel> getEpisodeVideo({required int tvShowId, required seasonNumber, required int episodeNumber}) async{
-    return await tvDataSource.getEpisodeVideo(tvShowId: tvShowId, seasonNumber: seasonNumber, episodeNumber: episodeNumber);
-  }
   @override
   Future<Either<Failure, List<TvShow>>> getAllAiringTodayTvShows({required int pageNumber, required String sessionId}) async{
     try {

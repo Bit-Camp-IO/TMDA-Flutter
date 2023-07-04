@@ -14,16 +14,13 @@ import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 
 class MovieCastComponent extends StatelessWidget {
-  const MovieCastComponent({
-    super.key,
-  });
-
+  const MovieCastComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        if(state.movieDetails.cast.isNotEmpty){
+        if (state.movieDetails.cast.isNotEmpty) {
           return Animate(
             effects: [FadeEffect(duration: 150.ms)],
             child: Column(
@@ -45,29 +42,33 @@ class MovieCastComponent extends StatelessWidget {
                           SizedBox(width: 16.w),
                           CastCard(
                             onTap: () {
-                              if(context.tabsRouter.activeIndex == 2 || context.tabsRouter.activeIndex == 3 ){
+                              if (context.tabsRouter.activeIndex == 2 ||
+                                  context.tabsRouter.activeIndex == 3) {
                                 context.pushRoute(
                                   PersonRoute(
                                     personId:
-                                    state.movieDetails.cast[index].actorId,
-                                    personScreenType: PersonScreenType.withAllContent,
+                                        state.movieDetails.cast[index].actorId,
+                                    personScreenType:
+                                        PersonScreenType.withAllContent,
                                   ),
                                 );
-                              }else{
+                              } else {
                                 context.pushRoute(
                                   PersonRoute(
                                     personId:
-                                    state.movieDetails.cast[index].actorId,
-                                    personScreenType: PersonScreenType.withMovies,
+                                        state.movieDetails.cast[index].actorId,
+                                    personScreenType:
+                                        PersonScreenType.withMovies,
                                   ),
                                 );
                               }
-
                             },
                             errorImagePath: AssetsManager.neonAvatar,
-                            actorPicPath: state.movieDetails.cast[index].actorPicPath,
+                            actorPicPath:
+                                state.movieDetails.cast[index].actorPicPath,
                             actorName: state.movieDetails.cast[index].actorName,
-                            actorCharacterName: state.movieDetails.cast[index].movieCharacter,
+                            actorCharacterName:
+                                state.movieDetails.cast[index].movieCharacter,
                           ),
                         ],
                       );
@@ -81,7 +82,7 @@ class MovieCastComponent extends StatelessWidget {
               ],
             ),
           );
-        }else{
+        } else {
           return Animate(
             effects: [FadeEffect(duration: 150.ms)],
             child: Column(
@@ -102,7 +103,6 @@ class MovieCastComponent extends StatelessWidget {
             ),
           );
         }
-
       },
     );
   }

@@ -15,9 +15,7 @@ import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 
 class SimilarTvShowsComponent extends StatelessWidget {
-  const SimilarTvShowsComponent({
-    super.key,
-  });
+  const SimilarTvShowsComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +51,17 @@ class SimilarTvShowsComponent extends StatelessWidget {
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
                             errorImagePath: AssetsManager.errorPoster,
-                            imagePath: state.tvShowDetails.similarTvShows[index].posterPath,
-                            title: state.tvShowDetails.similarTvShows[index].title,
-                            rating: state.tvShowDetails.similarTvShows[index].voteAverage,
+                            imagePath: state
+                                .tvShowDetails.similarTvShows[index].posterPath,
+                            title:
+                                state.tvShowDetails.similarTvShows[index].title,
+                            rating: state.tvShowDetails.similarTvShows[index]
+                                .voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.tvShowDetails.similarTvShows[index].id,
+                                  tvShowId: state
+                                      .tvShowDetails.similarTvShows[index].id,
                                 ),
                               );
                             },
@@ -89,8 +91,8 @@ class SimilarTvShowsComponent extends StatelessWidget {
                     child: Text(
                       StringsManager.noSimilarTvShows,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: ColorsManager.primaryColor,
-                      ),
+                            color: ColorsManager.primaryColor,
+                          ),
                     ),
                   ),
                 ),

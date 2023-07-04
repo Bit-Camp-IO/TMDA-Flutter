@@ -5,9 +5,9 @@ import 'package:tmda/features/auth/domain/repositories/auth_repository.dart';
 
 @lazySingleton
 class UserForgetPasswordUseCase {
-  AuthRepository authRepository;
-  UserForgetPasswordUseCase({required this.authRepository});
+  final AuthRepository _authRepository;
+  const UserForgetPasswordUseCase(this._authRepository);
   Future<Either<Failure, void>> call() async {
-    return await authRepository.userForgetPassword();
+    return await _authRepository.userForgetPassword();
   }
 }

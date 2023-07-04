@@ -6,10 +6,10 @@ import 'package:tmda/features/account/domain/repositories/account_repository.dar
 
 @lazySingleton
 class GetAllMoviesWatchListUseCase{
-  final AccountRepository accountRepository;
-  const GetAllMoviesWatchListUseCase(this.accountRepository);
+  final AccountRepository _accountRepository;
+  const GetAllMoviesWatchListUseCase(this._accountRepository);
 
   Future<Either<Failure, List<WatchListMovie>>> call({required String sessionId, required int pageNumber}) async{
-    return await accountRepository.getAllMoviesWatchList(sessionId: sessionId, pageNumber: pageNumber);
+    return await _accountRepository.getAllMoviesWatchList(sessionId: sessionId, pageNumber: pageNumber);
   }
 }

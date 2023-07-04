@@ -10,12 +10,11 @@ import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_network.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_production_country.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_video.dart';
-import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_tv_show_states_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/add_or_remove_tv_from_watchlist_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_episode_video_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/get_tv_show_states_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/add_or_remove_tv_from_watchlist_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_season_episodes_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/play_tv_show_video_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/tv_get_session_key_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/tv_get_session_key_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_tv_show_details_usecase.dart';
 
 part 'tv_show_details_event.dart';
@@ -24,26 +23,24 @@ part 'tv_show_details_state.dart';
 
 @injectable
 class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
-  final GetTvShowDetailsUseCase getTvShowDetailsUseCase;
-  final TvGetSessionIdUseCase getSessionIdUseCase;
-  final GetSeasonsEpisodesUseCase getSeasonsEpisodesUseCase;
-  final AddOrRemoveTvFromWatchListUseCase addOrRemoveTvFromWatchListUseCase;
-  final PlayTvShowVideoUseCase playTvShowVideoUseCase;
-  final GetEpisodeVideoUseCase getEpisodeVideoUseCase;
-  final GetTvShowStateUseCase getTvShowStateUseCase;
+  final GetTvShowDetailsUseCase _getTvShowDetailsUseCase;
+  final TvGetSessionIdUseCase _getSessionIdUseCase;
+  final GetSeasonsEpisodesUseCase _getSeasonsEpisodesUseCase;
+  final AddOrRemoveTvFromWatchListUseCase _addOrRemoveTvFromWatchListUseCase;
+  final PlayTvShowVideoUseCase _playTvShowVideoUseCase;
+  final GetTvShowStateUseCase _getTvShowStateUseCase;
   late String sessionId;
   int similarTvShowsPageNumber = 1;
   int recommendedTvShowsPageNumber = 1;
 
-  TvShowDetailsBloc({
-    required this.getTvShowDetailsUseCase,
-    required this.getSeasonsEpisodesUseCase,
-    required this.getSessionIdUseCase,
-    required this.addOrRemoveTvFromWatchListUseCase,
-    required this.playTvShowVideoUseCase,
-    required this.getEpisodeVideoUseCase,
-    required this.getTvShowStateUseCase,
-  }) : super(const TvShowDetailsState()) {
+  TvShowDetailsBloc(
+    this._getTvShowDetailsUseCase,
+    this._getSessionIdUseCase,
+    this._getSeasonsEpisodesUseCase,
+    this._addOrRemoveTvFromWatchListUseCase,
+    this._playTvShowVideoUseCase,
+    this._getTvShowStateUseCase,
+  ) : super(const TvShowDetailsState()) {
     on<GetTvShowDetailsEvent>(_getTvShowDetailsEvent);
     on<GetTvShowStatesEvent>(_getTvShowStatesEvent);
     on<GetSeasonEpisodesEvent>(_getSeasonEpisodesEvent);
@@ -55,8 +52,8 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   }
 
   Future<void> _getTvShowDetailsEvent(event, emit) async {
-    sessionId = await getSessionIdUseCase();
-    await getTvShowDetailsUseCase(event.tvShowId, sessionId).then(
+    sessionId = await _getSessionIdUseCase();
+    await _getTvShowDetailsUseCase(event.tvShowId, sessionId).then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
           state.copyWith(
@@ -75,32 +72,36 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
       ),
     );
   }
+
   Future<void> _getTvShowStatesEvent(event, emit) async {
-    sessionId = await getSessionIdUseCase();
-    await getTvShowStateUseCase(tvShowId: event.tvShowId, sessionId: sessionId).then(
-          (value) => value.fold(
-            (tvShowDetailsLoadFail) => emit(
+    sessionId = await _getSessionIdUseCase();
+    await _getTvShowStateUseCase(tvShowId: event.tvShowId, sessionId: sessionId)
+        .then(
+      (value) => value.fold(
+        (tvShowDetailsLoadFail) => emit(
           state.copyWith(
             tvShowDetailsState: BlocState.failure,
             tvShowDetailsFailMessage: tvShowDetailsLoadFail.message,
           ),
         ),
-            (updatedTvShowStates) {
+        (updatedTvShowStates) {
           emit(
             state.copyWith(
               tvShowDetailsState: BlocState.success,
-              tvShowDetails: state.tvShowDetails.copyWith(status: updatedTvShowStates),
+              tvShowDetails:
+                  state.tvShowDetails.copyWith(status: updatedTvShowStates),
             ),
           );
         },
       ),
     );
   }
+
   Future<void> _getSeasonEpisodesEvent(event, emit) async {
     final seasonsNumbers =
         state.tvShowDetails.seasons.map((season) => season.number).toList();
     final seasonsEpisodes = await Future.wait(seasonsNumbers
-        .map((seasonNumber) => getSeasonsEpisodesUseCase(
+        .map((seasonNumber) => _getSeasonsEpisodesUseCase(
             seasonNumber: seasonNumber, tvShowId: event.tvShowId))
         .toList()
         .cast<Future<dynamic>>());
@@ -124,7 +125,7 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   }
 
   Future<void> _addOrRemoveTvFromWatchListEvent(event, emit) async {
-    await addOrRemoveTvFromWatchListUseCase(
+    await _addOrRemoveTvFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       tvShowId: event.tvShowId,
       sessionId: sessionId,
@@ -155,7 +156,7 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   }
 
   Future<void> _playTvShowVideoEvent(event, emit) async {
-    await playTvShowVideoUseCase(youtubeVideoKey: event.videoKey);
+    await _playTvShowVideoUseCase(youtubeVideoKey: event.videoKey);
   }
 
   void _changeBodyTabsIndexEvent(event, emit) {

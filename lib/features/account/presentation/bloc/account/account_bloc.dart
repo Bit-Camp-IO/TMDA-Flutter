@@ -6,11 +6,11 @@ import 'package:tmda/features/account/domain/entities/account.dart';
 import 'package:tmda/features/account/domain/entities/account_avatar.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_tv_show.dart';
-import 'package:tmda/features/account/domain/usecases/account_logout_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_account_details_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_movies_watchlist_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account/account_logout_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account/get_account_details_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movies_watchlist_usecase.dart';
+import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_shows_watchlist_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_tv_shows_watchlist_usecase.dart';
 
 part 'account_event.dart';
 part 'account_state.dart';

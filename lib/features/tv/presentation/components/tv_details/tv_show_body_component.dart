@@ -12,10 +12,7 @@ import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_seas
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_details_poster.dart';
 
 class TvShowDetailsBodyComponent extends StatefulWidget {
-  const TvShowDetailsBodyComponent({
-    super.key,
-  });
-
+  const TvShowDetailsBodyComponent({super.key});
 
   @override
   State<TvShowDetailsBodyComponent> createState() =>
@@ -24,20 +21,20 @@ class TvShowDetailsBodyComponent extends StatefulWidget {
 
 class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
     with TickerProviderStateMixin {
-  late TabController tabController;
-  late ScrollController scrollController;
+  late TabController _tabController;
+  late ScrollController _scrollController;
 
   double containerHeight = 420;
 
   void _scrollListener() {
     final tvDetailsBloc = context.read<TvShowDetailsBloc>();
-    if (scrollController.position.userScrollDirection ==
+    if (_scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
       if (tvDetailsBloc.state.animatedHeight != 0) {
         tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 0));
       }
     }
-    if (scrollController.position.userScrollDirection ==
+    if (_scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
       if (tvDetailsBloc.state.animatedHeight == 0) {
         tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 420));
@@ -47,10 +44,11 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void initState() {
-    final tvShowDetailsBloc =  context.read<TvShowDetailsBloc>();
-    scrollController = ScrollController()..addListener(_scrollListener);
-    tvShowDetailsBloc.add(GetSeasonEpisodesEvent(tvShowId: tvShowDetailsBloc.state.tvShowDetails.id));
-    tabController = TabController(length: 2, initialIndex: 0, vsync: this);
+    final tvShowDetailsBloc = context.read<TvShowDetailsBloc>();
+    _scrollController = ScrollController()..addListener(_scrollListener);
+    tvShowDetailsBloc.add(GetSeasonEpisodesEvent(
+        tvShowId: tvShowDetailsBloc.state.tvShowDetails.id));
+    _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     super.initState();
   }
 
@@ -63,7 +61,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
         return Animate(
           effects: [FadeEffect(duration: 150.ms)],
           child: ListView(
-            controller: scrollController,
+            controller: _scrollController,
             padding: EdgeInsets.zero,
             children: [
               BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
@@ -88,7 +86,8 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                           bottom: 15,
                           child: NeonPlayButton(
                             onTap: () {
-                              if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
+                              if (state
+                                  .tvShowDetails.tvShowVideo.key.isNotEmpty) {
                                 BlocProvider.of<TvShowDetailsBloc>(
                                   context,
                                   listen: false,
@@ -99,8 +98,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    errorSnackBar(errorMessage: StringsManager.movieNoVideosMessage, context: context)
-                                );
+                                    errorSnackBar(
+                                        errorMessage:
+                                            StringsManager.movieNoVideosMessage,
+                                        context: context));
                               }
                             },
                           ),
@@ -113,12 +114,12 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
               Column(
                 children: [
                   TabBar(
-                    controller: tabController,
+                    controller: _tabController,
                     labelStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: (value) {
                       BlocProvider.of<TvShowDetailsBloc>(context)
-                          .add(ChangeBodyTabsIndexEvent(tabController.index));
-                      tabController.animateTo(tabController.index);
+                          .add(ChangeBodyTabsIndexEvent(_tabController.index));
+                      _tabController.animateTo(_tabController.index);
                     },
                     tabs: const [
                       Tab(
@@ -157,10 +158,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void dispose() {
-    scrollController
+    _scrollController
       ..removeListener(_scrollListener)
       ..dispose();
-    tabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 }

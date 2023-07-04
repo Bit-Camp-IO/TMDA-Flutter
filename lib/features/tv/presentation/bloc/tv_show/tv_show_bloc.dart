@@ -14,21 +14,21 @@ part 'tv_show_state.dart';
 
 @injectable
 class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
-  final GetTvShowsAiringTodayUseCase getTvShowsAiringTodayUseCase;
-  final GetTvShowsAiringThisWeekUseCase getTvShowsAiringThisWeekUseCase;
-  final GetPopularTvShowsUseCase getPopularTvShowsUseCase;
-  final GetTopRatedTvShowsUseCase getTopRatedTvShowsUseCase;
-  int airingThisWeekPage = 2;
-  int airingTodayPage = 1;
-  int popularTvShowsPage = 2;
-  int topRatedTvShowPage = 1;
+  final GetTvShowsAiringTodayUseCase _getTvShowsAiringTodayUseCase;
+  final GetTvShowsAiringThisWeekUseCase _getTvShowsAiringThisWeekUseCase;
+  final GetPopularTvShowsUseCase _getPopularTvShowsUseCase;
+  final GetTopRatedTvShowsUseCase _getTopRatedTvShowsUseCase;
+  int _airingThisWeekPage = 2;
+  int _airingTodayPage = 1;
+  int _popularTvShowsPage = 2;
+  int _topRatedTvShowPage = 1;
 
-  TvShowsBloc({
-    required this.getTvShowsAiringTodayUseCase,
-    required this.getTvShowsAiringThisWeekUseCase,
-    required this.getPopularTvShowsUseCase,
-    required this.getTopRatedTvShowsUseCase,
-  }) : super(const TvShowsState()) {
+  TvShowsBloc(
+    this._getTvShowsAiringTodayUseCase,
+    this._getTvShowsAiringThisWeekUseCase,
+    this._getPopularTvShowsUseCase,
+    this._getTopRatedTvShowsUseCase,
+  ) : super(const TvShowsState()) {
     on<GetTvShowsAiringTodayEvent>(_airingTodayTvShowsEvent);
     on<GetTvShowsAiringThisWeekEvent>(_getTvShowsAiringThisWeekEvent);
     on<GetPopularTvShowsEvent>(_getPopularTvShowsEvent);
@@ -36,7 +36,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _airingTodayTvShowsEvent(event, emit) async {
-    final result = await getTvShowsAiringTodayUseCase(airingTodayPage);
+    final result = await _getTvShowsAiringTodayUseCase(_airingTodayPage);
     result.fold(
       (airingTodayFail) => emit(
         state.copyWith(
@@ -54,7 +54,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _getTvShowsAiringThisWeekEvent(event, emit) async {
-    final result = await getTvShowsAiringThisWeekUseCase(airingThisWeekPage);
+    final result = await _getTvShowsAiringThisWeekUseCase(_airingThisWeekPage);
     result.fold(
       (airingThisWeekFail) => emit(
         state.copyWith(
@@ -72,7 +72,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _getPopularTvShowsEvent(event, emit) async {
-    final result = await getPopularTvShowsUseCase(popularTvShowsPage);
+    final result = await _getPopularTvShowsUseCase(_popularTvShowsPage);
     result.fold(
       (popularTvShowsFail) => emit(
         state.copyWith(
@@ -89,7 +89,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _topRatedTvShowsEvent(event, emit) async {
-    final result = await getTopRatedTvShowsUseCase(topRatedTvShowPage);
+    final result = await _getTopRatedTvShowsUseCase(_topRatedTvShowPage);
     result.fold(
       (topRatedTvShowsFail) => emit(
         state.copyWith(

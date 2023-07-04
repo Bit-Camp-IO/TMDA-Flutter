@@ -3,10 +3,10 @@ import 'package:tmda/features/account/domain/repositories/account_repository.dar
 
 @lazySingleton
 class GetAccountSessionIdUseCase{
-  final AccountRepository accountRepository;
-  const GetAccountSessionIdUseCase(this.accountRepository);
+  final AccountRepository _accountRepository;
+  const GetAccountSessionIdUseCase(this._accountRepository);
 
   Future<String> call() async{
-    return accountRepository.getSessionId();
+    return _accountRepository.getSessionId();
   }
 }

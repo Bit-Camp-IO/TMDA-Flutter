@@ -5,10 +5,10 @@ import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @lazySingleton
 class PlayMovieVideoUseCase {
-  final MoviesRepository moviesRepository;
-  const PlayMovieVideoUseCase({required this.moviesRepository});
+  final MoviesRepository _moviesRepository;
+  const PlayMovieVideoUseCase(this._moviesRepository);
 
   Future<Either<Failure, void>> call(String movieVideoKey) async{
-    return await moviesRepository.playMovieVideo(movieVideoKey);
+    return await _moviesRepository.playMovieVideo(movieVideoKey);
   }
 }

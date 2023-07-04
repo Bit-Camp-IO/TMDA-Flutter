@@ -6,10 +6,10 @@ import 'package:tmda/features/account/domain/repositories/account_repository.dar
 
 @lazySingleton
 class RemoveTvShowFromWatchListUseCase{
-  final AccountRepository accountRepository;
-  const RemoveTvShowFromWatchListUseCase(this.accountRepository);
+  final AccountRepository _accountRepository;
+  const RemoveTvShowFromWatchListUseCase(this._accountRepository);
 
   Future<Either<Failure, AccountStates>> call({required int tvShowId, required String sessionId}) async{
-    return await accountRepository.removeTvShowFromWatchList(contentId: tvShowId, sessionId: sessionId);
+    return await _accountRepository.removeTvShowFromWatchList(contentId: tvShowId, sessionId: sessionId);
   }
 }

@@ -22,12 +22,12 @@ abstract class AccountDataSource{
 
 @LazySingleton(as: AccountDataSource)
 class AccountDataSourceImpl extends AccountDataSource{
-  final ApiConsumer apiConsumer;
-  AccountDataSourceImpl(this.apiConsumer);
+  final ApiConsumer _apiConsumer;
+  AccountDataSourceImpl(this._apiConsumer);
 
   @override
   Future<AccountModel> getAccountDetails(String sessionId) async{
-    final accountDetails = await apiConsumer.get(ApiConstants.accountEndPoint, queryParameters: {
+    final accountDetails = await _apiConsumer.get(ApiConstants.accountEndPoint, queryParameters: {
       'session_id' : sessionId,
     });
     return AccountModel.fromJson(accountDetails);
@@ -36,7 +36,7 @@ class AccountDataSourceImpl extends AccountDataSource{
   @override
   Future<List<WatchListMovieModel>> getMoviesWatchList(String sessionId) async{
     final listOfMovies =
-        await apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountMoviesWatchListPath}', queryParameters: {
+        await _apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountMoviesWatchListPath}', queryParameters: {
           'session_id' : sessionId,
         });
     return List<WatchListMovieModel>.from(
@@ -49,7 +49,7 @@ class AccountDataSourceImpl extends AccountDataSource{
   @override
   Future<List<WatchListTvShowModel>> getTvShowsWatchList(String sessionId) async{
     final listOfTvShows =
-        await apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountTvWatchListPath}', queryParameters: {
+        await _apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountTvWatchListPath}', queryParameters: {
       'session_id' : sessionId,
     });
     return List<WatchListTvShowModel>.from(
@@ -61,13 +61,13 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<List<WatchListMovieModel>> getAllMoviesWatchList({required String sessionId, required int pageNumber}) async{
-    final listOfMovies = await apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountMoviesWatchListPath}',  queryParameters: {
+    final listOfMovies = await _apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountMoviesWatchListPath}',  queryParameters: {
       'page': pageNumber,
       'session_id' : sessionId,
      },
     );
     final movieIds = listOfMovies['results'].map((movie) => movie['id']).toList();
-    final movieStatuses = await Future.wait(movieIds.map((id) => apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+    final movieStatuses = await Future.wait(movieIds.map((id) => _apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
       'session_id' : sessionId,
     })).toList().cast<Future<dynamic>>());
     return List<WatchListMovieModel>.generate(movieIds.length, (index) {
@@ -79,13 +79,13 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<List<WatchListTvShowModel>> getAllTvShowsWatchList({required String sessionId, required int pageNumber}) async{
-    final listOfTvShows = await apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountTvWatchListPath}',  queryParameters: {
+    final listOfTvShows = await _apiConsumer.get('${ApiConstants.accountEndPoint}${ApiConstants.accountTvWatchListPath}',  queryParameters: {
       'page': pageNumber,
       'session_id' : sessionId,
     },
     );
     final tvShowsIds = listOfTvShows['results'].map((movie) => movie['id']).toList();
-    final tvShowsStatuses = await Future.wait(tvShowsIds.map((id) => apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
+    final tvShowsStatuses = await Future.wait(tvShowsIds.map((id) => _apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$id${ApiConstants.accountStatusPath}', queryParameters: {
       'session_id' : sessionId,
     })).toList().cast<Future<dynamic>>());
     return List<WatchListTvShowModel>.generate(tvShowsIds.length, (index) {
@@ -97,7 +97,7 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<AccountStatesModel> removeTvShowFromWatchList({required int contentId, required String sessionId}) async{
-    final response = await apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
+    final response = await _apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
       'session_id': sessionId},
       body: {
         'media_type': 'tv',
@@ -113,7 +113,7 @@ class AccountDataSourceImpl extends AccountDataSource{
   }
   @override
   Future<AccountStatesModel> removeMovieFromWatchList({required int contentId, required String sessionId}) async{
-    final response = await apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
+    final response = await _apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint, queryParameters: {
       'session_id': sessionId},
       body: {
         'media_type': 'movie',
@@ -130,7 +130,7 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<AccountStatesModel> getTvShowWatchListStates({required int contentId, required String sessionId}) async{
-    final Map<String, dynamic> watchListStates = await apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$contentId${ApiConstants.accountStatusPath}', queryParameters: {
+    final Map<String, dynamic> watchListStates = await _apiConsumer.get('${ApiConstants.tvShowDetailsEndPoint}$contentId${ApiConstants.accountStatusPath}', queryParameters: {
             'session_id' : sessionId,
     });
     watchListStates.addAll({'content_id' : contentId});
@@ -139,7 +139,7 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<AccountStatesModel> getMovieWatchListStates({required int contentId, required String sessionId}) async{
-    final Map<String, dynamic> watchListStates = await apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$contentId${ApiConstants.accountStatusPath}', queryParameters: {
+    final Map<String, dynamic> watchListStates = await _apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$contentId${ApiConstants.accountStatusPath}', queryParameters: {
       'session_id' : sessionId,
     });
     watchListStates.addAll({'content_id' : contentId});
@@ -148,7 +148,7 @@ class AccountDataSourceImpl extends AccountDataSource{
 
   @override
   Future<void> accountLogOut({required String sessionId}) async{
-    final response = await apiConsumer.delete(ApiConstants.accountLogoutEndPoint, body: {
+    final response = await _apiConsumer.delete(ApiConstants.accountLogoutEndPoint, body: {
        'session_id': sessionId
       },
     );

@@ -5,13 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
+import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/list_card_with_save.dart';
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
 
 class SeeAllTvShowsComponent extends StatefulWidget {
-  const SeeAllTvShowsComponent({super.key, required this.scrollController});
+  const SeeAllTvShowsComponent({super.key, this.tvShowId, required this.tvShowType});
 
-  final ScrollController scrollController;
+  final int? tvShowId;
+  final TvShowType tvShowType;
 
   @override
   State<SeeAllTvShowsComponent> createState() => _SeeAllTvShowsComponentState();
@@ -19,13 +21,42 @@ class SeeAllTvShowsComponent extends StatefulWidget {
 
 class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
     with AutoRouteAwareStateMixin<SeeAllTvShowsComponent> {
-  late int tappedTvShowId;
+  late int _tappedTvShowId;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    super.initState();
+  }
 
   @override
   void didPopNext() {
     context.read<SeeAllTvShowsBloc>()
-      ..add(CheckForTvShowStatesEvent(tappedTvShowId))
+      ..add(CheckForTvShowStatesEvent(_tappedTvShowId))
       ..add(CheckForTvShowsListStatesEvent());
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    final seeAllBloc = context.read<SeeAllTvShowsBloc>();
+    if (currentScroll >= maxScroll * 0.9) {
+      switch (widget.tvShowType) {
+        case (TvShowType.airingToday):
+          seeAllBloc.add(GetAllAiringTodayTvShowsEvent());
+        case (TvShowType.popularTvShows):
+          seeAllBloc.add(GetAllPopularTvShowsEvent());
+        case (TvShowType.topRatedTvShows):
+          seeAllBloc.add(GetAllTopRatedTvShowsEvent());
+        case (TvShowType.similarTvShows):
+          seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
+        case (TvShowType.recommendedTvShows):
+          seeAllBloc
+              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
+      }
+    }
   }
 
   @override
@@ -33,7 +64,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
     return BlocBuilder<SeeAllTvShowsBloc, SeeAllTvShowsState>(
       builder: (context, state) {
         return ListView.builder(
-          controller: widget.scrollController,
+          controller: _scrollController,
           itemCount: state.seeAllTvShows.length + 1,
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.symmetric(vertical: 100).r,
@@ -52,7 +83,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
                     ).r,
                     child: ListCardWithSave(
                       onTap: () {
-                        tappedTvShowId = state.seeAllTvShows[index].id;
+                        _tappedTvShowId = state.seeAllTvShows[index].id;
                         AutoRouter.of(context).push(
                           TvDetailsRoute(
                             tvShowId: state.seeAllTvShows[index].id,
@@ -84,5 +115,10 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
         );
       },
     );
+  }
+  @override
+  void dispose() {
+    _scrollController..removeListener(_onScroll)..dispose();
+    super.dispose();
   }
 }

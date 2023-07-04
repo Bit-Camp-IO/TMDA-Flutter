@@ -6,9 +6,9 @@ import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @lazySingleton
 class GetNewMoviesUseCase {
-  final MoviesRepository movieRepository;
-  const GetNewMoviesUseCase({required this.movieRepository});
+  final MoviesRepository _moviesRepository;
+  const GetNewMoviesUseCase(this._moviesRepository);
   Future<Either<Failure, List<Movies>>> call() async{
-    return await movieRepository.getNewMovies();
+    return await _moviesRepository.getNewMovies();
   }
 }

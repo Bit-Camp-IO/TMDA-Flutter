@@ -15,9 +15,7 @@ import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 
 class SimilarMoviesComponent extends StatelessWidget {
-  const SimilarMoviesComponent({
-    super.key,
-  });
+  const SimilarMoviesComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +53,15 @@ class SimilarMoviesComponent extends StatelessWidget {
                             imagePath: state
                                 .movieDetails.similarMovies[index].posterPath,
                             errorImagePath: AssetsManager.errorPoster,
-                            title: state.movieDetails.similarMovies[index].title,
+                            title:
+                                state.movieDetails.similarMovies[index].title,
                             rating: state
                                 .movieDetails.similarMovies[index].voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 MovieDetailsRoute(
-                                  movieId:
-                                      state.movieDetails.similarMovies[index].id,
+                                  movieId: state
+                                      .movieDetails.similarMovies[index].id,
                                 ),
                               );
                             },

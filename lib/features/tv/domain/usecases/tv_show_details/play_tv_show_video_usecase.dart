@@ -5,9 +5,9 @@ import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart';
 
 @lazySingleton
 class PlayTvShowVideoUseCase {
-  final TvShowsRepository tvShowsRepository;
-  const PlayTvShowVideoUseCase({required this.tvShowsRepository});
+  final TvShowsRepository _tvShowsRepository;
+  const PlayTvShowVideoUseCase(this._tvShowsRepository);
   Future<Either<Failure, void>> call({required String youtubeVideoKey}) async{
-    return await tvShowsRepository.playTvShowVideo(youtubeVideoKey: youtubeVideoKey);
+    return await _tvShowsRepository.playTvShowVideo(youtubeVideoKey: youtubeVideoKey);
   }
 }

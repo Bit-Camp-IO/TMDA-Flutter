@@ -16,29 +16,6 @@ class GetMovieDetailsEvent extends MovieDetailsEvent {
   List<Object> get props => [movieId];
 }
 
-class GetMovieCastEvent extends MovieDetailsEvent {
-  final int movieId;
-
-  const GetMovieCastEvent(this.movieId);
-  @override
-  List<Object> get props => [movieId];
-}
-
-class GetMoreSimilarMoviesEvent extends MovieDetailsEvent {
-  final int movieId;
-
-  const GetMoreSimilarMoviesEvent(this.movieId);
-  @override
-  List<Object> get props => [movieId];
-}
-
-class GetMovieReviewsEvent extends MovieDetailsEvent {
-  final int movieId;
-
-  const GetMovieReviewsEvent(this.movieId);
-  @override
-  List<Object> get props => [movieId];
-}
 class GetMovieStatesEvent extends MovieDetailsEvent{
   final int movieId;
   const GetMovieStatesEvent({required this.movieId});

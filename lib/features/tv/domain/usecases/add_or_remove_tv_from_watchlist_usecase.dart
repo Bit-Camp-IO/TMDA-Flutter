@@ -6,15 +6,15 @@ import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart';
 
 @lazySingleton
 class AddOrRemoveTvFromWatchListUseCase {
-  final TvShowsRepository tvShowsRepository;
-  const AddOrRemoveTvFromWatchListUseCase({required this.tvShowsRepository});
+  final TvShowsRepository _tvShowsRepository;
+  const AddOrRemoveTvFromWatchListUseCase(this._tvShowsRepository);
 
   Future<Either<Failure, TvShowAccountStates>> call({
     required int tvShowId,
     required bool isInWatchList,
     required String sessionId
   }) async {
-    return await tvShowsRepository.addOrRemoveTvFromWatchList(
+    return await _tvShowsRepository.addOrRemoveTvFromWatchList(
       tvShowId: tvShowId,
       isInWatchList: isInWatchList,
       sessionId: sessionId

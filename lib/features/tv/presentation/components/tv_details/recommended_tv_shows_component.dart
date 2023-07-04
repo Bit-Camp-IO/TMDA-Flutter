@@ -15,9 +15,7 @@ import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 
 class RecommendedTvShowsComponent extends StatelessWidget {
-  const RecommendedTvShowsComponent({
-    super.key,
-  });
+  const RecommendedTvShowsComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +51,17 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
                             errorImagePath: AssetsManager.errorPoster,
-                            imagePath: state.tvShowDetails.recommendedTvShows[index].posterPath,
-                            title: state.tvShowDetails.recommendedTvShows[index].title,
-                            rating: state.tvShowDetails.recommendedTvShows[index].voteAverage,
+                            imagePath: state.tvShowDetails
+                                .recommendedTvShows[index].posterPath,
+                            title: state
+                                .tvShowDetails.recommendedTvShows[index].title,
+                            rating: state.tvShowDetails
+                                .recommendedTvShows[index].voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.tvShowDetails.recommendedTvShows[index].id,
+                                  tvShowId: state.tvShowDetails
+                                      .recommendedTvShows[index].id,
                                 ),
                               );
                             },

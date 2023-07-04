@@ -6,15 +6,15 @@ import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @lazySingleton
 class AddOrRemoveMovieFromWatchListUseCase {
-  final MoviesRepository moviesRepository;
-  AddOrRemoveMovieFromWatchListUseCase({required this.moviesRepository});
+  final MoviesRepository _moviesRepository;
+  const AddOrRemoveMovieFromWatchListUseCase(this._moviesRepository);
 
   Future<Either<Failure, MovieAccountStates>> call({
     required int movieId,
     required bool isInWatchList,
     required String sessionId,
   }) async {
-    return await moviesRepository.addOrRemoveMovieFromWatchList(
+    return await _moviesRepository.addOrRemoveMovieFromWatchList(
       movieId: movieId,
       sessionId: sessionId,
       isInWatchList: isInWatchList,

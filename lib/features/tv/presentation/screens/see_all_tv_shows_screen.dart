@@ -33,7 +33,6 @@ class SeeAllTvShowsScreen extends StatefulWidget with AutoRouteWrapper {
 }
 
 class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
-  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -52,36 +51,6 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
             .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
     }
     super.initState();
-    scrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    final maxScroll = scrollController.position.maxScrollExtent;
-    final currentScroll = scrollController.offset;
-    final seeAllBloc = context.read<SeeAllTvShowsBloc>();
-    if (currentScroll >= maxScroll * 0.9) {
-      switch (widget.tvShowType) {
-        case (TvShowType.airingToday):
-          seeAllBloc.add(GetAllAiringTodayTvShowsEvent());
-        case (TvShowType.popularTvShows):
-          seeAllBloc.add(GetAllPopularTvShowsEvent());
-        case (TvShowType.topRatedTvShows):
-          seeAllBloc.add(GetAllTopRatedTvShowsEvent());
-        case (TvShowType.similarTvShows):
-          seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
-        case (TvShowType.recommendedTvShows):
-          seeAllBloc
-              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
   }
 
   @override
@@ -113,7 +82,8 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
                   );
                 case BlocState.success:
                   return SeeAllTvShowsComponent(
-                    scrollController: scrollController,
+                    tvShowType: widget.tvShowType,
+                    tvShowId: widget.tvShowId,
                   );
                 case BlocState.failure:
                   return NoConnection(

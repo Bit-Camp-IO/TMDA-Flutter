@@ -14,8 +14,7 @@ import 'package:tmda/injection_container.dart';
 
 @RoutePage()
 class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
-  const TvDetailsScreen(
-      {super.key, @PathParam('tvShowId') required this.tvShowId});
+  const TvDetailsScreen({super.key, required this.tvShowId});
   final int tvShowId;
 
   @override

@@ -6,10 +6,10 @@ import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart';
 
 @lazySingleton
 class GetAllPopularTvShowsUseCase {
-  final TvShowsRepository tvShowsRepository;
-  GetAllPopularTvShowsUseCase({required this.tvShowsRepository});
+  final TvShowsRepository _tvShowsRepository;
+  const GetAllPopularTvShowsUseCase(this._tvShowsRepository);
 
   Future<Either<Failure, List<TvShow>>> call({required int pageNumber, required String sessionId}) async{
-    return await tvShowsRepository.getAllPopularTvShows(pageNumber: pageNumber, sessionId: sessionId);
+    return await _tvShowsRepository.getAllPopularTvShows(pageNumber: pageNumber, sessionId: sessionId);
   }
 }

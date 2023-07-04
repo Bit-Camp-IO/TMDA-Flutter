@@ -13,16 +13,15 @@ import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @LazySingleton(as: MoviesRepository)
 class MoviesRepositoryImpl extends MoviesRepository {
-  final MoviesDataSource moviesDataSource;
-  final LocalDataSource localDataSource;
-  MoviesRepositoryImpl({
-    required this.moviesDataSource,
-    required this.localDataSource,
-  });
+  final MoviesDataSource _moviesDataSource;
+  final LocalDataSource _localDataSource;
+
+  MoviesRepositoryImpl(this._moviesDataSource, this._localDataSource);
+
   @override
   Future<Either<Failure, List<MoviesModel>>> getNowPlayingMovies() async {
     try {
-      final result = await moviesDataSource.getNowPlayingMovies();
+      final result = await _moviesDataSource.getNowPlayingMovies();
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -34,7 +33,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   @override
   Future<Either<Failure, List<MoviesModel>>> getPopularMovies() async {
     try {
-      final result = await moviesDataSource.getPopularMovies();
+      final result = await _moviesDataSource.getPopularMovies();
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -46,7 +45,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   @override
   Future<Either<Failure, List<MoviesModel>>> getTopRatedMovies() async {
     try {
-      final result = await moviesDataSource.getTopRatedMovies();
+      final result = await _moviesDataSource.getTopRatedMovies();
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -58,7 +57,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   @override
   Future<Either<Failure, List<MoviesModel>>> getNewMovies() async {
     try {
-      final result = await moviesDataSource.getNewMovies();
+      final result = await _moviesDataSource.getNewMovies();
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -71,7 +70,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   Future<Either<Failure, MovieDetailsModel>> getMovieDetails(
       {required int movieId, required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getMovieDetails(
+      final result = await _moviesDataSource.getMovieDetails(
           movieId: movieId, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
@@ -83,12 +82,13 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<String> getSessionId() async {
-      return await localDataSource.getSessionId();
+    return await _localDataSource.getSessionId();
   }
+
   @override
   Future<Either<Failure, void>> playMovieVideo(String movieVideoKey) async {
     try {
-      final result = await moviesDataSource.playMovieVideo(movieVideoKey);
+      final result = await _moviesDataSource.playMovieVideo(movieVideoKey);
       return right(result);
     } on LaunchUrlException catch (exception) {
       return left(
@@ -98,13 +98,14 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, MovieAccountStatesModel>> addOrRemoveMovieFromWatchList({
+  Future<Either<Failure, MovieAccountStatesModel>>
+      addOrRemoveMovieFromWatchList({
     required int movieId,
     required bool isInWatchList,
     required String sessionId,
   }) async {
     try {
-      final result = await moviesDataSource.addOrRemoveMovieFromWatchList(
+      final result = await _moviesDataSource.addOrRemoveMovieFromWatchList(
           movieId: movieId, isInWatchList: isInWatchList, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
@@ -115,9 +116,11 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllNewMovies({required int pageNumber, required String sessionId}) async{
+  Future<Either<Failure, List<Movies>>> getAllNewMovies(
+      {required int pageNumber, required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getAllNewMovies(pageNumber: pageNumber, sessionId: sessionId);
+      final result = await _moviesDataSource.getAllNewMovies(
+          pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -127,9 +130,11 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllPopularMovies({required int pageNumber, required String sessionId}) async{
+  Future<Either<Failure, List<Movies>>> getAllPopularMovies(
+      {required int pageNumber, required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getAllPopularMovies(pageNumber: pageNumber, sessionId: sessionId);
+      final result = await _moviesDataSource.getAllPopularMovies(
+          pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -139,9 +144,11 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllTopRatedMovies({required int pageNumber, required String sessionId}) async{
+  Future<Either<Failure, List<Movies>>> getAllTopRatedMovies(
+      {required int pageNumber, required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getAllTopRatedMovies(pageNumber: pageNumber, sessionId: sessionId);
+      final result = await _moviesDataSource.getAllTopRatedMovies(
+          pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -151,9 +158,13 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllRecommendedMovies({required int pageNumber, required int movieId, required String sessionId}) async{
+  Future<Either<Failure, List<Movies>>> getAllRecommendedMovies(
+      {required int pageNumber,
+      required int movieId,
+      required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getAllRecommendedMovies(movieId: movieId, pageNumber: pageNumber, sessionId: sessionId);
+      final result = await _moviesDataSource.getAllRecommendedMovies(
+          movieId: movieId, pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -163,9 +174,13 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllSimilarMovies({required int pageNumber, required int movieId, required String sessionId}) async{
+  Future<Either<Failure, List<Movies>>> getAllSimilarMovies(
+      {required int pageNumber,
+      required int movieId,
+      required String sessionId}) async {
     try {
-      final result = await moviesDataSource.getAllSimilarMovies(movieId: movieId, pageNumber: pageNumber, sessionId: sessionId);
+      final result = await _moviesDataSource.getAllSimilarMovies(
+          movieId: movieId, pageNumber: pageNumber, sessionId: sessionId);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -175,11 +190,13 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, MovieAccountStates>> getMovieStates({required int movieId, required String sessionId}) async{
-    try{
-      final result = await moviesDataSource.getMovieStates(sessionId: sessionId, movieId: movieId);
+  Future<Either<Failure, MovieAccountStates>> getMovieStates(
+      {required int movieId, required String sessionId}) async {
+    try {
+      final result = await _moviesDataSource.getMovieStates(
+          sessionId: sessionId, movieId: movieId);
       return right(result);
-    }on ServerException catch (exception) {
+    } on ServerException catch (exception) {
       return left(
         Failure(exception.message!),
       );

@@ -19,10 +19,7 @@ import 'package:tmda/injection_container.dart';
 
 @RoutePage()
 class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
-  const MovieDetailsScreen({
-    super.key,
-    @PathParam('movieId') required this.movieId,
-  });
+  const MovieDetailsScreen({super.key, required this.movieId,});
 
   final int movieId;
 

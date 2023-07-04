@@ -31,17 +31,11 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
           effects: [FadeEffect(duration: 150.ms)],
           child: Column(
             children: [
-              BlocBuilder<PersonCubit, PersonState>(
-                buildWhen: (previous, current) =>
-                    previous.animatedHeight != current.animatedHeight,
-                builder: (context, state) {
-                  return PersonPictureCard(
-                    height: state.animatedHeight,
-                    imagePath: state.personData.profilePath,
-                    errorImagePath: AssetsManager.neonAvatar,
-                    name: state.personData.name,
-                  );
-                },
+              PersonPictureCard(
+                height: 480.h,
+                imagePath: state.personData.profilePath,
+                errorImagePath: AssetsManager.neonAvatar,
+                name: state.personData.name,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16, left: 24).r,
@@ -104,7 +98,8 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
           text: biography,
           isTextExpanded: isTextExpanded,
           onPressed: () {
-            context.read<PersonCubit>()
+            context
+                .read<PersonCubit>()
                 .changeReadMoreState(isTextExpanded: !isTextExpanded);
           },
         );
@@ -141,15 +136,12 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
   }
 
   String _formatDate({required String date}) {
-    if(date.isNotEmpty){
+    if (date.isNotEmpty) {
       DateTime dateTime = DateTime.parse(date);
       String formattedDate = DateFormat('d MMMM y').format(dateTime);
       return formattedDate;
-    }else{
+    } else {
       return StringsManager.unknown;
     }
-
   }
 }
-
-

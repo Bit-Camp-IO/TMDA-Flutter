@@ -10,39 +10,39 @@ import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_recomm
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_similar_tv_shows_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_top_rated_tv_shows_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_tv_shows_airing_today_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_tv_show_states_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/add_or_remove_tv_from_watchlist_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/tv_get_session_key_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/get_tv_show_states_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/add_or_remove_tv_from_watchlist_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/tv_get_session_key_usecase.dart';
 
 part 'see_all_tv_shows_event.dart';
 part 'see_all_tv_shows_state.dart';
 
 @injectable
 class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
-  final TvGetSessionIdUseCase tvGetSessionIdUseCase;
-  final GetAllAiringTodayTvShowsUseCase getAllAiringTodayTvShowsUseCase;
-  final GetAllPopularTvShowsUseCase getAllPopularTvShowsUseCase;
-  final GetAllTopRatedTvShowsUseCase getAllTopRatedTvShowsUseCase;
-  final GetAllRecommendedTvShowsUseCase getAllRecommendedTvShowsUseCase;
-  final GetAllSimilarTvShowsUseCase getAllSimilarTvShowsUseCase;
-  final GetTvShowStateUseCase getTvShowStateUseCase;
-  final AddOrRemoveTvFromWatchListUseCase addOrRemoveTvFromWatchListUseCase;
-  int airingTodayTvShowsPageNumber = 1;
-  int popularTvShowsPageNumber = 2;
-  int topRatedTvShowsPageNumber = 1;
-  int recommendedTvShowsPageNumber = 1;
-  int similarTvShowsPageNumber = 1;
-  late String sessionId;
+  final TvGetSessionIdUseCase _tvGetSessionIdUseCase;
+  final GetAllAiringTodayTvShowsUseCase _getAllAiringTodayTvShowsUseCase;
+  final GetAllPopularTvShowsUseCase _getAllPopularTvShowsUseCase;
+  final GetAllTopRatedTvShowsUseCase _getAllTopRatedTvShowsUseCase;
+  final GetAllRecommendedTvShowsUseCase _getAllRecommendedTvShowsUseCase;
+  final GetAllSimilarTvShowsUseCase _getAllSimilarTvShowsUseCase;
+  final GetTvShowStateUseCase _getTvShowStateUseCase;
+  final AddOrRemoveTvFromWatchListUseCase _addOrRemoveTvFromWatchListUseCase;
+  int _airingTodayTvShowsPageNumber = 1;
+  int _popularTvShowsPageNumber = 2;
+  int _topRatedTvShowsPageNumber = 1;
+  int _recommendedTvShowsPageNumber = 1;
+  int _similarTvShowsPageNumber = 1;
+  late String _sessionId;
 
   SeeAllTvShowsBloc(
-      this.tvGetSessionIdUseCase,
-      this.getAllAiringTodayTvShowsUseCase,
-      this.getAllPopularTvShowsUseCase,
-      this.getAllTopRatedTvShowsUseCase,
-      this.getAllRecommendedTvShowsUseCase,
-      this.getAllSimilarTvShowsUseCase,
-      this.getTvShowStateUseCase,
-      this.addOrRemoveTvFromWatchListUseCase)
+      this._tvGetSessionIdUseCase,
+      this._getAllAiringTodayTvShowsUseCase,
+      this._getAllPopularTvShowsUseCase,
+      this._getAllTopRatedTvShowsUseCase,
+      this._getAllRecommendedTvShowsUseCase,
+      this._getAllSimilarTvShowsUseCase,
+      this._getTvShowStateUseCase,
+      this._addOrRemoveTvFromWatchListUseCase)
       : super(const SeeAllTvShowsState()) {
     on<GetAllAiringTodayTvShowsEvent>(_getAllAiringTodayTvShowsEvent,
         transformer: droppable());
@@ -60,9 +60,9 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
   }
 
   Future<void> _getAllAiringTodayTvShowsEvent(event, emit) async {
-    sessionId = await tvGetSessionIdUseCase();
-    await getAllAiringTodayTvShowsUseCase(
-            pageNumber: airingTodayTvShowsPageNumber, sessionId: sessionId)
+    _sessionId = await _tvGetSessionIdUseCase();
+    await _getAllAiringTodayTvShowsUseCase(
+            pageNumber: _airingTodayTvShowsPageNumber, sessionId: _sessionId)
         .then(
       (value) => value.fold(
         (airingTodayLoadFail) => emit(
@@ -84,16 +84,16 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );
-          airingTodayTvShowsPageNumber++;
+          _airingTodayTvShowsPageNumber++;
         },
       ),
     );
   }
 
   Future<void> _getAllPopularTvShowsEvent(event, emit) async {
-    sessionId = await tvGetSessionIdUseCase();
-    await getAllPopularTvShowsUseCase(
-            pageNumber: popularTvShowsPageNumber, sessionId: sessionId)
+    _sessionId = await _tvGetSessionIdUseCase();
+    await _getAllPopularTvShowsUseCase(
+            pageNumber: _popularTvShowsPageNumber, sessionId: _sessionId)
         .then(
       (value) => value.fold(
         (popularTvShowsLoadFail) => emit(
@@ -115,16 +115,16 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );
-          popularTvShowsPageNumber++;
+          _popularTvShowsPageNumber++;
         },
       ),
     );
   }
 
   Future<void> _getAllTopRatedTvShowsEvent(event, emit) async {
-    sessionId = await tvGetSessionIdUseCase();
-    await getAllTopRatedTvShowsUseCase(
-            pageNumber: topRatedTvShowsPageNumber, sessionId: sessionId)
+    _sessionId = await _tvGetSessionIdUseCase();
+    await _getAllTopRatedTvShowsUseCase(
+            pageNumber: _topRatedTvShowsPageNumber, sessionId: _sessionId)
         .then(
       (value) => value.fold(
         (topRatedTvShowsLoadFail) => emit(
@@ -146,17 +146,17 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );
-          topRatedTvShowsPageNumber++;
+          _topRatedTvShowsPageNumber++;
         },
       ),
     );
   }
 
   Future<void> _getAllRecommendedTvShowsEvent(event, emit) async {
-    sessionId = await tvGetSessionIdUseCase();
-    await getAllRecommendedTvShowsUseCase(
-            pageNumber: recommendedTvShowsPageNumber,
-            sessionId: sessionId,
+    _sessionId = await _tvGetSessionIdUseCase();
+    await _getAllRecommendedTvShowsUseCase(
+            pageNumber: _recommendedTvShowsPageNumber,
+            sessionId: _sessionId,
             tvShowId: event.tvShowId)
         .then(
       (value) => value.fold(
@@ -179,17 +179,17 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );
-          recommendedTvShowsPageNumber++;
+          _recommendedTvShowsPageNumber++;
         },
       ),
     );
   }
 
   Future<void> _getAllSimilarTvShowsEvent(event, emit) async {
-    sessionId = await tvGetSessionIdUseCase();
-    await getAllSimilarTvShowsUseCase(
-            pageNumber: similarTvShowsPageNumber,
-            sessionId: sessionId,
+    _sessionId = await _tvGetSessionIdUseCase();
+    await _getAllSimilarTvShowsUseCase(
+            pageNumber: _similarTvShowsPageNumber,
+            sessionId: _sessionId,
             tvShowId: event.tvShowId)
         .then(
       (value) => value.fold(
@@ -212,17 +212,17 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
                     hasSeeAllTvShowsListReachedMax: false,
                   ),
                 );
-          similarTvShowsPageNumber++;
+          _similarTvShowsPageNumber++;
         },
       ),
     );
   }
 
   Future<void> _addOrRemoveFromWatchListEventEvent(event, emit) async {
-    final result = await addOrRemoveTvFromWatchListUseCase(
+    final result = await _addOrRemoveTvFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       tvShowId: event.tvShowId,
-      sessionId: sessionId,
+      sessionId: _sessionId,
     );
     result.fold(
       (watchListFailure) => emit(
@@ -245,8 +245,8 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
   }
 
   Future<void> _checkForTvShowStatesEvent(event, emit) async {
-    final result = await getTvShowStateUseCase(
-        tvShowId: event.tvShowId, sessionId: sessionId);
+    final result = await _getTvShowStateUseCase(
+        tvShowId: event.tvShowId, sessionId: _sessionId);
     result.fold(
       (checkFailure) => emit(
         state.copyWith(
@@ -271,7 +271,7 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
     final tvShowsIds = state.seeAllTvShows.map((tvShow) => tvShow.id).toList();
     final tvShowUpdatedState = await Future.wait(tvShowsIds
         .map((tvShowId) =>
-            getTvShowStateUseCase(tvShowId: tvShowId, sessionId: sessionId))
+            _getTvShowStateUseCase(tvShowId: tvShowId, sessionId: _sessionId))
         .toList()
         .cast<Future<dynamic>>());
     for (Either either in tvShowUpdatedState) {

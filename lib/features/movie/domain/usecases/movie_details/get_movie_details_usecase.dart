@@ -6,10 +6,10 @@ import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @lazySingleton
 class GetMovieDetailsUseCase {
-  final MoviesRepository moviesRepository;
-  const GetMovieDetailsUseCase({required this.moviesRepository});
+  final MoviesRepository _moviesRepository;
+  const GetMovieDetailsUseCase(this._moviesRepository);
 
   Future<Either<Failure, MovieDetails>> call({required int movieId, required String sessionId}) async {
-    return await moviesRepository.getMovieDetails(movieId: movieId, sessionId: sessionId);
+    return await _moviesRepository.getMovieDetails(movieId: movieId, sessionId: sessionId);
   }
 }

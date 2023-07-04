@@ -144,7 +144,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             personPageNumber++;
             return emit(state.copyWith(
               searchState: BlocState.success,
-              personSearchList: personList,
+              peopleSearchList: personList,
             ));
           },
         ),
@@ -263,7 +263,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               return emit(
                 state.copyWith(
                   searchState: BlocState.success,
-                  personSearchList: List.of(state.peopleSearchList)..addAll(people),
+                  peopleSearchList: List.of(state.peopleSearchList)..addAll(people),
                   hasPersonListReachedMax: false,
                 ),
               );

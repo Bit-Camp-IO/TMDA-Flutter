@@ -9,8 +9,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/expandable_text.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-import 'package:tmda/features/person/presentation/bloc/person_cubit.dart';
 import 'package:tmda/features/person/presentation/components/person_card.dart';
+import 'package:tmda/features/person/presentation/cubit/person_cubit.dart';
 
 class PersonOverviewComponent extends StatefulWidget {
   const PersonOverviewComponent({super.key});

@@ -7,19 +7,14 @@ import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_cast_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_reviews_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show_video_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class TvDataSource {
   Future<List<TvShowModel>> getTvShowsAiringToday(int pageNumber);
-
   Future<List<TvShowModel>> getTvShowsAiringThisWeek(int pageNumber);
-
   Future<List<TvShowModel>> getPopularTvShows(int pageNumber);
-
   Future<List<TvShowModel>> getTopRatedTopRatedTvShows(int pageNumber);
-
   Future<TvShowDetailsModel> getTvShowDetails({
     required int tvShowId,
     required String sessionKey,

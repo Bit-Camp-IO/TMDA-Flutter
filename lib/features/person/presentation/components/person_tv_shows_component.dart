@@ -10,7 +10,8 @@ import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/details_poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-import 'package:tmda/features/person/presentation/bloc/person_cubit.dart';
+
+import 'package:tmda/features/person/presentation/cubit/person_cubit.dart';
 
 class PersonTvShowsComponent extends StatelessWidget {
   const PersonTvShowsComponent({super.key});

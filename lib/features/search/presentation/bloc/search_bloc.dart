@@ -22,7 +22,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchForTvShowUseCase _searchForTvShowUseCase;
   final SearchForMovieUseCase _searchForMovieUseCase;
   final SearchForPersonUseCase _searchForPersonUseCase;
-  late String _sessionId;
   String _movieSearchInput = '';
   String _tvSearchInput = '';
   String _personSearchInput = '';

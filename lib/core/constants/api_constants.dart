@@ -1,7 +1,7 @@
 final class ApiConstants {
   //! Core Api
-  static const String apiKey = '45fe17b977fb94a0c0c099b894af2c74';
-  static const String accountId = '15269101';
+  static const String apiKey = 'YOUR_API_KEY';
+  static const String accountId = 'YOUR_ACCOUNT_ID';
   static const String apiKeyQuery = 'api_key';
   static const String baseUrl = 'https://api.themoviedb.org/3';
   static const String baseImageUrl = 'https://image.tmdb.org/t/p/w500';

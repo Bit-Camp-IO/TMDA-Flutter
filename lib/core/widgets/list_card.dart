@@ -66,25 +66,14 @@ class ListCard extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(height: 4.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                releaseYear.isEmpty
-                                    ? StringsManager.unknown
-                                    : '${releaseYear.substring(0, 4)} ‧ ',
-                                style: Theme.of(context).textTheme.bodySmall,
+                          Text(
+                              _buildCardInfo(
+                                genres: _buildGenres(genres),
+                                language: language,
+                                year: releaseYear,
                               ),
-                              Text(
-                                _buildGenres(genres),
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              Text(
-                                language.toUpperCase(),
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ],
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           SizedBox(height: 7.h),
                           Row(
@@ -127,11 +116,19 @@ class ListCard extends StatelessWidget {
 
   String _buildGenres(List genres) {
     if (genres.isEmpty) {
-      return '${StringsManager.unknown} ‧ ';
+      return StringsManager.unknown;
     } else if (genres.length == 1) {
-      return '${genres[0].name}‧';
+      return '${genres[0].name}';
     } else {
-        return '${genres[0].name}/${genres[1].name} ‧ ';
+        return '${genres[0].name}/${genres[1].name}';
+    }
+  }
+  String _buildCardInfo({required String year, required String genres, required String language}) {
+    if(year.isNotEmpty){
+      String parsedYear = year.substring(0,4);
+      return '$parsedYear  ‧ $genres ‧ ${language.toUpperCase()}';
+    }else{
+      return '${StringsManager.unknown}  ‧ $genres  ‧ ${language.toUpperCase()}';
     }
   }
 }

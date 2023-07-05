@@ -23,19 +23,13 @@ class TiltedImage extends StatelessWidget {
       transform: Matrix4.skewX(-0.05),
       child: ClipRRect(
         borderRadius: BorderRadius.all(const Radius.circular(20).w),
-        child: Container(
-          height: height,
+        child: CachedNetworkImage(
           width: width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(
-                imagePath.isNotEmpty
-                    ? ApiConstants.imageUrl(imagePath)
-                    : errorImagePath,
-              ),
-            ),
-          ),
+          height: height,
+          imageUrl:  imagePath.isNotEmpty
+              ? ApiConstants.imageUrl(imagePath)
+              : errorImagePath,
+          fit: BoxFit.cover,
         ),
       ),
     );

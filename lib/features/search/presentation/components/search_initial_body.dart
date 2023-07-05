@@ -28,12 +28,13 @@ class SearchInitialBody extends StatelessWidget {
                 .titleLarge!
                 .copyWith(color: ColorsManager.primaryColor),
           ),
+      SizedBox(height: 10.h),
           Text(
             StringsManager.initialSearchSubTitle,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
-                .copyWith(fontSize: 16, color: ColorsManager.darkPrimary),
+                .copyWith(fontSize: 16, color: Colors.white)
           ),
         ],
       ),

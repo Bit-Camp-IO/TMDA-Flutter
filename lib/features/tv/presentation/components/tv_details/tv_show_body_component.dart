@@ -24,9 +24,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
   late TabController _tabController;
   late ScrollController _scrollController;
 
-  double containerHeight = 420;
-
   void _scrollListener() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
     final tvDetailsBloc = context.read<TvShowDetailsBloc>();
     if (_scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
@@ -35,7 +35,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
       }
     }
     if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
+        ScrollDirection.forward && currentScroll < maxScroll * 0.03) {
       if (tvDetailsBloc.state.animatedHeight == 0) {
         tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 420));
       }

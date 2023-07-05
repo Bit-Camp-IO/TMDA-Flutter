@@ -24,6 +24,8 @@ class MovieOverviewComponent extends StatefulWidget {
 
 class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
   void _scrollListener() {
+    final maxScroll = widget.scrollController.position.maxScrollExtent;
+    final currentScroll = widget.scrollController.offset;
     final movieDetailsBloc = context.read<MovieDetailsBloc>();
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
@@ -38,7 +40,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
       }
     }
     if (widget.scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
+        ScrollDirection.forward && currentScroll < maxScroll * 0.05) {
       if (movieDetailsBloc.state.animatedContainerHeight == 50 &&
           movieDetailsBloc.state.animatedPosterHeight == 0) {
         movieDetailsBloc.add(

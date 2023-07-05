@@ -9,9 +9,6 @@ abstract class SearchEvent extends Equatable {
 class SearchForMovieEvent extends SearchEvent{
   final String movieName;
   const SearchForMovieEvent(this.movieName);
-
-  @override
-  List<Object?> get props => [movieName];
 }
 
 class SearchForTvShowEvent extends SearchEvent{
@@ -57,4 +54,27 @@ class LoadMorePersonsEvent extends SearchEvent{
 
   @override
   List<Object?> get props => [personName];
+}
+class RetryMovieSearchEvent extends SearchEvent{
+
+  const RetryMovieSearchEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RetryTvShowSearchEvent extends SearchEvent{
+
+  const RetryTvShowSearchEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RetryPersonSearchEvent extends SearchEvent{
+
+  const RetryPersonSearchEvent();
+
+  @override
+  List<Object?> get props => [];
 }

@@ -109,9 +109,9 @@ class _SearchScreenState extends State<SearchScreen>
                       return NoConnection(
                         onTap: () {
                           context.read<SearchBloc>()
-                            ..add(SearchForMovieEvent(_textEditingController.text))
-                            ..add(SearchForTvShowEvent(_textEditingController.text))
-                            ..add(SearchForPersonEvent(_textEditingController.text));
+                            ..add(const RetryMovieSearchEvent())
+                            ..add(const RetryTvShowSearchEvent())
+                            ..add(const RetryPersonSearchEvent());
                         },
                       );
                   }

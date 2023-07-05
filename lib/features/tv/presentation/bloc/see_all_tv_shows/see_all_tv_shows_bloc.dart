@@ -60,162 +60,174 @@ class SeeAllTvShowsBloc extends Bloc<SeeAllTvShowsEvent, SeeAllTvShowsState> {
   }
 
   Future<void> _getAllAiringTodayTvShowsEvent(event, emit) async {
-    _sessionId = await _tvGetSessionIdUseCase();
-    await _getAllAiringTodayTvShowsUseCase(
-            pageNumber: _airingTodayTvShowsPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (airingTodayLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllTvShowsListReachedMax == false){
+      _sessionId = await _tvGetSessionIdUseCase();
+      await _getAllAiringTodayTvShowsUseCase(
+          pageNumber: _airingTodayTvShowsPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (airingTodayLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (airingTodayList) {
+            airingTodayList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllTvShowsListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllTvShows: List.of(state.seeAllTvShows)
+                  ..addAll(airingTodayList.reversed),
+                hasSeeAllTvShowsListReachedMax: false,
+              ),
+            );
+            _airingTodayTvShowsPageNumber++;
+          },
         ),
-        (airingTodayList) {
-          airingTodayList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllTvShowsListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(airingTodayList.reversed),
-                    hasSeeAllTvShowsListReachedMax: false,
-                  ),
-                );
-          _airingTodayTvShowsPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllPopularTvShowsEvent(event, emit) async {
-    _sessionId = await _tvGetSessionIdUseCase();
-    await _getAllPopularTvShowsUseCase(
-            pageNumber: _popularTvShowsPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (popularTvShowsLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllTvShowsListReachedMax == false){
+      _sessionId = await _tvGetSessionIdUseCase();
+      await _getAllPopularTvShowsUseCase(
+          pageNumber: _popularTvShowsPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (popularTvShowsLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (popularTvShowsList) {
+            popularTvShowsList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllTvShowsListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllTvShows: List.of(state.seeAllTvShows)
+                  ..addAll(popularTvShowsList.reversed),
+                hasSeeAllTvShowsListReachedMax: false,
+              ),
+            );
+            _popularTvShowsPageNumber++;
+          },
         ),
-        (popularTvShowsList) {
-          popularTvShowsList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllTvShowsListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(popularTvShowsList.reversed),
-                    hasSeeAllTvShowsListReachedMax: false,
-                  ),
-                );
-          _popularTvShowsPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllTopRatedTvShowsEvent(event, emit) async {
-    _sessionId = await _tvGetSessionIdUseCase();
-    await _getAllTopRatedTvShowsUseCase(
-            pageNumber: _topRatedTvShowsPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (topRatedTvShowsLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllTvShowsListReachedMax == false){
+      _sessionId = await _tvGetSessionIdUseCase();
+      await _getAllTopRatedTvShowsUseCase(
+          pageNumber: _topRatedTvShowsPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (topRatedTvShowsLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (topRatedTvShowsList) {
+            topRatedTvShowsList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllTvShowsListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllTvShows: List.of(state.seeAllTvShows)
+                  ..addAll(topRatedTvShowsList),
+                hasSeeAllTvShowsListReachedMax: false,
+              ),
+            );
+            _topRatedTvShowsPageNumber++;
+          },
         ),
-        (topRatedTvShowsList) {
-          topRatedTvShowsList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllTvShowsListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(topRatedTvShowsList),
-                    hasSeeAllTvShowsListReachedMax: false,
-                  ),
-                );
-          _topRatedTvShowsPageNumber++;
-        },
-      ),
-    );
+      );
+    }
+
   }
 
   Future<void> _getAllRecommendedTvShowsEvent(event, emit) async {
-    _sessionId = await _tvGetSessionIdUseCase();
-    await _getAllRecommendedTvShowsUseCase(
-            pageNumber: _recommendedTvShowsPageNumber,
-            sessionId: _sessionId,
-            tvShowId: event.tvShowId)
-        .then(
-      (value) => value.fold(
-        (recommendedTvShowsLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllTvShowsListReachedMax == false){
+      _sessionId = await _tvGetSessionIdUseCase();
+      await _getAllRecommendedTvShowsUseCase(
+          pageNumber: _recommendedTvShowsPageNumber,
+          sessionId: _sessionId,
+          tvShowId: event.tvShowId)
+          .then(
+            (value) => value.fold(
+              (recommendedTvShowsLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (recommendedTvShowsList) {
+            recommendedTvShowsList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllTvShowsListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllTvShows: List.of(state.seeAllTvShows)
+                  ..addAll(recommendedTvShowsList),
+                hasSeeAllTvShowsListReachedMax: false,
+              ),
+            );
+            _recommendedTvShowsPageNumber++;
+          },
         ),
-        (recommendedTvShowsList) {
-          recommendedTvShowsList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllTvShowsListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(recommendedTvShowsList),
-                    hasSeeAllTvShowsListReachedMax: false,
-                  ),
-                );
-          _recommendedTvShowsPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllSimilarTvShowsEvent(event, emit) async {
-    _sessionId = await _tvGetSessionIdUseCase();
-    await _getAllSimilarTvShowsUseCase(
-            pageNumber: _similarTvShowsPageNumber,
-            sessionId: _sessionId,
-            tvShowId: event.tvShowId)
-        .then(
-      (value) => value.fold(
-        (similarTvShowsLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllTvShowsListReachedMax == false){
+      _sessionId = await _tvGetSessionIdUseCase();
+      await _getAllSimilarTvShowsUseCase(
+          pageNumber: _similarTvShowsPageNumber,
+          sessionId: _sessionId,
+          tvShowId: event.tvShowId)
+          .then(
+            (value) => value.fold(
+              (similarTvShowsLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (similarTvShowsList) {
+            similarTvShowsList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllTvShowsListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllTvShows: List.of(state.seeAllTvShows)
+                  ..addAll(similarTvShowsList),
+                hasSeeAllTvShowsListReachedMax: false,
+              ),
+            );
+            _similarTvShowsPageNumber++;
+          },
         ),
-        (similarTvShowsList) {
-          similarTvShowsList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllTvShowsListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllTvShows: List.of(state.seeAllTvShows)
-                      ..addAll(similarTvShowsList),
-                    hasSeeAllTvShowsListReachedMax: false,
-                  ),
-                );
-          _similarTvShowsPageNumber++;
-        },
-      ),
-    );
+      );
+    }
+
   }
 
   Future<void> _addOrRemoveFromWatchListEventEvent(event, emit) async {

@@ -61,7 +61,7 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllNewMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax != false){
+    if(state.hasSeeAllMoviesListReachedMax == false){
       _sessionId = await _getSessionIdUseCase();
       await _getAllNewMoviesUseCase(
           pageNumber: _newMoviesPageNumber, sessionId: _sessionId)

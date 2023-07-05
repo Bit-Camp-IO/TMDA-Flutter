@@ -84,7 +84,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
                     child: ListCardWithSave(
                       onTap: () {
                         _tappedTvShowId = state.seeAllTvShows[index].id;
-                        AutoRouter.of(context).push(
+                        context.pushRoute(
                           TvDetailsRoute(
                             tvShowId: state.seeAllTvShows[index].id,
                           ),

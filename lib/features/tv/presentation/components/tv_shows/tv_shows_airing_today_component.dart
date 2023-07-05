@@ -52,7 +52,7 @@ class TvShowsAiringTodayComponent extends StatelessWidget {
                         title: state.airingTodayTvShows[index].title,
                         errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.airingTodayTvShows[index].posterPath,
-                        releaseDate: state.airingTodayTvShows[index].firstAirDate,
+                        releaseYear: state.airingTodayTvShows[index].firstAirDate,
                         rating: state.airingTodayTvShows[index].voteAverage,
                         genres: state.airingTodayTvShows[index].genres,
                         language: state.airingTodayTvShows[index].language,

@@ -61,162 +61,174 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllNewMoviesEvent(event, emit) async {
-    _sessionId = await _getSessionIdUseCase();
-    await _getAllNewMoviesUseCase(
-            pageNumber: _newMoviesPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (newMoviesLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllMoviesListReachedMax != false){
+      _sessionId = await _getSessionIdUseCase();
+      await _getAllNewMoviesUseCase(
+          pageNumber: _newMoviesPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (newMoviesLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (newMoviesList) {
+            newMoviesList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllMoviesListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllMovies: List.of(state.seeAllMovies)
+                  ..addAll(newMoviesList),
+                hasSeeAllMoviesListReachedMax: false,
+              ),
+            );
+            _newMoviesPageNumber++;
+          },
         ),
-        (newMoviesList) {
-          newMoviesList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllMoviesListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllMovies: List.of(state.seeAllMovies)
-                      ..addAll(newMoviesList),
-                    hasSeeAllMoviesListReachedMax: false,
-                  ),
-                );
-          _newMoviesPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllPopularMoviesEvent(event, emit) async {
-    _sessionId = await _getSessionIdUseCase();
-    await _getAllPopularMoviesUseCase(
-            pageNumber: _popularMoviesPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (popularMoviesLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllMoviesListReachedMax == false){
+      _sessionId = await _getSessionIdUseCase();
+      await _getAllPopularMoviesUseCase(
+          pageNumber: _popularMoviesPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (popularMoviesLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (popularMoviesList) {
+            popularMoviesList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllMoviesListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllMovies: List.of(state.seeAllMovies)
+                  ..addAll(popularMoviesList),
+                hasSeeAllMoviesListReachedMax: false,
+              ),
+            );
+            _popularMoviesPageNumber++;
+          },
         ),
-        (popularMoviesList) {
-          popularMoviesList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllMoviesListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllMovies: List.of(state.seeAllMovies)
-                      ..addAll(popularMoviesList),
-                    hasSeeAllMoviesListReachedMax: false,
-                  ),
-                );
-          _popularMoviesPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllTopRatedMoviesEvent(event, emit) async {
-    _sessionId = await _getSessionIdUseCase();
-    await _getAllTopRatedMoviesUseCase(
-            pageNumber: _topRatedMoviesPageNumber, sessionId: _sessionId)
-        .then(
-      (value) => value.fold(
-        (topRatedMoviesLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllMoviesListReachedMax == false){
+      _sessionId = await _getSessionIdUseCase();
+      await _getAllTopRatedMoviesUseCase(
+          pageNumber: _topRatedMoviesPageNumber, sessionId: _sessionId)
+          .then(
+            (value) => value.fold(
+              (topRatedMoviesLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (topRatedMoviesList) {
+            topRatedMoviesList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllMoviesListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllMovies: List.of(state.seeAllMovies)
+                  ..addAll(topRatedMoviesList),
+                hasSeeAllMoviesListReachedMax: false,
+              ),
+            );
+            _topRatedMoviesPageNumber++;
+          },
         ),
-        (topRatedMoviesList) {
-          topRatedMoviesList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllMoviesListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllMovies: List.of(state.seeAllMovies)
-                      ..addAll(topRatedMoviesList),
-                    hasSeeAllMoviesListReachedMax: false,
-                  ),
-                );
-          _topRatedMoviesPageNumber++;
-        },
-      ),
-    );
+      );
+    }
   }
 
   Future<void> _getAllRecommendedMoviesEvent(event, emit) async {
-    _sessionId = await _getSessionIdUseCase();
-    await _getAllRecommendedMoviesUseCase(
-            pageNumber: _recommendedMoviesPageNumber,
-            sessionId: _sessionId,
-            movieId: event.movieId)
-        .then(
-      (value) => value.fold(
-        (recommendedMoviesLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllMoviesListReachedMax == false){
+      _sessionId = await _getSessionIdUseCase();
+      await _getAllRecommendedMoviesUseCase(
+          pageNumber: _recommendedMoviesPageNumber,
+          sessionId: _sessionId,
+          movieId: event.movieId)
+          .then(
+            (value) => value.fold(
+              (recommendedMoviesLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (recommendedMoviesList) {
+            recommendedMoviesList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllMoviesListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllMovies: List.of(state.seeAllMovies)
+                  ..addAll(recommendedMoviesList),
+                hasSeeAllMoviesListReachedMax: false,
+              ),
+            );
+            _recommendedMoviesPageNumber++;
+          },
         ),
-        (recommendedMoviesList) {
-          recommendedMoviesList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllMoviesListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllMovies: List.of(state.seeAllMovies)
-                      ..addAll(recommendedMoviesList),
-                    hasSeeAllMoviesListReachedMax: false,
-                  ),
-                );
-          _recommendedMoviesPageNumber++;
-        },
-      ),
-    );
+      );
+    }
+
   }
 
   Future<void> _getAllSimilarMoviesEvent(event, emit) async {
-    _sessionId = await _getSessionIdUseCase();
-    await _getAllSimilarMoviesUseCase(
-            pageNumber: _similarMoviesPageNumber,
-            sessionId: _sessionId,
-            movieId: event.movieId)
-        .then(
-      (value) => value.fold(
-        (similarMoviesLoadFail) => emit(
-          state.copyWith(seeAllState: BlocState.failure),
+    if(state.hasSeeAllMoviesListReachedMax == false){
+      _sessionId = await _getSessionIdUseCase();
+      await _getAllSimilarMoviesUseCase(
+          pageNumber: _similarMoviesPageNumber,
+          sessionId: _sessionId,
+          movieId: event.movieId)
+          .then(
+            (value) => value.fold(
+              (similarMoviesLoadFail) => emit(
+            state.copyWith(seeAllState: BlocState.failure),
+          ),
+              (similarMoviesList) {
+            similarMoviesList.isEmpty
+                ? emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                hasSeeAllMoviesListReachedMax: true,
+              ),
+            )
+                : emit(
+              state.copyWith(
+                seeAllState: BlocState.success,
+                seeAllMovies: List.of(state.seeAllMovies)
+                  ..addAll(similarMoviesList),
+                hasSeeAllMoviesListReachedMax: false,
+              ),
+            );
+            _similarMoviesPageNumber++;
+          },
         ),
-        (similarMoviesList) {
-          similarMoviesList.isEmpty
-              ? emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    hasSeeAllMoviesListReachedMax: true,
-                  ),
-                )
-              : emit(
-                  state.copyWith(
-                    seeAllState: BlocState.success,
-                    seeAllMovies: List.of(state.seeAllMovies)
-                      ..addAll(similarMoviesList),
-                    hasSeeAllMoviesListReachedMax: false,
-                  ),
-                );
-          _similarMoviesPageNumber++;
-        },
-      ),
-    );
+      );
+    }
+
   }
 
   Future<void> _addOrRemoveFromWatchListEventEvent(event, emit) async {

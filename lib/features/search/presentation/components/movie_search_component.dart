@@ -52,38 +52,43 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
             controller: _scrollController,
             itemCount: state.movieSearchList.length + 1,
             itemBuilder: (context, index) {
-              return index >= state.movieSearchList.length
-                  ? Center(
-                      child:
-                          Lottie.asset(AssetsManager.neonLoading, width: 200),
-                    )
-                  : Animate(
-                      effects: [FadeEffect(duration: 250.ms)],
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 14,
-                        ).r,
-                        child: ListCard(
-                          title: state.movieSearchList[index].title,
-                          posterPath: state.movieSearchList[index].posterPath,
-                          vote: state.movieSearchList[index].voteAverage,
-                          voteCount: state.movieSearchList[index].voteCount,
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            context.pushRoute(
-                              MovieDetailsRoute(
-                                  movieId: state.movieSearchList[index].id),
-                            );
-                          },
-                          genres: state.movieSearchList[index].genres,
-                          releaseYear: state.movieSearchList[index].releaseDate,
-                          language: state.movieSearchList[index].language,
-                          errorImagePath: AssetsManager.errorPoster,
-                        ),
-                      ),
-                    );
+              if (index >= state.movieSearchList.length) {
+                if (state.movieSearchList.length < 20) {
+                  return const SizedBox();
+                } else {
+                  return Center(
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                  );
+                }
+              } else {
+                return Animate(
+                  effects: [FadeEffect(duration: 250.ms)],
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 14,
+                    ).r,
+                    child: ListCard(
+                      title: state.movieSearchList[index].title,
+                      posterPath: state.movieSearchList[index].posterPath,
+                      vote: state.movieSearchList[index].voteAverage,
+                      voteCount: state.movieSearchList[index].voteCount,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        context.pushRoute(
+                          MovieDetailsRoute(
+                              movieId: state.movieSearchList[index].id),
+                        );
+                      },
+                      genres: state.movieSearchList[index].genres,
+                      releaseYear: state.movieSearchList[index].releaseDate,
+                      language: state.movieSearchList[index].language,
+                      errorImagePath: AssetsManager.errorPoster,
+                    ),
+                  ),
+                );
+              }
             },
           );
         }

@@ -54,40 +54,44 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
             controller: _scrollController,
             itemCount: state.tvSearchList.length + 1,
             itemBuilder: (context, index) {
-              return index >= state.tvSearchList.length
-                  ? Center(
-                      child:
-                          Lottie.asset(AssetsManager.neonLoading, width: 200),
-                    )
-                  : Animate(
-                      effects: [FadeEffect(duration: 250.ms)],
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 14,
-                        ).r,
-                        child: ListCard(
-                          title: state.tvSearchList[index].title,
-                          posterPath: state.tvSearchList[index].posterPath,
-                          vote: state.tvSearchList[index].voteAverage,
-                          voteCount: state.tvSearchList[index].voteCount,
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            context.pushRoute(
-                              TvDetailsRoute(
-                                tvShowId: state.tvSearchList[index].id,
-                              ),
-                            );
-                          },
-
-                          genres: state.tvSearchList[index].genres,
-                          releaseYear: state.tvSearchList[index].firstAirDate,
-                          language: state.tvSearchList[index].language,
-                          errorImagePath: AssetsManager.errorPoster,
-                        ),
-                      ),
-                    );
+              if (index >= state.tvSearchList.length) {
+                if (state.tvSearchList.length < 20) {
+                  return const SizedBox();
+                } else {
+                  return Center(
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                  );
+                }
+              } else {
+                return Animate(
+                  effects: [FadeEffect(duration: 250.ms)],
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 14,
+                    ).r,
+                    child: ListCard(
+                      title: state.tvSearchList[index].title,
+                      posterPath: state.tvSearchList[index].posterPath,
+                      vote: state.tvSearchList[index].voteAverage,
+                      voteCount: state.tvSearchList[index].voteCount,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        context.pushRoute(
+                          TvDetailsRoute(
+                            tvShowId: state.tvSearchList[index].id,
+                          ),
+                        );
+                      },
+                      genres: state.tvSearchList[index].genres,
+                      releaseYear: state.tvSearchList[index].firstAirDate,
+                      language: state.tvSearchList[index].language,
+                      errorImagePath: AssetsManager.errorPoster,
+                    ),
+                  ),
+                );
+              }
             },
           );
         }

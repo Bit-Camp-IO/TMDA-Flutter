@@ -56,37 +56,44 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
             controller: _scrollController,
             itemCount: state.peopleSearchList.length + 1,
             itemBuilder: (context, index) {
-              return index >= state.peopleSearchList.length
-                  ? Center(
-                      child:
-                          Lottie.asset(AssetsManager.neonLoading, width: 200),
-                    )
-                  : Animate(
-                      effects: [FadeEffect(duration: 250.ms)],
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 14,
-                        ).r,
-                        child: PersonCard(
-                          name: state.peopleSearchList[index].name,
-                          knownFor: state.peopleSearchList[index].knowingFor,
-                          imagePath: state.peopleSearchList[index].profilePath,
-                          errorAvatarPath: AssetsManager.neonAvatar,
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            context.pushRoute(
-                              PersonRoute(
-                                personId: state.peopleSearchList[index].id,
-                                personScreenType:
-                                    PersonScreenType.withAllContent,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
+              if (index >= state.peopleSearchList.length) {
+                if (state.peopleSearchList.length < 20) {
+                  return const SizedBox();
+                } else {
+                  return Center(
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                  );
+                }
+              } else {
+                return Animate(
+                  effects: [FadeEffect(duration: 250.ms)],
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 14,
+                    ).r,
+                    child: PersonCard(
+                      name: state.peopleSearchList[index].name,
+                      knownFor:
+                      state.peopleSearchList[index].knowingFor,
+                      imagePath:
+                      state.peopleSearchList[index].profilePath,
+                      errorAvatarPath: AssetsManager.neonAvatar,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        context.pushRoute(
+                          PersonRoute(
+                            personId: state.peopleSearchList[index].id,
+                            personScreenType:
+                            PersonScreenType.withAllContent,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
             },
           );
         }

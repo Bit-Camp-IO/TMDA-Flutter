@@ -12,7 +12,7 @@ class PosterCard extends StatelessWidget {
     super.key,
     required this.imagePath,
     required this.title,
-    required this.releaseDate,
+    required this.releaseYear,
     required this.rating,
     required this.onTap,
     required this.genres,
@@ -24,7 +24,7 @@ class PosterCard extends StatelessWidget {
 
   final String imagePath;
   final String title;
-  final String releaseDate;
+  final String releaseYear;
   final List genres;
   final dynamic rating;
   final String language;
@@ -64,36 +64,14 @@ class PosterCard extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 2.5.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        releaseDate.isEmpty
-                            ? '${StringsManager.unknown}‧'
-                            : '${releaseDate.substring(0, 4)}‧',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontSize: 8.sp),
-                      ),
-                      Text(
-                        _buildGenresText(genres),
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontSize: 8.sp),
-                      ),
-                      Text(
-                        language.toUpperCase(),
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontSize: 8.sp),
-                      ),
-                    ],
+                  Text(
+                    _buildCardInfo(
+                      genres: _buildGenres(genres),
+                      language: language,
+                      year: releaseYear,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   SizedBox(height: 2.5.h),
                   Row(
@@ -129,13 +107,21 @@ class PosterCard extends StatelessWidget {
     );
   }
 
-  String _buildGenresText(List genres) {
+  String _buildGenres(List genres) {
     if (genres.isEmpty) {
       return StringsManager.unknown;
     } else if (genres.length == 1) {
-      return '${genres[0].name}‧';
+      return '${genres[0].name}';
     } else {
-      return '${genres[0].name}/${genres[1].name}‧';
+      return '${genres[0].name}/${genres[1].name}';
+    }
+  }
+  String _buildCardInfo({required String year, required String genres, required String language}) {
+    if(year.isNotEmpty){
+      String parsedYear = year.substring(0,4);
+      return '$parsedYear  ‧ $genres ‧ ${language.toUpperCase()}';
+    }else{
+      return '${StringsManager.unknown}  ‧ $genres  ‧ ${language.toUpperCase()}';
     }
   }
 }

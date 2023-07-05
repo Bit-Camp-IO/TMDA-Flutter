@@ -52,7 +52,7 @@ class PopularMoviesComponent extends StatelessWidget {
                         title: state.popularMovies[index].title,
                         imagePath: state.popularMovies[index].posterPath,
                         errorImagePath: AssetsManager.errorPoster,
-                        releaseDate: state.popularMovies[index].releaseDate,
+                        releaseYear: state.popularMovies[index].releaseDate,
                         rating: state.popularMovies[index].voteAverage,
                         genres: state.popularMovies[index].genres,
                         language: state.popularMovies[index].language,

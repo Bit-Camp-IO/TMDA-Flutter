@@ -52,7 +52,7 @@ class TopRatedTvShowsComponent extends StatelessWidget {
                         title: state.topRatedTvShows[index].title,
                         errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.topRatedTvShows[index].posterPath,
-                        releaseDate: state.topRatedTvShows[index].firstAirDate,
+                        releaseYear: state.topRatedTvShows[index].firstAirDate,
                         rating: state.topRatedTvShows[index].voteAverage,
                         genres: state.topRatedTvShows[index].genres,
                         language: state.topRatedTvShows[index].language,

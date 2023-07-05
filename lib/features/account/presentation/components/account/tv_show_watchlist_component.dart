@@ -81,7 +81,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                                 errorImagePath: AssetsManager.errorPoster,
                                 imagePath: state.watchListTvShows[index].posterPath,
                                 title: state.watchListTvShows[index].title,
-                                releaseDate: state.watchListTvShows[index].firstAirDate,
+                                releaseYear: state.watchListTvShows[index].firstAirDate,
                                 rating: state.watchListTvShows[index].voteAverage,
                                 onTap: () {
                                   context.pushRoute(TvDetailsRoute(tvShowId: state.watchListTvShows[index].id));

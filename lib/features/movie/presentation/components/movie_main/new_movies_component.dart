@@ -52,7 +52,7 @@ class NewMoviesComponent extends StatelessWidget {
                         title: state.newMovies[index].title,
                         errorImagePath: AssetsManager.errorPoster,
                         imagePath: state.newMovies[index].posterPath,
-                        releaseDate: state.newMovies[index].releaseDate,
+                        releaseYear: state.newMovies[index].releaseDate,
                         rating: state.newMovies[index].voteAverage,
                         genres: state.newMovies[index].genres,
                         language: state.newMovies[index].language,

@@ -55,7 +55,7 @@ class PopularTvShowsComponent extends StatelessWidget {
                           title: state.popularTvShows[index].title,
                           errorImagePath: AssetsManager.errorPoster,
                           imagePath: state.popularTvShows[index].posterPath,
-                          releaseDate: state.popularTvShows[index].firstAirDate,
+                          releaseYear: state.popularTvShows[index].firstAirDate,
                           rating: state.popularTvShows[index].voteAverage,
                           genres: state.popularTvShows[index].genres,
                           language: state.popularTvShows[index].language,

@@ -82,7 +82,7 @@ class MoviesWatchListComponent extends StatelessWidget {
                               errorImagePath: AssetsManager.errorPoster,
                               imagePath: state.watchListMovies[index].posterPath,
                               title: state.watchListMovies[index].title,
-                              releaseDate: state.watchListMovies[index].releaseDate,
+                              releaseYear: state.watchListMovies[index].releaseDate,
                               rating: state.watchListMovies[index].voteAverage,
                               onTap: () {
                                 context.pushRoute(MovieDetailsRoute(

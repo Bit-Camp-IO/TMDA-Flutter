@@ -54,104 +54,103 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<LoadMoreTvShowsEvent>(_loadMoreTvShowsEvent, transformer: droppable());
     on<LoadMorePersonsEvent>(_loadMorePersonsEvent, transformer: droppable());
     on<RetryMovieSearchEvent>(_retryMovieSearchEvent, transformer: droppable());
-    on<RetryTvShowSearchEvent>(_retryTvShowSearchEvent, transformer: droppable());
-    on<RetryPersonSearchEvent>(_retryPersonSearchEvent, transformer: droppable());
+    on<RetryTvShowSearchEvent>(_retryTvShowSearchEvent,
+        transformer: droppable());
+    on<RetryPersonSearchEvent>(_retryPersonSearchEvent,
+        transformer: droppable());
     on<ChangeSearchTabEvent>(_changeSearchTabEvent);
   }
 
   Future<void> _searchForMoviesEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (movieSearchInput != event.movieName) {
-      movieSearchInput = event.movieName;
-      _moviePageNumber = 1;
-      await _searchForMovieUseCase(
-        pageNumber: _moviePageNumber,
-        movieName: movieSearchInput,
-        sessionId: sessionId,
-      ).then(
-        (value) => value.fold(
-          (loadDataFail) => emit(
-            state.copyWith(
-              searchFailMessage: loadDataFail.message,
-              searchState: BlocState.failure,
-            ),
+    movieSearchInput = event.movieName;
+    _moviePageNumber = 1;
+    await _searchForMovieUseCase(
+      pageNumber: _moviePageNumber,
+      movieName: movieSearchInput,
+      sessionId: sessionId,
+    ).then(
+      (value) => value.fold(
+        (loadDataFail) => emit(
+          state.copyWith(
+            searchFailMessage: loadDataFail.message,
+            searchState: BlocState.failure,
+            movieSearchList: []
           ),
-          (movies) {
-            _moviePageNumber++;
-            return emit(
-              state.copyWith(
-                searchState: BlocState.success,
-                movieSearchList: movies,
-              ),
-            );
-          },
         ),
-      );
-    }
+        (movies) {
+          _moviePageNumber++;
+          return emit(
+            state.copyWith(
+              searchState: BlocState.success,
+              movieSearchList: movies,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Future<void> _searchForTvShowEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (tvSearchInput != event.tvShowName) {
-      tvSearchInput = event.tvShowName;
-      _tvShowPageNumber = 1;
-      emit(state.copyWith(hasMoviesListReachedMax: false));
-      await _searchForTvShowUseCase(
-        pageNumber: _tvShowPageNumber,
-        tvShowName: tvSearchInput,
-        sessionId: sessionId,
-      ).then(
-        (value) => value.fold(
-          (loadDataFail) => emit(
-            state.copyWith(
-              searchFailMessage: loadDataFail.message,
-              searchState: BlocState.failure,
-            ),
+    tvSearchInput = event.tvShowName;
+    _tvShowPageNumber = 1;
+    emit(state.copyWith(hasMoviesListReachedMax: false));
+    await _searchForTvShowUseCase(
+      pageNumber: _tvShowPageNumber,
+      tvShowName: tvSearchInput,
+      sessionId: sessionId,
+    ).then(
+      (value) => value.fold(
+        (loadDataFail) => emit(
+          state.copyWith(
+            searchFailMessage: loadDataFail.message,
+            searchState: BlocState.failure,
+            tvSearchList: []
           ),
-          (tvShow) {
-            _tvShowPageNumber++;
-            return emit(
-              state.copyWith(
-                searchState: BlocState.success,
-                tvSearchList: tvShow,
-              ),
-            );
-          },
         ),
-      );
-    }
+        (tvShow) {
+          _tvShowPageNumber++;
+          return emit(
+            state.copyWith(
+              searchState: BlocState.success,
+              tvSearchList: tvShow,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Future<void> _searchForPersonEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-    if (personSearchInput != event.personName) {
-      personSearchInput = event.personName;
-      _personPageNumber = 1;
-      await _searchForPersonUseCase(
-        pageNumber: _personPageNumber,
-        personName: personSearchInput,
-        sessionId: sessionId,
-      ).then(
-        (value) => value.fold(
-          (loadDataFail) => emit(
-            state.copyWith(
-              searchFailMessage: loadDataFail.message,
-              searchState: BlocState.failure,
-            ),
+    personSearchInput = event.personName;
+    _personPageNumber = 1;
+    await _searchForPersonUseCase(
+      pageNumber: _personPageNumber,
+      personName: personSearchInput,
+      sessionId: sessionId,
+    ).then(
+      (value) => value.fold(
+        (loadDataFail) => emit(
+          state.copyWith(
+            searchFailMessage: loadDataFail.message,
+            searchState: BlocState.failure,
+            peopleSearchList: [],
           ),
-          (personList) {
-            _personPageNumber++;
-            return emit(state.copyWith(
-              searchState: BlocState.success,
-              peopleSearchList: personList,
-            ));
-          },
         ),
-      );
-    }
+        (personList) {
+          _personPageNumber++;
+          return emit(state.copyWith(
+            searchState: BlocState.success,
+            peopleSearchList: personList,
+          ));
+        },
+      ),
+    );
   }
 
   Future<void> _loadMoreMoviesEvent(event, emit) async {
@@ -276,27 +275,27 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _retryPersonSearchEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-      await _searchForPersonUseCase(
-        pageNumber: _personPageNumber,
-        personName: personSearchInput,
-        sessionId: sessionId,
-      ).then(
-            (value) => value.fold(
-              (loadDataFail) => emit(
-            state.copyWith(
-              searchFailMessage: loadDataFail.message,
-              searchState: BlocState.failure,
-            ),
+    await _searchForPersonUseCase(
+      pageNumber: _personPageNumber,
+      personName: personSearchInput,
+      sessionId: sessionId,
+    ).then(
+      (value) => value.fold(
+        (loadDataFail) => emit(
+          state.copyWith(
+            searchFailMessage: loadDataFail.message,
+            searchState: BlocState.failure,
           ),
-              (personList) {
-            _personPageNumber++;
-            return emit(state.copyWith(
-              searchState: BlocState.success,
-              peopleSearchList: personList,
-            ));
-          },
         ),
-      );
+        (personList) {
+          _personPageNumber++;
+          return emit(state.copyWith(
+            searchState: BlocState.success,
+            peopleSearchList: personList,
+          ));
+        },
+      ),
+    );
   }
 
   Future<void> _retryMovieSearchEvent(event, emit) async {
@@ -307,14 +306,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       movieName: movieSearchInput,
       sessionId: sessionId,
     ).then(
-          (value) => value.fold(
-            (loadDataFail) => emit(
+      (value) => value.fold(
+        (loadDataFail) => emit(
           state.copyWith(
             searchFailMessage: loadDataFail.message,
             searchState: BlocState.failure,
           ),
         ),
-            (movies) {
+        (movies) {
           _moviePageNumber++;
           return emit(
             state.copyWith(
@@ -330,32 +329,31 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _retryTvShowSearchEvent(event, emit) async {
     emit(state.copyWith(searchState: BlocState.loading));
     final String sessionId = await _getSessionIdUseCase();
-      await _searchForTvShowUseCase(
-        pageNumber: _tvShowPageNumber,
-        tvShowName: tvSearchInput,
-        sessionId: sessionId,
-      ).then(
-            (value) =>
-            value.fold(
-                  (loadDataFail) =>
-                  emit(
-                    state.copyWith(
-                      searchFailMessage: loadDataFail.message,
-                      searchState: BlocState.failure,
-                    ),
-                  ),
-                  (tvShow) {
-                _tvShowPageNumber++;
-                return emit(
-                  state.copyWith(
-                    searchState: BlocState.success,
-                    tvSearchList: tvShow,
-                  ),
-                );
-              },
+    await _searchForTvShowUseCase(
+      pageNumber: _tvShowPageNumber,
+      tvShowName: tvSearchInput,
+      sessionId: sessionId,
+    ).then(
+      (value) => value.fold(
+        (loadDataFail) => emit(
+          state.copyWith(
+            searchFailMessage: loadDataFail.message,
+            searchState: BlocState.failure,
+          ),
+        ),
+        (tvShow) {
+          _tvShowPageNumber++;
+          return emit(
+            state.copyWith(
+              searchState: BlocState.success,
+              tvSearchList: tvShow,
             ),
-      );
+          );
+        },
+      ),
+    );
   }
+
   void _changeSearchTabEvent(event, emit) {
     emit(state.copyWith(tabIndex: event.tabIndex));
   }

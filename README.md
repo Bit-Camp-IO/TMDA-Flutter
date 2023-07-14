@@ -36,18 +36,17 @@ git clone https://github.com/Bit-Camp-IO/TMDA-Flutter.git
 2. Open Android Studio and select "Open an Existing Project."
 3. Navigate to the cloned project directory and select it.
 4. Android Studio will build and sync the project automatically.
-5. Once the project is synced, navigate to the `lib\core\constants` directory in the project structure.
-6. Open `api_constants.dart` and add the following code, replacing `YOUR_API_KEY` with your TMDB API key.
-7. And replace `YOUR_ACCOUNT_ID` with your TMDB Account ID :
+5. Once the project is synced run `flutter pub get`.
+6. After the packages load successfully, navigate to the `lib\core\constants` directory in the project.
+7. Open `api_constants.dart` and add the following code, replacing `YOUR_API_KEY` with your TMDB API key and replace `YOUR_ACCOUNT_ID` with your TMDB Account ID :
 ```xml
-
 apiKey = 'YOUR_API_KEY';
 accountId = 'YOUR_ACCOUNT_ID';
 
 ```
 
-7. Save the file.
-8. Run the app on an emulator or physical device by clicking the "Run" button in Android Studio.
+8. Save the file.
+9. Run the app on an emulator or physical device by clicking the "Run" button in Android Studio.
 
 ## API Usage
 

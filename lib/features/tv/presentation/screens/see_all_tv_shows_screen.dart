@@ -99,8 +99,7 @@ class _SeeAllTvShowsScreenState extends State<SeeAllTvShowsScreen> {
                         case (TvShowType.similarTvShows):
                           seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
                         case (TvShowType.recommendedTvShows):
-                          seeAllBloc
-                              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
+                          seeAllBloc.add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
                       }
                     },
                   );

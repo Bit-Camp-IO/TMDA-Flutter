@@ -45,7 +45,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
     super.didChangeDependencies();
   }
   void _tabListener(){
-    if (context.tabsRouter.activeIndex != 0) {
+    if (context.tabsRouter.activeIndex == 1) {
       context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
     }
   }

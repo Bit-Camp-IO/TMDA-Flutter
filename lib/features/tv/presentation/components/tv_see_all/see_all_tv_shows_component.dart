@@ -20,10 +20,27 @@ class SeeAllTvShowsComponent extends StatefulWidget {
   State<SeeAllTvShowsComponent> createState() => _SeeAllTvShowsComponentState();
 }
 
-class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
-    with AutoRouteAwareStateMixin<SeeAllTvShowsComponent> {
+class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent> with AutoRouteAware {
   late int _tappedTvShowId;
   late ScrollController _scrollController;
+  AutoRouteObserver? _observer;
+  TabsRouter? _tabsRouter;
+
+  @override
+  void didChangeDependencies() {
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    if (_observer != null) {
+      _observer!.subscribe(this, context.routeData);
+    }
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
+  }
+  void _tabListener(){
+    if (context.tabsRouter.activeIndex == 1) {
+      context.read<SeeAllTvShowsBloc>().add(CheckForTvShowsListStatesEvent());
+    }
+  }
 
   @override
   void initState() {
@@ -34,9 +51,12 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
 
   @override
   void didPopNext() {
-    context.read<SeeAllTvShowsBloc>()
-      ..add(CheckForTvShowStatesEvent(_tappedTvShowId))
-      ..add(CheckForTvShowsListStatesEvent());
+    if(mounted){
+      context.read<SeeAllTvShowsBloc>()
+        ..add(CheckForTvShowStatesEvent(_tappedTvShowId))
+        ..add(CheckForTvShowsListStatesEvent());
+    }
+    super.didPopNext();
   }
 
   void _onScroll() {
@@ -121,9 +141,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _scrollController..removeListener(_onScroll)..dispose();
     super.dispose();
   }
 }

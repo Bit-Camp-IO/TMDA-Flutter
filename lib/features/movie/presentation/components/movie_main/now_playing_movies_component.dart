@@ -20,41 +20,34 @@ class NowPlayingMoviesComponent extends StatelessWidget {
       children: [
         BlocBuilder<MoviesBloc, MoviesState>(
           builder: (context, state) {
-            return Stack(
-              children: [
-                Animate(
-                  effects: [FadeEffect(duration: 150.ms)],
-                  child: CarouselSlider.builder(
-                    itemCount: 4,
-                    itemBuilder: (context, index, realIndex) {
-                      final nowPlayingMovie = state.nowPlayingMovies[index];
-                      if (state.nowPlayingMovies.isNotEmpty) {
-                        return CarouselCard(
-                          onTap: () {
-                            context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
-                          },
-                          imagePath: nowPlayingMovie.posterPath,
-                          errorImagePath: AssetsManager.errorPoster,
-                          rating: nowPlayingMovie.voteAverage,
-                          title: nowPlayingMovie.title,
-                          voteCount: nowPlayingMovie.movieVoteCount,
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
+            return CarouselSlider.builder(
+              itemCount: 4,
+              itemBuilder: (context, index, realIndex) {
+                final nowPlayingMovie = state.nowPlayingMovies[index];
+                if (state.nowPlayingMovies.isNotEmpty) {
+                  return CarouselCard(
+                    onTap: () {
+                      context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
                     },
-                    options: CarouselOptions(
-                      autoPlay: false,
-                      viewportFraction: 1,
-                      height: 410.h,
-                      onPageChanged: (index, reason) {
-                        context.read<MoviesBloc>().add(ChangeIndicatorIndexEvent(index),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+                    imagePath: nowPlayingMovie.posterPath,
+                    errorImagePath: AssetsManager.errorPoster,
+                    rating: nowPlayingMovie.voteAverage,
+                    title: nowPlayingMovie.title,
+                    voteCount: nowPlayingMovie.movieVoteCount,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+              options: CarouselOptions(
+                autoPlay: false,
+                viewportFraction: 1,
+                height: 410.h,
+                onPageChanged: (index, reason) {
+                  context.read<MoviesBloc>().add(ChangeIndicatorIndexEvent(index),
+                  );
+                },
+              ),
             );
           },
         ),

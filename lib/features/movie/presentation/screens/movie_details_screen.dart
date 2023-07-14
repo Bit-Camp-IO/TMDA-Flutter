@@ -50,7 +50,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
     super.didChangeDependencies();
   }
   void _tabListener(){
-    if (context.tabsRouter.activeIndex != 1) {
+    if (context.tabsRouter.activeIndex == 0) {
       context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
     }
   }

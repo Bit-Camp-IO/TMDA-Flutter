@@ -8,13 +8,12 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/popular_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_today_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_this_week_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/top_rated_tv_shows_component.dart';
 import 'package:tmda/injection_container.dart';
-
-import '../bloc/tv_show/tv_show_bloc.dart';
 
 @RoutePage()
 class TvShowScreen extends StatelessWidget with AutoRouteWrapper {

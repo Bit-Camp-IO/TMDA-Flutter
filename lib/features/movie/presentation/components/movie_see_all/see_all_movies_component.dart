@@ -18,16 +18,35 @@ class SeeAllMoviesComponent extends StatefulWidget {
   State<SeeAllMoviesComponent> createState() => _SeeAllMoviesComponentState();
 }
 
-class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
-    with AutoRouteAwareStateMixin<SeeAllMoviesComponent> {
+class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with AutoRouteAware{
   late int _tappedMovieId;
   late ScrollController _scrollController;
+  AutoRouteObserver? _observer;
+  TabsRouter? _tabsRouter;
+
+  @override
+  void didChangeDependencies() {
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    if (_observer != null) {
+      _observer!.subscribe(this, context.routeData);
+    }
+    _tabsRouter = context.tabsRouter;
+    _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
+  }
+  void _tabListener(){
+    if (context.tabsRouter.activeIndex == 0) {
+      context.read<SeeAllMoviesBloc>().add(CheckForMoviesListStatesEvent());
+    }
+  }
 
   @override
   void didPopNext() {
-    context.read<SeeAllMoviesBloc>()
-      ..add(CheckForMovieStatesEvent(_tappedMovieId))
-      ..add(CheckForMoviesListStatesEvent());
+    if(mounted){
+      context.read<SeeAllMoviesBloc>()
+        ..add(CheckForMovieStatesEvent(_tappedMovieId))
+        ..add(CheckForMoviesListStatesEvent());
+    }
   }
 
   void _onScroll() {

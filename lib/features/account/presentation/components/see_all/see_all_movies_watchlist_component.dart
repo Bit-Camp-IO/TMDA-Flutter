@@ -27,14 +27,12 @@ class _SeeAllMoviesWatchListComponentState
 
   @override
   void didChangeDependencies() {
-    _observer =
-        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
     if (_observer != null) {
       _observer!.subscribe(this, context.routeData);
     }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
-
     super.didChangeDependencies();
   }
 

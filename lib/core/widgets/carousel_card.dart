@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -14,12 +15,14 @@ class CarouselCard extends StatelessWidget {
     required this.voteCount,
     required this.imagePath,
     required this.onTap,
+    required this.errorImagePath,
   });
 
   final String title;
   final dynamic rating;
   final int voteCount;
   final String imagePath;
+  final String errorImagePath;
   final void Function() onTap;
 
   @override
@@ -28,19 +31,15 @@ class CarouselCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          Container(
-            width: 360.w,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  imagePath,
-                ),
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
-                  BlendMode.darken,
-                ),
-                fit: BoxFit.cover,
-              ),
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.darken,
+            ),
+            child: CachedNetworkImage(
+              width: 360.w,
+              imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
+              fit: BoxFit.cover,
             ),
           ),
           Positioned(

@@ -46,22 +46,19 @@ class SimilarMoviesComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.movieDetails.similarMovies.length,
                     itemBuilder: (context, index) {
+                      final similarMovie = state.movieDetails.similarMovies[index];
                       return Row(
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            imagePath: state
-                                .movieDetails.similarMovies[index].posterPath,
+                            imagePath: similarMovie.posterPath,
                             errorImagePath: AssetsManager.errorPoster,
-                            title:
-                                state.movieDetails.similarMovies[index].title,
-                            rating: state
-                                .movieDetails.similarMovies[index].voteAverage,
+                            title:similarMovie.title,
+                            rating: similarMovie.voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 MovieDetailsRoute(
-                                  movieId: state
-                                      .movieDetails.similarMovies[index].id,
+                                  movieId: similarMovie.id,
                                 ),
                               );
                             },

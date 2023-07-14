@@ -221,8 +221,7 @@ class TvShowOverview extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
               child: Text(
                 state.tvShowDetails.overview,
                 textAlign: TextAlign.center,
@@ -230,11 +229,6 @@ class TvShowOverview extends StatelessWidget {
               ),
             ),
             const SectionDivider(),
-            const TvShowCastComponent(),
-            const RecommendedTvShowsComponent(),
-            const SimilarTvShowsComponent(),
-            const TvShowReviewsComponent(),
-            SizedBox(height: 70.h),
           ],
         );
       },

@@ -41,24 +41,25 @@ class PopularTvShowsComponent extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    final popularTvShow = state.popularTvShows[index];
                     return Row(
                       children: [
-                        SizedBox(width: 24.w),
+                        SizedBox(width: 16.w),
                         PosterCard(
                           onTap: () {
                             context.pushRoute(
                               TvDetailsRoute(
-                                tvShowId: state.popularTvShows[index].id,
+                                tvShowId: popularTvShow.id,
                               ),
                             );
                           },
-                          title: state.popularTvShows[index].title,
+                          title: popularTvShow.title,
                           errorImagePath: AssetsManager.errorPoster,
-                          imagePath: state.popularTvShows[index].posterPath,
-                          releaseYear: state.popularTvShows[index].firstAirDate,
-                          rating: state.popularTvShows[index].voteAverage,
-                          genres: state.popularTvShows[index].genres,
-                          language: state.popularTvShows[index].language,
+                          imagePath: popularTvShow.posterPath,
+                          releaseYear: popularTvShow.firstAirDate,
+                          rating: popularTvShow.voteAverage,
+                          genres: popularTvShow.genres,
+                          language: popularTvShow.language,
                         ),
                       ],
                     );

@@ -36,18 +36,19 @@ class PersonTvShowsComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.personData.tvShows.length,
                     itemBuilder: (context, index) {
+                      final tvShow = state.personData.tvShows[index];
                       return Row(
                         children: [
                           SizedBox(width: 16.w),
                           DetailsPosterCard(
-                            imagePath: state.personData.tvShows[index].posterPath,
+                            imagePath: tvShow.posterPath,
                             errorImagePath: AssetsManager.errorPoster,
-                            title: state.personData.tvShows[index].title,
-                            rating: state.personData.tvShows[index].voteAverage,
+                            title: tvShow.title,
+                            rating: tvShow.voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.personData.tvShows[index].id,
+                                  tvShowId: tvShow.id,
                                 ),
                               );
                             },

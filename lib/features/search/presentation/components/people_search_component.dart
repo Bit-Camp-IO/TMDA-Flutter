@@ -56,6 +56,7 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
             controller: _scrollController,
             itemCount: state.peopleSearchList.length + 1,
             itemBuilder: (context, index) {
+              final person = state.peopleSearchList[index];
               if (index >= state.peopleSearchList.length) {
                 if (state.peopleSearchList.length < 20) {
                   return const SizedBox();
@@ -74,19 +75,16 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
                       bottom: 14,
                     ).r,
                     child: PersonCard(
-                      name: state.peopleSearchList[index].name,
-                      knownFor:
-                      state.peopleSearchList[index].knowingFor,
-                      imagePath:
-                      state.peopleSearchList[index].profilePath,
+                      name: person.name,
+                      knownFor: person.knowingFor,
+                      imagePath: person.profilePath,
                       errorAvatarPath: AssetsManager.neonAvatar,
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         context.pushRoute(
                           PersonRoute(
-                            personId: state.peopleSearchList[index].id,
-                            personScreenType:
-                            PersonScreenType.withAllContent,
+                            personId: person.id,
+                            personScreenType: PersonScreenType.withAllContent,
                           ),
                         );
                       },

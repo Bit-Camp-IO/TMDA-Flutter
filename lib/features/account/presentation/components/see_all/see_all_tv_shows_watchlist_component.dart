@@ -73,6 +73,7 @@ class _SeeAllTvShowsWatchListComponentState
             scrollDirection: Axis.vertical,
             padding: const EdgeInsets.symmetric(vertical: 100).r,
             itemBuilder: (context, index) {
+              final tvShow = state.tvShowsWatchList[index];
               return Padding(
                 padding: const EdgeInsets.only(
                   left: 24,
@@ -81,26 +82,31 @@ class _SeeAllTvShowsWatchListComponentState
                   bottom: 16.0,
                 ).r,
                 child: Dismissible(
-                  key: ObjectKey(state.tvShowsWatchList[index]),
+                  key: ObjectKey(tvShow.id),
                   resizeDuration: const Duration(milliseconds: 200),
                   onDismissed: (direction) => context
                       .read<AccountSeeAllBloc>()
-                      .add(RemoveTvShowFromWatchListEvent(
-                          tvShowId: state.tvShowsWatchList[index].id)),
+                      .add(
+                    RemoveTvShowFromWatchListEvent(
+                          tvShowId: tvShow.id,
+                    ),
+                  ),
                   child: ListCard(
-                    title: state.tvShowsWatchList[index].title,
+                    title: tvShow.title,
                     errorImagePath: AssetsManager.errorPoster,
-                    posterPath: state.tvShowsWatchList[index].posterPath,
-                    vote: state.tvShowsWatchList[index].voteAverage,
-                    voteCount: state.tvShowsWatchList[index].voteCount,
+                    posterPath: tvShow.posterPath,
+                    vote: tvShow.voteAverage,
+                    voteCount: tvShow.voteCount,
+                    genres: tvShow.genres,
+                    releaseYear: tvShow.firstAirDate,
+                    language: tvShow.language,
                     onTap: () {
-                      tappedTvShowId = state.tvShowsWatchList[index].id;
+                      tappedTvShowId = tvShow.id;
                       context.pushRoute(TvDetailsRoute(
-                          tvShowId: state.tvShowsWatchList[index].id));
+                          tvShowId: tvShow.id
+                        ),
+                      );
                     },
-                    genres: state.tvShowsWatchList[index].genres,
-                    releaseYear: state.tvShowsWatchList[index].firstAirDate,
-                    language: state.tvShowsWatchList[index].language,
                   ),
                 ),
               );

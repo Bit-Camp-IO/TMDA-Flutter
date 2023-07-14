@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/recommended_tv_shows_component.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_shows_component.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_cast_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_overview_component.dart';
+import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_reviews_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_seasons_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_details_poster.dart';
 
@@ -45,9 +50,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
   @override
   void initState() {
     final tvShowDetailsBloc = context.read<TvShowDetailsBloc>();
-    _scrollController = ScrollController()..addListener(_scrollListener);
     tvShowDetailsBloc.add(GetSeasonEpisodesEvent(
         tvShowId: tvShowDetailsBloc.state.tvShowDetails.id));
+    _scrollController = ScrollController()..addListener(_scrollListener);
     _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     super.initState();
   }
@@ -58,6 +63,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
       buildWhen: (previous, current) =>
           previous.tvShowDetailsState != current.tvShowDetailsState,
       builder: (context, state) {
+
         return Animate(
           effects: [FadeEffect(duration: 150.ms)],
           child: ListView(
@@ -86,12 +92,8 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                           bottom: 15,
                           child: NeonPlayButton(
                             onTap: () {
-                              if (state
-                                  .tvShowDetails.tvShowVideo.key.isNotEmpty) {
-                                BlocProvider.of<TvShowDetailsBloc>(
-                                  context,
-                                  listen: false,
-                                ).add(
+                              if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
+                                context.read<TvShowDetailsBloc>().add(
                                   PlayTvShowVideoEvent(
                                     state.tvShowDetails.tvShowVideo.key,
                                   ),
@@ -99,9 +101,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     errorSnackBar(
-                                        errorMessage:
-                                            StringsManager.movieNoVideosMessage,
-                                        context: context));
+                                        errorMessage: StringsManager.movieNoVideosMessage,
+                                        context: context,
+                                    ),
+                                );
                               }
                             },
                           ),
@@ -117,7 +120,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                     controller: _tabController,
                     labelStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: (value) {
-                      BlocProvider.of<TvShowDetailsBloc>(context)
+                      context.read<TvShowDetailsBloc>()
                           .add(ChangeBodyTabsIndexEvent(_tabController.index));
                       _tabController.animateTo(_tabController.index);
                     },
@@ -139,7 +142,16 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                     children: [
                       Visibility(
                         visible: state.bodyTabIndex == 0,
-                        child: const TvShowOverview(),
+                        child: Column(
+                          children: [
+                            const TvShowOverview(),
+                            const TvShowCastComponent(),
+                            const RecommendedTvShowsComponent(),
+                            const SimilarTvShowsComponent(),
+                            const TvShowReviewsComponent(),
+                            SizedBox(height: 70.h),
+                          ],
+                        ),
                       ),
                       Visibility(
                         visible: state.bodyTabIndex == 1,

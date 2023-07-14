@@ -38,24 +38,25 @@ class TvShowsAiringTodayComponent extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
+                  final airingTodayTvShow = state.airingTodayTvShows[index];
                   return Row(
                     children: [
-                      SizedBox(width: 24.w),
+                      SizedBox(width: 16.w),
                       PosterCard(
                         onTap: () {
                           context.pushRoute(
                             TvDetailsRoute(
-                              tvShowId: state.airingTodayTvShows[index].id,
+                              tvShowId: airingTodayTvShow.id,
                             ),
                           );
                         },
-                        title: state.airingTodayTvShows[index].title,
+                        title: airingTodayTvShow.title,
                         errorImagePath: AssetsManager.errorPoster,
-                        imagePath: state.airingTodayTvShows[index].posterPath,
-                        releaseYear: state.airingTodayTvShows[index].firstAirDate,
-                        rating: state.airingTodayTvShows[index].voteAverage,
-                        genres: state.airingTodayTvShows[index].genres,
-                        language: state.airingTodayTvShows[index].language,
+                        imagePath: airingTodayTvShow.posterPath,
+                        releaseYear: airingTodayTvShow.firstAirDate,
+                        rating: airingTodayTvShow.voteAverage,
+                        genres: airingTodayTvShow.genres,
+                        language: airingTodayTvShow.language,
                       ),
                     ],
                   );

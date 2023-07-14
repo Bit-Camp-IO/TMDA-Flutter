@@ -10,9 +10,10 @@ import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_mov
 import 'package:tmda/core/widgets/list_card_with_save.dart';
 
 class SeeAllMoviesComponent extends StatefulWidget {
-  const SeeAllMoviesComponent({Key? key, required this.movieType, this.movieId}) : super(key: key);
+  const SeeAllMoviesComponent({super.key, required this.movieType, this.movieId});
   final MovieType movieType;
   final int? movieId;
+
   @override
   State<SeeAllMoviesComponent> createState() => _SeeAllMoviesComponentState();
 }
@@ -21,7 +22,6 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
     with AutoRouteAwareStateMixin<SeeAllMoviesComponent> {
   late int _tappedMovieId;
   late ScrollController _scrollController;
-
 
   @override
   void didPopNext() {
@@ -33,26 +33,22 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
+    final seeAllBloc =  context.read<SeeAllMoviesBloc>();
     if (currentScroll >= maxScroll * 0.9) {
       switch (widget.movieType) {
         case (MovieType.newMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
+          seeAllBloc.add(GetAllNewMoviesEvent());
         case (MovieType.popularMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
+          seeAllBloc.add(GetAllPopularMoviesEvent());
         case (MovieType.topRatedMovies):
-          context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
+          seeAllBloc.add(GetAllTopRatedMoviesEvent());
         case (MovieType.recommendedMovies):
-          context
-              .read<SeeAllMoviesBloc>()
-              .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+          seeAllBloc.add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
         case (MovieType.similarMovies):
-          context
-              .read<SeeAllMoviesBloc>()
-              .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
+          seeAllBloc.add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
       }
     }
   }
-
 
   @override
   void initState() {
@@ -72,6 +68,7 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
+            final movie = state.seeAllMovies[index];
             return index >= state.seeAllMovies.length
                 ? Center(
                     child: Lottie.asset(AssetsManager.neonLoading, width: 200),
@@ -82,40 +79,31 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
                       right: 24,
                       top: 14,
                     ).r,
-                    child: BlocBuilder<SeeAllMoviesBloc, SeeAllMoviesState>(
-                      buildWhen: (previous, current) =>
-                          previous.seeAllMovies[index].accountStates !=
-                          current.seeAllMovies[index].accountStates,
-                      builder: (context, state) {
-                        return ListCardWithSave(
-                          onTap: () {
-                            _tappedMovieId = state.seeAllMovies[index].id;
-                            context.pushRoute(
-                              MovieDetailsRoute(
-                                movieId: state.seeAllMovies[index].id,
+                    child: ListCardWithSave(
+                      onTap: () {
+                        _tappedMovieId = movie.id;
+                        context.pushRoute(
+                          MovieDetailsRoute(
+                            movieId: movie.id,
+                          ),
+                        );
+                      },
+                      title: movie.title,
+                      errorImagePath: AssetsManager.errorPoster,
+                      posterPath: movie.posterPath,
+                      vote: movie.voteAverage,
+                      voteCount: movie.movieVoteCount,
+                      genres: movie.genres,
+                      releaseYear: movie.releaseDate,
+                      language: movie.language,
+                      isInWatchList: movie.accountStates.inWatchList,
+                      onSaved: () {
+                        context.read<SeeAllMoviesBloc>().add(
+                              AddOrRemoveFromWatchListEvent(
+                                isInWatchList: !movie.accountStates.inWatchList,
+                                movieId: movie.id,
                               ),
                             );
-                          },
-                          title: state.seeAllMovies[index].title,
-                          errorImagePath: AssetsManager.errorPoster,
-                          posterPath: state.seeAllMovies[index].posterPath,
-                          vote: state.seeAllMovies[index].voteAverage,
-                          voteCount: state.seeAllMovies[index].movieVoteCount,
-                          genres: state.seeAllMovies[index].genres,
-                          releaseYear: state.seeAllMovies[index].releaseDate,
-                          language: state.seeAllMovies[index].language,
-                          isInWatchList: state
-                              .seeAllMovies[index].accountStates.inWatchList,
-                          onSaved: () {
-                            context.read<SeeAllMoviesBloc>().add(
-                                  AddOrRemoveFromWatchListEvent(
-                                    isInWatchList: !state.seeAllMovies[index]
-                                        .accountStates.inWatchList,
-                                    movieId: state.seeAllMovies[index].id,
-                                  ),
-                                );
-                          },
-                        );
                       },
                     ),
                   );
@@ -124,10 +112,12 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent>
       },
     );
   }
+
   @override
   void dispose() {
-    _scrollController..removeListener(_onScroll)..dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
-
 }

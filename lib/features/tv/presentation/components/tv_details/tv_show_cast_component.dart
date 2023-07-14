@@ -37,37 +37,35 @@ class TvShowCastComponent extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.tvShowDetails.cast.length,
                     itemBuilder: (context, index) {
+                      final cast = state.tvShowDetails.cast[index];
                       return Row(
                         children: [
                           SizedBox(width: 20.w),
                           CastCard(
                             onTap: () {
-                              if (context.tabsRouter.activeIndex == 2 ||
-                                  context.tabsRouter.activeIndex == 3) {
+                              final activeIndex = context.tabsRouter.activeIndex;
+                              if (activeIndex == 2 || activeIndex == 3) {
                                 context.pushRoute(
                                   PersonRoute(
-                                      personId: state
-                                          .tvShowDetails.cast[index].actorId,
-                                      personScreenType:
-                                          PersonScreenType.withAllContent),
+                                    personId: cast.actorId,
+                                    personScreenType:
+                                        PersonScreenType.withAllContent,
+                                  ),
                                 );
                               } else {
                                 context.pushRoute(
                                   PersonRoute(
-                                      personId: state
-                                          .tvShowDetails.cast[index].actorId,
-                                      personScreenType:
-                                          PersonScreenType.withTvShows),
+                                    personId: cast.actorId,
+                                    personScreenType:
+                                        PersonScreenType.withTvShows,
+                                  ),
                                 );
                               }
                             },
                             errorImagePath: AssetsManager.neonAvatar,
-                            actorPicPath:
-                                state.tvShowDetails.cast[index].actorPicPath,
-                            actorName:
-                                state.tvShowDetails.cast[index].actorName,
-                            actorCharacterName:
-                                state.tvShowDetails.cast[index].movieCharacter,
+                            actorPicPath:cast.actorPicPath,
+                            actorName:cast.actorName,
+                            actorCharacterName:cast.movieCharacter,
                           ),
                         ],
                       );
@@ -93,7 +91,10 @@ class TvShowCastComponent extends StatelessWidget {
                 Center(
                   child: Text(
                     StringsManager.noTvShowCast,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: ColorsManager.primaryColor),
                   ),
                 ),
                 SizedBox(height: 20.h),

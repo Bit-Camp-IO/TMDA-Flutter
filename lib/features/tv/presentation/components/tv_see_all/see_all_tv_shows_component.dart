@@ -10,7 +10,8 @@ import 'package:tmda/core/widgets/list_card_with_save.dart';
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
 
 class SeeAllTvShowsComponent extends StatefulWidget {
-  const SeeAllTvShowsComponent({super.key, this.tvShowId, required this.tvShowType});
+  const SeeAllTvShowsComponent(
+      {super.key, this.tvShowId, required this.tvShowType});
 
   final int? tvShowId;
   final TvShowType tvShowType;
@@ -53,8 +54,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
         case (TvShowType.similarTvShows):
           seeAllBloc.add(GetAllSimilarTvShowsEvent(tvShowId: widget.tvShowId!));
         case (TvShowType.recommendedTvShows):
-          seeAllBloc
-              .add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
+          seeAllBloc.add(GetAllRecommendedTvShowsEvent(tvShowId: widget.tvShowId!));
       }
     }
   }
@@ -62,6 +62,8 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SeeAllTvShowsBloc, SeeAllTvShowsState>(
+      buildWhen: (previous, current) =>
+          previous.seeAllTvShows != current.seeAllTvShows,
       builder: (context, state) {
         return ListView.builder(
           controller: _scrollController,
@@ -70,6 +72,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
+            final tvShow = state.seeAllTvShows[index];
             return index >= state.seeAllTvShows.length
                 ? Center(
                     child: Lottie.asset(AssetsManager.neonLoading, width: 200),
@@ -83,29 +86,28 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
                     ).r,
                     child: ListCardWithSave(
                       onTap: () {
-                        _tappedTvShowId = state.seeAllTvShows[index].id;
+                        _tappedTvShowId = tvShow.id;
                         context.pushRoute(
                           TvDetailsRoute(
-                            tvShowId: state.seeAllTvShows[index].id,
+                            tvShowId: tvShow.id,
                           ),
                         );
                       },
-                      title: state.seeAllTvShows[index].title,
+                      title: tvShow.title,
                       errorImagePath: AssetsManager.errorPoster,
-                      posterPath: state.seeAllTvShows[index].posterPath,
-                      vote: state.seeAllTvShows[index].voteAverage,
-                      voteCount: state.seeAllTvShows[index].voteCount,
-                      genres: state.seeAllTvShows[index].genres,
-                      releaseYear: state.seeAllTvShows[index].firstAirDate,
-                      language: state.seeAllTvShows[index].language,
-                      isInWatchList: state
-                          .seeAllTvShows[index].accountStates.isInWatchList,
+                      posterPath: tvShow.posterPath,
+                      vote: tvShow.voteAverage,
+                      voteCount: tvShow.voteCount,
+                      genres: tvShow.genres,
+                      releaseYear: tvShow.firstAirDate,
+                      language: tvShow.language,
+                      isInWatchList: tvShow.accountStates.isInWatchList,
                       onSaved: () {
                         context.read<SeeAllTvShowsBloc>().add(
                               AddOrRemoveFromWatchListEvent(
-                                isInWatchList: !state.seeAllTvShows[index]
-                                    .accountStates.isInWatchList,
-                                tvShowId: state.seeAllTvShows[index].id,
+                                isInWatchList:
+                                    !tvShow.accountStates.isInWatchList,
+                                tvShowId: tvShow.id,
                               ),
                             );
                       },
@@ -116,9 +118,12 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>
       },
     );
   }
+
   @override
   void dispose() {
-    _scrollController..removeListener(_onScroll)..dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
 }

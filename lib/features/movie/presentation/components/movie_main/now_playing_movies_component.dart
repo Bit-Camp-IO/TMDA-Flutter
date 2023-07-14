@@ -5,7 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 import 'package:tmda/core/widgets/carousel_card.dart';
@@ -27,18 +27,17 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                   child: CarouselSlider.builder(
                     itemCount: 4,
                     itemBuilder: (context, index, realIndex) {
+                      final nowPlayingMovie = state.nowPlayingMovies[index];
                       if (state.nowPlayingMovies.isNotEmpty) {
                         return CarouselCard(
                           onTap: () {
-                            context.pushRoute(MovieDetailsRoute(movieId: state.nowPlayingMovies[index].id));
+                            context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
                           },
-                          imagePath: ApiConstants.imageUrl(
-                            state.nowPlayingMovies[index].posterPath,
-                          ),
-                          rating: state.nowPlayingMovies[index].voteAverage,
-                          title: state.nowPlayingMovies[index].title,
-                          voteCount:
-                              state.nowPlayingMovies[index].movieVoteCount,
+                          imagePath: nowPlayingMovie.posterPath,
+                          errorImagePath: AssetsManager.errorPoster,
+                          rating: nowPlayingMovie.voteAverage,
+                          title: nowPlayingMovie.title,
+                          voteCount: nowPlayingMovie.movieVoteCount,
                         );
                       } else {
                         return const SizedBox();
@@ -49,8 +48,7 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                       viewportFraction: 1,
                       height: 410.h,
                       onPageChanged: (index, reason) {
-                        BlocProvider.of<MoviesBloc>(context).add(
-                          ChangeIndicatorIndexEvent(index),
+                        context.read<MoviesBloc>().add(ChangeIndicatorIndexEvent(index),
                         );
                       },
                     ),

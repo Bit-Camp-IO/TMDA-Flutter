@@ -52,6 +52,7 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
             controller: _scrollController,
             itemCount: state.movieSearchList.length + 1,
             itemBuilder: (context, index) {
+              final movie = state.movieSearchList[index];
               if (index >= state.movieSearchList.length) {
                 if (state.movieSearchList.length < 20) {
                   return const SizedBox();
@@ -70,21 +71,23 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                       bottom: 14,
                     ).r,
                     child: ListCard(
-                      title: state.movieSearchList[index].title,
-                      posterPath: state.movieSearchList[index].posterPath,
-                      vote: state.movieSearchList[index].voteAverage,
-                      voteCount: state.movieSearchList[index].voteCount,
+                      title: movie.title,
+                      posterPath: movie.posterPath,
+                      errorImagePath: AssetsManager.errorPoster,
+                      vote: movie.voteAverage,
+                      voteCount: movie.voteCount,
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         context.pushRoute(
                           MovieDetailsRoute(
-                              movieId: state.movieSearchList[index].id),
+                              movieId: movie.id,
+                          ),
                         );
                       },
-                      genres: state.movieSearchList[index].genres,
-                      releaseYear: state.movieSearchList[index].releaseDate,
-                      language: state.movieSearchList[index].language,
-                      errorImagePath: AssetsManager.errorPoster,
+                      genres: movie.genres,
+                      releaseYear: movie.releaseDate,
+                      language: movie.language,
+
                     ),
                   ),
                 );

@@ -10,6 +10,7 @@ import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_detai
 
 class TvShowReviewsComponent extends StatelessWidget {
   const TvShowReviewsComponent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
@@ -30,15 +31,13 @@ class TvShowReviewsComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.tvShowDetails.reviews.length,
                     itemBuilder: (context, index) {
+                      final review = state.tvShowDetails.reviews[index];
                       return Padding(
                         padding: const EdgeInsets.only(left: 16.0).r,
                         child: ReviewCard(
-                          reviewRating: state
-                              .tvShowDetails.reviews[index].reviewOwner.rating,
-                          reviewAuthorName:
-                              state.tvShowDetails.reviews[index].authorName,
-                          reviewContent:
-                              state.tvShowDetails.reviews[index].reviewContent,
+                          reviewRating: review.reviewOwner.rating,
+                          reviewAuthorName: review.authorName,
+                          reviewContent: review.reviewContent,
                         ),
                       );
                     },
@@ -57,8 +56,13 @@ class TvShowReviewsComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
-                  child: Text(StringsManager.noReviews,
-                      style: Theme.of(context).textTheme.bodyLarge),
+                  child: Text(
+                    StringsManager.noReviews,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: ColorsManager.primaryColor),
+                  ),
                 ),
                 SizedBox(height: 20.h),
               ],

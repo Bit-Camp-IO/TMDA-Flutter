@@ -22,9 +22,11 @@ class TvShowWatchListComponent extends StatelessWidget {
     return Animate(
       effects: [FadeEffect(duration: 400.ms)],
       child: BlocBuilder<AccountBloc, AccountState>(
-        buildWhen: (previous, current) => previous.watchListTvShows != current.watchListTvShows,
+        buildWhen: (previous, current) =>
+            previous.watchListTvShows != current.watchListTvShows,
         builder: (context, state) {
-          if(state.watchListTvShows.isEmpty && state.tvShowsWatchListState == BlocState.success){
+          if (state.watchListTvShows.isEmpty &&
+              state.tvShowsWatchListState == BlocState.success) {
             return Animate(
               effects: [FadeEffect(duration: 150.ms)],
               child: Column(
@@ -50,7 +52,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                 ],
               ),
             );
-          }else{
+          } else {
             return Animate(
               effects: [FadeEffect(duration: 150.ms)],
               child: Column(
@@ -60,7 +62,9 @@ class TvShowWatchListComponent extends StatelessWidget {
                     color: ColorsManager.primaryColor,
                     textButtonOnPressed: () {
                       context.pushRoute(
-                        AccountSeeAllRoute(watchListType: WatchListType.tvShowWatchList),
+                        AccountSeeAllRoute(
+                            watchListType: WatchListType.tvShowWatchList,
+                        ),
                       );
                     },
                   ),
@@ -72,6 +76,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                         itemCount: state.watchListTvShows.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          final tvShow = state.watchListTvShows[index];
                           return Row(
                             children: [
                               SizedBox(width: 16.w),
@@ -79,15 +84,19 @@ class TvShowWatchListComponent extends StatelessWidget {
                                 width: 140,
                                 height: 220,
                                 errorImagePath: AssetsManager.errorPoster,
-                                imagePath: state.watchListTvShows[index].posterPath,
-                                title: state.watchListTvShows[index].title,
-                                releaseYear: state.watchListTvShows[index].firstAirDate,
-                                rating: state.watchListTvShows[index].voteAverage,
+                                imagePath: tvShow.posterPath,
+                                title: tvShow.title,
+                                releaseYear: tvShow.firstAirDate,
+                                rating: tvShow.voteAverage,
+                                genres: tvShow.genres,
+                                language: tvShow.language,
                                 onTap: () {
-                                  context.pushRoute(TvDetailsRoute(tvShowId: state.watchListTvShows[index].id));
+                                  context.pushRoute(
+                                    TvDetailsRoute(
+                                      tvShowId: tvShow.id,
+                                    ),
+                                  );
                                 },
-                                genres: state.watchListTvShows[index].genres,
-                                language: state.watchListTvShows[index].language,
                               ),
                             ],
                           );

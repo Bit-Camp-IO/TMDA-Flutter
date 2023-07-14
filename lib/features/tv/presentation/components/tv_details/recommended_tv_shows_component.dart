@@ -46,22 +46,19 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.tvShowDetails.recommendedTvShows.length,
                     itemBuilder: (context, index) {
+                      final recommendedTvShow = state.tvShowDetails.recommendedTvShows[index];
                       return Row(
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
                             errorImagePath: AssetsManager.errorPoster,
-                            imagePath: state.tvShowDetails
-                                .recommendedTvShows[index].posterPath,
-                            title: state
-                                .tvShowDetails.recommendedTvShows[index].title,
-                            rating: state.tvShowDetails
-                                .recommendedTvShows[index].voteAverage,
+                            imagePath: recommendedTvShow.posterPath,
+                            title: recommendedTvShow.title,
+                            rating: recommendedTvShow.voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state.tvShowDetails
-                                      .recommendedTvShows[index].id,
+                                  tvShowId: recommendedTvShow.id,
                                 ),
                               );
                             },
@@ -82,16 +79,19 @@ class RecommendedTvShowsComponent extends StatelessWidget {
             child: Column(
               children: [
                 const SectionWidget(
-                  title: StringsManager.detailsSimilarSectionTitle,
+                  title: StringsManager.detailsRecommendedSectionTitle,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
                   child: Text(
                     StringsManager.noRecommendedTvShows,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: ColorsManager.primaryColor
+                    ),
                   ),
                 ),
                 SizedBox(height: 20.h),
+                const SectionDivider(),
               ],
             ),
           );

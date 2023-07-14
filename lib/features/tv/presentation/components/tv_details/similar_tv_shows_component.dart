@@ -46,22 +46,19 @@ class SimilarTvShowsComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.tvShowDetails.similarTvShows.length,
                     itemBuilder: (context, index) {
+                      final similarTvShow = state.tvShowDetails.similarTvShows[index];
                       return Row(
                         children: [
                           SizedBox(width: 20.w),
                           DetailsPosterCard(
                             errorImagePath: AssetsManager.errorPoster,
-                            imagePath: state
-                                .tvShowDetails.similarTvShows[index].posterPath,
-                            title:
-                                state.tvShowDetails.similarTvShows[index].title,
-                            rating: state.tvShowDetails.similarTvShows[index]
-                                .voteAverage,
+                            imagePath: similarTvShow.posterPath,
+                            title: similarTvShow.title,
+                            rating: similarTvShow.voteAverage,
                             onTap: () {
                               context.pushRoute(
                                 TvDetailsRoute(
-                                  tvShowId: state
-                                      .tvShowDetails.similarTvShows[index].id,
+                                  tvShowId: similarTvShow.id,
                                 ),
                               );
                             },
@@ -87,7 +84,6 @@ class SimilarTvShowsComponent extends StatelessWidget {
                 ),
                 Center(
                   child: SizedBox(
-                    height: 200.h,
                     child: Text(
                       StringsManager.noSimilarTvShows,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(

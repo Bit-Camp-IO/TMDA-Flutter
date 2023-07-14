@@ -73,6 +73,7 @@ class MoviesWatchListComponent extends StatelessWidget {
                       itemCount: state.watchListMovies.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
+                        final movie = state.watchListMovies[index];
                         return Row(
                           children: [
                             SizedBox(width: 16.w),
@@ -80,16 +81,19 @@ class MoviesWatchListComponent extends StatelessWidget {
                               width: 140,
                               height: 220,
                               errorImagePath: AssetsManager.errorPoster,
-                              imagePath: state.watchListMovies[index].posterPath,
-                              title: state.watchListMovies[index].title,
-                              releaseYear: state.watchListMovies[index].releaseDate,
-                              rating: state.watchListMovies[index].voteAverage,
+                              imagePath: movie.posterPath,
+                              title: movie.title,
+                              releaseYear: movie.releaseDate,
+                              rating: movie.voteAverage,
+                              genres: movie.genres,
+                              language: movie.language,
                               onTap: () {
-                                context.pushRoute(MovieDetailsRoute(
-                                    movieId: state.watchListMovies[index].id));
+                                context.pushRoute(
+                                  MovieDetailsRoute(
+                                    movieId: movie.id,
+                                  ),
+                                );
                               },
-                              genres: state.watchListMovies[index].genres,
-                              language: state.watchListMovies[index].language,
                             ),
                           ],
                         );

@@ -54,6 +54,7 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
             controller: _scrollController,
             itemCount: state.tvSearchList.length + 1,
             itemBuilder: (context, index) {
+              final tvShow = state.tvSearchList[index];
               if (index >= state.tvSearchList.length) {
                 if (state.tvSearchList.length < 20) {
                   return const SizedBox();
@@ -72,22 +73,22 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
                       bottom: 14,
                     ).r,
                     child: ListCard(
-                      title: state.tvSearchList[index].title,
-                      posterPath: state.tvSearchList[index].posterPath,
-                      vote: state.tvSearchList[index].voteAverage,
-                      voteCount: state.tvSearchList[index].voteCount,
+                      title: tvShow.title,
+                      posterPath: tvShow.posterPath,
+                      errorImagePath: AssetsManager.errorPoster,
+                      vote: tvShow.voteAverage,
+                      voteCount: tvShow.voteCount,
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         context.pushRoute(
                           TvDetailsRoute(
-                            tvShowId: state.tvSearchList[index].id,
+                            tvShowId: tvShow.id,
                           ),
                         );
                       },
-                      genres: state.tvSearchList[index].genres,
-                      releaseYear: state.tvSearchList[index].firstAirDate,
-                      language: state.tvSearchList[index].language,
-                      errorImagePath: AssetsManager.errorPoster,
+                      genres: tvShow.genres,
+                      releaseYear: tvShow.firstAirDate,
+                      language: tvShow.language,
                     ),
                   ),
                 );

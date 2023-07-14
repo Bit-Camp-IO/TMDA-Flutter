@@ -152,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen>
                         Tab(text: StringsManager.searchPeopleTab)
                       ],
                       onTap: (value) {
-                        BlocProvider.of<SearchBloc>(context).add(ChangeSearchTabEvent(_tabController.index));
+                        context.read<SearchBloc>().add(ChangeSearchTabEvent(_tabController.index));
                         _tabController.animateTo(_tabController.index);
                       },
                     ),

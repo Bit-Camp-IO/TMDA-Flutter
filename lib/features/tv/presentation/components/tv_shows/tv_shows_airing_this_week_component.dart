@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
-import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/carousel_card.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
 
@@ -20,17 +20,17 @@ class TvShowsAiringThisWeekComponent extends StatelessWidget {
             return CarouselSlider.builder(
               itemCount: state.airingThisWeekTvShows.length,
               itemBuilder: (context, index, realIndex) {
+                final airingThisWeekTvShow = state.airingThisWeekTvShows[index];
                 if (state.airingThisWeekTvShows.isNotEmpty) {
                   return CarouselCard(
                     onTap: () {
-                      context.pushRoute(TvDetailsRoute(tvShowId: state.airingThisWeekTvShows[index].id));
+                      context.pushRoute(TvDetailsRoute(tvShowId: airingThisWeekTvShow.id));
                     },
-                    imagePath: ApiConstants.imageUrl(
-                      state.airingThisWeekTvShows[index].posterPath,
-                    ),
-                    rating: state.airingThisWeekTvShows[index].voteAverage,
-                    title: state.airingThisWeekTvShows[index].title,
-                    voteCount: state.airingThisWeekTvShows[index].voteCount,
+                    imagePath: airingThisWeekTvShow.posterPath,
+                    errorImagePath: AssetsManager.errorPoster,
+                    rating: airingThisWeekTvShow.voteAverage,
+                    title: airingThisWeekTvShow.title,
+                    voteCount: airingThisWeekTvShow.voteCount,
                   );
                 } else {
                   return const SizedBox();

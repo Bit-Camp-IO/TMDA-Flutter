@@ -35,20 +35,18 @@ class SeeAllMoviesScreen extends StatefulWidget with AutoRouteWrapper{
 class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
   @override
   void initState() {
+    final seeAllBloc =  context.read<SeeAllMoviesBloc>();
     switch (widget.movieType) {
       case (MovieType.newMovies):
-        context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
+        seeAllBloc.add(GetAllNewMoviesEvent());
       case (MovieType.popularMovies):
-        context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
+        seeAllBloc.add(GetAllPopularMoviesEvent());
       case (MovieType.topRatedMovies):
-        context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
+        seeAllBloc.add(GetAllTopRatedMoviesEvent());
       case (MovieType.recommendedMovies):
-        context.read<SeeAllMoviesBloc>()
-            .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+        seeAllBloc.add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
       case (MovieType.similarMovies):
-        context
-            .read<SeeAllMoviesBloc>()
-            .add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
+        seeAllBloc.add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
     }
     super.initState();
   }
@@ -89,17 +87,18 @@ class _SeeAllMoviesScreenState extends State<SeeAllMoviesScreen> {
                 case BlocState.failure:
                   return NoConnection(
                     onTap: () {
+                      final seeAllBloc =  context.read<SeeAllMoviesBloc>();
                       switch (widget.movieType) {
                         case (MovieType.newMovies):
-                          context.read<SeeAllMoviesBloc>().add(GetAllNewMoviesEvent());
+                          seeAllBloc.add(GetAllNewMoviesEvent());
                         case (MovieType.popularMovies):
-                          context.read<SeeAllMoviesBloc>().add(GetAllPopularMoviesEvent());
+                          seeAllBloc.add(GetAllPopularMoviesEvent());
                         case (MovieType.topRatedMovies):
-                          context.read<SeeAllMoviesBloc>().add(GetAllTopRatedMoviesEvent());
+                          seeAllBloc.add(GetAllTopRatedMoviesEvent());
                         case (MovieType.recommendedMovies):
-                          context.read<SeeAllMoviesBloc>().add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+                          seeAllBloc.add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
                         case (MovieType.similarMovies):
-                          context.read<SeeAllMoviesBloc>().add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
+                          seeAllBloc.add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
                       }
                     },
                   );

@@ -65,7 +65,7 @@ class SelectionScreen extends StatelessWidget {
                     width: 180,
                     height: 48,
                     onTap: () async {
-                      await BlocProvider.of<AuthCubit>(context).userRegister();
+                      await context.read<AuthCubit>().userRegister();
                     },
                     child: Text(
                       StringsManager.register,

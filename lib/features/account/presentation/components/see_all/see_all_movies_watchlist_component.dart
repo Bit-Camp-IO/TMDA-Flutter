@@ -74,6 +74,7 @@ class _SeeAllMoviesWatchListComponentState
             scrollDirection: Axis.vertical,
             padding: const EdgeInsets.symmetric(vertical: 100).r,
             itemBuilder: (context, index) {
+              final movie = state.moviesWatchList[index];
               return Padding(
                 padding: const EdgeInsets.only(
                   left: 24,
@@ -82,26 +83,31 @@ class _SeeAllMoviesWatchListComponentState
                   bottom: 16.0,
                 ).r,
                 child: Dismissible(
-                  key: ObjectKey(state.moviesWatchList[index]),
+                  key: ObjectKey(movie.id),
                   resizeDuration: const Duration(milliseconds: 200),
-                  onDismissed: (direction) => context
-                      .read<AccountSeeAllBloc>()
-                      .add(RemoveMovieFromWatchListEvent(
-                          movieId: state.moviesWatchList[index].id)),
+                  onDismissed: (direction) =>
+                      context.read<AccountSeeAllBloc>().add(
+                            RemoveMovieFromWatchListEvent(
+                              movieId: movie.id,
+                            ),
+                          ),
                   child: ListCard(
-                    title: state.moviesWatchList[index].title,
+                    title: movie.title,
+                    posterPath: movie.posterPath,
                     errorImagePath: AssetsManager.errorPoster,
-                    posterPath: state.moviesWatchList[index].posterPath,
-                    vote: state.moviesWatchList[index].voteAverage,
-                    voteCount: state.moviesWatchList[index].voteCount,
+                    vote: movie.voteAverage,
+                    voteCount: movie.voteCount,
+                    genres: movie.genres,
+                    releaseYear: movie.releaseDate,
+                    language: movie.language,
                     onTap: () {
-                      tappedMovieId = state.moviesWatchList[index].id;
-                      context.pushRoute(MovieDetailsRoute(
-                          movieId: state.moviesWatchList[index].id));
+                      tappedMovieId = movie.id;
+                      context.pushRoute(
+                        MovieDetailsRoute(
+                          movieId: movie.id,
+                        ),
+                      );
                     },
-                    genres: state.moviesWatchList[index].genres,
-                    releaseYear: state.moviesWatchList[index].releaseDate,
-                    language: state.moviesWatchList[index].language,
                   ),
                 ),
               );

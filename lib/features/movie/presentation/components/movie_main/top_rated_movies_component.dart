@@ -41,6 +41,7 @@ class TopRatedMoviesComponent extends StatelessWidget {
                   itemCount: state.topRatedMovies.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    final topRatedMovie = state.topRatedMovies[index];
                     return Row(
                       children: [
                         SizedBox(width: 16.w),
@@ -48,17 +49,17 @@ class TopRatedMoviesComponent extends StatelessWidget {
                           onTap: () {
                             context.pushRoute(
                               MovieDetailsRoute(
-                                movieId: state.topRatedMovies[index].id,
+                                movieId: topRatedMovie.id,
                               ),
                             );
                           },
-                          title: state.topRatedMovies[index].title,
+                          title: topRatedMovie.title,
                           errorImagePath: AssetsManager.errorPoster,
-                          imagePath: state.topRatedMovies[index].posterPath,
-                          releaseYear: state.topRatedMovies[index].releaseDate,
-                          rating: state.topRatedMovies[index].voteAverage,
-                          genres: state.topRatedMovies[index].genres,
-                          language: state.topRatedMovies[index].language,
+                          imagePath: topRatedMovie.posterPath,
+                          releaseYear: topRatedMovie.releaseDate,
+                          rating: topRatedMovie.voteAverage,
+                          genres: topRatedMovie.genres,
+                          language: topRatedMovie.language,
                         ),
                       ],
                     );

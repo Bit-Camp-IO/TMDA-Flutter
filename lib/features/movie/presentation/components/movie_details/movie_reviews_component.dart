@@ -30,15 +30,13 @@ class MovieReviewsComponent extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: state.movieDetails.reviews.length,
                     itemBuilder: (context, index) {
+                      final review = state.movieDetails.reviews[index];
                       return Padding(
                         padding: const EdgeInsets.only(left: 16.0).r,
                         child: ReviewCard(
-                          reviewRating: state.movieDetails.reviews[index]
-                              .movieReviewOwner.rating,
-                          reviewAuthorName: state.movieDetails
-                              .reviews[index].reviewAuthorName,
-                          reviewContent: state
-                              .movieDetails.reviews[index].reviewContent,
+                          reviewRating: review.movieReviewOwner.rating,
+                          reviewAuthorName: review.reviewAuthorName,
+                          reviewContent: review.reviewContent,
                         ),
                       );
                     },

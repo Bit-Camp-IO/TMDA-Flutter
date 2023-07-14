@@ -38,6 +38,7 @@ class NewMoviesComponent extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
+                  final newMovie = state.newMovies[index];
                   return Row(
                     children: [
                       SizedBox(width: 16.w),
@@ -45,17 +46,17 @@ class NewMoviesComponent extends StatelessWidget {
                         onTap: () {
                           context.pushRoute(
                             MovieDetailsRoute(
-                              movieId: state.newMovies[index].id,
+                              movieId: newMovie.id,
                             ),
                           );
                         },
-                        title: state.newMovies[index].title,
+                        title: newMovie.title,
                         errorImagePath: AssetsManager.errorPoster,
-                        imagePath: state.newMovies[index].posterPath,
-                        releaseYear: state.newMovies[index].releaseDate,
-                        rating: state.newMovies[index].voteAverage,
-                        genres: state.newMovies[index].genres,
-                        language: state.newMovies[index].language,
+                        imagePath: newMovie.posterPath,
+                        releaseYear: newMovie.releaseDate,
+                        rating: newMovie.voteAverage,
+                        genres: newMovie.genres,
+                        language: newMovie.language,
                       ),
                     ],
                   );

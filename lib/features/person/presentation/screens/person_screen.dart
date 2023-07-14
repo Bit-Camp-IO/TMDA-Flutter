@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -17,7 +18,7 @@ import 'package:tmda/features/person/presentation/cubit/person_cubit.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class PersonScreen extends StatefulWidget with AutoRouteWrapper {
+class PersonScreen extends StatelessWidget with AutoRouteWrapper {
   final int personId;
   final PersonScreenType personScreenType;
 
@@ -30,19 +31,6 @@ class PersonScreen extends StatefulWidget with AutoRouteWrapper {
       create: (context) => getIt<PersonCubit>()..getPersonDetails(personId),
       child: this,
     );
-  }
-
-  @override
-  State<PersonScreen> createState() => _PersonScreenState();
-}
-
-class _PersonScreenState extends State<PersonScreen> {
-  late ScrollController _scrollController;
-
-  @override
-  initState() {
-    super.initState();
-    _scrollController = ScrollController();
   }
 
   @override
@@ -79,7 +67,6 @@ class _PersonScreenState extends State<PersonScreen> {
                     );
                   case BlocState.success:
                     return ListView(
-                      controller: _scrollController,
                       padding: EdgeInsets.zero,
                       children: [
                         const PersonOverviewComponent(),
@@ -89,10 +76,10 @@ class _PersonScreenState extends State<PersonScreen> {
                         ),
                         Builder(
                           builder: (context) {
-                            if (widget.personScreenType ==
+                            if (personScreenType ==
                                 PersonScreenType.withMovies) {
                               return const PersonMoviesComponent();
-                            } else if (widget.personScreenType ==
+                            } else if (personScreenType ==
                                 PersonScreenType.withTvShows) {
                               return const PersonTvShowsComponent();
                             } else {
@@ -117,7 +104,7 @@ class _PersonScreenState extends State<PersonScreen> {
                       onTap: () {
                         context
                             .read<PersonCubit>()
-                            .getPersonDetails(widget.personId);
+                            .getPersonDetails(personId);
                       },
                     );
                 }
@@ -137,11 +124,5 @@ class _PersonScreenState extends State<PersonScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
   }
 }

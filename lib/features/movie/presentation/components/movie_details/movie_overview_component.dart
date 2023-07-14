@@ -93,10 +93,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                           child: NeonPlayButton(
                             onTap: () {
                               if (state.movieDetails.video.key.isNotEmpty) {
-                                BlocProvider.of<MovieDetailsBloc>(
-                                  context,
-                                  listen: false,
-                                ).add(
+                                context.read<MovieDetailsBloc>().add(
                                   PlayMovieTrailerEvent(
                                     state.movieDetails.video.key,
                                   ),
@@ -104,9 +101,10 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     errorSnackBar(
-                                        errorMessage:
-                                            StringsManager.movieNoVideosMessage,
-                                        context: context));
+                                        errorMessage: StringsManager.movieNoVideosMessage,
+                                        context: context,
+                                    ),
+                                );
                               }
                             },
                           ),

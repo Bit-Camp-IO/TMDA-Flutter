@@ -37,38 +37,33 @@ class MovieCastComponent extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.movieDetails.cast.length,
                     itemBuilder: (context, index) {
+                      final cast =  state.movieDetails.cast[index];
                       return Row(
                         children: [
                           SizedBox(width: 16.w),
                           CastCard(
                             onTap: () {
-                              if (context.tabsRouter.activeIndex == 2 ||
-                                  context.tabsRouter.activeIndex == 3) {
+                              final activeIndex = context.tabsRouter.activeIndex;
+                              if (activeIndex == 2 || activeIndex == 3) {
                                 context.pushRoute(
                                   PersonRoute(
-                                    personId:
-                                        state.movieDetails.cast[index].actorId,
-                                    personScreenType:
-                                        PersonScreenType.withAllContent,
+                                    personId: cast.actorId,
+                                    personScreenType: PersonScreenType.withAllContent,
                                   ),
                                 );
                               } else {
                                 context.pushRoute(
                                   PersonRoute(
-                                    personId:
-                                        state.movieDetails.cast[index].actorId,
-                                    personScreenType:
-                                        PersonScreenType.withMovies,
+                                    personId: cast.actorId,
+                                    personScreenType: PersonScreenType.withMovies,
                                   ),
                                 );
                               }
                             },
                             errorImagePath: AssetsManager.neonAvatar,
-                            actorPicPath:
-                                state.movieDetails.cast[index].actorPicPath,
-                            actorName: state.movieDetails.cast[index].actorName,
-                            actorCharacterName:
-                                state.movieDetails.cast[index].movieCharacter,
+                            actorPicPath: cast.actorPicPath,
+                            actorName: cast.actorName,
+                            actorCharacterName: cast.movieCharacter,
                           ),
                         ],
                       );

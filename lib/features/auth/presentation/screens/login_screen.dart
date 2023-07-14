@@ -101,8 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 16.h),
                       CustomObscuredTextField(
                         suffixIconOnTap: () {
-                          BlocProvider.of<LoginCubit>(context)
-                              .changeObscuredField(!isObscured);
+                        context.read<LoginCubit>().changeObscuredField(!isObscured);
                         },
                         obscureText: isObscured,
                         suffixIcon: isObscured
@@ -117,8 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          BlocProvider.of<LoginCubit>(context)
-                              .userForgetPassword();
+                          context.read<LoginCubit>().userForgetPassword();
                         },
                         child: Align(
                           alignment: Alignment.bottomRight,
@@ -138,8 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (loginData!.validate()) {
                             loginData.save();
                           }
-                          await BlocProvider.of<LoginCubit>(context)
-                              .userLogin(username, password);
+                          await context.read<LoginCubit>().userLogin(username, password);
                         },
                         child: isLoading
                             ? const Center(
@@ -167,8 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              BlocProvider.of<LoginCubit>(context)
-                                  .userRegister();
+                              context.read<LoginCubit>().userRegister();
                             },
                             child: Text(
                               StringsManager.registerNow,

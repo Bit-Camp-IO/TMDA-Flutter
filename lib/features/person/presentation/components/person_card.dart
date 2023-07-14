@@ -16,33 +16,39 @@ class PersonPictureCard extends StatelessWidget {
   final String errorImagePath;
   final String name;
   final double height;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-       Container(
+        ClipRRect(
+          borderRadius:
+              const BorderRadius.only(bottomRight: Radius.circular(60)).w,
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.darken,
+            ),
+            child: CachedNetworkImage(
+              imageUrl: imagePath.isNotEmpty
+                  ? ApiConstants.imageUrl(imagePath)
+                  : errorImagePath,
               width: MediaQuery.of(context).size.width,
               height: height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(
-                    imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
-                  ),
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3),
-                    BlendMode.darken,
-                  ),
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomRight: const Radius.circular(60).w,
-                ),
-              ),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
         Positioned(
           left: 20,
           bottom: 20,
-          child: Text(name, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 28.sp), overflow: TextOverflow.ellipsis,
+          child: Text(
+            name,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(fontSize: 28.sp),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

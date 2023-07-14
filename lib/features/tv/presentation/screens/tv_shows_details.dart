@@ -30,16 +30,11 @@ class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
 
 }
 
-class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
-  AutoRouteObserver? _observer;
+class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareStateMixin<TvDetailsScreen>{
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
     super.didChangeDependencies();
@@ -112,7 +107,6 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAware{
   @override
   void dispose() {
     super.dispose();
-    _observer!.unsubscribe(this);
     _tabsRouter?.removeListener(_tabListener);
   }
 }

@@ -34,17 +34,12 @@ class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
 }
 
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteAware{
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteAwareStateMixin<MovieDetailsScreen>{
   late ScrollController _scrollController;
-  AutoRouteObserver? _observer;
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
     super.didChangeDependencies();
@@ -139,7 +134,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    _observer!.unsubscribe(this);
     _tabsRouter?.removeListener(_tabListener);
   }
 }

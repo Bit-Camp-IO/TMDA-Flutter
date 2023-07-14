@@ -18,18 +18,13 @@ class SeeAllMoviesComponent extends StatefulWidget {
   State<SeeAllMoviesComponent> createState() => _SeeAllMoviesComponentState();
 }
 
-class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with AutoRouteAware{
+class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with AutoRouteAwareStateMixin<SeeAllMoviesComponent>{
   late int _tappedMovieId;
   late ScrollController _scrollController;
-  AutoRouteObserver? _observer;
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
     super.didChangeDependencies();
@@ -42,11 +37,9 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
 
   @override
   void didPopNext() {
-    if(mounted){
       context.read<SeeAllMoviesBloc>()
         ..add(CheckForMovieStatesEvent(_tappedMovieId))
         ..add(CheckForMoviesListStatesEvent());
-    }
   }
 
   void _onScroll() {
@@ -134,9 +127,8 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _tabsRouter?.removeListener(_tabListener);
+    _scrollController..removeListener(_onScroll)..dispose();
     super.dispose();
   }
 }

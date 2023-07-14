@@ -8,17 +8,20 @@ import 'package:tmda/features/tv/presentation/components/tv_details/episode_card
 
 class TvShowSeasons extends StatefulWidget {
   const TvShowSeasons({super.key});
+
   @override
   State<TvShowSeasons> createState() => _TvShowSeasonsState();
 }
 
 class _TvShowSeasonsState extends State<TvShowSeasons>
     with TickerProviderStateMixin {
-  late TabController tabController;
+  late TabController _tabController;
+
   @override
   void initState() {
-    tabController = TabController(
-      length: context.read<TvShowDetailsBloc>().state.tvShowDetails.seasons.length,
+   final int  seasonsLength = context.read<TvShowDetailsBloc>().state.tvShowDetails.seasons.length;
+    _tabController = TabController(
+      length: seasonsLength > 20 ? 20 : seasonsLength,
       initialIndex: 0,
       vsync: this,
     );
@@ -35,68 +38,75 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: TabBar(
-                controller: tabController,
+                controller: _tabController,
                 isScrollable: true,
-                labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(overflow: TextOverflow.ellipsis,),
+                labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      overflow: TextOverflow.ellipsis,
+                    ),
                 tabs: List.generate(
-                  tabController.length,
+                  _tabController.length,
                   (index) => Tab(
                     text: state.tvShowDetails.seasons[index].name,
-
                   ),
                 ),
                 onTap: (index) {
-                  BlocProvider.of<TvShowDetailsBloc>(context)
-                      .add(ChangeSeasonsTabsIndexEvent(tabController.index));
-                  tabController.animateTo(tabController.index);
+                  context.read<TvShowDetailsBloc>().add(ChangeSeasonsTabsIndexEvent(_tabController.index));
+                  _tabController.animateTo(_tabController.index);
                 },
               ),
             ),
             IndexedStack(
               index: state.seasonsTabIndex,
               children: List.generate(
-                tabController.length,
-                (index) => ListView.builder(
-                  shrinkWrap: true,
-                  itemCount:
-                      state.allSeasonsEpisodes[state.seasonsTabIndex].length,
-                  physics: const ClampingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    if (state.allSeasonsEpisodes[state.seasonsTabIndex].isNotEmpty) {
-                      return Animate(
-                        effects: [FadeEffect(duration: 250.ms)],
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: EpisodeCard(
-                            title: state.allSeasonsEpisodes[state.seasonsTabIndex][index].name,
-                            episodeNumber: state.allSeasonsEpisodes[state.seasonsTabIndex][index].number,
-                            posterPath: state.allSeasonsEpisodes[state.seasonsTabIndex][index].posterPath,
-                            vote: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteAverage,
-                            voteCount: state.allSeasonsEpisodes[state.seasonsTabIndex][index].voteCount,
-                            airDate: state.allSeasonsEpisodes[state.seasonsTabIndex][index].airDate,
-                            episodeDuration: state.allSeasonsEpisodes[state.seasonsTabIndex][index].runTime,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Animate(
-                        effects: [FadeEffect(duration: 250.ms)],
-                        child: Column(
-                          children: [
-                            const Center(
-                              child: Text(
-                                StringsManager.noEpisodes,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                _tabController.length,
+                (index) => Visibility(
+                  visible: index == state.seasonsTabIndex,
+                  maintainState: true,
+                  maintainAnimation: true,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount:
+                        state.allSeasonsEpisodes[state.seasonsTabIndex].length,
+                    physics: const ClampingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      final episodesList = state.allSeasonsEpisodes;
+                      final episode =
+                          state.allSeasonsEpisodes[state.seasonsTabIndex][index];
+                      if (episodesList.isNotEmpty) {
+                        return Animate(
+                          effects: [FadeEffect(duration: 250.ms)],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: EpisodeCard(
+                              title: episode.name,
+                              episodeNumber: episode.number,
+                              posterPath: episode.posterPath,
+                              vote: episode.voteAverage,
+                              voteCount: episode.voteCount,
+                              airDate: episode.airDate,
+                              episodeDuration: episode.runTime,
                             ),
-                            SizedBox(height: 20.h),
-                          ],
-                        ),
-                      );
-
-                    }
-                  },
+                          ),
+                        );
+                      } else {
+                        return Animate(
+                          effects: [FadeEffect(duration: 250.ms)],
+                          child: Column(
+                            children: [
+                              const Center(
+                                child: Text(
+                                  StringsManager.noEpisodes,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              SizedBox(height: 20.h),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ),
@@ -108,7 +118,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 }

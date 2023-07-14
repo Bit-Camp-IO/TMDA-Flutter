@@ -48,7 +48,8 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     on<PlayTvShowVideoEvent>(_playTvShowVideoEvent);
     on<ChangeBodyTabsIndexEvent>(_changeBodyTabsIndexEvent);
     on<ChangeSeasonsTabsIndexEvent>(_changeSeasonsTabsIndexEvent);
-    on<OnScrollAnimationEvent>(_onScrollAnimationEvent, transformer: droppable());
+    on<OnScrollAnimationEvent>(_onScrollAnimationEvent,
+        transformer: droppable());
   }
 
   Future<void> _getTvShowDetailsEvent(event, emit) async {
@@ -99,10 +100,14 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
 
   Future<void> _getSeasonEpisodesEvent(event, emit) async {
     final seasonsNumbers =
-        state.tvShowDetails.seasons.map((season) => season.number).toList();
+        state.tvShowDetails.seasons.map((season) => season.number).take(20);
     final seasonsEpisodes = await Future.wait(seasonsNumbers
-        .map((seasonNumber) => _getSeasonsEpisodesUseCase(
-            seasonNumber: seasonNumber, tvShowId: event.tvShowId))
+        .map(
+          (seasonNumber) => _getSeasonsEpisodesUseCase(
+            seasonNumber: seasonNumber,
+            tvShowId: event.tvShowId,
+          ),
+        )
         .toList()
         .cast<Future<dynamic>>());
     for (Either either in seasonsEpisodes) {
@@ -116,7 +121,7 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
         (seasonEpisodes) => emit(
           state.copyWith(
             allSeasonsEpisodes: List.of(state.allSeasonsEpisodes)
-              ..add(seasonEpisodes),
+              ..add(seasonEpisodes.take(30).toList()),
             seasonEpisodesState: BlocState.success,
           ),
         ),

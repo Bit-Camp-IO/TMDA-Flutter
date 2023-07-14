@@ -20,18 +20,12 @@ class SeeAllTvShowsWatchListComponent extends StatefulWidget {
 }
 
 class _SeeAllTvShowsWatchListComponentState
-    extends State<SeeAllTvShowsWatchListComponent> with AutoRouteAware {
+    extends State<SeeAllTvShowsWatchListComponent> with AutoRouteAwareStateMixin<SeeAllTvShowsWatchListComponent> {
   late int tappedTvShowId;
-  AutoRouteObserver? _observer;
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    _observer =
-        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
     super.didChangeDependencies();
@@ -120,7 +114,6 @@ class _SeeAllTvShowsWatchListComponentState
   @override
   void dispose() {
     super.dispose();
-    _observer!.unsubscribe(this);
     _tabsRouter?.removeListener(_tabListener);
   }
 }

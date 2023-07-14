@@ -20,17 +20,12 @@ class SeeAllMoviesWatchListComponent extends StatefulWidget {
 }
 
 class _SeeAllMoviesWatchListComponentState
-    extends State<SeeAllMoviesWatchListComponent> with AutoRouteAware {
+    extends State<SeeAllMoviesWatchListComponent> with AutoRouteAwareStateMixin<SeeAllMoviesWatchListComponent> {
   late int tappedMovieId;
-  AutoRouteObserver? _observer;
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
     super.didChangeDependencies();
@@ -120,6 +115,5 @@ class _SeeAllMoviesWatchListComponentState
   void dispose() {
     super.dispose();
     _tabsRouter?.removeListener(_tabListener);
-    _observer!.unsubscribe(this);
   }
 }

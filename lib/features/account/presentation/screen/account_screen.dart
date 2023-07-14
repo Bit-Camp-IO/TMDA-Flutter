@@ -34,20 +34,14 @@ class AccountScreen extends StatefulWidget with AutoRouteWrapper {
   }
 }
 
-class _AccountScreenState extends State<AccountScreen>
-    with AutoRouteAware{
-  AutoRouteObserver? _observer;
+class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateMixin<AccountScreen>{
   TabsRouter? _tabsRouter;
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-    _observer = RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      _observer!.subscribe(this, context.routeData);
-    }
     _tabsRouter = context.tabsRouter;
     _tabsRouter?.addListener(_tabListener);
+    super.didChangeDependencies();
   }
 
   void _tabListener(){
@@ -135,7 +129,6 @@ class _AccountScreenState extends State<AccountScreen>
   @override
   void dispose() {
     super.dispose();
-    _observer!.unsubscribe(this);
     _tabsRouter?.removeListener(_tabListener);
   }
 }

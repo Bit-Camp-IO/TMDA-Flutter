@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/injection_container.dart';
 
 @RoutePage(name: 'MainNavigationTabs')
 class NavigationTabs extends StatefulWidget {

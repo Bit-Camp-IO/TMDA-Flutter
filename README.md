@@ -67,7 +67,7 @@ When contributing, please adhere to the following guidelines:
 
 ## License
 
-This project is licensed under the ![MIT License](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Android). Feel free to use, modify, and distribute the code as per the terms of the license.
+This project is licensed under the ![MIT License](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Flutter). Feel free to use, modify, and distribute the code as per the terms of the license.
 
 ## Acknowledgments
 

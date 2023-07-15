@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
@@ -13,7 +12,6 @@ import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details_poster.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieOverviewComponent extends StatefulWidget {
   const MovieOverviewComponent({super.key, required this.scrollController});
@@ -25,11 +23,11 @@ class MovieOverviewComponent extends StatefulWidget {
 }
 
 class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
-  late YoutubePlayerController _youtubePlayerController;
 
   void _scrollListener() {
     final maxScroll = widget.scrollController.position.maxScrollExtent;
     final currentScroll = widget.scrollController.offset;
+    final scrollDirection = widget.scrollController.position.userScrollDirection;
     final movieDetailsBloc = context.read<MovieDetailsBloc>();
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
@@ -43,11 +41,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
         );
       }
     }
-    if (widget.scrollController.position.userScrollDirection ==
-            ScrollDirection.forward &&
-        currentScroll < maxScroll * 0.05) {
-      if (movieDetailsBloc.state.animatedContainerHeight == 50 &&
-          movieDetailsBloc.state.animatedPosterHeight == 0) {
+    if (scrollDirection == ScrollDirection.forward && currentScroll < maxScroll * 0.05) {
+      if (movieDetailsBloc.state.animatedContainerHeight == 50 && movieDetailsBloc.state.animatedPosterHeight == 0) {
         movieDetailsBloc.add(
           const OnScrollAnimationEvent(
             animatedContainerHeight: 500,
@@ -60,14 +55,6 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
 
   @override
   initState() {
-    final movieDetailsBloc = context.read<MovieDetailsBloc>();
-    _youtubePlayerController = YoutubePlayerController(
-      initialVideoId: movieDetailsBloc.state.movieDetails.video.key,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        showLiveFullscreenButton: false,
-      ),
-    );
     super.initState();
     widget.scrollController.addListener(_scrollListener);
   }
@@ -106,26 +93,10 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                           child: NeonPlayButton(
                             onTap: () {
                               if (state.movieDetails.video.key.isNotEmpty) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      insetPadding: const EdgeInsets.symmetric(horizontal: 8).r,
-                                      contentPadding: EdgeInsets.zero,
-                                      content: SizedBox(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        child: YoutubePlayer(
-                                          controller: _youtubePlayerController,
-                                          showVideoProgressIndicator: false,
-                                          progressColors: const ProgressBarColors(
-                                            playedColor: Colors.white,
-                                            handleColor: ColorsManager.primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                context.read<MovieDetailsBloc>().add(
+                                  PlayMovieTrailerEvent(
+                                    state.movieDetails.video.key,
+                                  ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -184,8 +155,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 onTap: () {
                                   context.read<MovieDetailsBloc>().add(
                                         AddOrRemoveFromWatchListEvent(
-                                          isInWatchList: !state.movieDetails
-                                              .accountStates.inWatchList,
+                                          isInWatchList: !state.movieDetails.accountStates.inWatchList,
                                           movieId: state.movieDetails.id,
                                         ),
                                       );
@@ -193,8 +163,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 child: Column(
                                   children: [
                                     Icon(
-                                      state.movieDetails.accountStates
-                                              .inWatchList
+                                      state.movieDetails.accountStates.inWatchList
                                           ? SolarSystemIcons.saved
                                           : SolarSystemIcons.unsaved,
                                       color: ColorsManager.primaryColor,

@@ -71,9 +71,8 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       final episodesList = state.allSeasonsEpisodes;
-                      final episode =
-                          state.allSeasonsEpisodes[state.seasonsTabIndex][index];
                       if (episodesList.isNotEmpty) {
+                        final episode = state.allSeasonsEpisodes[state.seasonsTabIndex][index];
                         return Animate(
                           effects: [FadeEffect(duration: 250.ms)],
                           child: Padding(

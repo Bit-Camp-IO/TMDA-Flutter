@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/injection_container.dart';
 
 @RoutePage(name: 'MainNavigationTabs')
 class NavigationTabs extends StatefulWidget {
@@ -15,9 +16,10 @@ class NavigationTabs extends StatefulWidget {
 }
 
 class _NavigationTabsState extends State<NavigationTabs> {
+  DateTime? _lastTapTime;
+
   @override
   Widget build(BuildContext context) {
-
     return AutoTabsScaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -29,7 +31,7 @@ class _NavigationTabsState extends State<NavigationTabs> {
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return WillPopScope(
-          onWillPop: () async{
+          onWillPop: () async {
             if (tabsRouter.activeIndex == 0) {
               return Future.value(true);
             } else {
@@ -58,7 +60,23 @@ class _NavigationTabsState extends State<NavigationTabs> {
                 child: BottomNavigationBar(
                   currentIndex: tabsRouter.activeIndex,
                   onTap: (value) {
+                    final timeNow = DateTime.now();
+                    if (_lastTapTime != null &&
+                        timeNow.difference(_lastTapTime!) <= const Duration(milliseconds: 300)) {
+                      switch (tabsRouter.activeIndex) {
+                        case 0:
+                          context.router.root.navigate(const MovieRoute());
+                        case 1:
+                          context.router.root.navigate(const TvShowRoute());
+                        case 2:
+                          context.router.root.navigate(const SearchRoute());
+                        case 3:
+                          context.router.root.navigate(const AccountRoute());
+                      }
+                    } else {
                       tabsRouter.setActiveIndex(value);
+                    }
+                    _lastTapTime = timeNow;
                   },
                   items: const [
                     BottomNavigationBarItem(
@@ -81,7 +99,7 @@ class _NavigationTabsState extends State<NavigationTabs> {
                 ),
               ),
             ),
-              ),
+          ),
         );
       },
     );

@@ -6,10 +6,6 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/recommended_tv_shows_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_cast_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_reviews_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_shows_component.dart';
 
 class TvShowOverview extends StatelessWidget {
   const TvShowOverview({super.key});

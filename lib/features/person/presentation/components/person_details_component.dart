@@ -60,8 +60,9 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
                 ),
               ),
               const SectionWidget(
-                  title: StringsManager.biography,
-                  color: ColorsManager.primaryColor),
+                title: StringsManager.biography,
+                color: ColorsManager.primaryColor,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0).r,
                 child: BlocBuilder<PersonCubit, PersonState>(
@@ -93,7 +94,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
         ),
       );
     } else {
-      if (biography.length > 250) {
+      if (biography.length >= 250) {
         return ExpandableText(
           text: biography,
           isTextExpanded: isTextExpanded,

@@ -24,7 +24,7 @@ class ExpandableText extends StatelessWidget {
           child: ConstrainedBox(
             constraints: isTextExpanded
                 ? const BoxConstraints()
-                : const BoxConstraints(maxHeight: 300),
+                : const BoxConstraints(maxHeight: 100),
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(

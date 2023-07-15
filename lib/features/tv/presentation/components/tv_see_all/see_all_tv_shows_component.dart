@@ -85,47 +85,49 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent> with Au
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            final tvShow = state.seeAllTvShows[index];
-            return index >= state.seeAllTvShows.length
-                ? Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                      top: 14,
-                      bottom: 16.0,
-                    ).r,
-                    child: ListCardWithSave(
-                      onTap: () {
-                        _tappedTvShowId = tvShow.id;
-                        context.pushRoute(
-                          TvDetailsRoute(
-                            tvShowId: tvShow.id,
-                          ),
-                        );
-                      },
-                      title: tvShow.title,
-                      errorImagePath: AssetsManager.errorPoster,
-                      posterPath: tvShow.posterPath,
-                      vote: tvShow.voteAverage,
-                      voteCount: tvShow.voteCount,
-                      genres: tvShow.genres,
-                      releaseYear: tvShow.firstAirDate,
-                      language: tvShow.language,
-                      isInWatchList: tvShow.accountStates.isInWatchList,
-                      onSaved: () {
-                        context.read<SeeAllTvShowsBloc>().add(
-                              AddOrRemoveFromWatchListEvent(
-                                isInWatchList:
-                                    !tvShow.accountStates.isInWatchList,
-                                tvShowId: tvShow.id,
-                              ),
-                            );
-                      },
-                    ),
-                  );
+            if(index >= state.seeAllTvShows.length){
+              return Center(
+                child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+              );
+            }else{
+              final tvShow = state.seeAllTvShows[index];
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 14,
+                  bottom: 16.0,
+                ).r,
+                child: ListCardWithSave(
+                  onTap: () {
+                    _tappedTvShowId = tvShow.id;
+                    context.pushRoute(
+                      TvDetailsRoute(
+                        tvShowId: tvShow.id,
+                      ),
+                    );
+                  },
+                  title: tvShow.title,
+                  errorImagePath: AssetsManager.errorPoster,
+                  posterPath: tvShow.posterPath,
+                  vote: tvShow.voteAverage,
+                  voteCount: tvShow.voteCount,
+                  genres: tvShow.genres,
+                  releaseYear: tvShow.firstAirDate,
+                  language: tvShow.language,
+                  isInWatchList: tvShow.accountStates.isInWatchList,
+                  onSaved: () {
+                    context.read<SeeAllTvShowsBloc>().add(
+                      AddOrRemoveFromWatchListEvent(
+                        isInWatchList:
+                        !tvShow.accountStates.isInWatchList,
+                        tvShowId: tvShow.id,
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
           },
         );
       },

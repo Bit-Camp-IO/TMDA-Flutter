@@ -80,45 +80,49 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            final movie = state.seeAllMovies[index];
-            return index >= state.seeAllMovies.length
-                ? Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                      top: 14,
-                    ).r,
-                    child: ListCardWithSave(
-                      onTap: () {
-                        _tappedMovieId = movie.id;
-                        context.pushRoute(
-                          MovieDetailsRoute(
-                            movieId: movie.id,
-                          ),
-                        );
-                      },
-                      title: movie.title,
-                      errorImagePath: AssetsManager.errorPoster,
-                      posterPath: movie.posterPath,
-                      vote: movie.voteAverage,
-                      voteCount: movie.movieVoteCount,
-                      genres: movie.genres,
-                      releaseYear: movie.releaseDate,
-                      language: movie.language,
-                      isInWatchList: movie.accountStates.inWatchList,
-                      onSaved: () {
-                        context.read<SeeAllMoviesBloc>().add(
-                              AddOrRemoveFromWatchListEvent(
-                                isInWatchList: !movie.accountStates.inWatchList,
-                                movieId: movie.id,
-                              ),
-                            );
-                      },
-                    ),
-                  );
+            if(index >= state.seeAllMovies.length){
+             return Center(
+                child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+              );
+            }else{
+              final movie = state.seeAllMovies[index];
+             return  Padding(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 14,
+                ).r,
+                child: ListCardWithSave(
+                  onTap: () {
+                    _tappedMovieId = movie.id;
+                    context.pushRoute(
+                      MovieDetailsRoute(
+                        movieId: movie.id,
+                      ),
+                    );
+                  },
+                  title: movie.title,
+                  errorImagePath: AssetsManager.errorPoster,
+                  posterPath: movie.posterPath,
+                  vote: movie.voteAverage,
+                  voteCount: movie.movieVoteCount,
+                  genres: movie.genres,
+                  releaseYear: movie.releaseDate,
+                  language: movie.language,
+                  isInWatchList: movie.accountStates.inWatchList,
+                  onSaved: () {
+                    context.read<SeeAllMoviesBloc>().add(
+                      AddOrRemoveFromWatchListEvent(
+                        isInWatchList: !movie.accountStates.inWatchList,
+                        movieId: movie.id,
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+
+
           },
         );
       },

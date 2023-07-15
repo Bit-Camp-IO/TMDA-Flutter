@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -91,19 +92,22 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
                       child: Lottie.asset(AssetsManager.neonLoading),
                     );
                   case BlocState.success:
-                    return ListView(
-                      controller: _scrollController,
-                      padding: EdgeInsets.zero,
-                      children: [
-                        MovieOverviewComponent(
-                          scrollController: _scrollController,
-                        ),
-                        const MovieCastComponent(),
-                        const RecommendedMoviesComponent(),
-                        const SimilarMoviesComponent(),
-                        const MovieReviewsComponent(),
-                        SizedBox(height: 70.h)
-                      ],
+                    return Animate(
+                      effects: [FadeEffect(duration: 250.ms)],
+                      child: ListView(
+                        controller: _scrollController,
+                        padding: EdgeInsets.zero,
+                        children: [
+                          MovieOverviewComponent(
+                            scrollController: _scrollController,
+                          ),
+                          const MovieCastComponent(),
+                          const RecommendedMoviesComponent(),
+                          const SimilarMoviesComponent(),
+                          const MovieReviewsComponent(),
+                          SizedBox(height: 70.h)
+                        ],
+                      ),
                     );
                   case BlocState.failure:
                     return NoConnection(

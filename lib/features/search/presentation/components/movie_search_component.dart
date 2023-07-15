@@ -52,7 +52,6 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
             controller: _scrollController,
             itemCount: state.movieSearchList.length + 1,
             itemBuilder: (context, index) {
-              final movie = state.movieSearchList[index];
               if (index >= state.movieSearchList.length) {
                 if (state.movieSearchList.length < 20) {
                   return const SizedBox();
@@ -62,6 +61,7 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                   );
                 }
               } else {
+                final movie = state.movieSearchList[index];
                 return Animate(
                   effects: [FadeEffect(duration: 250.ms)],
                   child: Padding(

@@ -23,17 +23,17 @@ class NowPlayingMoviesComponent extends StatelessWidget {
             return CarouselSlider.builder(
               itemCount: 4,
               itemBuilder: (context, index, realIndex) {
-                final nowPlayingMovie = state.nowPlayingMovies[index];
                 if (state.nowPlayingMovies.isNotEmpty) {
+                  final nowPlayingMovie = state.nowPlayingMovies[index];
                   return CarouselCard(
-                    onTap: () {
-                      context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
-                    },
                     imagePath: nowPlayingMovie.posterPath,
                     errorImagePath: AssetsManager.errorPoster,
                     rating: nowPlayingMovie.voteAverage,
                     title: nowPlayingMovie.title,
                     voteCount: nowPlayingMovie.movieVoteCount,
+                    onTap: () {
+                      context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
+                    },
                   );
                 } else {
                   return const SizedBox();

@@ -65,7 +65,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
       builder: (context, state) {
 
         return Animate(
-          effects: [FadeEffect(duration: 150.ms)],
+          effects: [FadeEffect(duration: 250.ms)],
           child: ListView(
             controller: _scrollController,
             padding: EdgeInsets.zero,

@@ -54,7 +54,6 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
             controller: _scrollController,
             itemCount: state.tvSearchList.length + 1,
             itemBuilder: (context, index) {
-              final tvShow = state.tvSearchList[index];
               if (index >= state.tvSearchList.length) {
                 if (state.tvSearchList.length < 20) {
                   return const SizedBox();
@@ -64,6 +63,7 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
                   );
                 }
               } else {
+                final tvShow = state.tvSearchList[index];
                 return Animate(
                   effects: [FadeEffect(duration: 250.ms)],
                   child: Padding(

@@ -56,7 +56,6 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
             controller: _scrollController,
             itemCount: state.peopleSearchList.length + 1,
             itemBuilder: (context, index) {
-              final person = state.peopleSearchList[index];
               if (index >= state.peopleSearchList.length) {
                 if (state.peopleSearchList.length < 20) {
                   return const SizedBox();
@@ -66,6 +65,7 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
                   );
                 }
               } else {
+                final person = state.peopleSearchList[index];
                 return Animate(
                   effects: [FadeEffect(duration: 250.ms)],
                   child: Padding(

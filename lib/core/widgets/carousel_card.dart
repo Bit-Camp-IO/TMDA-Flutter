@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/constants/app_constants.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -40,6 +42,12 @@ class CarouselCard extends StatelessWidget {
               width: 360.w,
               imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
               fit: BoxFit.cover,
+              cacheManager: CacheManager(
+                  Config(
+                    AppConstants.cacheFolder,
+                    stalePeriod: const Duration(days: AppConstants.cacheDuration),
+                  )
+              ),
             ),
           ),
           Positioned(

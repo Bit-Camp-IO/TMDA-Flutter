@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/constants/app_constants.dart';
 
 class TvDetailsPoster extends StatelessWidget {
   const TvDetailsPoster({
@@ -29,6 +31,12 @@ class TvDetailsPoster extends StatelessWidget {
               posterPath.isNotEmpty
                   ? ApiConstants.imageUrl(posterPath)
                   : errorPosterPath,
+              cacheManager: CacheManager(
+                  Config(
+                    AppConstants.cacheFolder,
+                    stalePeriod: const Duration(days: AppConstants.cacheDuration),
+                  )
+              )
             ),
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.3),

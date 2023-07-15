@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/core/constants/app_constants.dart';
 
 class TiltedImageWithShadow extends StatelessWidget {
   const TiltedImageWithShadow({
@@ -35,6 +37,12 @@ class TiltedImageWithShadow extends StatelessWidget {
                 ? ApiConstants.imageUrl(imagePath)
                 : errorImagePath,
             fit: BoxFit.cover,
+            cacheManager: CacheManager(
+                Config(
+                  AppConstants.cacheFolder,
+                  stalePeriod: const Duration(days: AppConstants.cacheDuration),
+                )
+            ),
           ),
         ),
       ),

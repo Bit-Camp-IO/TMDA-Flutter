@@ -1,8 +1,8 @@
 # 📱 TMDA Flutter App
 
-![GitHub license](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Android)
-![GitHub last commit](https://img.shields.io/github/last-commit/Bit-Camp-IO/TMDA-Android)
-![GitHub issues](https://img.shields.io/github/issues/Bit-Camp-IO/TMDA-Android)
+![GitHub license](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Flutter)
+![GitHub last commit](https://img.shields.io/github/last-commit/Bit-Camp-IO/TMDA-Flutter)
+![GitHub issues](https://img.shields.io/github/issues/Bit-Camp-IO/TMDA-Flutter)
 
 This repository contains the source code for the TMDA Flutter app, which allows users to browse and search for movies & tv shows using the TMDB API. The app provides information such as movie & tv shows details, ratings, reviews, and trailers.
 
@@ -67,7 +67,7 @@ When contributing, please adhere to the following guidelines:
 
 ## License
 
-This project is licensed under the ![MIT License](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Android). Feel free to use, modify, and distribute the code as per the terms of the license.
+This project is licensed under the ![MIT License](https://img.shields.io/github/license/Bit-Camp-IO/TMDA-Flutter). Feel free to use, modify, and distribute the code as per the terms of the license.
 
 ## Acknowledgments
 

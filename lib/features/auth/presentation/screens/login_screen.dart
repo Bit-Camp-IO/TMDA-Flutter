@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
@@ -101,7 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 16.h),
                       CustomObscuredTextField(
                         suffixIconOnTap: () {
-                        context.read<LoginCubit>().changeObscuredField(!isObscured);
+                          context
+                              .read<LoginCubit>()
+                              .changeObscuredField(!isObscured);
                         },
                         obscureText: isObscured,
                         suffixIcon: isObscured
@@ -129,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const Spacer(flex: 5),
+                      const Spacer(flex: 4),
                       NeonButton(
                         onTap: () async {
                           FormState? loginData = formKey.currentState;
@@ -139,15 +144,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           await context.read<LoginCubit>().userLogin(username, password);
                         },
                         child: isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
+                            ? Center(
+                                child: Lottie.asset(AssetsManager.neonLoading, width: 150.w, height: 48.h)
                               )
-                            : Text(
-                                StringsManager.login,
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
+                            : Animate(
+                              effects: [FadeEffect(duration: 150.ms)],
+                              child: Text(
+                                  StringsManager.login,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                            ),
                       ),
                       const Spacer(flex: 2),
                       Row(

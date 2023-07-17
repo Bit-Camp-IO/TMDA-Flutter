@@ -9,14 +9,15 @@ class MoviesState extends Equatable {
   final List<Movies> newMovies;
   final int indicatorIndex;
 
-  const MoviesState(
-      {this.nowPlayingMovies = const [],
-      this.moviesFailMessage = '',
-      this.newMovies = const [],
-      this.popularMovies = const [],
-      this.topRatedMovies = const [],
-      this.indicatorIndex = 0,
-      this.moviesState = BlocState.loading});
+  const MoviesState({
+    this.nowPlayingMovies = const [],
+    this.moviesFailMessage = '',
+    this.newMovies = const [],
+    this.popularMovies = const [],
+    this.topRatedMovies = const [],
+    this.indicatorIndex = 0,
+    this.moviesState = BlocState.loading,
+  });
 
   MoviesState copyWith({
     int? indicatorIndex,

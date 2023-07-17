@@ -47,23 +47,21 @@ class SimilarMoviesComponent extends StatelessWidget {
                     itemCount: state.movieDetails.similarMovies.length,
                     itemBuilder: (context, index) {
                       final similarMovie = state.movieDetails.similarMovies[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 16.w),
-                          DetailsPosterCard(
-                            imagePath: similarMovie.posterPath,
-                            errorImagePath: AssetsManager.errorPoster,
-                            title:similarMovie.title,
-                            rating: similarMovie.voteAverage,
-                            onTap: () {
-                              context.pushRoute(
-                                MovieDetailsRoute(
-                                  movieId: similarMovie.id,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: DetailsPosterCard(
+                          imagePath: similarMovie.posterPath,
+                          errorImagePath: AssetsManager.errorPoster,
+                          title:similarMovie.title,
+                          rating: similarMovie.voteAverage,
+                          onTap: () {
+                            context.pushRoute(
+                              MovieDetailsRoute(
+                                movieId: similarMovie.id,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

@@ -55,8 +55,7 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
               child: NeonLightPainter(color: ColorsManager.primaryColor),
             ),
             BlocBuilder<MoviesBloc, MoviesState>(
-              buildWhen: (previous, current) =>
-                  previous.moviesState != current.moviesState,
+              buildWhen: (previous, current) => previous.moviesState != current.moviesState,
               builder: (context, state) {
                 switch (state.moviesState) {
                   case BlocState.initial || BlocState.loading:
@@ -65,9 +64,7 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
                     );
                   case BlocState.success:
                     return ListView(
-                      shrinkWrap: true,
                       padding: EdgeInsets.zero,
-                      physics: const ClampingScrollPhysics(),
                       children: [
                         const NowPlayingMoviesComponent(),
                         const NewMoviesComponent(),

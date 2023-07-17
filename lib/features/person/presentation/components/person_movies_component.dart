@@ -36,23 +36,21 @@ class PersonMoviesComponent extends StatelessWidget {
                     itemCount: state.personData.movies.length,
                     itemBuilder: (context, index) {
                       final movie = state.personData.movies[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 16.w),
-                          DetailsPosterCard(
-                            imagePath: movie.posterPath,
-                            errorImagePath: AssetsManager.errorPoster,
-                            title: movie.title,
-                            rating: movie.voteAverage,
-                            onTap: () {
-                              context.pushRoute(
-                                MovieDetailsRoute(
-                                  movieId: movie.id,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: DetailsPosterCard(
+                          imagePath: movie.posterPath,
+                          errorImagePath: AssetsManager.errorPoster,
+                          title: movie.title,
+                          rating: movie.voteAverage,
+                          onTap: () {
+                            context.pushRoute(
+                              MovieDetailsRoute(
+                                movieId: movie.id,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

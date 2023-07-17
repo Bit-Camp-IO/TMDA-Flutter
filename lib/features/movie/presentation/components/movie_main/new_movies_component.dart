@@ -39,26 +39,24 @@ class NewMoviesComponent extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final newMovie = state.newMovies[index];
-                  return Row(
-                    children: [
-                      SizedBox(width: 16.w),
-                      PosterCard(
-                        onTap: () {
-                          context.pushRoute(
-                            MovieDetailsRoute(
-                              movieId: newMovie.id,
-                            ),
-                          );
-                        },
-                        title: newMovie.title,
-                        errorImagePath: AssetsManager.errorPoster,
-                        imagePath: newMovie.posterPath,
-                        releaseYear: newMovie.releaseDate,
-                        rating: newMovie.voteAverage,
-                        genres: newMovie.genres,
-                        language: newMovie.language,
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(left : 16.0).r,
+                    child: PosterCard(
+                      onTap: () {
+                        context.pushRoute(
+                          MovieDetailsRoute(
+                            movieId: newMovie.id,
+                          ),
+                        );
+                      },
+                      title: newMovie.title,
+                      errorImagePath: AssetsManager.errorPoster,
+                      imagePath: newMovie.posterPath,
+                      releaseYear: newMovie.releaseDate,
+                      rating: newMovie.voteAverage,
+                      genres: newMovie.genres,
+                      language: newMovie.language,
+                    ),
                   );
                 },
               ),

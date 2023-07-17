@@ -39,26 +39,24 @@ class TopRatedTvShowsComponent extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final topRatedTvShow = state.topRatedTvShows[index];
-                  return Row(
-                    children: [
-                      SizedBox(width: 16.w),
-                      PosterCard(
-                        onTap: () {
-                          context.pushRoute(
-                            TvDetailsRoute(
-                              tvShowId: topRatedTvShow.id,
-                            ),
-                          );
-                        },
-                        title: topRatedTvShow.title,
-                        errorImagePath: AssetsManager.errorPoster,
-                        imagePath: topRatedTvShow.posterPath,
-                        releaseYear: topRatedTvShow.firstAirDate,
-                        rating: topRatedTvShow.voteAverage,
-                        genres: topRatedTvShow.genres,
-                        language: topRatedTvShow.language,
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(left : 16.0).r,
+                    child: PosterCard(
+                      onTap: () {
+                        context.pushRoute(
+                          TvDetailsRoute(
+                            tvShowId: topRatedTvShow.id,
+                          ),
+                        );
+                      },
+                      title: topRatedTvShow.title,
+                      errorImagePath: AssetsManager.errorPoster,
+                      imagePath: topRatedTvShow.posterPath,
+                      releaseYear: topRatedTvShow.firstAirDate,
+                      rating: topRatedTvShow.voteAverage,
+                      genres: topRatedTvShow.genres,
+                      language: topRatedTvShow.language,
+                    ),
                   );
                 },
               ),

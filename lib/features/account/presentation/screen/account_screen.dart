@@ -104,7 +104,7 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateM
                     children: [
                       SizedBox(height: 40.h),
                       const ProfileComponent(),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 10.h),
                       const MoviesWatchListComponent(),
                       const TvShowWatchListComponent(),
                     ],

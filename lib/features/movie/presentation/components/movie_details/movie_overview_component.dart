@@ -70,9 +70,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
           child: Column(
             children: [
               BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
-                buildWhen: (previous, current) =>
-                    previous.animatedContainerHeight !=
-                    current.animatedContainerHeight,
+                buildWhen: (previous, current) => previous.animatedContainerHeight != current.animatedContainerHeight,
                 builder: (context, state) {
                   return AnimatedContainer(
                     duration: const Duration(seconds: 1),
@@ -101,8 +99,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   errorSnackBar(
-                                    errorMessage:
-                                        StringsManager.movieNoVideosMessage,
+                                    errorMessage: StringsManager.movieNoVideosMessage,
                                     context: context,
                                   ),
                                 );
@@ -125,15 +122,12 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                               Row(
                                 children: [
                                   Text(
-                                    state.movieDetails.voteAverage
-                                        .toStringAsFixed(1),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    state.movieDetails.voteAverage.toStringAsFixed(1),
+                                    style: Theme.of(context).textTheme.titleMedium,
                                   ),
                                   Text(
                                     StringsManager.maxRate,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ],
                               ),

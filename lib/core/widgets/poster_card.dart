@@ -50,7 +50,7 @@ class PosterCard extends StatelessWidget {
             Positioned(
               left: 0,
               right: 10,
-              bottom: 10,
+              bottom: 20,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

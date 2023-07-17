@@ -37,23 +37,21 @@ class PersonTvShowsComponent extends StatelessWidget {
                     itemCount: state.personData.tvShows.length,
                     itemBuilder: (context, index) {
                       final tvShow = state.personData.tvShows[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 16.w),
-                          DetailsPosterCard(
-                            imagePath: tvShow.posterPath,
-                            errorImagePath: AssetsManager.errorPoster,
-                            title: tvShow.title,
-                            rating: tvShow.voteAverage,
-                            onTap: () {
-                              context.pushRoute(
-                                TvDetailsRoute(
-                                  tvShowId: tvShow.id,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: DetailsPosterCard(
+                          imagePath: tvShow.posterPath,
+                          errorImagePath: AssetsManager.errorPoster,
+                          title: tvShow.title,
+                          rating: tvShow.voteAverage,
+                          onTap: () {
+                            context.pushRoute(
+                              TvDetailsRoute(
+                                tvShowId: tvShow.id,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

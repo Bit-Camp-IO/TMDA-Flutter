@@ -39,26 +39,24 @@ class PopularMoviesComponent extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final popularMovie = state.popularMovies[index];
-                  return Row(
-                    children: [
-                      SizedBox(width: 16.w),
-                      PosterCard(
-                        onTap: () {
-                          context.pushRoute(
-                            MovieDetailsRoute(
-                              movieId: popularMovie.id,
-                            ),
-                          );
-                        },
-                        title: popularMovie.title,
-                        imagePath: popularMovie.posterPath,
-                        errorImagePath: AssetsManager.errorPoster,
-                        releaseYear: popularMovie.releaseDate,
-                        rating: popularMovie.voteAverage,
-                        genres: popularMovie.genres,
-                        language: popularMovie.language,
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(left : 16.0).r,
+                    child: PosterCard(
+                      onTap: () {
+                        context.pushRoute(
+                          MovieDetailsRoute(
+                            movieId: popularMovie.id,
+                          ),
+                        );
+                      },
+                      title: popularMovie.title,
+                      imagePath: popularMovie.posterPath,
+                      errorImagePath: AssetsManager.errorPoster,
+                      releaseYear: popularMovie.releaseDate,
+                      rating: popularMovie.voteAverage,
+                      genres: popularMovie.genres,
+                      language: popularMovie.language,
+                    ),
                   );
                 },
               ),

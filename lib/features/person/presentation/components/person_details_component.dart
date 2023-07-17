@@ -81,8 +81,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
     );
   }
 
-  Widget _buildBiographyText(
-      {required String biography, required bool isTextExpanded}) {
+  Widget _buildBiographyText({required String biography, required bool isTextExpanded}) {
     if (biography.isEmpty) {
       return SizedBox(
         height: 100.h,

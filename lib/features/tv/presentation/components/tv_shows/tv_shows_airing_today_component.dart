@@ -32,33 +32,31 @@ class TvShowsAiringTodayComponent extends StatelessWidget {
         BlocBuilder<TvShowsBloc, TvShowsState>(
           builder: (context, state) {
             return SizedBox(
-              height: 280.h,
+              height: 260.h,
               child: ListView.builder(
                 itemCount: state.airingTodayTvShows.length,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final airingTodayTvShow = state.airingTodayTvShows[index];
-                  return Row(
-                    children: [
-                      SizedBox(width: 16.w),
-                      PosterCard(
-                        onTap: () {
-                          context.pushRoute(
-                            TvDetailsRoute(
-                              tvShowId: airingTodayTvShow.id,
-                            ),
-                          );
-                        },
-                        title: airingTodayTvShow.title,
-                        errorImagePath: AssetsManager.errorPoster,
-                        imagePath: airingTodayTvShow.posterPath,
-                        releaseYear: airingTodayTvShow.firstAirDate,
-                        rating: airingTodayTvShow.voteAverage,
-                        genres: airingTodayTvShow.genres,
-                        language: airingTodayTvShow.language,
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(left : 16.0).r,
+                    child: PosterCard(
+                      onTap: () {
+                        context.pushRoute(
+                          TvDetailsRoute(
+                            tvShowId: airingTodayTvShow.id,
+                          ),
+                        );
+                      },
+                      title: airingTodayTvShow.title,
+                      errorImagePath: AssetsManager.errorPoster,
+                      imagePath: airingTodayTvShow.posterPath,
+                      releaseYear: airingTodayTvShow.firstAirDate,
+                      rating: airingTodayTvShow.voteAverage,
+                      genres: airingTodayTvShow.genres,
+                      language: airingTodayTvShow.language,
+                    ),
                   );
                 },
               ),

@@ -42,26 +42,24 @@ class TopRatedMoviesComponent extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final topRatedMovie = state.topRatedMovies[index];
-                    return Row(
-                      children: [
-                        SizedBox(width: 16.w),
-                        PosterCard(
-                          onTap: () {
-                            context.pushRoute(
-                              MovieDetailsRoute(
-                                movieId: topRatedMovie.id,
-                              ),
-                            );
-                          },
-                          title: topRatedMovie.title,
-                          errorImagePath: AssetsManager.errorPoster,
-                          imagePath: topRatedMovie.posterPath,
-                          releaseYear: topRatedMovie.releaseDate,
-                          rating: topRatedMovie.voteAverage,
-                          genres: topRatedMovie.genres,
-                          language: topRatedMovie.language,
-                        ),
-                      ],
+                    return Padding(
+                      padding: const EdgeInsets.only(left : 16.0).r,
+                      child: PosterCard(
+                        onTap: () {
+                          context.pushRoute(
+                            MovieDetailsRoute(
+                              movieId: topRatedMovie.id,
+                            ),
+                          );
+                        },
+                        title: topRatedMovie.title,
+                        errorImagePath: AssetsManager.errorPoster,
+                        imagePath: topRatedMovie.posterPath,
+                        releaseYear: topRatedMovie.releaseDate,
+                        rating: topRatedMovie.voteAverage,
+                        genres: topRatedMovie.genres,
+                        language: topRatedMovie.language,
+                      ),
                     );
                   },
                 ),

@@ -47,23 +47,21 @@ class RecommendedTvShowsComponent extends StatelessWidget {
                     itemCount: state.tvShowDetails.recommendedTvShows.length,
                     itemBuilder: (context, index) {
                       final recommendedTvShow = state.tvShowDetails.recommendedTvShows[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 20.w),
-                          DetailsPosterCard(
-                            errorImagePath: AssetsManager.errorPoster,
-                            imagePath: recommendedTvShow.posterPath,
-                            title: recommendedTvShow.title,
-                            rating: recommendedTvShow.voteAverage,
-                            onTap: () {
-                              context.pushRoute(
-                                TvDetailsRoute(
-                                  tvShowId: recommendedTvShow.id,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: DetailsPosterCard(
+                          errorImagePath: AssetsManager.errorPoster,
+                          imagePath: recommendedTvShow.posterPath,
+                          title: recommendedTvShow.title,
+                          rating: recommendedTvShow.voteAverage,
+                          onTap: () {
+                            context.pushRoute(
+                              TvDetailsRoute(
+                                tvShowId: recommendedTvShow.id,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

@@ -47,23 +47,21 @@ class SimilarTvShowsComponent extends StatelessWidget {
                     itemCount: state.tvShowDetails.similarTvShows.length,
                     itemBuilder: (context, index) {
                       final similarTvShow = state.tvShowDetails.similarTvShows[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 20.w),
-                          DetailsPosterCard(
-                            errorImagePath: AssetsManager.errorPoster,
-                            imagePath: similarTvShow.posterPath,
-                            title: similarTvShow.title,
-                            rating: similarTvShow.voteAverage,
-                            onTap: () {
-                              context.pushRoute(
-                                TvDetailsRoute(
-                                  tvShowId: similarTvShow.id,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: DetailsPosterCard(
+                          errorImagePath: AssetsManager.errorPoster,
+                          imagePath: similarTvShow.posterPath,
+                          title: similarTvShow.title,
+                          rating: similarTvShow.voteAverage,
+                          onTap: () {
+                            context.pushRoute(
+                              TvDetailsRoute(
+                                tvShowId: similarTvShow.id,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

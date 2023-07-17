@@ -66,7 +66,7 @@ class MoviesWatchListComponent extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: 220.h,
+                  height: 230.h,
                   child: Animate(
                     effects: [FadeEffect(duration: 400.ms)],
                     child: ListView.builder(
@@ -74,28 +74,26 @@ class MoviesWatchListComponent extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         final movie = state.watchListMovies[index];
-                        return Row(
-                          children: [
-                            SizedBox(width: 16.w),
-                            PosterCard(
-                              width: 140,
-                              height: 220,
-                              errorImagePath: AssetsManager.errorPoster,
-                              imagePath: movie.posterPath,
-                              title: movie.title,
-                              releaseYear: movie.releaseDate,
-                              rating: movie.voteAverage,
-                              genres: movie.genres,
-                              language: movie.language,
-                              onTap: () {
-                                context.pushRoute(
-                                  MovieDetailsRoute(
-                                    movieId: movie.id,
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                        return Padding(
+                          padding: const EdgeInsets.only(left : 16.0).r,
+                          child: PosterCard(
+                            width: 140,
+                            height: 220,
+                            errorImagePath: AssetsManager.errorPoster,
+                            imagePath: movie.posterPath,
+                            title: movie.title,
+                            releaseYear: movie.releaseDate,
+                            rating: movie.voteAverage,
+                            genres: movie.genres,
+                            language: movie.language,
+                            onTap: () {
+                              context.pushRoute(
+                                MovieDetailsRoute(
+                                  movieId: movie.id,
+                                ),
+                              );
+                            },
+                          ),
                         );
                       },
                     ),

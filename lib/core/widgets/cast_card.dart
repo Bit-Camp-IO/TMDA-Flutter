@@ -34,7 +34,7 @@ class CastCard extends StatelessWidget {
           Positioned(
             left: 5,
             right: 20,
-            bottom: 30,
+            bottom: 20,
             child: Text(
               actorName,
               overflow: TextOverflow.ellipsis,
@@ -44,7 +44,7 @@ class CastCard extends StatelessWidget {
           Positioned(
             left: 5,
             right: 15,
-            bottom: 15,
+            bottom: 5,
             child: Text(
               actorCharacterName,
               overflow: TextOverflow.ellipsis,

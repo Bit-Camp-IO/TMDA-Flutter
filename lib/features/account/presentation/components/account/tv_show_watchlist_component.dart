@@ -69,7 +69,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 220.h,
+                    height: 230.h,
                     child: Animate(
                       effects: [FadeEffect(duration: 400.ms)],
                       child: ListView.builder(
@@ -77,28 +77,26 @@ class TvShowWatchListComponent extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final tvShow = state.watchListTvShows[index];
-                          return Row(
-                            children: [
-                              SizedBox(width: 16.w),
-                              PosterCard(
-                                width: 140,
-                                height: 220,
-                                errorImagePath: AssetsManager.errorPoster,
-                                imagePath: tvShow.posterPath,
-                                title: tvShow.title,
-                                releaseYear: tvShow.firstAirDate,
-                                rating: tvShow.voteAverage,
-                                genres: tvShow.genres,
-                                language: tvShow.language,
-                                onTap: () {
-                                  context.pushRoute(
-                                    TvDetailsRoute(
-                                      tvShowId: tvShow.id,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.only(left : 16.0).r,
+                            child: PosterCard(
+                              width: 140,
+                              height: 220,
+                              errorImagePath: AssetsManager.errorPoster,
+                              imagePath: tvShow.posterPath,
+                              title: tvShow.title,
+                              releaseYear: tvShow.firstAirDate,
+                              rating: tvShow.voteAverage,
+                              genres: tvShow.genres,
+                              language: tvShow.language,
+                              onTap: () {
+                                context.pushRoute(
+                                  TvDetailsRoute(
+                                    tvShowId: tvShow.id,
+                                  ),
+                                );
+                              },
+                            ),
                           );
                         },
                       ),

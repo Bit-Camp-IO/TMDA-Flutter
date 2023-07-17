@@ -33,7 +33,7 @@ class PopularTvShowsComponent extends StatelessWidget {
         BlocBuilder<TvShowsBloc, TvShowsState>(
           builder: (context, state) {
             return SizedBox(
-              height: 280.h,
+              height: 260.h,
               child: Animate(
                 effects: [FadeEffect(duration: 250.ms)],
                 child: ListView.builder(
@@ -42,26 +42,24 @@ class PopularTvShowsComponent extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final popularTvShow = state.popularTvShows[index];
-                    return Row(
-                      children: [
-                        SizedBox(width: 16.w),
-                        PosterCard(
-                          onTap: () {
-                            context.pushRoute(
-                              TvDetailsRoute(
-                                tvShowId: popularTvShow.id,
-                              ),
-                            );
-                          },
-                          title: popularTvShow.title,
-                          errorImagePath: AssetsManager.errorPoster,
-                          imagePath: popularTvShow.posterPath,
-                          releaseYear: popularTvShow.firstAirDate,
-                          rating: popularTvShow.voteAverage,
-                          genres: popularTvShow.genres,
-                          language: popularTvShow.language,
-                        ),
-                      ],
+                    return Padding(
+                      padding: const EdgeInsets.only(left : 16.0).r,
+                      child: PosterCard(
+                        onTap: () {
+                          context.pushRoute(
+                            TvDetailsRoute(
+                              tvShowId: popularTvShow.id,
+                            ),
+                          );
+                        },
+                        title: popularTvShow.title,
+                        errorImagePath: AssetsManager.errorPoster,
+                        imagePath: popularTvShow.posterPath,
+                        releaseYear: popularTvShow.firstAirDate,
+                        rating: popularTvShow.voteAverage,
+                        genres: popularTvShow.genres,
+                        language: popularTvShow.language,
+                      ),
                     );
                   },
                 ),

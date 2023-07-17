@@ -38,36 +38,34 @@ class TvShowCastComponent extends StatelessWidget {
                     itemCount: state.tvShowDetails.cast.length,
                     itemBuilder: (context, index) {
                       final cast = state.tvShowDetails.cast[index];
-                      return Row(
-                        children: [
-                          SizedBox(width: 20.w),
-                          CastCard(
-                            onTap: () {
-                              final activeIndex = context.tabsRouter.activeIndex;
-                              if (activeIndex == 2 || activeIndex == 3) {
-                                context.pushRoute(
-                                  PersonRoute(
-                                    personId: cast.actorId,
-                                    personScreenType:
-                                        PersonScreenType.withAllContent,
-                                  ),
-                                );
-                              } else {
-                                context.pushRoute(
-                                  PersonRoute(
-                                    personId: cast.actorId,
-                                    personScreenType:
-                                        PersonScreenType.withTvShows,
-                                  ),
-                                );
-                              }
-                            },
-                            errorImagePath: AssetsManager.neonAvatar,
-                            actorPicPath:cast.actorPicPath,
-                            actorName:cast.actorName,
-                            actorCharacterName:cast.movieCharacter,
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left : 16.0).r,
+                        child: CastCard(
+                          onTap: () {
+                            final activeIndex = context.tabsRouter.activeIndex;
+                            if (activeIndex == 2 || activeIndex == 3) {
+                              context.pushRoute(
+                                PersonRoute(
+                                  personId: cast.actorId,
+                                  personScreenType:
+                                      PersonScreenType.withAllContent,
+                                ),
+                              );
+                            } else {
+                              context.pushRoute(
+                                PersonRoute(
+                                  personId: cast.actorId,
+                                  personScreenType:
+                                      PersonScreenType.withTvShows,
+                                ),
+                              );
+                            }
+                          },
+                          errorImagePath: AssetsManager.neonAvatar,
+                          actorPicPath:cast.actorPicPath,
+                          actorName:cast.actorName,
+                          actorCharacterName:cast.movieCharacter,
+                        ),
                       );
                     },
                   ),

@@ -30,7 +30,7 @@ class DetailsPosterCard extends StatelessWidget {
             errorImagePath: errorImagePath,
             imagePath: imagePath,
             width: 130.w,
-            height: 200.h,
+            height: 220.h,
           ),
           Positioned(
             left: 5,
@@ -53,7 +53,7 @@ class DetailsPosterCard extends StatelessWidget {
           Positioned(
             left: 5,
             right: 15,
-            bottom: 10,
+            bottom: 15,
             child: Text(
               title,
               overflow: TextOverflow.ellipsis,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 
 class NeonButton extends StatelessWidget {
@@ -15,8 +16,8 @@ class NeonButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-          width: 180,
-          height: 48,
+          width: 150.w,
+          height: 48.h,
           child: Stack(
             children: [
               SizedBox.expand(

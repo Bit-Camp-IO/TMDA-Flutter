@@ -62,8 +62,8 @@ class SelectionScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   NormalButton(
-                    width: 180,
-                    height: 48,
+                    width: 150.w,
+                    height: 48.h,
                     onTap: () async {
                       await context.read<AuthCubit>().userRegister();
                     },

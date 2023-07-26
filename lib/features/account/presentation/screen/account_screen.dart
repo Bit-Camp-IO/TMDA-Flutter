@@ -85,7 +85,7 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateM
             listener: (context, state) {
               if (state.userAccountState == UserAccountState.loggedOut) {
                 AutoRouter.of(context).replace(
-                  const AuthRoutesPage(
+                  const AuthRoute(
                     children: [
                       SelectionRoute(),
                     ]

@@ -44,7 +44,7 @@ class TvShowWatchListComponent extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleMedium!,
                         ),
                         onTap: () {
-                          context.navigateTo(const TvTabRoutePage());
+                          context.navigateTo(const TvShowsTabRoute());
                         },
                       ),
                     ),

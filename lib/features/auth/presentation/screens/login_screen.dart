@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
         } else if (state is LoginSuccessState) {
           AutoRouter.of(context).replace(
             const MainNavigationTabs(children: [
-              MovieTabRoutePage(),
+              MovieTabRoute(),
             ]),
           );
         } else if (state is LoginFailState) {

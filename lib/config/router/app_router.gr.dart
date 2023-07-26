@@ -15,34 +15,34 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    MovieTabRoutePage.name: (routeData) {
+    MovieTabRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MovieTabRoute(),
+        child: const MoviesTab(),
       );
     },
-    TvTabRoutePage.name: (routeData) {
+    TvShowsTabRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const TvTabRoute(),
+        child: const TvShowsTab(),
       );
     },
-    SearchTabRoutePage.name: (routeData) {
+    SearchTabRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SearchTabRoute(),
+        child: const SearchTab(),
       );
     },
-    AccountTabRoutePage.name: (routeData) {
+    AccountTabRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AccountTabRoute(),
+        child: const AccountTab(),
       );
     },
-    AuthRoutesPage.name: (routeData) {
+    AuthRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AuthRoutes(),
+        child: const Auth(),
       );
     },
     AccountRoute.name: (routeData) {
@@ -166,71 +166,71 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [MovieTabRoute]
-class MovieTabRoutePage extends PageRouteInfo<void> {
-  const MovieTabRoutePage({List<PageRouteInfo>? children})
+/// [MoviesTab]
+class MovieTabRoute extends PageRouteInfo<void> {
+  const MovieTabRoute({List<PageRouteInfo>? children})
       : super(
-          MovieTabRoutePage.name,
+          MovieTabRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'MovieTabRoutePage';
+  static const String name = 'MovieTabRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [TvTabRoute]
-class TvTabRoutePage extends PageRouteInfo<void> {
-  const TvTabRoutePage({List<PageRouteInfo>? children})
+/// [TvShowsTab]
+class TvShowsTabRoute extends PageRouteInfo<void> {
+  const TvShowsTabRoute({List<PageRouteInfo>? children})
       : super(
-          TvTabRoutePage.name,
+          TvShowsTabRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'TvTabRoutePage';
+  static const String name = 'TvShowsTabRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [SearchTabRoute]
-class SearchTabRoutePage extends PageRouteInfo<void> {
-  const SearchTabRoutePage({List<PageRouteInfo>? children})
+/// [SearchTab]
+class SearchTabRoute extends PageRouteInfo<void> {
+  const SearchTabRoute({List<PageRouteInfo>? children})
       : super(
-          SearchTabRoutePage.name,
+          SearchTabRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SearchTabRoutePage';
+  static const String name = 'SearchTabRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [AccountTabRoute]
-class AccountTabRoutePage extends PageRouteInfo<void> {
-  const AccountTabRoutePage({List<PageRouteInfo>? children})
+/// [AccountTab]
+class AccountTabRoute extends PageRouteInfo<void> {
+  const AccountTabRoute({List<PageRouteInfo>? children})
       : super(
-          AccountTabRoutePage.name,
+          AccountTabRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AccountTabRoutePage';
+  static const String name = 'AccountTabRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [AuthRoutes]
-class AuthRoutesPage extends PageRouteInfo<void> {
-  const AuthRoutesPage({List<PageRouteInfo>? children})
+/// [Auth]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
       : super(
-          AuthRoutesPage.name,
+          AuthRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AuthRoutesPage';
+  static const String name = 'AuthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

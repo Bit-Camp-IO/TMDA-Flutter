@@ -28,7 +28,7 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          page: AuthRoutesPage.page,
+          page: AuthRoute.page,
           path: '/auth',
           initial: true,
           children: [
@@ -45,7 +45,7 @@ class AppRouter extends _$AppRouter {
           path: '/main',
           children: [
             CustomRoute(
-              page: MovieTabRoutePage.page,
+              page: MovieTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
               path: 'movie',
@@ -72,7 +72,7 @@ class AppRouter extends _$AppRouter {
               ],
             ),
             CustomRoute(
-              page: TvTabRoutePage.page,
+              page: TvShowsTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
               path: 'tv',
@@ -99,7 +99,7 @@ class AppRouter extends _$AppRouter {
               ],
             ),
             AutoRoute(
-              page: SearchTabRoutePage.page,
+              page: SearchTabRoute.page,
               path: 'search',
               children: [
                 AutoRoute(
@@ -134,7 +134,7 @@ class AppRouter extends _$AppRouter {
               ],
             ),
             CustomRoute(
-              page: AccountTabRoutePage.page,
+              page: AccountTabRoute.page,
               path: 'account',
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
@@ -170,27 +170,27 @@ class AppRouter extends _$AppRouter {
       ];
 }
 
-@RoutePage(name: 'MovieTabRoutePage')
-class MovieTabRoute extends AutoRouter {
-  const MovieTabRoute({super.key});
+@RoutePage(name: 'MovieTabRoute')
+class MoviesTab extends AutoRouter {
+  const MoviesTab({super.key});
 }
 
-@RoutePage(name: 'TvTabRoutePage')
-class TvTabRoute extends AutoRouter {
-  const TvTabRoute({super.key});
+@RoutePage(name: 'TvShowsTabRoute')
+class TvShowsTab extends AutoRouter {
+  const TvShowsTab({super.key});
 }
 
-@RoutePage(name: 'SearchTabRoutePage')
-class SearchTabRoute extends AutoRouter {
-  const SearchTabRoute({super.key});
+@RoutePage(name: 'SearchTabRoute')
+class SearchTab extends AutoRouter {
+  const SearchTab({super.key});
 }
 
-@RoutePage(name: 'AccountTabRoutePage')
-class AccountTabRoute extends AutoRouter {
-  const AccountTabRoute({super.key});
+@RoutePage(name: 'AccountTabRoute')
+class AccountTab extends AutoRouter {
+  const AccountTab({super.key});
 }
 
-@RoutePage(name: 'AuthRoutesPage')
-class AuthRoutes extends AutoRouter {
-  const AuthRoutes({super.key});
+@RoutePage(name: 'AuthRoute')
+class Auth extends AutoRouter {
+  const Auth({super.key});
 }

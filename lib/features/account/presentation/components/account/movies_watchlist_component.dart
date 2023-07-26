@@ -40,7 +40,7 @@ class MoviesWatchListComponent extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium!,
                       ),
                       onTap: () {
-                        context.navigateTo(const MovieTabRoutePage());
+                        context.navigateTo(const MovieTabRoute());
                       },
                     ),
                   ),

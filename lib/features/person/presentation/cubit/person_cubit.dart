@@ -31,7 +31,4 @@ class PersonCubit extends Cubit<PersonState> {
       ),
     );
   }
-  void changeReadMoreState({required bool isTextExpanded}){
-    emit(state.copyWith(isTextExpanded: isTextExpanded));
-  }
 }

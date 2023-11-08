@@ -1,18 +1,12 @@
-// ignore_for_file: unused_import
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/widgets/custom_icon_button.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
-import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
+import 'package:tmda/features/movie/presentation/bloc/see_all_movies_bloc/see_all_movies_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_see_all/see_all_movies_component.dart';
 import 'package:tmda/injection_container.dart';
 

@@ -10,7 +10,7 @@ import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_cubit/tv_show_cubit.dart';
 
 class PopularTvShowsComponent extends StatelessWidget {
   const PopularTvShowsComponent({super.key});
@@ -30,7 +30,7 @@ class PopularTvShowsComponent extends StatelessWidget {
             );
           },
         ),
-        BlocBuilder<TvShowsBloc, TvShowsState>(
+        BlocBuilder<TvShowsCubit, TvShowsState>(
           builder: (context, state) {
             return SizedBox(
               height: 260.h,

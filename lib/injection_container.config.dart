@@ -18,8 +18,6 @@ import 'package:tmda/core/api/api_consumer.dart' as _i9;
 import 'package:tmda/core/api/dio_consumer.dart' as _i10;
 import 'package:tmda/core/api/dio_interceptor.dart' as _i5;
 import 'package:tmda/core/api/dio_logger.dart' as _i6;
-import 'package:tmda/core/util/shared_data_source/local_data_source.dart'
-    as _i8;
 import 'package:tmda/features/account/data/datasources/account_data_source.dart'
     as _i31;
 import 'package:tmda/features/account/data/repositories/account_repository_impl.dart'
@@ -48,8 +46,6 @@ import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist
     as _i69;
 import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart'
     as _i38;
-import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart'
-    as _i88;
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart'
     as _i85;
 import 'package:tmda/features/auth/data/datasources/auth_data_source.dart'
@@ -66,8 +62,10 @@ import 'package:tmda/features/auth/domain/usecases/user_login_usecase.dart'
     as _i29;
 import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart'
     as _i30;
-import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart' as _i36;
-import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart' as _i70;
+import 'package:tmda/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart'
+    as _i36;
+import 'package:tmda/features/auth/presentation/cubit/login_cubit/login_cubit.dart'
+    as _i70;
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart'
     as _i15;
 import 'package:tmda/features/movie/data/repositories/movies_repository_impl.dart'
@@ -102,11 +100,11 @@ import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_simil
     as _i46;
 import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_top_rated_movies_usecase.dart'
     as _i48;
-import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart'
+import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart'
     as _i71;
-import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart'
+import 'package:tmda/features/movie/presentation/bloc/movies_cubit/movies_cubit.dart'
     as _i72;
-import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart'
+import 'package:tmda/features/movie/presentation/bloc/see_all_movies_bloc/see_all_movies_bloc.dart'
     as _i80;
 import 'package:tmda/features/person/data/datasources/person_data_source.dart'
     as _i18;
@@ -134,6 +132,10 @@ import 'package:tmda/features/search/domain/usecases/search_for_tv_show_usecase.
     as _i79;
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart'
     as _i86;
+import 'package:tmda/features/shared/data/datasources/local_data_source.dart'
+    as _i8;
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart'
+    as _i88;
 import 'package:tmda/features/tv/data/datasources/tv_data_source.dart' as _i25;
 import 'package:tmda/features/tv/data/repositories/tv_repository_impl.dart'
     as _i27;
@@ -167,11 +169,11 @@ import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_th
     as _i67;
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_today.dart'
     as _i68;
-import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart'
+import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows_bloc/see_all_tv_shows_bloc.dart'
     as _i87;
-import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart'
+import 'package:tmda/features/tv/presentation/bloc/tv_show_cubit/tv_show_cubit.dart'
     as _i83;
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart'
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart'
     as _i82;
 import 'package:tmda/register_module.dart' as _i89;
 
@@ -320,14 +322,14 @@ extension GetItInjectableX on _i1.GetIt {
           userForgetPasswordUseCase: gh<_i28.UserForgetPasswordUseCase>(),
           userLoginUseCase: gh<_i29.UserLoginUseCase>(),
         ));
-    gh.factory<_i71.MovieDetailsBloc>(() => _i71.MovieDetailsBloc(
+    gh.factory<_i71.MovieDetailsCubit>(() => _i71.MovieDetailsCubit(
           gh<_i51.GetMovieDetailsUseCase>(),
           gh<_i61.GetSessionIdUseCase>(),
           gh<_i21.PlayMovieVideoUseCase>(),
           gh<_i34.AddOrRemoveMovieFromWatchListUseCase>(),
           gh<_i52.GetMovieStateUseCase>(),
         ));
-    gh.factory<_i72.MoviesBloc>(() => _i72.MoviesBloc(
+    gh.factory<_i72.MoviesCubit>(() => _i72.MoviesCubit(
           gh<_i56.GetNowPlayingMoviesUseCase>(),
           gh<_i58.GetPopularMoviesUseCase>(),
           gh<_i62.GetTopRatedMoviesUseCase>(),
@@ -359,14 +361,14 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.lazySingleton<_i81.TvGetSessionIdUseCase>(
         () => _i81.TvGetSessionIdUseCase(gh<_i26.TvShowsRepository>()));
-    gh.factory<_i82.TvShowDetailsBloc>(() => _i82.TvShowDetailsBloc(
+    gh.factory<_i82.TvShowDetailsCubit>(() => _i82.TvShowDetailsCubit(
           gh<_i64.GetTvShowDetailsUseCase>(),
           gh<_i81.TvGetSessionIdUseCase>(),
           gh<_i35.AddOrRemoveTvFromWatchListUseCase>(),
           gh<_i74.PlayTvShowVideoUseCase>(),
           gh<_i65.GetTvShowStateUseCase>(),
         ));
-    gh.factory<_i83.TvShowsBloc>(() => _i83.TvShowsBloc(
+    gh.factory<_i83.TvShowsCubit>(() => _i83.TvShowsCubit(
           gh<_i68.GetTvShowsAiringTodayUseCase>(),
           gh<_i67.GetTvShowsAiringThisWeekUseCase>(),
           gh<_i59.GetPopularTvShowsUseCase>(),
@@ -399,7 +401,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i65.GetTvShowStateUseCase>(),
           gh<_i35.AddOrRemoveTvFromWatchListUseCase>(),
         ));
-    gh.factory<_i88.AccountBloc>(() => _i88.AccountBloc(
+    gh.factory<_i88.AccountCubit>(() => _i88.AccountCubit(
           gh<_i37.GetAccountDetailsUseCase>(),
           gh<_i54.GetMoviesWatchListUseCase>(),
           gh<_i69.GetTvShowsWatchListUseCase>(),

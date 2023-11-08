@@ -6,7 +6,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_body_component.dart';
 import 'package:tmda/injection_container.dart';
 
@@ -18,7 +18,7 @@ class TvDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TvShowDetailsBloc>()..add(GetTvShowDetailsEvent(tvShowId)),
+      create: (context) => getIt<TvShowDetailsCubit>()..getTvShowDetails(tvShowId: tvShowId),
       child: this,
     );
   }
@@ -39,12 +39,12 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
   }
   void _tabListener(){
     if (context.tabsRouter.activeIndex != 0) {
-      context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
+      context.read<TvShowDetailsCubit>().getTvShowStates(tvShowId: widget.tvShowId);
     }
   }
   @override
   void didPopNext() {
-    context.read<TvShowDetailsBloc>().add(GetTvShowStatesEvent(tvShowId: widget.tvShowId));
+    context.read<TvShowDetailsCubit>().getTvShowStates(tvShowId: widget.tvShowId);
     super.didPopNext();
   }
   @override
@@ -52,7 +52,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
     return Scaffold(
       body: NeonLightBackGround(
         isBackButtonActive: true,
-        child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+        child: BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
           builder: (context, state) {
             switch (state.tvShowDetailsState) {
               case BlocState.initial || BlocState.loading:
@@ -64,8 +64,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<TvShowDetailsBloc>()
-                        .add(GetTvShowDetailsEvent(widget.tvShowId));
+                    context.read<TvShowDetailsCubit>().getTvShowDetails(tvShowId: widget.tvShowId);
                   },
                 );
             }

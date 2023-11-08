@@ -12,7 +12,7 @@ import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
 
 class TvShowWatchListComponent extends StatelessWidget {
   const TvShowWatchListComponent({super.key});
@@ -21,7 +21,7 @@ class TvShowWatchListComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Animate(
       effects: [FadeEffect(duration: 400.ms)],
-      child: BlocBuilder<AccountBloc, AccountState>(
+      child: BlocBuilder<AccountCubit, AccountState>(
         buildWhen: (previous, current) =>
             previous.watchListTvShows != current.watchListTvShows,
         builder: (context, state) {

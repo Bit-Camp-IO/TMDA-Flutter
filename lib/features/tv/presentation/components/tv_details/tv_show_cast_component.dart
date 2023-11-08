@@ -11,14 +11,14 @@ import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/cast_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 
 class TvShowCastComponent extends StatelessWidget {
   const TvShowCastComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+    return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         if (state.tvShowDetails.cast.isNotEmpty) {
           return Animate(

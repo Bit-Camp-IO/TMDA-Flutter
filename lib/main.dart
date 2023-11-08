@@ -10,5 +10,5 @@ void main() async {
   await Hive.initFlutter();
   configureDependencies(); 
   Bloc.observer = MyBlocObserver();
-  runApp(const MyApp());
+  runApp(const TmdaApp());
 }

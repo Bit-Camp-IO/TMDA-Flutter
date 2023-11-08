@@ -9,8 +9,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
+import 'package:tmda/features/movie/presentation/bloc/movies_cubit/movies_cubit.dart';
 
 class TopRatedMoviesComponent extends StatelessWidget {
   const TopRatedMoviesComponent({super.key});
@@ -30,7 +30,7 @@ class TopRatedMoviesComponent extends StatelessWidget {
             );
           },
         ),
-        BlocBuilder<MoviesBloc, MoviesState>(
+        BlocBuilder<MoviesCubit, MoviesState>(
           builder: (context, state) {
             return SizedBox(
               height: 260.h,

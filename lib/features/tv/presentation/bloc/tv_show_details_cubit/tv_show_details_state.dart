@@ -1,4 +1,4 @@
-part of 'tv_show_details_bloc.dart';
+part of 'tv_show_details_cubit.dart';
 
 class TvShowDetailsState extends Equatable {
   final TvShowDetails tvShowDetails;
@@ -9,13 +9,8 @@ class TvShowDetailsState extends Equatable {
   final bool hasSimilarTvShowsListReachedMax;
   final String getRecommendedTvShowsFailMessage;
   final bool hasRecommendedTvShowsListReachedMax;
-  final int bodyTabIndex;
-  final int seasonsTabIndex;
-  final double animatedHeight;
   const TvShowDetailsState({
-    this.tvShowDetails = const TvShowDetails(
-
-    ),
+    this.tvShowDetails = const TvShowDetails(),
     this.tvShowDetailsState = BlocState.loading,
     this.tvShowDetailsFailMessage = '',
     this.addOrRemoveFromWatchListFailMessage = '',
@@ -23,9 +18,6 @@ class TvShowDetailsState extends Equatable {
     this.hasSimilarTvShowsListReachedMax = false,
     this.getRecommendedTvShowsFailMessage = '',
     this.hasRecommendedTvShowsListReachedMax = false,
-    this.bodyTabIndex = 0,
-    this.seasonsTabIndex = 0,
-    this.animatedHeight = 420,
   });
   TvShowDetailsState copyWith({
     TvShowDetails? tvShowDetails,
@@ -36,9 +28,6 @@ class TvShowDetailsState extends Equatable {
     bool? hasSimilarTvShowsListReachedMax,
     String? getRecommendedTvShowsFailMessage,
     bool? hasRecommendedTvShowsListReachedMax,
-    int? bodyTabIndex,
-    int? seasonsTabIndex,
-    double? animatedHeight,
   }) {
     return TvShowDetailsState(
       tvShowDetails: tvShowDetails ?? this.tvShowDetails,
@@ -49,9 +38,6 @@ class TvShowDetailsState extends Equatable {
       hasSimilarTvShowsListReachedMax: hasSimilarTvShowsListReachedMax ?? this.hasSimilarTvShowsListReachedMax,
       getRecommendedTvShowsFailMessage: getRecommendedTvShowsFailMessage ?? this.getRecommendedTvShowsFailMessage,
       hasRecommendedTvShowsListReachedMax: hasRecommendedTvShowsListReachedMax ?? this.hasRecommendedTvShowsListReachedMax,
-      bodyTabIndex: bodyTabIndex ?? this.bodyTabIndex,
-      seasonsTabIndex: seasonsTabIndex ?? this.seasonsTabIndex,
-      animatedHeight: animatedHeight ?? this.animatedHeight
     );
   }
   @override
@@ -64,8 +50,5 @@ class TvShowDetailsState extends Equatable {
         hasSimilarTvShowsListReachedMax,
         hasRecommendedTvShowsListReachedMax,
         getRecommendedTvShowsFailMessage,
-        bodyTabIndex,
-        seasonsTabIndex,
-        animatedHeight
       ];
 }

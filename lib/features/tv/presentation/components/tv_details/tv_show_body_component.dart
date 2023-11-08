@@ -7,7 +7,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_play_button.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/recommended_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_cast_component.dart';
@@ -25,22 +25,19 @@ class TvShowDetailsBodyComponent extends StatefulWidget {
 
 class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent> with TickerProviderStateMixin {
   late ScrollController _scrollController;
-
+  final ValueNotifier<double> animatedHeight = ValueNotifier(420);
   void _scrollListener() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    final tvDetailsBloc = context.read<TvShowDetailsBloc>();
     if (_scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (tvDetailsBloc.state.animatedHeight != 0) {
-        tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 0));
+      if (animatedHeight.value != 0) {
+       animatedHeight.value = 0;
       }
     }
-    if (_scrollController.position.userScrollDirection ==
-            ScrollDirection.forward &&
-        currentScroll < maxScroll * 0.03) {
-      if (tvDetailsBloc.state.animatedHeight == 0) {
-        tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 420));
+    if (_scrollController.position.userScrollDirection == ScrollDirection.forward && currentScroll < maxScroll * 0.03) {
+      if (animatedHeight.value == 0) {
+        animatedHeight.value = 420;
       }
     }
   }
@@ -53,7 +50,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+    return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       buildWhen: (previous, current) =>
           previous.tvShowDetailsState != current.tvShowDetailsState,
       builder: (context, state) {
@@ -63,51 +60,44 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
             controller: _scrollController,
             padding: EdgeInsets.zero,
             children: [
-              BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
-                buildWhen: (previous, current) =>
-                    previous.animatedHeight != current.animatedHeight,
-                builder: (context, state) {
-                  return AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.linear,
-                    width: MediaQuery.sizeOf(context).width,
-                    height: state.animatedHeight.h,
-                    child: Stack(
-                      children: [
-                        TvDetailsPoster(
-                          height: state.animatedHeight.h,
-                          errorPosterPath: AssetsManager.errorPoster,
-                          posterPath: state.tvShowDetails.posterPath,
-                        ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 15.h,
-                          child: NeonPlayButton(
-                            onTap: () {
-                              if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
-                                context.read<TvShowDetailsBloc>().add(
-                                  PlayTvShowVideoEvent(
-                                    state.tvShowDetails.tvShowVideo.key,
+              ValueListenableBuilder(
+                valueListenable: animatedHeight,
+                builder: (context, newAnimatedHeight, child) =>  AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.linear,
+                  width: MediaQuery.sizeOf(context).width,
+                  height: newAnimatedHeight.h,
+                  child: Stack(
+                    children: [
+                      TvDetailsPoster(
+                        height: newAnimatedHeight.h,
+                        errorPosterPath: AssetsManager.errorPoster,
+                        posterPath: state.tvShowDetails.posterPath,
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 15.h,
+                        child: NeonPlayButton(
+                          onTap: () {
+                            if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
+                              context.read<TvShowDetailsCubit>().playTvShowVideo();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  errorSnackBar(
+                                      errorMessage: StringsManager.movieNoVideosMessage,
+                                      context: context,
                                   ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    errorSnackBar(
-                                        errorMessage: StringsManager.movieNoVideosMessage,
-                                        context: context,
-                                    ),
-                                );
-                              }
-                            },
-                          ),
+                              );
+                            }
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+              BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
                 builder: (context, state) {
                   return Column(
                     children: [
@@ -131,6 +121,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
   @override
   void dispose() {
     _scrollController..removeListener(_scrollListener)..dispose();
+    animatedHeight.dispose();
     super.dispose();
   }
 }

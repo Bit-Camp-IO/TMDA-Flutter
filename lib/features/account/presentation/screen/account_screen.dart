@@ -7,30 +7,18 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
-import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
 import 'package:tmda/features/account/presentation/components/account/movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
 import 'package:tmda/features/account/presentation/components/account/tv_show_watchlist_component.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/injection_container.dart';
-
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
 @RoutePage()
-class AccountScreen extends StatefulWidget implements AutoRouteWrapper {
+class AccountScreen extends StatefulWidget{
   const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
 
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AccountBloc>()
-        ..add(GetAccountDetailsEvent())
-        ..add(GetAccountMoviesWatchListEvent())
-        ..add(GetAccountTvShowsWatchListEvent()),
-      child: this,
-    );
-  }
 }
 
 class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateMixin<AccountScreen>{
@@ -45,33 +33,27 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateM
 
   void _tabListener(){
     if (context.tabsRouter.activeIndex == 3) {
-      context.read<AccountBloc>()
-        ..add(GetAccountMoviesWatchListEvent())
-        ..add(GetAccountTvShowsWatchListEvent());
+      context.read<AccountCubit>()
+        ..getAccountMoviesWatchList()
+        ..getAccountTvShowsWatchList();
     }
   }
 
   @override
   void didPopNext() {
-    context.read<AccountBloc>()
-      ..add(GetAccountMoviesWatchListEvent())
-      ..add(GetAccountTvShowsWatchListEvent());
+    context.read<AccountCubit>()
+      ..getAccountMoviesWatchList()
+      ..getAccountTvShowsWatchList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NeonLightBackGround(
-        child: BlocConsumer<AccountBloc, AccountState>(
+        child: BlocConsumer<AccountCubit, AccountState>(
           listener: (context, state) {
             if (state.userAccountState == UserAccountState.loggedOut) {
-              AutoRouter.of(context).replace(
-                const AuthRoute(
-                  children: [
-                    SelectionRoute(),
-                  ]
-                )
-              );
+              context.replaceRoute(const AuthRoute());
             }
           },
           builder: (context, state) {
@@ -93,10 +75,10 @@ class _AccountScreenState extends State<AccountScreen> with AutoRouteAwareStateM
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<AccountBloc>()
-                      ..add(GetAccountDetailsEvent())
-                      ..add(GetAccountMoviesWatchListEvent())
-                      ..add(GetAccountTvShowsWatchListEvent());
+                    context.read<AccountCubit>()
+                      ..getAccountDetails()
+                      ..getAccountMoviesWatchList()
+                      ..getAccountTvShowsWatchList();
                   },
                 );
             }

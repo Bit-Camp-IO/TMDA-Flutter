@@ -6,7 +6,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows_bloc/see_all_tv_shows_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_see_all/see_all_tv_shows_component.dart';
 import 'package:tmda/injection_container.dart';
 

@@ -2,20 +2,35 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
+import 'package:tmda/injection_container.dart';
 
-@RoutePage(name: 'MainNavigationTabs')
-class NavigationTabs extends StatefulWidget {
-  const NavigationTabs({super.key});
+@RoutePage(name: 'BottomNaviagationBarRoute')
+class BottomNaviagationBar extends StatefulWidget implements AutoRouteWrapper {
+  const BottomNaviagationBar({super.key});
 
   @override
-  State<NavigationTabs> createState() => _NavigationTabsState();
+  State<BottomNaviagationBar> createState() => _BottomNaviagationBarState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<AccountCubit>()
+        ..getAccountDetails()
+        ..getAccountMoviesWatchList()
+        ..getAccountTvShowsWatchList(),
+      lazy: false,
+      child: this,
+    );
+  }
 }
 
-class _NavigationTabsState extends State<NavigationTabs> {
+class _BottomNaviagationBarState extends State<BottomNaviagationBar> {
   DateTime? _lastTapTime;
 
   @override
@@ -62,7 +77,8 @@ class _NavigationTabsState extends State<NavigationTabs> {
                   onTap: (value) {
                     final timeNow = DateTime.now();
                     if (_lastTapTime != null &&
-                        timeNow.difference(_lastTapTime!) <= const Duration(milliseconds: 300)) {
+                        timeNow.difference(_lastTapTime!) <=
+                            const Duration(milliseconds: 300)) {
                       switch (tabsRouter.activeIndex) {
                         case 0:
                           context.router.root.navigate(const MovieRoute());

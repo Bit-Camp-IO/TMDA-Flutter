@@ -5,13 +5,14 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 
 class TvShowOverview extends StatelessWidget {
   const TvShowOverview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+    return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         return Column(
           children: [
@@ -54,18 +55,16 @@ class TvShowOverview extends StatelessWidget {
                   Positioned(
                     right: 45.w,
                     bottom: 35.h,
-                    child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+                    child: BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
                       buildWhen: (previous, current) =>
-                          previous.tvShowDetails.status.isInWatchList != current.tvShowDetails.status.isInWatchList,
+                          previous.tvShowDetails.status.isInWatchList !=
+                          current.tvShowDetails.status.isInWatchList,
                       builder: (context, state) {
                         return InkWell(
                           onTap: () {
-                            context.read<TvShowDetailsBloc>().add(
-                                  AddOrRemoveTvFromWatchListEvent(
-                                    isInWatchList: !state
-                                        .tvShowDetails.status.isInWatchList,
-                                    tvShowId: state.tvShowDetails.id,
-                                  ),
+                            context.read<TvShowDetailsCubit>().addOrRemoveTvFromWatchList(
+                                  isInWatchList: !state.tvShowDetails.status.isInWatchList,
+                                  tvShowId: state.tvShowDetails.id,
                                 );
                           },
                           child: Column(
@@ -111,7 +110,8 @@ class TvShowOverview extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        StringsManager.tvShowSeasons(state.tvShowDetails.numberOfSeasons),
+                        StringsManager.tvShowSeasons(
+                            state.tvShowDetails.numberOfSeasons),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -119,7 +119,8 @@ class TvShowOverview extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        StringsManager.tvShowEpisodes(state.tvShowDetails.numberOfEpisodes),
+                        StringsManager.tvShowEpisodes(
+                            state.tvShowDetails.numberOfEpisodes),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -216,7 +217,8 @@ class TvShowOverview extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
+              padding:
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
               child: Text(
                 state.tvShowDetails.overview,
                 textAlign: TextAlign.center,

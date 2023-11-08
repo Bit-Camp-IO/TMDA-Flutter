@@ -15,9 +15,9 @@ class MovieDetails extends Equatable {
   final String releaseDate;
   final String language;
   final String title;
-  final dynamic runTime;
+  final num runTime;
   final double voteAverage;
-  final dynamic popularity;
+  final num popularity;
   final MovieProductionCountries productionCountry;
   final MovieAccountStates accountStates;
   final List<MovieGenres> genres;
@@ -27,24 +27,33 @@ class MovieDetails extends Equatable {
   final List<Movies> similarMovies;
   final List<Movies> recommendedMovies;
   const MovieDetails({
-    required this.id,
-    required this.posterPath,
-    required this.genres,
-    required this.backDropPath,
-    required this.overview,
-    required this.releaseDate,
-    required this.title,
-    required this.runTime,
-    required this.voteAverage,
-    required this.popularity,
-    required this.productionCountry,
-    required this.video,
-    required this.language,
-    required this.accountStates,
-    required this.reviews,
-    required this.cast,
-    required this.similarMovies,
-    required this.recommendedMovies,
+    this.posterPath =  '',
+    this.backDropPath = '',
+    this.id =  0,
+    this.overview = '',
+    this.releaseDate =  '',
+    this.title =  '',
+    this.runTime =  0,
+    this.voteAverage = 0,
+    this.popularity = 0,
+    this.language ='',
+    this.productionCountry = const MovieProductionCountries(
+      countryCode: '',
+      countryName: '',
+    ),
+    this.video = const MovieVideo(
+      name: '',
+      key: '',
+      videoType: '',
+    ),
+    this.cast = const [],
+    this.reviews = const [],
+    this.similarMovies = const [],
+    this.recommendedMovies = const [],
+    this.genres = const [],
+    this.accountStates = const MovieAccountStates(
+      inWatchList: false,
+    ),
   });
 
   @override

@@ -8,7 +8,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
+import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/similar_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_overview_component.dart';
@@ -25,7 +25,7 @@ class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<MovieDetailsBloc>()..add(GetMovieDetailsEvent(movieId)),
+      create: (context) => getIt<MovieDetailsCubit>()..getMovieDetails(movieId: movieId),
       child: this,
     );
   }
@@ -46,13 +46,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
 
   void _tabListener(){
     if (context.tabsRouter.activeIndex != 1) {
-      context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
+      context.read<MovieDetailsCubit>().getMovieStates(movieId: widget.movieId);
     }
   }
   
   @override
   void didPopNext() {
-    context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
+    context.read<MovieDetailsCubit>().getMovieStates(movieId: widget.movieId);
     super.didPopNext();
   }
 
@@ -67,7 +67,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
     return Scaffold(
       body: NeonLightBackGround(
         isBackButtonActive: true,
-        child: BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+        child: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
           buildWhen: (previous, current) =>
               previous.movieDetailsState != current.movieDetailsState,
           builder: (context, state) {
@@ -97,7 +97,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<MovieDetailsBloc>().add(GetMovieDetailsEvent(widget.movieId));
+                    context.read<MovieDetailsCubit>().getMovieDetails(movieId: widget.movieId);
                   },
                 );
             }

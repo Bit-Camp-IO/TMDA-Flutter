@@ -55,14 +55,14 @@ class _AccountSeeAllScreenState extends State<AccountSeeAllScreen> {
     final maxScroll = scrollController.position.maxScrollExtent;
     final currentScroll = scrollController.offset;
     final scrollDirection = scrollController.position.userScrollDirection;
-    final accountBloc = context.read<AccountSeeAllBloc>();
+    final accountSeeAllCubit = context.read<AccountSeeAllBloc>();
     if (currentScroll != maxScroll && scrollDirection == ScrollDirection.reverse) {
       if (currentScroll >= maxScroll * 0.9) {
         switch (widget.watchListType) {
           case (WatchListType.moviesWatchList):
-            accountBloc.add(GetAllMoviesWatchListEvent());
+            accountSeeAllCubit.add(GetAllMoviesWatchListEvent());
           case (WatchListType.tvShowWatchList):
-            accountBloc.add(GetAllTvShowsWatchListEvent());
+            accountSeeAllCubit.add(GetAllTvShowsWatchListEvent());
         }
       }
     }

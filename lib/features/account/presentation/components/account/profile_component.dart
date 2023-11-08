@@ -6,7 +6,7 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_profile_picture.dart';
-import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
 
 class ProfileComponent extends StatelessWidget {
   const ProfileComponent({super.key});
@@ -15,7 +15,7 @@ class ProfileComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Animate(
       effects: [FadeEffect(duration: 400.ms)],
-      child: BlocBuilder<AccountBloc, AccountState>(
+      child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
           return Row(
             children: [
@@ -47,7 +47,7 @@ class ProfileComponent extends StatelessWidget {
               const Spacer(flex: 1),
               IconButton(
                 onPressed: () {
-                  context.read<AccountBloc>().add(AccountLogoutEvent());
+                  context.read<AccountCubit>().accountLogout();
                 },
                 icon: Icon(SolarSystemIcons.sign_out,
                     color: Colors.white, size: 30.sp),

@@ -6,8 +6,8 @@ import 'package:tmda/config/theme/theme_manager.dart';
 import 'package:tmda/injection_container.dart';
 import 'package:tmda/route_observer.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TmdaApp extends StatelessWidget {
+  const TmdaApp({super.key});
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
           navigatorObservers: () => [MyRouteObserver(), AutoRouteObserver()],
           getIt<AppRouter>(),
         ),
-        routeInformationParser:
-            getIt<AppRouter>().defaultRouteParser(includePrefixMatches: true),
+        routeInformationParser: getIt<AppRouter>().defaultRouteParser(includePrefixMatches: true),
         theme: ThemeManager.darkTheme(),
       ),
     );

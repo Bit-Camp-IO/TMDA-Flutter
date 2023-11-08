@@ -7,7 +7,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_cubit/tv_show_cubit.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/popular_tv_shows_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_today_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_shows/tv_shows_airing_this_week_component.dart';
@@ -21,11 +21,11 @@ class TvShowScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TvShowsBloc>()
-        ..add(GetTvShowsAiringTodayEvent())
-        ..add(GetTvShowsAiringThisWeekEvent())
-        ..add(GetPopularTvShowsEvent())
-        ..add(GetTopRatedTvShowsEvent()),
+      create: (context) => getIt<TvShowsCubit>()
+        ..getTvShowsAiringThisWeek()
+        ..getAiringTodayTvShows()
+        ..getPopularTvShows()
+        ..getTopRatedTvShows(),
       child: this,
     );
   }
@@ -34,7 +34,7 @@ class TvShowScreen extends StatelessWidget implements AutoRouteWrapper {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NeonLightBackGround(
-        child: BlocBuilder<TvShowsBloc, TvShowsState>(
+        child: BlocBuilder<TvShowsCubit, TvShowsState>(
           builder: (context, state) {
             switch (state.tvShowsState) {
               case BlocState.initial || BlocState.loading:
@@ -55,11 +55,11 @@ class TvShowScreen extends StatelessWidget implements AutoRouteWrapper {
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<TvShowsBloc>()
-                      ..add(GetTvShowsAiringTodayEvent())
-                      ..add(GetTvShowsAiringThisWeekEvent())
-                      ..add(GetPopularTvShowsEvent())
-                      ..add(GetTopRatedTvShowsEvent());
+                    context.read<TvShowsCubit>()
+                      ..getTvShowsAiringThisWeek()
+                      ..getAiringTodayTvShows()
+                      ..getPopularTvShows()
+                      ..getTopRatedTvShows();
                   },
                 );
             }

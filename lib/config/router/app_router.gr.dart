@@ -18,7 +18,7 @@ abstract class _$AppRouter extends RootStackRouter {
     AccountRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WrappedRoute(child: const AccountScreen()),
+        child: const AccountScreen(),
       );
     },
     AccountSeeAllRoute.name: (routeData) {
@@ -42,6 +42,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const Auth(),
+      );
+    },
+    BottomNaviagationBarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(child: const BottomNaviagationBar()),
       );
     },
     LoginRoute.name: (routeData) {
@@ -71,12 +77,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MoviesTab(),
-      );
-    },
-    MainNavigationTabs.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const NavigationTabs(),
       );
     },
     PersonRoute.name: (routeData) {
@@ -246,6 +246,20 @@ class AuthRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BottomNaviagationBar]
+class BottomNaviagationBarRoute extends PageRouteInfo<void> {
+  const BottomNaviagationBarRoute({List<PageRouteInfo>? children})
+      : super(
+          BottomNaviagationBarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BottomNaviagationBarRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -321,20 +335,6 @@ class MovieTabRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MovieTabRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [NavigationTabs]
-class MainNavigationTabs extends PageRouteInfo<void> {
-  const MainNavigationTabs({List<PageRouteInfo>? children})
-      : super(
-          MainNavigationTabs.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MainNavigationTabs';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

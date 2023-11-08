@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -11,12 +10,10 @@ import 'package:tmda/features/tv/domain/usecases/tv_show_details/play_tv_show_vi
 import 'package:tmda/features/tv/domain/usecases/tv_get_session_key_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_tv_show_details_usecase.dart';
 
-part 'tv_show_details_event.dart';
-
 part 'tv_show_details_state.dart';
 
 @injectable
-class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
+class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   final GetTvShowDetailsUseCase _getTvShowDetailsUseCase;
   final TvGetSessionIdUseCase _getSessionIdUseCase;
   final AddOrRemoveTvFromWatchListUseCase _addOrRemoveTvFromWatchListUseCase;
@@ -26,24 +23,17 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
   int similarTvShowsPageNumber = 1;
   int recommendedTvShowsPageNumber = 1;
 
-  TvShowDetailsBloc(
+  TvShowDetailsCubit(
     this._getTvShowDetailsUseCase,
     this._getSessionIdUseCase,
     this._addOrRemoveTvFromWatchListUseCase,
     this._playTvShowVideoUseCase,
     this._getTvShowStateUseCase,
-  ) : super(const TvShowDetailsState()) {
-    on<GetTvShowDetailsEvent>(_getTvShowDetailsEvent);
-    on<GetTvShowStatesEvent>(_getTvShowStatesEvent);
-    on<AddOrRemoveTvFromWatchListEvent>(_addOrRemoveTvFromWatchListEvent);
-    on<PlayTvShowVideoEvent>(_playTvShowVideoEvent);
-    on<OnScrollAnimationEvent>(_onScrollAnimationEvent,
-        transformer: droppable());
-  }
+  ) : super(const TvShowDetailsState());
 
-  Future<void> _getTvShowDetailsEvent(event, emit) async {
+  Future<void> getTvShowDetails({required int tvShowId}) async {
     sessionId = await _getSessionIdUseCase();
-    await _getTvShowDetailsUseCase(event.tvShowId, sessionId).then(
+    await _getTvShowDetailsUseCase(tvShowId, sessionId).then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
           state.copyWith(
@@ -63,9 +53,9 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     );
   }
 
-  Future<void> _getTvShowStatesEvent(event, emit) async {
+  Future<void> getTvShowStates({required int tvShowId}) async {
     sessionId = await _getSessionIdUseCase();
-    await _getTvShowStateUseCase(tvShowId: event.tvShowId, sessionId: sessionId)
+    await _getTvShowStateUseCase(tvShowId: tvShowId, sessionId: sessionId)
         .then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
@@ -87,10 +77,10 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     );
   }
 
-  Future<void> _addOrRemoveTvFromWatchListEvent(event, emit) async {
+  Future<void> addOrRemoveTvFromWatchList({required bool isInWatchList, required int tvShowId}) async {
     await _addOrRemoveTvFromWatchListUseCase(
-      isInWatchList: event.isInWatchList,
-      tvShowId: event.tvShowId,
+      isInWatchList: isInWatchList,
+      tvShowId: tvShowId,
       sessionId: sessionId,
     ).then(
       (value) => value.fold(
@@ -110,16 +100,8 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
     );
   }
 
-  void _onScrollAnimationEvent(event, emit) {
-    emit(
-      state.copyWith(
-        animatedHeight: event.animatedHeight,
-      ),
-    );
-  }
-
-  Future<void> _playTvShowVideoEvent(event, emit) async {
-    await _playTvShowVideoUseCase(youtubeVideoKey: event.videoKey);
+  Future<void> playTvShowVideo() async {
+    await _playTvShowVideoUseCase(youtubeVideoKey: state.tvShowDetails.tvShowVideo.key);
   }
 
 }

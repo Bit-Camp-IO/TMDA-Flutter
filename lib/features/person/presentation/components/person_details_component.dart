@@ -16,11 +16,11 @@ class PersonOverviewComponent extends StatefulWidget {
   const PersonOverviewComponent({super.key});
 
   @override
-  State<PersonOverviewComponent> createState() =>
-      _PersonOverviewComponentState();
+  State<PersonOverviewComponent> createState() => _PersonOverviewComponentState();
 }
 
 class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
+  final ValueNotifier<bool> isTextExpanded = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PersonCubit, PersonState>(
@@ -65,13 +65,8 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0).r,
-                child: BlocBuilder<PersonCubit, PersonState>(
-                  builder: (context, state) {
-                    return _buildBiographyText(
-                      biography: state.personData.biography,
-                      isTextExpanded: state.isTextExpanded,
-                    );
-                  },
+                child: _buildBiographyText(
+                  biography: state.personData.biography,
                 ),
               ),
             ],
@@ -81,7 +76,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
     );
   }
 
-  Widget _buildBiographyText({required String biography, required bool isTextExpanded}) {
+  Widget _buildBiographyText({required String biography}) {
     if (biography.isEmpty) {
       return SizedBox(
         height: 100.h,
@@ -94,13 +89,15 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       );
     } else {
       if (biography.length >= 250) {
-        return ExpandableText(
-          text: biography,
-          isTextExpanded: isTextExpanded,
-          onPressed: () {
-            context.read<PersonCubit>()
-                .changeReadMoreState(isTextExpanded: !isTextExpanded);
-          },
+        return ValueListenableBuilder(
+          valueListenable: isTextExpanded,
+          builder: (context, isTextExpandedValue, child) =>ExpandableText(
+            text: biography,
+            isTextExpanded: isTextExpandedValue,
+            onPressed: () {
+              isTextExpanded.value = !isTextExpanded.value;
+            },
+          ),
         );
       } else {
         return Text(

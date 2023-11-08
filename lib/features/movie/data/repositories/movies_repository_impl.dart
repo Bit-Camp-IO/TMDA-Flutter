@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
-import 'package:tmda/core/util/shared_data_source/local_data_source.dart';
+import 'package:tmda/features/shared/data/datasources/local_data_source.dart';
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart';
 import 'package:tmda/features/movie/data/models/movies_model.dart';
 import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';

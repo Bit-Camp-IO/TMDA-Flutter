@@ -8,7 +8,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:tmda/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:tmda/core/widgets/normal_button.dart';
 
 @RoutePage()

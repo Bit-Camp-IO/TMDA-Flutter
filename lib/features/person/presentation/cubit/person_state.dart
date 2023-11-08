@@ -4,7 +4,6 @@ class PersonState extends Equatable {
   final Person personData;
   final BlocState personDataState;
   final String personDataLoadFailMessage;
-  final bool isTextExpanded;
   const PersonState({
     this.personData = const Person(
       name: '',
@@ -19,7 +18,6 @@ class PersonState extends Equatable {
     ),
   this.personDataState = BlocState.loading,
     this.personDataLoadFailMessage = '',
-    this.isTextExpanded = false,
   });
 
   PersonState copyWith({
@@ -33,11 +31,10 @@ class PersonState extends Equatable {
       personData: personData ?? this.personData,
       personDataState: personDataState ?? this.personDataState,
       personDataLoadFailMessage: personDataLoadFailMessage ?? this.personDataLoadFailMessage,
-      isTextExpanded: isTextExpanded ?? this.isTextExpanded,
     );
   }
 
   @override
-  List<Object> get props => [personData, personDataLoadFailMessage, personDataState, isTextExpanded];
+  List<Object> get props => [personData, personDataLoadFailMessage, personDataState];
 
 }

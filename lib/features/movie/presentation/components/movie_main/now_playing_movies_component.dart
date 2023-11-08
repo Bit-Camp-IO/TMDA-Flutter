@@ -6,18 +6,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
 import 'package:tmda/core/widgets/carousel_card.dart';
 import 'package:tmda/core/widgets/animated_indicator.dart';
+import 'package:tmda/features/movie/presentation/bloc/movies_cubit/movies_cubit.dart';
 
-class NowPlayingMoviesComponent extends StatelessWidget {
+class NowPlayingMoviesComponent extends StatefulWidget {
   const NowPlayingMoviesComponent({super.key});
 
+  @override
+  State<NowPlayingMoviesComponent> createState() => _NowPlayingMoviesComponentState();
+}
+
+class _NowPlayingMoviesComponentState extends State<NowPlayingMoviesComponent> {
+  final ValueNotifier<int> indicatorIndex = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocBuilder<MoviesBloc, MoviesState>(
+        BlocBuilder<MoviesCubit, MoviesState>(
           builder: (context, state) {
             return CarouselSlider.builder(
               itemCount: 4,
@@ -43,29 +49,32 @@ class NowPlayingMoviesComponent extends StatelessWidget {
                 viewportFraction: 1,
                 height: 410.h,
                 onPageChanged: (index, reason) {
-                  context.read<MoviesBloc>().add(ChangeIndicatorIndexEvent(index),
-                  );
+                  indicatorIndex.value = index;
                 },
               ),
             );
           },
         ),
         SizedBox(height: 14.h),
-        BlocBuilder<MoviesBloc, MoviesState>(
-          builder: (context, state) {
-            return AnimatedIndicator(
-              currentIndex: state.indicatorIndex,
-              dotsCount: 4,
-              axisDirection: Axis.horizontal,
-              selectedColor: ColorsManager.primaryColor,
-              unSelectedColor: Colors.white,
-              dotHeight: 10.h,
-              dotWidth: 10.w,
-              selectedDotWidth: 30.w,
-            );
-          },
+        ValueListenableBuilder(
+        valueListenable: indicatorIndex,
+          builder: (context, currentIndicatorIndex, child) => AnimatedIndicator(
+            currentIndex: currentIndicatorIndex,
+            dotsCount: 4,
+            axisDirection: Axis.horizontal,
+            selectedColor: ColorsManager.primaryColor,
+            unSelectedColor: Colors.white,
+            dotHeight: 10.h,
+            dotWidth: 10.w,
+            selectedDotWidth: 30.w,
+          ),
         ),
       ],
     );
+  }
+  @override
+  void dispose() {
+    indicatorIndex.dispose();
+    super.dispose();
   }
 }

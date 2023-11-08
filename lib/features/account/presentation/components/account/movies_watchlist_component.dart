@@ -13,14 +13,14 @@ import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
 
 class MoviesWatchListComponent extends StatelessWidget {
   const MoviesWatchListComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountBloc, AccountState>(
+    return BlocBuilder<AccountCubit, AccountState>(
       builder: (context, state) {
         if (state.watchListMovies.isEmpty && state.moviesWatchListState == BlocState.success) {
           return Animate(

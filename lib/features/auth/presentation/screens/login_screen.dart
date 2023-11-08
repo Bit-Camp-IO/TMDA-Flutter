@@ -11,7 +11,7 @@ import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
-import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:tmda/features/auth/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
 import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:tmda/injection_container.dart';
@@ -46,11 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginLoadingState) {
           isLoading = true;
         } else if (state is LoginSuccessState) {
-          AutoRouter.of(context).replace(
-            const MainNavigationTabs(children: [
-              MovieTabRoute(),
-            ]),
-          );
+          context.replaceRoute(const BottomNaviagationBarRoute());
         } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(

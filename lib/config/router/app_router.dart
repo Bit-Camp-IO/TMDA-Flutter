@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/account/presentation/screen/account_screen.dart';
 import 'package:tmda/features/account/presentation/screen/account_see_all.dart';
-import 'package:tmda/features/navigation/presentation/screens/navigation_tabs.dart';
+import 'package:tmda/features/bottom_nav_bar/bottom_naviagation_bar.dart';
 import 'package:tmda/features/person/presentation/screens/person_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/splash_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/login_screen.dart';
@@ -40,7 +40,7 @@ class AppRouter extends _$AppRouter {
           ],
         ),
         CustomRoute(
-          page: MainNavigationTabs.page,
+          page: BottomNaviagationBarRoute.page,
           children: [
             CustomRoute(
               page: MovieTabRoute.page,

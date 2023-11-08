@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:tmda/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
 import 'package:tmda/injection_container.dart';
 
@@ -25,9 +25,7 @@ class SplashScreen extends StatelessWidget implements AutoRouteWrapper{
       listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state is AuthenticatedState) {
-          AutoRouter.of(context).replace(
-            const MainNavigationTabs(),
-          );
+          context.replaceRoute(const BottomNaviagationBarRoute());
         }
       },
       buildWhen: (previous, current) => previous != current,

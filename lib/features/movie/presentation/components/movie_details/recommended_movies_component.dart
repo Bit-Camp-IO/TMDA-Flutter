@@ -12,14 +12,14 @@ import 'package:tmda/core/widgets/details_poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
+import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart';
 
 class RecommendedMoviesComponent extends StatelessWidget {
   const RecommendedMoviesComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+    return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
       builder: (context, state) {
         if (state.movieDetails.recommendedMovies.isNotEmpty) {
           return Animate(

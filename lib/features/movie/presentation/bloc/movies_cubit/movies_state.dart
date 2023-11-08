@@ -1,4 +1,4 @@
-part of 'movies_bloc.dart';
+part of 'movies_cubit.dart';
 
 class MoviesState extends Equatable {
   final BlocState moviesState;
@@ -7,7 +7,6 @@ class MoviesState extends Equatable {
   final List<Movies> popularMovies;
   final List<Movies> topRatedMovies;
   final List<Movies> newMovies;
-  final int indicatorIndex;
 
   const MoviesState({
     this.nowPlayingMovies = const [],
@@ -15,7 +14,6 @@ class MoviesState extends Equatable {
     this.newMovies = const [],
     this.popularMovies = const [],
     this.topRatedMovies = const [],
-    this.indicatorIndex = 0,
     this.moviesState = BlocState.loading,
   });
 
@@ -33,7 +31,6 @@ class MoviesState extends Equatable {
       popularMovies: popularMovies ?? this.popularMovies,
       topRatedMovies: topRatedMovies ?? this.topRatedMovies,
       newMovies: newMovies ?? this.newMovies,
-      indicatorIndex: indicatorIndex ?? this.indicatorIndex,
       moviesState: moviesState ?? this.moviesState,
       moviesFailMessage: moviesFailMessage ?? this.moviesFailMessage,
     );
@@ -45,7 +42,6 @@ class MoviesState extends Equatable {
         popularMovies,
         topRatedMovies,
         newMovies,
-        indicatorIndex,
         moviesState
       ];
 }

@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/carousel_card.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_cubit/tv_show_cubit.dart';
 
 class TvShowsAiringThisWeekComponent extends StatelessWidget {
   const TvShowsAiringThisWeekComponent({super.key});
@@ -15,7 +15,7 @@ class TvShowsAiringThisWeekComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocBuilder<TvShowsBloc, TvShowsState>(
+        BlocBuilder<TvShowsCubit, TvShowsState>(
           builder: (context, state) {
             return CarouselSlider.builder(
               itemCount: state.airingThisWeekTvShows.length,

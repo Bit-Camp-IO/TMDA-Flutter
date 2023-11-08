@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart';
 import 'package:tmda/core/widgets/list_card_with_save.dart';
+import 'package:tmda/features/movie/presentation/bloc/see_all_movies_bloc/see_all_movies_bloc.dart';
 
 class SeeAllMoviesComponent extends StatefulWidget {
   const SeeAllMoviesComponent({super.key, required this.movieType, this.movieId});

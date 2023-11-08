@@ -8,31 +8,23 @@ import 'package:tmda/features/movie/domain/usecases/movie/get_now_playing_movies
 import 'package:tmda/features/movie/domain/usecases/movie/get_popular_movies_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie/get_top_rated_movies_usecase.dart';
 
-part 'movies_event.dart';
-
 part 'movies_state.dart';
 
 @injectable
-class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
+class MoviesCubit extends Cubit<MoviesState> {
   final GetNowPlayingMoviesUseCase _getNowPlayingMoviesUseCase;
   final GetNewMoviesUseCase _getNewMoviesUseCase;
   final GetPopularMoviesUseCase _getPopularMoviesUseCase;
   final GetTopRatedMoviesUseCase _getTopRatedMoviesUseCase;
 
-  MoviesBloc(
+  MoviesCubit(
     this._getNowPlayingMoviesUseCase,
     this._getPopularMoviesUseCase,
     this._getTopRatedMoviesUseCase,
     this._getNewMoviesUseCase,
-  ) : super(const MoviesState()) {
-    on<GetNowPlayingMoviesEvent>(_getNowPlayingMovieEvent);
-    on<GetPopularMoviesEvent>(_getPopularMoviesEvent);
-    on<GetTopRatedMoviesEvent>(_getTopRatedMoviesEvent);
-    on<GetNewMoviesEvent>(_getNewMoviesEvent);
-    on<ChangeIndicatorIndexEvent>(_changeIndicatorIndexEvent);
-  }
+  ) : super(const MoviesState());
 
-  Future<void> _getNowPlayingMovieEvent(event, emit) async {
+  Future<void> getNowPlayingMovies() async {
     await _getNowPlayingMoviesUseCase().then(
       (value) => value.fold(
         (nowPlayingMoviesFail) => emit(
@@ -51,7 +43,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     );
   }
 
-  Future<void> _getNewMoviesEvent(event, emit) async {
+  Future<void> getNewMovies() async {
     await _getNewMoviesUseCase().then(
       (value) => value.fold(
         (newMoviesLoadFail) => emit(
@@ -70,7 +62,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     );
   }
 
-  Future<void> _getPopularMoviesEvent(event, emit) async {
+  Future<void> getPopularMovies() async {
     await _getPopularMoviesUseCase().then(
       (value) => value.fold(
         (popularMoviesLoadFail) => emit(
@@ -89,7 +81,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     );
   }
 
-  Future<void> _getTopRatedMoviesEvent(event, emit) async {
+  Future<void> getTopRatedMovies() async {
     await _getTopRatedMoviesUseCase().then(
       (value) => value.fold(
         (topRatedMoviesLoadFail) => emit(
@@ -105,9 +97,5 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         ),
       ),
     );
-  }
-
-  void _changeIndicatorIndexEvent(event, emit) {
-    emit(state.copyWith(indicatorIndex: event.indicatorIndex));
   }
 }

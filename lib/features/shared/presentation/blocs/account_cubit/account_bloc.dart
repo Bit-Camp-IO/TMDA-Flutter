@@ -12,34 +12,28 @@ import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/g
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_shows_watchlist_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart';
 
-part 'account_event.dart';
 part 'account_state.dart';
 
 @Injectable()
-class AccountBloc extends Bloc<AccountEvent, AccountState> {
-  final GetAccountSessionIdUseCase getAccountSessionIdUseCase;
-  final GetAccountDetailsUseCase getAccountDetailsUseCase;
-  final GetMoviesWatchListUseCase getMoviesWatchListUseCase;
-  final GetTvShowsWatchListUseCase getTvShowsWatchListUseCase;
-  final AccountLogoutUseCase accountLogoutUseCase;
-  late String sessionId;
+class AccountCubit extends Cubit<AccountState> {
+  final GetAccountSessionIdUseCase _getAccountSessionIdUseCase;
+  final GetAccountDetailsUseCase _getAccountDetailsUseCase;
+  final GetMoviesWatchListUseCase _getMoviesWatchListUseCase;
+  final GetTvShowsWatchListUseCase _getTvShowsWatchListUseCase;
+  final AccountLogoutUseCase _accountLogoutUseCase;
+  late String _sessionId;
 
-  AccountBloc(
-    this.getAccountDetailsUseCase,
-    this.getMoviesWatchListUseCase,
-    this.getTvShowsWatchListUseCase,
-    this.accountLogoutUseCase,
-    this.getAccountSessionIdUseCase,
-  ) : super(const AccountState()) {
-    on<GetAccountDetailsEvent>(_getAccountDetailsEvent);
-    on<GetAccountMoviesWatchListEvent>(_getAccountMoviesWatchListEvent);
-    on<GetAccountTvShowsWatchListEvent>(_getAccountTvShowsWatchListEvent);
-    on<AccountLogoutEvent>(_accountLogoutEvent);
-  }
+  AccountCubit(
+    this._getAccountDetailsUseCase,
+    this._getMoviesWatchListUseCase,
+    this._getTvShowsWatchListUseCase,
+    this._accountLogoutUseCase,
+    this._getAccountSessionIdUseCase,
+  ) : super(const AccountState());
 
-  Future<void> _getAccountDetailsEvent(event, emit) async {
-    sessionId = await getAccountSessionIdUseCase();
-    await getAccountDetailsUseCase(sessionId: sessionId).then(
+  Future<void> getAccountDetails() async {
+    _sessionId = await _getAccountSessionIdUseCase();
+    await _getAccountDetailsUseCase(sessionId: _sessionId).then(
       (value) => value.fold(
         (accountDetailsFail) => emit(
           state.copyWith(
@@ -57,9 +51,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     );
   }
 
-  Future<void> _getAccountMoviesWatchListEvent(event, emit) async {
-    sessionId = await getAccountSessionIdUseCase();
-    await getMoviesWatchListUseCase(sessionId: sessionId).then(
+  Future<void> getAccountMoviesWatchList() async {
+    _sessionId = await _getAccountSessionIdUseCase();
+    await _getMoviesWatchListUseCase(sessionId: _sessionId).then(
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
@@ -77,9 +71,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     );
   }
 
-  Future<void> _getAccountTvShowsWatchListEvent(event, emit) async {
-    sessionId = await getAccountSessionIdUseCase();
-    await getTvShowsWatchListUseCase(sessionId: sessionId).then(
+  Future<void> getAccountTvShowsWatchList() async {
+    _sessionId = await _getAccountSessionIdUseCase();
+    await _getTvShowsWatchListUseCase(sessionId: _sessionId).then(
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
@@ -97,8 +91,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     );
   }
 
-  Future<void> _accountLogoutEvent(event, emit) async {
-    await accountLogoutUseCase(sessionId: sessionId).then(
+  Future<void> accountLogout() async {
+    await _accountLogoutUseCase(sessionId: _sessionId).then(
       (value) => value.fold(
         (accountLogout) => emit(
           state.copyWith(

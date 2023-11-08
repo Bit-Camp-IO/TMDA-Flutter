@@ -12,14 +12,14 @@ import 'package:tmda/core/widgets/details_poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 
 class SimilarTvShowsComponent extends StatelessWidget {
   const SimilarTvShowsComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+    return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         if (state.tvShowDetails.similarTvShows.isNotEmpty) {
           return Animate(

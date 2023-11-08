@@ -7,11 +7,10 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/list_card_with_save.dart';
-import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows_bloc/see_all_tv_shows_bloc.dart';
 
 class SeeAllTvShowsComponent extends StatefulWidget {
-  const SeeAllTvShowsComponent(
-      {super.key, this.tvShowId, required this.tvShowType});
+  const SeeAllTvShowsComponent({super.key, this.tvShowId, required this.tvShowType});
 
   final int? tvShowId;
   final TvShowType tvShowType;

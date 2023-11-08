@@ -8,7 +8,7 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
-import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart';
+import 'package:tmda/features/movie/presentation/bloc/movies_cubit/movies_cubit.dart';
 import 'package:tmda/features/movie/presentation/components/movie_main/now_playing_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_main/popular_movies_component.dart';
 import 'package:tmda/features/movie/presentation/components/movie_main/top_rated_movies_component.dart';
@@ -22,11 +22,11 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<MoviesBloc>()
-        ..add(GetNowPlayingMoviesEvent())
-        ..add(GetNewMoviesEvent())
-        ..add(GetPopularMoviesEvent())
-        ..add(GetTopRatedMoviesEvent()),
+      create: (context) => getIt<MoviesCubit>()
+        ..getNowPlayingMovies()
+        ..getNewMovies()
+        ..getPopularMovies()
+        ..getTopRatedMovies(),
       child: this,
     );
   }
@@ -52,7 +52,7 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
               left: 10.w,
               child: const NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            BlocBuilder<MoviesBloc, MoviesState>(
+            BlocBuilder<MoviesCubit, MoviesState>(
               buildWhen: (previous, current) =>
                   previous.moviesState != current.moviesState,
               builder: (context, state) {
@@ -75,11 +75,11 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
                   case BlocState.failure:
                     return NoConnection(
                       onTap: () {
-                        context.read<MoviesBloc>()
-                          ..add(GetNowPlayingMoviesEvent())
-                          ..add(GetNewMoviesEvent())
-                          ..add(GetPopularMoviesEvent())
-                          ..add(GetTopRatedMoviesEvent());
+                        context.read<MoviesCubit>()
+                          ..getNowPlayingMovies()
+                          ..getNewMovies()
+                          ..getPopularMovies()
+                          ..getTopRatedMovies();
                       },
                     );
                 }

@@ -8,12 +8,10 @@ import 'package:tmda/features/tv/domain/usecases/tv_shows/get_top_rated_tv_shows
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_this_week_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_today.dart';
 
-part 'tv_show_event.dart';
-
 part 'tv_show_state.dart';
 
 @injectable
-class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
+class TvShowsCubit extends Cubit<TvShowsState> {
   final GetTvShowsAiringTodayUseCase _getTvShowsAiringTodayUseCase;
   final GetTvShowsAiringThisWeekUseCase _getTvShowsAiringThisWeekUseCase;
   final GetPopularTvShowsUseCase _getPopularTvShowsUseCase;
@@ -23,19 +21,14 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   int popularTvShowsPage = 2;
   int topRatedTvShowPage = 1;
 
-  TvShowsBloc(
+  TvShowsCubit(
     this._getTvShowsAiringTodayUseCase,
     this._getTvShowsAiringThisWeekUseCase,
     this._getPopularTvShowsUseCase,
     this._getTopRatedTvShowsUseCase,
-  ) : super(const TvShowsState()) {
-    on<GetTvShowsAiringTodayEvent>(_airingTodayTvShowsEvent);
-    on<GetTvShowsAiringThisWeekEvent>(_getTvShowsAiringThisWeekEvent);
-    on<GetPopularTvShowsEvent>(_getPopularTvShowsEvent);
-    on<GetTopRatedTvShowsEvent>(_topRatedTvShowsEvent);
-  }
+  ) : super(const TvShowsState());
 
-  Future<void> _airingTodayTvShowsEvent(event, emit) async {
+  Future<void> getAiringTodayTvShows() async {
     final result = await _getTvShowsAiringTodayUseCase(airingTodayPage);
     result.fold(
       (airingTodayFail) => emit(
@@ -53,7 +46,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     );
   }
 
-  Future<void> _getTvShowsAiringThisWeekEvent(event, emit) async {
+  Future<void> getTvShowsAiringThisWeek() async {
     final result = await _getTvShowsAiringThisWeekUseCase(airingThisWeekPage);
     result.fold(
       (airingThisWeekFail) => emit(
@@ -71,7 +64,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     );
   }
 
-  Future<void> _getPopularTvShowsEvent(event, emit) async {
+  Future<void> getPopularTvShows() async {
     final result = await _getPopularTvShowsUseCase(popularTvShowsPage);
     result.fold(
       (popularTvShowsFail) => emit(
@@ -88,7 +81,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
     );
   }
 
-  Future<void> _topRatedTvShowsEvent(event, emit) async {
+  Future<void> getTopRatedTvShows() async {
     final result = await _getTopRatedTvShowsUseCase(topRatedTvShowPage);
     result.fold(
       (topRatedTvShowsFail) => emit(

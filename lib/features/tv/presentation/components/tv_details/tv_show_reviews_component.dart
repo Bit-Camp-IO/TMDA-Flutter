@@ -6,14 +6,14 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/review_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 
 class TvShowReviewsComponent extends StatelessWidget {
   const TvShowReviewsComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+    return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         if (state.tvShowDetails.reviews.isNotEmpty) {
           return Animate(

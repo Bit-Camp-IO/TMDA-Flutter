@@ -87,7 +87,7 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent> with Au
           itemBuilder: (context, index) {
             if(index >= state.seeAllTvShows.length){
               return Center(
-                child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
               );
             }else{
               final tvShow = state.seeAllTvShows[index];

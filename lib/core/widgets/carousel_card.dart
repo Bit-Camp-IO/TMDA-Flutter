@@ -33,8 +33,8 @@ class CarouselCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
+          ImageFiltered(
+            imageFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.3),
               BlendMode.darken,
             ),
@@ -51,8 +51,8 @@ class CarouselCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 10,
-            bottom: 10,
+            left: 10.w,
+            bottom: 10.h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

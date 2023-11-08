@@ -61,7 +61,7 @@ class _PeopleSearchComponentState extends State<PeopleSearchComponent> {
                   return const SizedBox();
                 } else {
                   return Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
                   );
                 }
               } else {

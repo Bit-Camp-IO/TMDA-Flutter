@@ -22,13 +22,13 @@ class SelectionScreen extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: 30,
-              left: 20,
+              top: 30.h,
+              left: 20.w,
               child: NeonLightPainter(
                   color: ColorsManager.primaryColor.withOpacity(0.5)),
             ),
             Positioned(
-              bottom: 350,
+              bottom: 350.h,
               right: 0,
               child: NeonLightPainter(
                   color: ColorsManager.secondaryColor.withOpacity(0.5)),

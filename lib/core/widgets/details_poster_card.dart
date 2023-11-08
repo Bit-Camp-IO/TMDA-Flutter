@@ -33,17 +33,17 @@ class DetailsPosterCard extends StatelessWidget {
             height: 220.h,
           ),
           Positioned(
-            left: 5,
+            left: 5.w,
             right: 0,
-            bottom: 30,
+            bottom: 30.h,
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   SolarSystemIcons.star,
                   color: ColorsManager.ratingIconColor,
-                  size: 16,
+                  size: 16.sp,
                 ),
-                const SizedBox(width: 2),
+                SizedBox(width: 2.w),
                 Text(
                     rating.toStringAsFixed(1),
                     style: Theme.of(context).textTheme.bodyMedium),
@@ -51,9 +51,9 @@ class DetailsPosterCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 5,
-            right: 15,
-            bottom: 15,
+            left: 5.w,
+            right: 15.w,
+            bottom: 15.h,
             child: Text(
               title,
               overflow: TextOverflow.ellipsis,

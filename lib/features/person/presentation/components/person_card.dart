@@ -24,8 +24,7 @@ class PersonPictureCard extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius:
-              const BorderRadius.only(bottomRight: Radius.circular(60)).w,
+          borderRadius: const BorderRadius.only(bottomRight: Radius.circular(60)).r,
           child: ColorFiltered(
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.3),
@@ -35,7 +34,7 @@ class PersonPictureCard extends StatelessWidget {
               imageUrl: imagePath.isNotEmpty
                   ? ApiConstants.imageUrl(imagePath)
                   : errorImagePath,
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               height: height,
               fit: BoxFit.cover,
               cacheManager: CacheManager(
@@ -48,14 +47,10 @@ class PersonPictureCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: 20,
-          bottom: 20,
-          child: Text(
-            name,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(fontSize: 28.sp),
+          left: 20.w,
+          bottom: 20.h,
+          child: Text(name,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 28.sp),
             overflow: TextOverflow.ellipsis,
           ),
         ),

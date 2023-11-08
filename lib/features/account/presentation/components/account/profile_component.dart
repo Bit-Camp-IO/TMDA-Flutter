@@ -17,41 +17,44 @@ class ProfileComponent extends StatelessWidget {
       effects: [FadeEffect(duration: 400.ms)],
       child: BlocBuilder<AccountBloc, AccountState>(
         builder: (context, state) {
-            return Row(
-              children: [
-                const Spacer(flex: 1),
-                NeonProfilePicture(imagePath: state.account.accountAvatar.path, errorImagePath: AssetsManager.neonAvatar),
-                const Spacer(flex: 1),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.account.name.isEmpty
-                          ? StringsManager.noAccountName
-                          : state.account.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Text(
-                      '@${state.account.username}',
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 14.sp),
-                    ),
-                  ],
-                ),
-                const Spacer(flex: 1),
-                IconButton(
-                    onPressed: () {
-                      context.read<AccountBloc>().add(AccountLogoutEvent());
-                    },
-                    icon: const Icon(SolarSystemIcons.sign_out,
-                        color: Colors.white, size: 30)),
-                const Spacer(flex: 1),
-              ],
-            );
+          return Row(
+            children: [
+              const Spacer(flex: 1),
+              NeonProfilePicture(
+                  imagePath: state.account.accountAvatar.path,
+                  errorImagePath: AssetsManager.neonAvatar),
+              const Spacer(flex: 1),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    state.account.name.isEmpty
+                        ? StringsManager.noAccountName
+                        : state.account.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    '@${state.account.username}',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 14.sp),
+                  ),
+                ],
+              ),
+              const Spacer(flex: 1),
+              IconButton(
+                onPressed: () {
+                  context.read<AccountBloc>().add(AccountLogoutEvent());
+                },
+                icon: Icon(SolarSystemIcons.sign_out,
+                    color: Colors.white, size: 30.sp),
+              ),
+              const Spacer(flex: 1),
+            ],
+          );
         },
       ),
     );

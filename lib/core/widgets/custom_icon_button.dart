@@ -16,7 +16,7 @@ class CustomIconButton extends StatelessWidget {
       height: 40.h,
       width: 40.w,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.37),
+        color: Colors.black.withOpacity(0.4),
         borderRadius: BorderRadius.all(const Radius.circular(10).w),
       ),
       child: IconButton(
@@ -24,7 +24,7 @@ class CustomIconButton extends StatelessWidget {
         icon: Icon(
           icon,
           color: Colors.white,
-          size: 20,
+          size: 20.sp,
         ),
       ),
     );

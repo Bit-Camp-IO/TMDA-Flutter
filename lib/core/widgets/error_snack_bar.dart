@@ -12,13 +12,13 @@ import 'package:tmda/core/util/color_manager.dart';
       effects: [FadeEffect(duration: 250.ms)],
       child: Row(
         children: [
-          const Icon(SolarSystemIcons.error, color: ColorsManager.errorColor, size: 20,),
+          Icon(SolarSystemIcons.error, color: ColorsManager.errorColor, size: 20.sp,),
           SizedBox(width: 3.w),
           Text(
             errorMessage,
             style: Theme.of(context)
                 .textTheme
-                .bodyMedium!
+                .bodySmall!
                 .copyWith(color: Colors.white),
           ),
         ],

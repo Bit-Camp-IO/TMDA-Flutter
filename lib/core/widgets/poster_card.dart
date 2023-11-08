@@ -49,8 +49,8 @@ class PosterCard extends StatelessWidget {
             ),
             Positioned(
               left: 0,
-              right: 10,
-              bottom: 20,
+              right: 10.w,
+              bottom: 20.h,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -93,7 +93,7 @@ class PosterCard extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         itemCount: 5,
-                        itemSize: 10,
+                        itemSize: 10.sp,
                         direction: Axis.horizontal,
                       ),
                     ],

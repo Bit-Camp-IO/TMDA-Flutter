@@ -18,10 +18,10 @@ class NoConnection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+           Icon(
             SolarSystemIcons.wifi,
             color: ColorsManager.primaryColor,
-            size: 100,
+            size: 100.sp,
           ),
           SizedBox(height: 30.h),
           Text(
@@ -36,13 +36,13 @@ class NoConnection extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
-                .copyWith(fontSize: 18, color: ColorsManager.darkPrimary),
+                .copyWith(fontSize: 18.sp, color: ColorsManager.darkPrimary),
           ),
           SizedBox(height: 40.h),
           NormalButton(
             onTap: onTap,
-            width: 180,
-            height: 48,
+            width: 180.w,
+            height: 48.h,
             child: Text(
               StringsManager.tryAgain,
               style: Theme.of(context)

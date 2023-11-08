@@ -53,13 +53,13 @@ class ThemeManager {
             ),
           ),
         ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        bottomNavigationBarTheme:  BottomNavigationBarThemeData(
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: ColorsManager.bottomNavigationColor.withOpacity(0.5),
+          backgroundColor: ColorsManager.bottomNavigationColor.withOpacity(0.8),
           selectedItemColor: ColorsManager.primaryColor,
-          unselectedItemColor: Colors.white.withOpacity(0.6),
+          unselectedItemColor: ColorsManager.inActiveColor,
         ),
         tabBarTheme: const TabBarTheme(
           labelColor: Colors.white,

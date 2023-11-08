@@ -74,9 +74,9 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                 builder: (context, state) {
                   return AnimatedContainer(
                     duration: const Duration(seconds: 1),
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.sizeOf(context).width,
                     curve: Curves.linear,
-                    height: state.animatedContainerHeight,
+                    height: state.animatedContainerHeight.h,
                     child: Stack(
                       children: [
                         MovieDetailsPoster(
@@ -87,7 +87,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                         Positioned(
                           left: 0,
                           right: 0,
-                          bottom: 50,
+                          bottom: 70.h,
                           child: NeonPlayButton(
                             onTap: () {
                               if (state.movieDetails.video.key.isNotEmpty) {
@@ -108,15 +108,15 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                           ),
                         ),
                         Positioned(
-                          left: 30,
-                          bottom: 5,
+                          left: 30.w,
+                          bottom: 5.h,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 SolarSystemIcons.star,
                                 color: ColorsManager.ratingIconColor,
-                                size: 30,
+                                size: 30.sp,
                               ),
                               SizedBox(height: 4.h),
                               Row(
@@ -140,8 +140,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                           ),
                         ),
                         Positioned(
-                          right: 30,
-                          bottom: 40,
+                          right: 30.w,
+                          bottom: 40.h,
                           child:
                               BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
                             builder: (context, state) {
@@ -156,12 +156,15 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                                 },
                                 child: Column(
                                   children: [
-                                    Icon(
-                                      state.movieDetails.accountStates.inWatchList
-                                          ? SolarSystemIcons.saved
-                                          : SolarSystemIcons.unsaved,
-                                      color: ColorsManager.primaryColor,
-                                      size: 30,
+                                    AnimatedSwitcher(
+                                      duration: const Duration(milliseconds: 350),
+                                      child: Icon(
+                                        state.movieDetails.accountStates.inWatchList
+                                            ? SolarSystemIcons.saved
+                                            : SolarSystemIcons.unsaved,
+                                        color: ColorsManager.primaryColor,
+                                        size: 30.sp,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -190,35 +193,32 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
               ),
               SizedBox(height: 8.h),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 20,
+                width: MediaQuery.sizeOf(context).width,
+                height: 20.h,
                 child: Center(
                   child: Text(
                     _buildGenre(state.movieDetails.genres),
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white.withOpacity(0.8),
+                      color: ColorsManager.inActiveColor,
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                padding: const EdgeInsets.symmetric(vertical: 24.0).r,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       children: [
-                        Text(
-                          StringsManager.productionYear,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: Colors.white.withOpacity(0.8),
+                        Text(StringsManager.productionYear,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: ColorsManager.inActiveColor,
                                   ),
                         ),
-                        Text(
-                          state.movieDetails.releaseDate.length > 4
+                        Text(state.movieDetails.releaseDate.length > 4
                               ? state.movieDetails.releaseDate.substring(0, 4)
                               : StringsManager.unknown,
                           style: Theme.of(context).textTheme.titleMedium,
@@ -227,30 +227,24 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                     ),
                     Column(
                       children: [
-                        Text(
-                          StringsManager.productionCountry,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: Colors.white.withOpacity(0.8),
+                        Text(StringsManager.productionCountry,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: ColorsManager.inActiveColor,
                                   ),
                         ),
-                        Text(
-                          state.movieDetails.productionCountry.countryCode,
+                        Text(state.movieDetails.productionCountry.countryCode,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ],
                     ),
                     Column(
                       children: [
-                        Text(
-                          StringsManager.length,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: Colors.white.withOpacity(0.8),
+                        Text(StringsManager.length,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: ColorsManager.inActiveColor,
                                   ),
                         ),
-                        Text(
-                          '${state.movieDetails.runTime} ${StringsManager.duration}',
+                        Text('${state.movieDetails.runTime} ${StringsManager.duration}',
                           style: Theme.of(context).textTheme.titleMedium,
                         )
                       ],
@@ -259,9 +253,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0)
-                        .r,
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0).r,
                 child: Text(
                   state.movieDetails.overview,
                   textAlign: TextAlign.center,

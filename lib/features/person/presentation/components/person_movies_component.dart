@@ -29,7 +29,7 @@ class PersonMoviesComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   height: 220.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,

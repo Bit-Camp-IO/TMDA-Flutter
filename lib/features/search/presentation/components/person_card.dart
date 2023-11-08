@@ -28,8 +28,8 @@ class PersonCard extends StatelessWidget {
         child: Transform(
           transform: Matrix4.skewX(-0.06),
           child: Container(
-            width: 312,
-            height: 210,
+            width: 312.w,
+            height: 210.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.black.withOpacity(0.3),

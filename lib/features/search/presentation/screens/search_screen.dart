@@ -7,7 +7,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmda/features/search/presentation/components/custom_search_field.dart';
@@ -18,7 +18,7 @@ import 'package:tmda/features/search/presentation/components/tv_shows_search_com
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class SearchScreen extends StatefulWidget with AutoRouteWrapper {
+class SearchScreen extends StatefulWidget implements AutoRouteWrapper {
   const SearchScreen({super.key});
 
   @override
@@ -49,28 +49,11 @@ class _SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SizedBox.expand(
+      body: NeonLightBackGround(
         child: Stack(
           children: [
-            const Positioned(
-              top: 30,
-              left: 20,
-              child: NeonLightPainter(
-                color: ColorsManager.primaryColor,
-              ),
-            ),
-            const Positioned(
-              bottom: 350,
-              right: 0,
-              child: NeonLightPainter(color: ColorsManager.secondaryColor),
-            ),
-            const Positioned(
-              bottom: 10,
-              left: 10,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
             Positioned.fill(
-              top: 180,
+              top: 180.h,
               child: BlocBuilder<SearchBloc, SearchState>(
                 builder: (context, state) {
                   switch (state.searchState) {
@@ -119,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen>
               ),
             ),
             Positioned.fill(
-              top: 60,
+              top: 60.h,
               child: Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24).r,
                 child: Column(
@@ -137,14 +120,16 @@ class _SearchScreenState extends State<SearchScreen>
                     TabBar(
                       indicatorSize: TabBarIndicatorSize.tab,
                       controller: _tabController,
-                      indicatorPadding: const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 8).r,
+                      indicatorPadding: const EdgeInsets.only(
+                              top: 3, bottom: 3, left: 8, right: 8)
+                          .r,
                       labelStyle: Theme.of(context).textTheme.bodyLarge,
                       indicator: ShapeDecoration(
-                          color: ColorsManager.darkPrimary,
-                          shape: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(40).w,
-                          ),
+                        color: ColorsManager.darkPrimary,
+                        shape: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(40).w,
+                        ),
                       ),
                       tabs: const [
                         Tab(text: StringsManager.searchMoviesTab),
@@ -152,7 +137,9 @@ class _SearchScreenState extends State<SearchScreen>
                         Tab(text: StringsManager.searchPeopleTab)
                       ],
                       onTap: (value) {
-                        context.read<SearchBloc>().add(ChangeSearchTabEvent(_tabController.index));
+                        context
+                            .read<SearchBloc>()
+                            .add(ChangeSearchTabEvent(_tabController.index));
                         _tabController.animateTo(_tabController.index);
                       },
                     ),

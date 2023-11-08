@@ -29,30 +29,28 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: AuthRoute.page,
-          path: '/auth',
           initial: true,
           children: [
             AutoRoute(
               page: SplashRoute.page,
               path: '',
             ),
-            AutoRoute(page: SelectionRoute.page, path: 'selection'),
-            AutoRoute(page: LoginRoute.page, path: 'login'),
+            AutoRoute(page: SelectionRoute.page),
+            AutoRoute(page: LoginRoute.page),
           ],
         ),
         CustomRoute(
           page: MainNavigationTabs.page,
-          path: '/main',
           children: [
             CustomRoute(
               page: MovieTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
-              path: 'movie',
+              initial: true,
               children: [
                 AutoRoute(
                   page: MovieRoute.page,
-                  path: '',
+                  initial: true,
                 ),
                 CustomRoute(
                   page: SeeAllMoviesRoute.page,
@@ -75,11 +73,10 @@ class AppRouter extends _$AppRouter {
               page: TvShowsTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
-              path: 'tv',
               children: [
                 AutoRoute(
                   page: TvShowRoute.page,
-                  path: '',
+                  initial: true,
                 ),
                 CustomRoute(
                   page: TvDetailsRoute.page,
@@ -98,13 +95,14 @@ class AppRouter extends _$AppRouter {
                 ),
               ],
             ),
-            AutoRoute(
+            CustomRoute(
               page: SearchTabRoute.page,
-              path: 'search',
+              transitionsBuilder: TransitionsBuilders.fadeIn,
+              durationInMilliseconds: 400,
               children: [
                 AutoRoute(
                   page: SearchRoute.page,
-                  path: '',
+                  initial: true
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
@@ -135,13 +133,12 @@ class AppRouter extends _$AppRouter {
             ),
             CustomRoute(
               page: AccountTabRoute.page,
-              path: 'account',
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 400,
               children: [
                 AutoRoute(
                   page: AccountRoute.page,
-                  path: '',
+                  initial: true
                 ),
                 CustomRoute(
                   page: AccountSeeAllRoute.page,

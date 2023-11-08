@@ -30,8 +30,8 @@ class MovieCastComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
+                  width: MediaQuery.sizeOf(context).width,
+                  height: 200.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,

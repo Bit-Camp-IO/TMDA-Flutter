@@ -30,7 +30,7 @@ class TvShowCastComponent extends StatelessWidget {
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -70,9 +70,9 @@ class TvShowCastComponent extends StatelessWidget {
                     },
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child: SectionDivider(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0).r,
+                  child: const SectionDivider(),
                 ),
               ],
             ),

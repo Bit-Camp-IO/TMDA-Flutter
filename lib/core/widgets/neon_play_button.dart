@@ -16,7 +16,7 @@ class NeonPlayButton extends StatelessWidget {
       child: SvgPicture.asset(
         AssetsManager.neonPlayButton,
         width: 50.w,
-        height: 50.w,
+        height: 50.h,
       ),
     );
   }

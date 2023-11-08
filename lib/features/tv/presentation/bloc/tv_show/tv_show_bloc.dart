@@ -18,10 +18,10 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   final GetTvShowsAiringThisWeekUseCase _getTvShowsAiringThisWeekUseCase;
   final GetPopularTvShowsUseCase _getPopularTvShowsUseCase;
   final GetTopRatedTvShowsUseCase _getTopRatedTvShowsUseCase;
-  int _airingThisWeekPage = 2;
-  int _airingTodayPage = 1;
-  int _popularTvShowsPage = 2;
-  int _topRatedTvShowPage = 1;
+  int airingThisWeekPage = 2;
+  int airingTodayPage = 1;
+  int popularTvShowsPage = 2;
+  int topRatedTvShowPage = 1;
 
   TvShowsBloc(
     this._getTvShowsAiringTodayUseCase,
@@ -36,7 +36,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _airingTodayTvShowsEvent(event, emit) async {
-    final result = await _getTvShowsAiringTodayUseCase(_airingTodayPage);
+    final result = await _getTvShowsAiringTodayUseCase(airingTodayPage);
     result.fold(
       (airingTodayFail) => emit(
         state.copyWith(
@@ -54,7 +54,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _getTvShowsAiringThisWeekEvent(event, emit) async {
-    final result = await _getTvShowsAiringThisWeekUseCase(_airingThisWeekPage);
+    final result = await _getTvShowsAiringThisWeekUseCase(airingThisWeekPage);
     result.fold(
       (airingThisWeekFail) => emit(
         state.copyWith(
@@ -72,7 +72,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _getPopularTvShowsEvent(event, emit) async {
-    final result = await _getPopularTvShowsUseCase(_popularTvShowsPage);
+    final result = await _getPopularTvShowsUseCase(popularTvShowsPage);
     result.fold(
       (popularTvShowsFail) => emit(
         state.copyWith(
@@ -89,7 +89,7 @@ class TvShowsBloc extends Bloc<TvShowsEvent, TvShowsState> {
   }
 
   Future<void> _topRatedTvShowsEvent(event, emit) async {
-    final result = await _getTopRatedTvShowsUseCase(_topRatedTvShowPage);
+    final result = await _getTopRatedTvShowsUseCase(topRatedTvShowPage);
     result.fold(
       (topRatedTvShowsFail) => emit(
         state.copyWith(

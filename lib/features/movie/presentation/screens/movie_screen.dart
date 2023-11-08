@@ -37,25 +37,24 @@ class MovieScreen extends StatelessWidget implements AutoRouteWrapper {
       body: SizedBox.expand(
         child: Stack(
           children: [
-            const Positioned(
-              top: 30,
-              left: 20,
-              child: NeonLightPainter(
-                color: ColorsManager.primaryColor,
-              ),
+            Positioned(
+              top: 30.h,
+              left: 20.w,
+              child: const NeonLightPainter(color: ColorsManager.primaryColor),
             ),
-            const Positioned(
-              bottom: 350,
+            Positioned(
+              bottom: 350.h,
               right: 0,
-              child: NeonLightPainter(color: ColorsManager.secondaryColor),
+              child: const NeonLightPainter(color: ColorsManager.secondaryColor),
             ),
-            const Positioned(
-              bottom: 10,
-              left: 10,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
+            Positioned(
+              bottom: 10.h,
+              left: 10.w,
+              child: const NeonLightPainter(color: ColorsManager.primaryColor),
             ),
             BlocBuilder<MoviesBloc, MoviesState>(
-              buildWhen: (previous, current) => previous.moviesState != current.moviesState,
+              buildWhen: (previous, current) =>
+                  previous.moviesState != current.moviesState,
               builder: (context, state) {
                 switch (state.moviesState) {
                   case BlocState.initial || BlocState.loading:

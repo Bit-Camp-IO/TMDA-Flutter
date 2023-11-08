@@ -39,7 +39,7 @@ class RecommendedMoviesComponent extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   height: 220.h,
                   child: ListView.builder(
                     shrinkWrap: true,

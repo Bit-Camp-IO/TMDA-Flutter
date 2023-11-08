@@ -5,10 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/widgets/custom_icon_button.dart';
-import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details/movie_cast_component.dart';
@@ -51,11 +49,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
       context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
     }
   }
+  
   @override
   void didPopNext() {
     context.read<MovieDetailsBloc>().add(GetMovieStatesEvent(movieId: widget.movieId));
     super.didPopNext();
   }
+
   @override
   initState() {
     super.initState();
@@ -65,71 +65,43 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.expand(
-        child: Stack(
-          children: [
-            const Positioned(
-              top: 30,
-              left: 20,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
-            const Positioned(
-              bottom: 350,
-              right: 0,
-              child: NeonLightPainter(color: ColorsManager.secondaryColor),
-            ),
-            const Positioned(
-              bottom: 10,
-              left: 10,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
-            BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
-              buildWhen: (previous, current) =>
-                  previous.movieDetailsState != current.movieDetailsState,
-              builder: (context, state) {
-                switch (state.movieDetailsState) {
-                  case BlocState.initial || BlocState.loading:
-                    return Center(
-                      child: Lottie.asset(AssetsManager.neonLoading),
-                    );
-                  case BlocState.success:
-                    return Animate(
-                      effects: [FadeEffect(duration: 250.ms)],
-                      child: ListView(
-                        controller: _scrollController,
-                        padding: EdgeInsets.zero,
-                        children: [
-                          MovieOverviewComponent(
-                            scrollController: _scrollController,
-                          ),
-                          const MovieCastComponent(),
-                          const RecommendedMoviesComponent(),
-                          const SimilarMoviesComponent(),
-                          const MovieReviewsComponent(),
-                          SizedBox(height: 70.h)
-                        ],
+      body: NeonLightBackGround(
+        isBackButtonActive: true,
+        child: BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+          buildWhen: (previous, current) =>
+              previous.movieDetailsState != current.movieDetailsState,
+          builder: (context, state) {
+            switch (state.movieDetailsState) {
+              case BlocState.initial || BlocState.loading:
+                return Center(
+                  child: Lottie.asset(AssetsManager.neonLoading),
+                );
+              case BlocState.success:
+                return Animate(
+                  effects: [FadeEffect(duration: 250.ms)],
+                  child: ListView(
+                    controller: _scrollController,
+                    padding: EdgeInsets.zero,
+                    children: [
+                      MovieOverviewComponent(
+                        scrollController: _scrollController,
                       ),
-                    );
-                  case BlocState.failure:
-                    return NoConnection(
-                      onTap: () {
-                        context.read<MovieDetailsBloc>().add(GetMovieDetailsEvent(widget.movieId));
-                      },
-                    );
-                }
-              },
-            ),
-            Positioned(
-              top: 50,
-              left: 20,
-              child: CustomIconButton(
-                onPressed: ()  {
-                  AutoRouter.of(context).pop();
-                },
-                icon: Icons.arrow_back,
-              ),
-            ),
-          ],
+                      const MovieCastComponent(),
+                      const RecommendedMoviesComponent(),
+                      const SimilarMoviesComponent(),
+                      const MovieReviewsComponent(),
+                      SizedBox(height: 70.h)
+                    ],
+                  ),
+                );
+              case BlocState.failure:
+                return NoConnection(
+                  onTap: () {
+                    context.read<MovieDetailsBloc>().add(GetMovieDetailsEvent(widget.movieId));
+                  },
+                );
+            }
+          },
         ),
       ),
     );

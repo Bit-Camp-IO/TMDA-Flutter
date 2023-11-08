@@ -40,10 +40,10 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
               Padding(
                 padding: const EdgeInsets.only(top: 16, left: 24).r,
                 child: _textWithIcon(
-                  icon: const Icon(
+                  icon: Icon(
                     SolarSystemIcons.birthday,
                     color: Colors.white,
-                    size: 18,
+                    size: 18.sp,
                   ),
                   text: _formatDate(date: state.personData.birthDay),
                 ),
@@ -51,10 +51,10 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
               Padding(
                 padding: const EdgeInsets.only(top: 12, left: 24).r,
                 child: _textWithIcon(
-                  icon: const Icon(
+                  icon: Icon(
                     SolarSystemIcons.location,
                     color: Colors.white,
-                    size: 18,
+                    size: 18.sp,
                   ),
                   text: state.personData.placeOfBirth,
                 ),
@@ -98,8 +98,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
           text: biography,
           isTextExpanded: isTextExpanded,
           onPressed: () {
-            context
-                .read<PersonCubit>()
+            context.read<PersonCubit>()
                 .changeReadMoreState(isTextExpanded: !isTextExpanded);
           },
         );
@@ -123,7 +122,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         icon,
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         Text(
           text.isNotEmpty ? text : StringsManager.unknown,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(

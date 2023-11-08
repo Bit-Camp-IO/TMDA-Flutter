@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/color_manager.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -25,11 +26,11 @@ class CustomTextField extends StatelessWidget {
           fillColor: Colors.white.withOpacity(0.15),
           hintText: hintText,
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Colors.white.withOpacity(0.6),
+            color: ColorsManager.inActiveColor,
           ),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(const Radius.circular(8).w),
+            borderRadius: const BorderRadius.all(Radius.circular(8)).r,
           ),
         ),
       ),

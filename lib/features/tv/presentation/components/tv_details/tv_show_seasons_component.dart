@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_lazy_indexed_stack/flutter_lazy_indexed_stack.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
@@ -14,14 +15,14 @@ class TvShowSeasons extends StatefulWidget {
 }
 
 class _TvShowSeasonsState extends State<TvShowSeasons>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin  {
   late TabController _tabController;
-
   @override
   void initState() {
-   final int  seasonsLength = context.read<TvShowDetailsBloc>().state.tvShowDetails.seasons.length;
+    final int seasonsLength =
+        context.read<TvShowDetailsBloc>().state.tvShowDetails.seasons.length;
     _tabController = TabController(
-      length: seasonsLength > 20 ? 20 : seasonsLength,
+      length: seasonsLength,
       initialIndex: 0,
       vsync: this,
     );
@@ -31,12 +32,13 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       builder: (context, state) {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16.0).r,
               child: TabBar(
                 controller: _tabController,
                 isScrollable: true,
@@ -55,7 +57,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                 },
               ),
             ),
-            IndexedStack(
+            LazyIndexedStack(
               index: state.seasonsTabIndex,
               children: List.generate(
                 _tabController.length,
@@ -65,8 +67,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                   maintainAnimation: true,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount:
-                        state.allSeasonsEpisodes[state.seasonsTabIndex].length,
+                    itemCount: state.allSeasonsEpisodes[state.seasonsTabIndex].length,
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
@@ -76,7 +77,7 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
                         return Animate(
                           effects: [FadeEffect(duration: 250.ms)],
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0).r,
                             child: EpisodeCard(
                               title: episode.name,
                               episodeNumber: episode.number,
@@ -120,4 +121,8 @@ class _TvShowSeasonsState extends State<TvShowSeasons>
     _tabController.dispose();
     super.dispose();
   }
+
+  @override
+
+  bool get wantKeepAlive => true;
 }

@@ -59,7 +59,7 @@ class _TvShowsSearchComponentState extends State<TvShowsSearchComponent> {
                   return const SizedBox();
                 } else {
                   return Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
                   );
                 }
               } else {

@@ -8,6 +8,7 @@ class NeonButton extends StatelessWidget {
     required this.onTap,
     required this.child,
   });
+
   final void Function() onTap;
   final Widget child;
 
@@ -16,21 +17,22 @@ class NeonButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-          width: 150.w,
-          height: 48.h,
-          child: Stack(
-            children: [
-              SizedBox.expand(
-                child: Image.asset(
-                  AssetsManager.neonButton,
-                  fit: BoxFit.fill,
-                ),
+        width: 150.w,
+        height: 48.h,
+        child: Stack(
+          children: [
+            SizedBox.expand(
+              child: Image.asset(
+                AssetsManager.neonButton,
+                fit: BoxFit.fill,
               ),
-              Center(
-                child: child,
-              )
-            ],
-          )),
+            ),
+            Center(
+              child: child,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

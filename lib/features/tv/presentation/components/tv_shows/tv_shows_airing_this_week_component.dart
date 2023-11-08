@@ -20,7 +20,6 @@ class TvShowsAiringThisWeekComponent extends StatelessWidget {
             return CarouselSlider.builder(
               itemCount: state.airingThisWeekTvShows.length,
               itemBuilder: (context, index, realIndex) {
-
                 if (state.airingThisWeekTvShows.isNotEmpty) {
                   final airingThisWeekTvShow = state.airingThisWeekTvShows[index];
                   return CarouselCard(

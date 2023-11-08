@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_lazy_indexed_stack/flutter_lazy_indexed_stack.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -40,7 +41,8 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
       }
     }
     if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward && currentScroll < maxScroll * 0.03) {
+            ScrollDirection.forward &&
+        currentScroll < maxScroll * 0.03) {
       if (tvDetailsBloc.state.animatedHeight == 0) {
         tvDetailsBloc.add(const OnScrollAnimationEvent(animatedHeight: 420));
       }
@@ -63,7 +65,6 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
       buildWhen: (previous, current) =>
           previous.tvShowDetailsState != current.tvShowDetailsState,
       builder: (context, state) {
-
         return Animate(
           effects: [FadeEffect(duration: 250.ms)],
           child: ListView(
@@ -77,19 +78,19 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                   return AnimatedContainer(
                     duration: const Duration(seconds: 1),
                     curve: Curves.linear,
-                    width: MediaQuery.of(context).size.width,
-                    height: state.animatedHeight,
+                    width: MediaQuery.sizeOf(context).width,
+                    height: state.animatedHeight.h,
                     child: Stack(
                       children: [
                         TvDetailsPoster(
-                          height: state.animatedHeight,
+                          height: state.animatedHeight.h,
                           errorPosterPath: AssetsManager.errorPoster,
                           posterPath: state.tvShowDetails.posterPath,
                         ),
                         Positioned(
                           left: 0,
                           right: 0,
-                          bottom: 15,
+                          bottom: 15.h,
                           child: NeonPlayButton(
                             onTap: () {
                               if (state.tvShowDetails.tvShowVideo.key.isNotEmpty) {
@@ -137,7 +138,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
               ),
               BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
                 builder: (context, state) {
-                  return IndexedStack(
+                  return LazyIndexedStack(
                     index: state.bodyTabIndex,
                     children: [
                       Visibility(

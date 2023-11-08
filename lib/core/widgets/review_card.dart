@@ -21,11 +21,10 @@ class ReviewCard extends StatelessWidget {
       width: 220.w,
       height: 150.h,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15.0).w,
+        borderRadius: BorderRadius.circular(15.0).r,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0).w,
+        borderRadius: BorderRadius.circular(15.0).r,
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 50,
@@ -34,16 +33,16 @@ class ReviewCard extends StatelessWidget {
           child: Container(
             color: ColorsManager.reviewCardColor,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0).r,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         SolarSystemIcons.star,
                         color: ColorsManager.ratingIconColor,
-                        size: 15,
+                        size: 15.sp,
                       ),
                       SizedBox(width: 4.w),
                       Text(

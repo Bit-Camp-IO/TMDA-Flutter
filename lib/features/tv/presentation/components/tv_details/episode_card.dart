@@ -76,7 +76,7 @@ class EpisodeCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
-                          .copyWith(fontSize: 11),
+                          .copyWith(fontSize: 11.sp),
                     ),
                     SizedBox(width: 20.w),
                     Text(
@@ -84,7 +84,7 @@ class EpisodeCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
-                          .copyWith(fontSize: 11),
+                          .copyWith(fontSize: 11.sp),
                     )
                   ],
                 ),

@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -100,33 +100,25 @@ class TvShowDetailsBloc extends Bloc<TvDetailsEvent, TvShowDetailsState> {
 
   Future<void> _getSeasonEpisodesEvent(event, emit) async {
     final seasonsNumbers =
-        state.tvShowDetails.seasons.map((season) => season.number).take(20);
-    final seasonsEpisodes = await Future.wait(seasonsNumbers
-        .map(
-          (seasonNumber) => _getSeasonsEpisodesUseCase(
-            seasonNumber: seasonNumber,
-            tvShowId: event.tvShowId,
-          ),
-        )
-        .toList()
-        .cast<Future<dynamic>>());
-    for (Either either in seasonsEpisodes) {
-      either.fold(
-        (getSeasonEpisodesLoadFail) => emit(
-          state.copyWith(
-            seasonEpisodesState: BlocState.failure,
-            seasonEpisodesFailMessage: getSeasonEpisodesLoadFail.message,
-          ),
+        state.tvShowDetails.seasons.map((season) => season.number).toList();
+    final results = await _getSeasonsEpisodesUseCase(
+      tvShowId: event.tvShowId,
+      seasonsNumbers: seasonsNumbers,
+    );
+    results.fold(
+      (getSeasonEpisodesLoadFail) => emit(
+        state.copyWith(
+          seasonEpisodesState: BlocState.failure,
+          seasonEpisodesFailMessage: getSeasonEpisodesLoadFail.message,
         ),
-        (seasonEpisodes) => emit(
-          state.copyWith(
-            allSeasonsEpisodes: List.of(state.allSeasonsEpisodes)
-              ..add(seasonEpisodes.take(30).toList()),
-            seasonEpisodesState: BlocState.success,
-          ),
+      ),
+      (seasonEpisodes) => emit(
+        state.copyWith(
+          allSeasonsEpisodes: seasonEpisodes,
+          seasonEpisodesState: BlocState.success,
         ),
-      );
-    }
+      ),
+    );
   }
 
   Future<void> _addOrRemoveTvFromWatchListEvent(event, emit) async {

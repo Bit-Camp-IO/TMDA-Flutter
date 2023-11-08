@@ -7,27 +7,23 @@ class NeonLightPainter extends StatelessWidget {
     super.key,
     required this.color,
   });
+
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150.w,
-      height: 150.h,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
+    return ImageFiltered(
+      imageFilter: ImageFilter.blur(
+        sigmaX: 50,
+        sigmaY: 50,
+        tileMode: TileMode.clamp,
       ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 60,
-          sigmaY: 60,
-          tileMode: TileMode.clamp
-        ),
-        child: Container(
-          width: 5.w,
-          height: 5.h,
-          color: Colors.transparent,
+      child: Container(
+        width: 150.w,
+        height: 150.h,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
         ),
       ),
     );

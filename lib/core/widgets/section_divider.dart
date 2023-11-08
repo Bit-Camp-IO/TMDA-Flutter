@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/color_manager.dart';
 
 class SectionDivider extends StatelessWidget {
   const SectionDivider({
@@ -8,9 +10,9 @@ class SectionDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Divider(
-        color: Colors.white.withOpacity(0.8),
+      padding: const EdgeInsets.all(4.0).r,
+      child: const Divider(
+        color: ColorsManager.inActiveColor,
         thickness: 1,
         indent: 20,
         endIndent: 30,

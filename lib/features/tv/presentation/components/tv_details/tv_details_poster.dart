@@ -19,11 +19,11 @@ class TvDetailsPoster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      clipper: MovieDetailsCLipper(),
+      clipper: TvShowDetailsClipper(),
       child: AnimatedContainer(
         duration: const Duration(seconds: 1),
         curve: Curves.linear,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.sizeOf(context).width,
         height: height,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -50,7 +50,7 @@ class TvDetailsPoster extends StatelessWidget {
   }
 }
 
-class MovieDetailsCLipper extends CustomClipper<Path> {
+class TvShowDetailsClipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
     Path path0 = Path();
@@ -73,7 +73,7 @@ class MovieDetailsCLipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant MovieDetailsCLipper oldClipper) {
+  bool shouldReclip(covariant TvShowDetailsClipper oldClipper) {
     return true;
   }
 }

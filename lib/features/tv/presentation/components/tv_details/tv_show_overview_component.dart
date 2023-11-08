@@ -16,18 +16,18 @@ class TvShowOverview extends StatelessWidget {
         return Column(
           children: [
             SizedBox(
-              height: 120,
+              height: 120.h,
               child: Stack(
                 children: [
                   Positioned(
-                    left: 45,
-                    bottom: 5,
+                    left: 45.w,
+                    bottom: 5.h,
                     child: Column(
                       children: [
-                        const Icon(
+                        Icon(
                           SolarSystemIcons.star,
                           color: ColorsManager.ratingIconColor,
-                          size: 30,
+                          size: 30.sp,
                         ),
                         SizedBox(height: 4.h),
                         Row(
@@ -52,12 +52,11 @@ class TvShowOverview extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    right: 45,
-                    bottom: 35,
+                    right: 45.w,
+                    bottom: 35.h,
                     child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
                       buildWhen: (previous, current) =>
-                          previous.tvShowDetails.status.isInWatchList !=
-                          current.tvShowDetails.status.isInWatchList,
+                          previous.tvShowDetails.status.isInWatchList != current.tvShowDetails.status.isInWatchList,
                       builder: (context, state) {
                         return InkWell(
                           onTap: () {
@@ -76,7 +75,7 @@ class TvShowOverview extends StatelessWidget {
                                     ? SolarSystemIcons.saved
                                     : SolarSystemIcons.unsaved,
                                 color: ColorsManager.primaryColor,
-                                size: 30,
+                                size: 30.sp,
                               ),
                             ],
                           ),
@@ -103,7 +102,7 @@ class TvShowOverview extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             SizedBox(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               height: 40.h,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +115,7 @@ class TvShowOverview extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.8),
+                          color: ColorsManager.inActiveColor,
                         ),
                       ),
                       Text(
@@ -124,7 +123,7 @@ class TvShowOverview extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.8),
+                          color: ColorsManager.inActiveColor,
                         ),
                       ),
                     ],
@@ -137,7 +136,7 @@ class TvShowOverview extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.8),
+                          color: ColorsManager.inActiveColor,
                         ),
                       ),
                       Text(
@@ -145,7 +144,7 @@ class TvShowOverview extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.8),
+                          color: ColorsManager.inActiveColor,
                         ),
                       ),
                       Text(
@@ -155,7 +154,7 @@ class TvShowOverview extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.8),
+                          color: ColorsManager.inActiveColor,
                         ),
                       ),
                     ],
@@ -173,7 +172,7 @@ class TvShowOverview extends StatelessWidget {
                       Text(
                         StringsManager.airedTitle,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Colors.white.withOpacity(0.8),
+                              color: ColorsManager.inActiveColor,
                             ),
                       ),
                       Text(
@@ -189,7 +188,7 @@ class TvShowOverview extends StatelessWidget {
                       Text(
                         StringsManager.productionCountry,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Colors.white.withOpacity(0.8),
+                              color: ColorsManager.inActiveColor,
                             ),
                       ),
                       Text(
@@ -203,7 +202,7 @@ class TvShowOverview extends StatelessWidget {
                       Text(
                         StringsManager.from,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Colors.white.withOpacity(0.8),
+                              color: ColorsManager.inActiveColor,
                             ),
                       ),
                       Text(

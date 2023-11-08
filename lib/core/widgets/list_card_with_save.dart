@@ -42,12 +42,11 @@ class ListCardWithSave extends StatelessWidget {
         child: Transform(
           transform: Matrix4.skewX(-0.06),
           child: Container(
-            width: 312,
-            height: 210,
+            width: 312.w,
+            height: 210.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30).w,
+              borderRadius: BorderRadius.circular(30).r,
               color: Colors.black.withOpacity(0.3),
-              
             ),
             child: Stack(
               children: [
@@ -88,17 +87,17 @@ class ListCardWithSave extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.star,
                                 color: ColorsManager.ratingIconColor,
-                                size: 16,
+                                size: 16.sp,
                               ),
                               Text(
                                 vote.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(fontSize: 11),
+                                    .copyWith(fontSize: 11.sp),
                               ),
                               SizedBox(width: 20.w),
                               Text(
@@ -106,7 +105,7 @@ class ListCardWithSave extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(fontSize: 11),
+                                    .copyWith(fontSize: 11.sp),
                               )
                             ],
                           )
@@ -116,8 +115,8 @@ class ListCardWithSave extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  top: 15,
-                  right: 15,
+                  top: 15.h,
+                  right: 15.w,
                   child: IconButton(
                     onPressed: onSaved,
                     icon: Icon(

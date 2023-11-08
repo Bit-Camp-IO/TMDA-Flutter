@@ -5,11 +5,11 @@ import 'package:tmda/core/util/strings_manager.dart';
 
 class SectionWidgetWithSeeAll extends StatelessWidget {
   const SectionWidgetWithSeeAll({
-    Key? key,
+    super.key,
     required this.title,
     required this.color,
     required this.textButtonOnPressed,
-  }) : super(key: key);
+  });
   final String title;
   final Color color;
   final void Function() textButtonOnPressed;

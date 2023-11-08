@@ -39,7 +39,7 @@ class SimilarTvShowsComponent extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   height: 200.h,
                   child: ListView.builder(
                     shrinkWrap: true,

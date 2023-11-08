@@ -9,7 +9,7 @@ class GetSeasonsEpisodesUseCase {
   final TvShowsRepository _tvShowsRepository;
   const GetSeasonsEpisodesUseCase(this._tvShowsRepository);
 
-  Future<Either<Failure, List<SeasonEpisode>>> call({required int tvShowId, required int seasonNumber}) async{
-    return await _tvShowsRepository.getSeasonEpisodes(tvShowId: tvShowId, seasonId: seasonNumber);
+  Future<Either<Failure, List<List<SeasonEpisode>>>> call({required int tvShowId, required List<int> seasonsNumbers}) async{
+    return await _tvShowsRepository.getSeasonEpisodes(tvShowId: tvShowId, seasonsNumbers: seasonsNumbers);
   }
 }

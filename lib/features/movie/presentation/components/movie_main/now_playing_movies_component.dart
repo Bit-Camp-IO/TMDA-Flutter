@@ -59,9 +59,9 @@ class NowPlayingMoviesComponent extends StatelessWidget {
               axisDirection: Axis.horizontal,
               selectedColor: ColorsManager.primaryColor,
               unSelectedColor: Colors.white,
-              dotHeight: 10,
-              dotWidth: 10,
-              selectedDotWidth: 30,
+              dotHeight: 10.h,
+              dotWidth: 10.w,
+              selectedDotWidth: 30.w,
             );
           },
         ),

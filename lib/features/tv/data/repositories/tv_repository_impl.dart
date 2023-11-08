@@ -96,9 +96,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<Either<Failure, List<SeasonEpisodeModel>>> getSeasonEpisodes({required int tvShowId, required int seasonId}) async{
+  Future<Either<Failure, List<List<SeasonEpisodeModel>>>> getSeasonEpisodes({required int tvShowId, required List<int> seasonsNumbers}) async{
     try{
-      final result = await tvDataSource.getSeasonEpisodes(tvShowId: tvShowId, seasonNumber: seasonId);
+      final result = await tvDataSource.getSeasonEpisodes(tvShowId: tvShowId, seasonsNumbers: seasonsNumbers);
       return right(result);
     }on ServerException catch(exception){
       return left(Failure(exception.message!));

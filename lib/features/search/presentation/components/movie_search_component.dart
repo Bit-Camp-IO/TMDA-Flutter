@@ -57,7 +57,7 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                   return const SizedBox();
                 } else {
                   return Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                    child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
                   );
                 }
               } else {

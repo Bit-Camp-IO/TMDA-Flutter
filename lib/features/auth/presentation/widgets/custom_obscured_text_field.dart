@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/color_manager.dart';
 
 class CustomObscuredTextField extends StatelessWidget {
   const CustomObscuredTextField({
@@ -30,7 +31,7 @@ class CustomObscuredTextField extends StatelessWidget {
             onTap: suffixIconOnTap,
             child: Icon(
               suffixIcon,
-              color: Colors.white.withOpacity(0.6),
+              color: ColorsManager.inActiveColor,
             ),
           ),
           contentPadding: const EdgeInsets.only(left: 16.0).r,
@@ -38,11 +39,11 @@ class CustomObscuredTextField extends StatelessWidget {
           fillColor: Colors.white.withOpacity(0.15),
           hintText: hintText,
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Colors.white.withOpacity(0.6),
+            color: ColorsManager.inActiveColor,
           ),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(const Radius.circular(8).w),
+            borderRadius: const BorderRadius.all(Radius.circular(8)).r,
           ),
         ),
       ),

@@ -32,9 +32,9 @@ class CastCard extends StatelessWidget {
             height: 220.h,
           ),
           Positioned(
-            left: 5,
-            right: 20,
-            bottom: 20,
+            left: 5.w,
+            right: 20.w,
+            bottom: 20.h,
             child: Text(
               actorName,
               overflow: TextOverflow.ellipsis,
@@ -42,9 +42,9 @@ class CastCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 5,
-            right: 15,
-            bottom: 5,
+            left: 5.w,
+            right: 15.w,
+            bottom: 5.h,
             child: Text(
               actorCharacterName,
               overflow: TextOverflow.ellipsis,

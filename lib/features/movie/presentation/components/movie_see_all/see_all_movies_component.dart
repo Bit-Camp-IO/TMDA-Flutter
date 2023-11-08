@@ -82,7 +82,7 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
           itemBuilder: (context, index) {
             if(index >= state.seeAllMovies.length){
              return Center(
-                child: Lottie.asset(AssetsManager.neonLoading, width: 200),
+                child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
               );
             }else{
               final movie = state.seeAllMovies[index];
@@ -121,8 +121,6 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
                 ),
               );
             }
-
-
           },
         );
       },

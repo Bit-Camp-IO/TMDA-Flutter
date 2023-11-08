@@ -9,7 +9,7 @@ import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class SplashScreen extends StatelessWidget with AutoRouteWrapper{
+class SplashScreen extends StatelessWidget implements AutoRouteWrapper{
   const SplashScreen({super.key});
   @override
   Widget wrappedRoute(BuildContext context) {

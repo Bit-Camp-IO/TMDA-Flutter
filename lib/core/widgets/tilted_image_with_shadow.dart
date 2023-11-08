@@ -24,9 +24,9 @@ class TiltedImageWithShadow extends StatelessWidget {
     return Transform(
       transform: Matrix4.skewX(-0.05),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(const Radius.circular(20).w),
-        child: ColorFiltered(
-          colorFilter: ColorFilter.mode(
+        borderRadius: const BorderRadius.all(Radius.circular(20)).r,
+        child: ImageFiltered(
+          imageFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.3),
             BlendMode.darken,
           ),

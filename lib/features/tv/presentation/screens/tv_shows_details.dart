@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/assets_manager.dart';
-import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/widgets/custom_icon_button.dart';
-import 'package:tmda/core/widgets/neon_light_painter.dart';
+import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_body_component.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class TvDetailsScreen extends StatefulWidget with AutoRouteWrapper{
+class TvDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
   const TvDetailsScreen({super.key, required this.tvShowId});
   final int tvShowId;
 
@@ -52,54 +50,29 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.expand(
-        child: Stack(
-          children: [
-            const Positioned(
-              top: 30,
-              left: 20,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
-            const Positioned(
-              bottom: 350,
-              right: 0,
-              child: NeonLightPainter(color: ColorsManager.secondaryColor),
-            ),
-            const Positioned(
-              bottom: 10,
-              left: 10,
-              child: NeonLightPainter(color: ColorsManager.primaryColor),
-            ),
-            BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
-              builder: (context, state) {
-                switch (state.tvShowDetailsState) {
-                  case BlocState.initial || BlocState.loading:
-                    return Center(
-                      child: Lottie.asset(AssetsManager.neonLoading),
-                    );
-                  case BlocState.success:
-                    return const TvShowDetailsBodyComponent();
-                  case BlocState.failure:
-                    return NoConnection(
-                      onTap: () {
-                        context.read<TvShowDetailsBloc>()
-                            .add(GetTvShowDetailsEvent(widget.tvShowId));
-                      },
-                    );
-                }
-              },
-            ),
-            Positioned(
-              top: 50,
-              left: 20,
-              child: CustomIconButton(
-                onPressed: () {
-                  AutoRouter.of(context).pop();
-                },
-                icon: Icons.arrow_back,
-              ),
-            ),
-          ],
+      body: DefaultTabController(
+        length: 2,
+        child: NeonLightBackGround(
+          isBackButtonActive: true,
+          child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+            builder: (context, state) {
+              switch (state.tvShowDetailsState) {
+                case BlocState.initial || BlocState.loading:
+                  return Center(
+                    child: Lottie.asset(AssetsManager.neonLoading),
+                  );
+                case BlocState.success:
+                  return const TvShowDetailsBodyComponent();
+                case BlocState.failure:
+                  return NoConnection(
+                    onTap: () {
+                      context.read<TvShowDetailsBloc>()
+                          .add(GetTvShowDetailsEvent(widget.tvShowId));
+                    },
+                  );
+              }
+            },
+          ),
         ),
       ),
     );

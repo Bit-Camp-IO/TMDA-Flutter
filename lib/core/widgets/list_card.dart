@@ -37,8 +37,8 @@ class ListCard extends StatelessWidget {
         child: Transform(
           transform: Matrix4.skewX(-0.06),
           child: Container(
-            width: 312,
-            height: 210,
+            width: 312.w,
+            height: 210.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30).w,
               color: Colors.black.withOpacity(0.3),
@@ -79,17 +79,17 @@ class ListCard extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.star,
                                 color: ColorsManager.ratingIconColor,
-                                size: 16,
+                                size: 16.sp,
                               ),
                               Text(
                                 vote.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(fontSize: 11),
+                                    .copyWith(fontSize: 11.sp),
                               ),
                               SizedBox(width: 20.w),
                               Text(
@@ -97,7 +97,7 @@ class ListCard extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(fontSize: 11),
+                                    .copyWith(fontSize: 11.sp),
                               )
                             ],
                           )

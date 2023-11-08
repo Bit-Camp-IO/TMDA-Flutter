@@ -44,34 +44,6 @@ class AddOrRemoveTvFromWatchListEvent extends TvDetailsEvent {
   List<Object> get props => [isInWatchList, tvShowId];
 }
 
-class GetSeasonEpisodesEvent extends TvDetailsEvent {
-  final int tvShowId;
-
-  const GetSeasonEpisodesEvent({
-    required this.tvShowId,
-  });
-
-  @override
-  List<Object> get props => [tvShowId];
-}
-
-class ChangeBodyTabsIndexEvent extends TvDetailsEvent {
-  final int bodyTabIndex;
-
-  const ChangeBodyTabsIndexEvent(this.bodyTabIndex);
-
-  @override
-  List<Object> get props => [bodyTabIndex];
-}
-
-class ChangeSeasonsTabsIndexEvent extends TvDetailsEvent {
-  final int seasonsTabIndex;
-
-  const ChangeSeasonsTabsIndexEvent(this.seasonsTabIndex);
-
-  @override
-  List<Object> get props => [seasonsTabIndex];
-}
 
 class OnScrollAnimationEvent extends TvDetailsEvent {
   final double animatedHeight;

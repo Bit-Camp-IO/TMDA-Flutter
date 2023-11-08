@@ -27,11 +27,11 @@ import 'package:tmda/features/account/data/repositories/account_repository_impl.
 import 'package:tmda/features/account/domain/repositories/account_repository.dart'
     as _i32;
 import 'package:tmda/features/account/domain/usecases/account/account_logout_usecase.dart'
-    as _i85;
+    as _i84;
 import 'package:tmda/features/account/domain/usecases/account/get_account_details_usecase.dart'
     as _i37;
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/add_or_remove_movie_from_watch_list_usecase.dart'
-    as _i76;
+    as _i75;
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_all_movies_watchlist_usecase.dart'
     as _i40;
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movie_watchlist_states_usecase.dart'
@@ -39,19 +39,19 @@ import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/g
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movies_watchlist_usecase.dart'
     as _i54;
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/add_or_remove_tv_show_from_watch_list_usecase.dart'
-    as _i77;
+    as _i76;
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_all_tv_shows_watchlist_usecase.dart'
     as _i50;
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_show_watchlist_states_usecase.dart'
-    as _i67;
+    as _i66;
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_shows_watchlist_usecase.dart'
-    as _i70;
+    as _i69;
 import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart'
     as _i38;
 import 'package:tmda/features/account/presentation/bloc/account/account_bloc.dart'
-    as _i89;
+    as _i88;
 import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart'
-    as _i86;
+    as _i85;
 import 'package:tmda/features/auth/data/datasources/auth_data_source.dart'
     as _i11;
 import 'package:tmda/features/auth/data/repositories/auth_repository_impl.dart'
@@ -67,7 +67,7 @@ import 'package:tmda/features/auth/domain/usecases/user_login_usecase.dart'
 import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart'
     as _i30;
 import 'package:tmda/features/auth/presentation/cubit/auth_cubit.dart' as _i36;
-import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart' as _i71;
+import 'package:tmda/features/auth/presentation/cubit/login_cubit.dart' as _i70;
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart'
     as _i15;
 import 'package:tmda/features/movie/data/repositories/movies_repository_impl.dart'
@@ -79,7 +79,7 @@ import 'package:tmda/features/movie/domain/usecases/add_or_remove_movie_from_wat
 import 'package:tmda/features/movie/domain/usecases/get_movie_states_usecase.dart'
     as _i52;
 import 'package:tmda/features/movie/domain/usecases/get_session_id_usecase.dart'
-    as _i62;
+    as _i61;
 import 'package:tmda/features/movie/domain/usecases/movie/get_new_movies_usecase.dart'
     as _i55;
 import 'package:tmda/features/movie/domain/usecases/movie/get_now_playing_movies_usecase.dart'
@@ -87,7 +87,7 @@ import 'package:tmda/features/movie/domain/usecases/movie/get_now_playing_movies
 import 'package:tmda/features/movie/domain/usecases/movie/get_popular_movies_usecase.dart'
     as _i58;
 import 'package:tmda/features/movie/domain/usecases/movie/get_top_rated_movies_usecase.dart'
-    as _i63;
+    as _i62;
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_details_usecase.dart'
     as _i51;
 import 'package:tmda/features/movie/domain/usecases/movie_details/play_movie_video_usecase.dart'
@@ -103,11 +103,11 @@ import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_simil
 import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_top_rated_movies_usecase.dart'
     as _i48;
 import 'package:tmda/features/movie/presentation/bloc/movie_details/movie_details_bloc.dart'
-    as _i72;
+    as _i71;
 import 'package:tmda/features/movie/presentation/bloc/movies/movies_bloc.dart'
-    as _i73;
+    as _i72;
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies/see_all_movies_bloc.dart'
-    as _i81;
+    as _i80;
 import 'package:tmda/features/person/data/datasources/person_data_source.dart'
     as _i18;
 import 'package:tmda/features/person/data/repositories/person_repository_impl.dart'
@@ -117,7 +117,7 @@ import 'package:tmda/features/person/domain/repositories/person_repository.dart'
 import 'package:tmda/features/person/domain/usecases/get_person_details_usecase.dart'
     as _i57;
 import 'package:tmda/features/person/presentation/cubit/person_cubit.dart'
-    as _i74;
+    as _i73;
 import 'package:tmda/features/search/data/datasources/search_data_source.dart'
     as _i22;
 import 'package:tmda/features/search/data/repositories/search_repository_impl.dart'
@@ -127,13 +127,13 @@ import 'package:tmda/features/search/domain/repositories/search_repository.dart'
 import 'package:tmda/features/search/domain/usecases/get_search_session_id_usecase.dart'
     as _i60;
 import 'package:tmda/features/search/domain/usecases/search_for_movie_usecase.dart'
-    as _i78;
+    as _i77;
 import 'package:tmda/features/search/domain/usecases/search_for_person_usecase.dart'
-    as _i79;
+    as _i78;
 import 'package:tmda/features/search/domain/usecases/search_for_tv_show_usecase.dart'
-    as _i80;
+    as _i79;
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart'
-    as _i87;
+    as _i86;
 import 'package:tmda/features/tv/data/datasources/tv_data_source.dart' as _i25;
 import 'package:tmda/features/tv/data/repositories/tv_repository_impl.dart'
     as _i27;
@@ -142,7 +142,7 @@ import 'package:tmda/features/tv/domain/repositories/tv_shows_repository.dart'
 import 'package:tmda/features/tv/domain/usecases/add_or_remove_tv_from_watchlist_usecase.dart'
     as _i35;
 import 'package:tmda/features/tv/domain/usecases/get_tv_show_states_usecase.dart'
-    as _i66;
+    as _i65;
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_popular_tv_shows_usecase.dart'
     as _i43;
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_recommended_tv_shows_usecase.dart'
@@ -154,28 +154,26 @@ import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_top_ra
 import 'package:tmda/features/tv/domain/usecases/see_all_tv_shows/get_all_tv_shows_airing_today_usecase.dart'
     as _i39;
 import 'package:tmda/features/tv/domain/usecases/tv_get_session_key_usecase.dart'
-    as _i82;
-import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_season_episodes_usecase.dart'
-    as _i61;
+    as _i81;
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_tv_show_details_usecase.dart'
-    as _i65;
+    as _i64;
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/play_tv_show_video_usecase.dart'
-    as _i75;
+    as _i74;
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_popular_tv_shows.dart'
     as _i59;
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_top_rated_tv_shows.dart'
-    as _i64;
+    as _i63;
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_this_week_usecase.dart'
-    as _i68;
+    as _i67;
 import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_today.dart'
-    as _i69;
+    as _i68;
 import 'package:tmda/features/tv/presentation/bloc/see_all_tv_shows/see_all_tv_shows_bloc.dart'
-    as _i88;
+    as _i87;
 import 'package:tmda/features/tv/presentation/bloc/tv_show/tv_show_bloc.dart'
-    as _i84;
-import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart'
     as _i83;
-import 'package:tmda/register_module.dart' as _i90;
+import 'package:tmda/features/tv/presentation/bloc/tv_show_details/tv_show_details_bloc.dart'
+    as _i82;
+import 'package:tmda/register_module.dart' as _i89;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -299,59 +297,57 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i59.GetPopularTvShowsUseCase(gh<_i26.TvShowsRepository>()));
     gh.lazySingleton<_i60.GetSearchSessionIdUseCase>(
         () => _i60.GetSearchSessionIdUseCase(gh<_i23.SearchRepository>()));
-    gh.lazySingleton<_i61.GetSeasonsEpisodesUseCase>(
-        () => _i61.GetSeasonsEpisodesUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i62.GetSessionIdUseCase>(
-        () => _i62.GetSessionIdUseCase(gh<_i16.MoviesRepository>()));
-    gh.lazySingleton<_i63.GetTopRatedMoviesUseCase>(
-        () => _i63.GetTopRatedMoviesUseCase(gh<_i16.MoviesRepository>()));
-    gh.lazySingleton<_i64.GetTopRatedTvShowsUseCase>(
-        () => _i64.GetTopRatedTvShowsUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i65.GetTvShowDetailsUseCase>(
-        () => _i65.GetTvShowDetailsUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i66.GetTvShowStateUseCase>(
-        () => _i66.GetTvShowStateUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i67.GetTvShowWatchListStatesUseCase>(() =>
-        _i67.GetTvShowWatchListStatesUseCase(gh<_i32.AccountRepository>()));
-    gh.lazySingleton<_i68.GetTvShowsAiringThisWeekUseCase>(() =>
-        _i68.GetTvShowsAiringThisWeekUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i69.GetTvShowsAiringTodayUseCase>(
-        () => _i69.GetTvShowsAiringTodayUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i70.GetTvShowsWatchListUseCase>(
-        () => _i70.GetTvShowsWatchListUseCase(gh<_i32.AccountRepository>()));
-    gh.factory<_i71.LoginCubit>(() => _i71.LoginCubit(
+    gh.lazySingleton<_i61.GetSessionIdUseCase>(
+        () => _i61.GetSessionIdUseCase(gh<_i16.MoviesRepository>()));
+    gh.lazySingleton<_i62.GetTopRatedMoviesUseCase>(
+        () => _i62.GetTopRatedMoviesUseCase(gh<_i16.MoviesRepository>()));
+    gh.lazySingleton<_i63.GetTopRatedTvShowsUseCase>(
+        () => _i63.GetTopRatedTvShowsUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i64.GetTvShowDetailsUseCase>(
+        () => _i64.GetTvShowDetailsUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i65.GetTvShowStateUseCase>(
+        () => _i65.GetTvShowStateUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i66.GetTvShowWatchListStatesUseCase>(() =>
+        _i66.GetTvShowWatchListStatesUseCase(gh<_i32.AccountRepository>()));
+    gh.lazySingleton<_i67.GetTvShowsAiringThisWeekUseCase>(() =>
+        _i67.GetTvShowsAiringThisWeekUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i68.GetTvShowsAiringTodayUseCase>(
+        () => _i68.GetTvShowsAiringTodayUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i69.GetTvShowsWatchListUseCase>(
+        () => _i69.GetTvShowsWatchListUseCase(gh<_i32.AccountRepository>()));
+    gh.factory<_i70.LoginCubit>(() => _i70.LoginCubit(
           userRegisterUseCase: gh<_i30.UserRegisterUseCase>(),
           userForgetPasswordUseCase: gh<_i28.UserForgetPasswordUseCase>(),
           userLoginUseCase: gh<_i29.UserLoginUseCase>(),
         ));
-    gh.factory<_i72.MovieDetailsBloc>(() => _i72.MovieDetailsBloc(
+    gh.factory<_i71.MovieDetailsBloc>(() => _i71.MovieDetailsBloc(
           gh<_i51.GetMovieDetailsUseCase>(),
-          gh<_i62.GetSessionIdUseCase>(),
+          gh<_i61.GetSessionIdUseCase>(),
           gh<_i21.PlayMovieVideoUseCase>(),
           gh<_i34.AddOrRemoveMovieFromWatchListUseCase>(),
           gh<_i52.GetMovieStateUseCase>(),
         ));
-    gh.factory<_i73.MoviesBloc>(() => _i73.MoviesBloc(
+    gh.factory<_i72.MoviesBloc>(() => _i72.MoviesBloc(
           gh<_i56.GetNowPlayingMoviesUseCase>(),
           gh<_i58.GetPopularMoviesUseCase>(),
-          gh<_i63.GetTopRatedMoviesUseCase>(),
+          gh<_i62.GetTopRatedMoviesUseCase>(),
           gh<_i55.GetNewMoviesUseCase>(),
         ));
-    gh.factory<_i74.PersonCubit>(
-        () => _i74.PersonCubit(gh<_i57.GetPersonDetailsUseCase>()));
-    gh.lazySingleton<_i75.PlayTvShowVideoUseCase>(
-        () => _i75.PlayTvShowVideoUseCase(gh<_i26.TvShowsRepository>()));
-    gh.lazySingleton<_i76.RemoveMovieFromWatchListUseCase>(() =>
-        _i76.RemoveMovieFromWatchListUseCase(gh<_i32.AccountRepository>()));
-    gh.lazySingleton<_i77.RemoveTvShowFromWatchListUseCase>(() =>
-        _i77.RemoveTvShowFromWatchListUseCase(gh<_i32.AccountRepository>()));
-    gh.lazySingleton<_i78.SearchForMovieUseCase>(
-        () => _i78.SearchForMovieUseCase(gh<_i23.SearchRepository>()));
-    gh.lazySingleton<_i79.SearchForPersonUseCase>(
-        () => _i79.SearchForPersonUseCase(gh<_i23.SearchRepository>()));
-    gh.lazySingleton<_i80.SearchForTvShowUseCase>(
-        () => _i80.SearchForTvShowUseCase(gh<_i23.SearchRepository>()));
-    gh.factory<_i81.SeeAllMoviesBloc>(() => _i81.SeeAllMoviesBloc(
+    gh.factory<_i73.PersonCubit>(
+        () => _i73.PersonCubit(gh<_i57.GetPersonDetailsUseCase>()));
+    gh.lazySingleton<_i74.PlayTvShowVideoUseCase>(
+        () => _i74.PlayTvShowVideoUseCase(gh<_i26.TvShowsRepository>()));
+    gh.lazySingleton<_i75.RemoveMovieFromWatchListUseCase>(() =>
+        _i75.RemoveMovieFromWatchListUseCase(gh<_i32.AccountRepository>()));
+    gh.lazySingleton<_i76.RemoveTvShowFromWatchListUseCase>(() =>
+        _i76.RemoveTvShowFromWatchListUseCase(gh<_i32.AccountRepository>()));
+    gh.lazySingleton<_i77.SearchForMovieUseCase>(
+        () => _i77.SearchForMovieUseCase(gh<_i23.SearchRepository>()));
+    gh.lazySingleton<_i78.SearchForPersonUseCase>(
+        () => _i78.SearchForPersonUseCase(gh<_i23.SearchRepository>()));
+    gh.lazySingleton<_i79.SearchForTvShowUseCase>(
+        () => _i79.SearchForTvShowUseCase(gh<_i23.SearchRepository>()));
+    gh.factory<_i80.SeeAllMoviesBloc>(() => _i80.SeeAllMoviesBloc(
           gh<_i41.GetAllNewMoviesUseCase>(),
           gh<_i42.GetAllPopularMoviesUseCase>(),
           gh<_i48.GetAllTopRatedMoviesUseCase>(),
@@ -359,60 +355,59 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i46.GetAllSimilarMoviesUseCase>(),
           gh<_i34.AddOrRemoveMovieFromWatchListUseCase>(),
           gh<_i52.GetMovieStateUseCase>(),
-          gh<_i62.GetSessionIdUseCase>(),
+          gh<_i61.GetSessionIdUseCase>(),
         ));
-    gh.lazySingleton<_i82.TvGetSessionIdUseCase>(
-        () => _i82.TvGetSessionIdUseCase(gh<_i26.TvShowsRepository>()));
-    gh.factory<_i83.TvShowDetailsBloc>(() => _i83.TvShowDetailsBloc(
-          gh<_i65.GetTvShowDetailsUseCase>(),
-          gh<_i82.TvGetSessionIdUseCase>(),
-          gh<_i61.GetSeasonsEpisodesUseCase>(),
+    gh.lazySingleton<_i81.TvGetSessionIdUseCase>(
+        () => _i81.TvGetSessionIdUseCase(gh<_i26.TvShowsRepository>()));
+    gh.factory<_i82.TvShowDetailsBloc>(() => _i82.TvShowDetailsBloc(
+          gh<_i64.GetTvShowDetailsUseCase>(),
+          gh<_i81.TvGetSessionIdUseCase>(),
           gh<_i35.AddOrRemoveTvFromWatchListUseCase>(),
-          gh<_i75.PlayTvShowVideoUseCase>(),
-          gh<_i66.GetTvShowStateUseCase>(),
+          gh<_i74.PlayTvShowVideoUseCase>(),
+          gh<_i65.GetTvShowStateUseCase>(),
         ));
-    gh.factory<_i84.TvShowsBloc>(() => _i84.TvShowsBloc(
-          gh<_i69.GetTvShowsAiringTodayUseCase>(),
-          gh<_i68.GetTvShowsAiringThisWeekUseCase>(),
+    gh.factory<_i83.TvShowsBloc>(() => _i83.TvShowsBloc(
+          gh<_i68.GetTvShowsAiringTodayUseCase>(),
+          gh<_i67.GetTvShowsAiringThisWeekUseCase>(),
           gh<_i59.GetPopularTvShowsUseCase>(),
-          gh<_i64.GetTopRatedTvShowsUseCase>(),
+          gh<_i63.GetTopRatedTvShowsUseCase>(),
         ));
-    gh.lazySingleton<_i85.AccountLogoutUseCase>(
-        () => _i85.AccountLogoutUseCase(gh<_i32.AccountRepository>()));
-    gh.factory<_i86.AccountSeeAllBloc>(() => _i86.AccountSeeAllBloc(
+    gh.lazySingleton<_i84.AccountLogoutUseCase>(
+        () => _i84.AccountLogoutUseCase(gh<_i32.AccountRepository>()));
+    gh.factory<_i85.AccountSeeAllBloc>(() => _i85.AccountSeeAllBloc(
           gh<_i38.GetAccountSessionIdUseCase>(),
           gh<_i40.GetAllMoviesWatchListUseCase>(),
           gh<_i50.GetAllTvShowsWatchListUseCase>(),
-          gh<_i67.GetTvShowWatchListStatesUseCase>(),
-          gh<_i77.RemoveTvShowFromWatchListUseCase>(),
+          gh<_i66.GetTvShowWatchListStatesUseCase>(),
+          gh<_i76.RemoveTvShowFromWatchListUseCase>(),
           gh<_i53.GetMovieWatchListStatesUseCase>(),
-          gh<_i76.RemoveMovieFromWatchListUseCase>(),
+          gh<_i75.RemoveMovieFromWatchListUseCase>(),
         ));
-    gh.factory<_i87.SearchBloc>(() => _i87.SearchBloc(
+    gh.factory<_i86.SearchBloc>(() => _i86.SearchBloc(
           gh<_i60.GetSearchSessionIdUseCase>(),
-          gh<_i80.SearchForTvShowUseCase>(),
-          gh<_i78.SearchForMovieUseCase>(),
-          gh<_i79.SearchForPersonUseCase>(),
+          gh<_i79.SearchForTvShowUseCase>(),
+          gh<_i77.SearchForMovieUseCase>(),
+          gh<_i78.SearchForPersonUseCase>(),
         ));
-    gh.factory<_i88.SeeAllTvShowsBloc>(() => _i88.SeeAllTvShowsBloc(
-          gh<_i82.TvGetSessionIdUseCase>(),
+    gh.factory<_i87.SeeAllTvShowsBloc>(() => _i87.SeeAllTvShowsBloc(
+          gh<_i81.TvGetSessionIdUseCase>(),
           gh<_i39.GetAllAiringTodayTvShowsUseCase>(),
           gh<_i43.GetAllPopularTvShowsUseCase>(),
           gh<_i49.GetAllTopRatedTvShowsUseCase>(),
           gh<_i45.GetAllRecommendedTvShowsUseCase>(),
           gh<_i47.GetAllSimilarTvShowsUseCase>(),
-          gh<_i66.GetTvShowStateUseCase>(),
+          gh<_i65.GetTvShowStateUseCase>(),
           gh<_i35.AddOrRemoveTvFromWatchListUseCase>(),
         ));
-    gh.factory<_i89.AccountBloc>(() => _i89.AccountBloc(
+    gh.factory<_i88.AccountBloc>(() => _i88.AccountBloc(
           gh<_i37.GetAccountDetailsUseCase>(),
           gh<_i54.GetMoviesWatchListUseCase>(),
-          gh<_i70.GetTvShowsWatchListUseCase>(),
-          gh<_i85.AccountLogoutUseCase>(),
+          gh<_i69.GetTvShowsWatchListUseCase>(),
+          gh<_i84.AccountLogoutUseCase>(),
           gh<_i38.GetAccountSessionIdUseCase>(),
         ));
     return this;
   }
 }
 
-class _$RegisterModule extends _i90.RegisterModule {}
+class _$RegisterModule extends _i89.RegisterModule {}

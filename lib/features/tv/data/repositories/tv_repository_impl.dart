@@ -4,7 +4,6 @@ import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/core/util/shared_data_source/local_data_source.dart';
 import 'package:tmda/features/tv/data/datasources/tv_data_source.dart';
-import 'package:tmda/features/tv/data/models/season_episode_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_model.dart';
@@ -94,17 +93,6 @@ class TvRepositoryImpl extends TvShowsRepository {
   Future<String> getSessionId() async{
      return await localDataSource.getSessionId();
   }
-
-  @override
-  Future<Either<Failure, List<List<SeasonEpisodeModel>>>> getSeasonEpisodes({required int tvShowId, required List<int> seasonsNumbers}) async{
-    try{
-      final result = await tvDataSource.getSeasonEpisodes(tvShowId: tvShowId, seasonsNumbers: seasonsNumbers);
-      return right(result);
-    }on ServerException catch(exception){
-      return left(Failure(exception.message!));
-    }
-  }
-
   @override
   Future<Either<Failure, TvShowAccountStatesModel>> addOrRemoveTvFromWatchList({required int tvShowId, required bool isInWatchList, required String sessionId}) async{
    try{

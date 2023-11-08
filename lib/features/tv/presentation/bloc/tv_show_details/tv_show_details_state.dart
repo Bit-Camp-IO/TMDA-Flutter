@@ -9,38 +9,12 @@ class TvShowDetailsState extends Equatable {
   final bool hasSimilarTvShowsListReachedMax;
   final String getRecommendedTvShowsFailMessage;
   final bool hasRecommendedTvShowsListReachedMax;
-  final List<List<SeasonEpisode>> allSeasonsEpisodes;
-  final BlocState seasonEpisodesState;
-  final String seasonEpisodesFailMessage;
   final int bodyTabIndex;
   final int seasonsTabIndex;
   final double animatedHeight;
   const TvShowDetailsState({
     this.tvShowDetails = const TvShowDetails(
-      id: 0,
-      backDropPath: '',
-      posterPath: '',
-      overview: '',
-      firstAirDate: '',
-      lastAirDate: '',
-      numberOfEpisodes: 0,
-      numberOfSeasons: 0,
-      tvShowLanguage: '',
-      title: '',
-      voteAverage: 0,
-      popularity: 0,
-      tvShowProductionCountry:
-          TvShowProductionCountry(countryCode: '', countryName: ''),
-      network: TvShowNetwork(id: 0, name: ''),
-      seasons: [],
-      genres: [],
-      tvShowVideo: TvShowVideo(name: '', key: '', videoType: ''),
-      voteCount: 0,
-      similarTvShows: [],
-      recommendedTvShows: [],
-      cast: [],
-      status: TvShowAccountStates(isInWatchList: false),
-      reviews: []
+
     ),
     this.tvShowDetailsState = BlocState.loading,
     this.tvShowDetailsFailMessage = '',
@@ -49,9 +23,6 @@ class TvShowDetailsState extends Equatable {
     this.hasSimilarTvShowsListReachedMax = false,
     this.getRecommendedTvShowsFailMessage = '',
     this.hasRecommendedTvShowsListReachedMax = false,
-    this.allSeasonsEpisodes = const [],
-    this.seasonEpisodesState = BlocState.loading,
-    this.seasonEpisodesFailMessage = '',
     this.bodyTabIndex = 0,
     this.seasonsTabIndex = 0,
     this.animatedHeight = 420,
@@ -65,9 +36,6 @@ class TvShowDetailsState extends Equatable {
     bool? hasSimilarTvShowsListReachedMax,
     String? getRecommendedTvShowsFailMessage,
     bool? hasRecommendedTvShowsListReachedMax,
-    List<List<SeasonEpisode>>? allSeasonsEpisodes,
-    BlocState? seasonEpisodesState,
-    String? seasonEpisodesFailMessage,
     int? bodyTabIndex,
     int? seasonsTabIndex,
     double? animatedHeight,
@@ -81,9 +49,6 @@ class TvShowDetailsState extends Equatable {
       hasSimilarTvShowsListReachedMax: hasSimilarTvShowsListReachedMax ?? this.hasSimilarTvShowsListReachedMax,
       getRecommendedTvShowsFailMessage: getRecommendedTvShowsFailMessage ?? this.getRecommendedTvShowsFailMessage,
       hasRecommendedTvShowsListReachedMax: hasRecommendedTvShowsListReachedMax ?? this.hasRecommendedTvShowsListReachedMax,
-      allSeasonsEpisodes: allSeasonsEpisodes ?? this.allSeasonsEpisodes,
-      seasonEpisodesState: seasonEpisodesState ?? this.seasonEpisodesState,
-      seasonEpisodesFailMessage: seasonEpisodesFailMessage ?? this.seasonEpisodesFailMessage,
       bodyTabIndex: bodyTabIndex ?? this.bodyTabIndex,
       seasonsTabIndex: seasonsTabIndex ?? this.seasonsTabIndex,
       animatedHeight: animatedHeight ?? this.animatedHeight
@@ -99,9 +64,6 @@ class TvShowDetailsState extends Equatable {
         hasSimilarTvShowsListReachedMax,
         hasRecommendedTvShowsListReachedMax,
         getRecommendedTvShowsFailMessage,
-        allSeasonsEpisodes,
-        seasonEpisodesState,
-        seasonEpisodesFailMessage,
         bodyTabIndex,
         seasonsTabIndex,
         animatedHeight

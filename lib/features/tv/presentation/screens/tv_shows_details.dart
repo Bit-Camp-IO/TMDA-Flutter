@@ -50,29 +50,26 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        child: NeonLightBackGround(
-          isBackButtonActive: true,
-          child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
-            builder: (context, state) {
-              switch (state.tvShowDetailsState) {
-                case BlocState.initial || BlocState.loading:
-                  return Center(
-                    child: Lottie.asset(AssetsManager.neonLoading),
-                  );
-                case BlocState.success:
-                  return const TvShowDetailsBodyComponent();
-                case BlocState.failure:
-                  return NoConnection(
-                    onTap: () {
-                      context.read<TvShowDetailsBloc>()
-                          .add(GetTvShowDetailsEvent(widget.tvShowId));
-                    },
-                  );
-              }
-            },
-          ),
+      body: NeonLightBackGround(
+        isBackButtonActive: true,
+        child: BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
+          builder: (context, state) {
+            switch (state.tvShowDetailsState) {
+              case BlocState.initial || BlocState.loading:
+                return Center(
+                  child: Lottie.asset(AssetsManager.neonLoading),
+                );
+              case BlocState.success:
+                return const TvShowDetailsBodyComponent();
+              case BlocState.failure:
+                return NoConnection(
+                  onTap: () {
+                    context.read<TvShowDetailsBloc>()
+                        .add(GetTvShowDetailsEvent(widget.tvShowId));
+                  },
+                );
+            }
+          },
         ),
       ),
     );

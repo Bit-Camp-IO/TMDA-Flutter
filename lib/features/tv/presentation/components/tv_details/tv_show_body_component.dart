@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_lazy_indexed_stack/flutter_lazy_indexed_stack.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
@@ -14,7 +13,6 @@ import 'package:tmda/features/tv/presentation/components/tv_details/similar_tv_s
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_cast_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_overview_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_reviews_component.dart';
-import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_seasons_component.dart';
 import 'package:tmda/features/tv/presentation/components/tv_details/tv_details_poster.dart';
 
 class TvShowDetailsBodyComponent extends StatefulWidget {
@@ -25,9 +23,7 @@ class TvShowDetailsBodyComponent extends StatefulWidget {
       _TvShowDetailsBodyComponentState();
 }
 
-class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent> with TickerProviderStateMixin {
   late ScrollController _scrollController;
 
   void _scrollListener() {
@@ -51,11 +47,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void initState() {
-    final tvShowDetailsBloc = context.read<TvShowDetailsBloc>();
-    tvShowDetailsBloc.add(GetSeasonEpisodesEvent(
-        tvShowId: tvShowDetailsBloc.state.tvShowDetails.id));
     _scrollController = ScrollController()..addListener(_scrollListener);
-    _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     super.initState();
   }
 
@@ -115,49 +107,16 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                   );
                 },
               ),
-              Column(
-                children: [
-                  TabBar(
-                    controller: _tabController,
-                    labelStyle: Theme.of(context).textTheme.titleMedium,
-                    onTap: (value) {
-                      context.read<TvShowDetailsBloc>()
-                          .add(ChangeBodyTabsIndexEvent(_tabController.index));
-                      _tabController.animateTo(_tabController.index);
-                    },
-                    tabs: const [
-                      Tab(
-                        text: StringsManager.tvDetailsOverviewTab,
-                      ),
-                      Tab(
-                        text: StringsManager.tvDetailsSeasonsTab,
-                      )
-                    ],
-                  ),
-                ],
-              ),
               BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
                 builder: (context, state) {
-                  return LazyIndexedStack(
-                    index: state.bodyTabIndex,
+                  return Column(
                     children: [
-                      Visibility(
-                        visible: state.bodyTabIndex == 0,
-                        child: Column(
-                          children: [
-                            const TvShowOverview(),
-                            const TvShowCastComponent(),
-                            const RecommendedTvShowsComponent(),
-                            const SimilarTvShowsComponent(),
-                            const TvShowReviewsComponent(),
-                            SizedBox(height: 70.h),
-                          ],
-                        ),
-                      ),
-                      Visibility(
-                        visible: state.bodyTabIndex == 1,
-                        child: const TvShowSeasons(),
-                      ),
+                      const TvShowOverview(),
+                      const TvShowCastComponent(),
+                      const RecommendedTvShowsComponent(),
+                      const SimilarTvShowsComponent(),
+                      const TvShowReviewsComponent(),
+                      SizedBox(height: 70.h),
                     ],
                   );
                 },
@@ -171,10 +130,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_scrollListener)
-      ..dispose();
-    _tabController.dispose();
+    _scrollController..removeListener(_scrollListener)..dispose();
     super.dispose();
   }
 }

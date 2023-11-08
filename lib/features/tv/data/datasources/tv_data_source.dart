@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/features/tv/data/models/season_episode_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_cast_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
@@ -36,11 +35,6 @@ abstract class TvDataSource {
 
   Future<List<TvShowModel>> getRecommendedTvShows({
     required int tvShowId,
-  });
-
-  Future<List<List<SeasonEpisodeModel>>> getSeasonEpisodes({
-    required int tvShowId,
-    required List<int> seasonsNumbers,
   });
 
   Future<TvShowAccountStatesModel> addOrRemoveMovieFromWatchList({
@@ -190,25 +184,6 @@ class TvDataSourceImpl extends TvDataSource {
     return TvShowReviewsModel.fromJson(response);
   }
 
-  @override
-  Future<List<List<SeasonEpisodeModel>>> getSeasonEpisodes(
-      {required int tvShowId, required List<int> seasonsNumbers}) async {
-    final listOfSeasonsEpisodes = await Future.wait(
-      seasonsNumbers.map(
-        (seasonNumber) => _apiConsumer.get(
-          '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.seasonPath}$seasonNumber',
-        ),
-      ),
-    );
-
-    return listOfSeasonsEpisodes.map((seasonData) {
-      final List<dynamic> episodesData = seasonData['episodes'];
-      final List<SeasonEpisodeModel> listOfEpisodes = episodesData
-          .map((episodeJson) => SeasonEpisodeModel.fromJson(episodeJson))
-          .toList();
-      return listOfEpisodes;
-    }).toList();
-  }
 
   @override
   Future<TvShowAccountStatesModel> addOrRemoveMovieFromWatchList(

@@ -40,14 +40,14 @@ class CarouselCard extends StatelessWidget {
             ),
             child: CachedNetworkImage(
               width: 360.w,
-              imageUrl: imagePath.isNotEmpty ? ApiConstants.imageUrl(imagePath) : errorImagePath,
+              imageUrl: imagePath.isNotEmpty
+                  ? ApiConstants.imageUrl(imagePath)
+                  : errorImagePath,
               fit: BoxFit.cover,
-              cacheManager: CacheManager(
-                  Config(
-                    AppConstants.cacheFolder,
-                    stalePeriod: const Duration(days: AppConstants.cacheDuration),
-                  )
-              ),
+              cacheManager: CacheManager(Config(
+                AppConstants.cacheFolder,
+                stalePeriod: const Duration(days: AppConstants.cacheDuration),
+              )),
             ),
           ),
           Positioned(

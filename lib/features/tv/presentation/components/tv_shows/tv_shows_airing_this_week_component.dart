@@ -22,15 +22,21 @@ class TvShowsAiringThisWeekComponent extends StatelessWidget {
               itemBuilder: (context, index, realIndex) {
                 if (state.airingThisWeekTvShows.isNotEmpty) {
                   final airingThisWeekTvShow = state.airingThisWeekTvShows[index];
-                  return CarouselCard(
-                    imagePath: airingThisWeekTvShow.posterPath,
-                    errorImagePath: AssetsManager.errorPoster,
-                    rating: airingThisWeekTvShow.voteAverage,
-                    title: airingThisWeekTvShow.title,
-                    voteCount: airingThisWeekTvShow.voteCount,
-                    onTap: () {
-                      context.pushRoute(TvDetailsRoute(tvShowId: airingThisWeekTvShow.id));
-                    },
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ).r,
+                    child: CarouselCard(
+                      imagePath: airingThisWeekTvShow.posterPath,
+                      errorImagePath: AssetsManager.errorPoster,
+                      rating: airingThisWeekTvShow.voteAverage,
+                      title: airingThisWeekTvShow.title,
+                      voteCount: airingThisWeekTvShow.voteCount,
+                      onTap: () {
+                        context.pushRoute(TvDetailsRoute(tvShowId: airingThisWeekTvShow.id));
+                      },
+                    ),
                   );
                 } else {
                   return const SizedBox();

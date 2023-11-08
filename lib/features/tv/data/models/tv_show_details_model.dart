@@ -3,7 +3,6 @@ import 'package:tmda/features/tv/data/models/tv_show_cast_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_network_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_production_countries_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_reviews_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show_seasons_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_video_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_genres_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_model.dart';
@@ -25,7 +24,6 @@ class TvShowDetailsModel extends TvShowDetails {
     required super.popularity,
     required super.tvShowProductionCountry,
     required super.network,
-    required super.seasons,
     required super.genres,
     required super.tvShowVideo,
     required super.voteCount,
@@ -55,11 +53,6 @@ class TvShowDetailsModel extends TvShowDetails {
         jsonData['production_countries'],
       ),
       network: TvShowNetworkModel.fromJson(jsonData['networks']),
-      seasons: List<TvShowSeasonsModel>.from(
-        jsonData['seasons'].map(
-              (jsonData) => TvShowSeasonsModel.fromJson(jsonData),
-        ),
-      ),
       genres: List<TvShowGenresModel>.from(
         jsonData['genres'].map(
               (jsonData) => TvShowGenresModel.fromJson(jsonData),

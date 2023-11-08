@@ -1,12 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-
 import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_cast.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_network.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_production_country.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_reviews.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show_seasons.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_video.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_genres.dart';
@@ -33,33 +30,31 @@ class TvShowDetails extends Equatable {
   final TvShowVideo tvShowVideo;
   final TvShowNetwork network;
   final TvShowAccountStates status;
-  final List<TvShowSeasons> seasons;
   final List<TvShowReviews> reviews;
 
   const TvShowDetails({
-    required this.id,
-    required this.backDropPath,
-    required this.posterPath,
-    required this.overview,
-    required this.firstAirDate,
-    required this.lastAirDate,
-    required this.numberOfEpisodes,
-    required this.numberOfSeasons,
-    required this.tvShowLanguage,
-    required this.title,
-    required this.voteAverage,
-    required this.popularity,
-    required this.tvShowProductionCountry,
-    required this.network,
-    required this.seasons,
-    required this.genres,
-    required this.tvShowVideo,
-    required this.voteCount,
-    required this.similarTvShows,
-    required this.recommendedTvShows,
-    required this.cast,
-    required this.status,
-    required this.reviews
+    this.id = 0,
+    this. backDropPath = '',
+    this.posterPath =  '',
+    this.overview = '',
+    this.firstAirDate =  '',
+    this.lastAirDate =  '',
+    this.numberOfEpisodes =  0,
+    this.numberOfSeasons =  0,
+    this.tvShowLanguage = '',
+    this.title = '',
+    this.voteAverage = 0,
+    this.popularity = 0,
+    this.tvShowProductionCountry = const TvShowProductionCountry(countryCode: '', countryName: ''),
+    this.network =  const TvShowNetwork(id: 0, name: ''),
+    this.genres = const [],
+    this.tvShowVideo = const TvShowVideo(name: '', key: '', videoType: ''),
+    this.voteCount =  0,
+    this.similarTvShows = const [],
+    this.recommendedTvShows = const [],
+    this.cast = const[],
+    this.status =  const TvShowAccountStates(isInWatchList: false),
+    this.reviews = const []
   });
 
   @override
@@ -78,7 +73,6 @@ class TvShowDetails extends Equatable {
         tvShowProductionCountry,
         tvShowLanguage,
         network,
-        seasons,
         voteCount,
         similarTvShows,
         recommendedTvShows,
@@ -108,7 +102,6 @@ class TvShowDetails extends Equatable {
     TvShowVideo? tvShowVideo,
     TvShowNetwork? network,
     TvShowAccountStates? status,
-    List<TvShowSeasons>? seasons,
     List<TvShowReviews>? reviews,
   }) {
     return TvShowDetails(
@@ -133,7 +126,6 @@ class TvShowDetails extends Equatable {
       tvShowVideo: tvShowVideo ?? this.tvShowVideo,
       network: network ?? this.network,
       status: status ?? this.status,
-      seasons: seasons ?? this.seasons,
       reviews: reviews ?? this.reviews,
     );
   }

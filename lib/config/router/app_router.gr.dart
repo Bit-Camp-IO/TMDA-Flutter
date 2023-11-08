@@ -15,36 +15,6 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    MovieTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MoviesTab(),
-      );
-    },
-    TvShowsTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const TvShowsTab(),
-      );
-    },
-    SearchTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SearchTab(),
-      );
-    },
-    AccountTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AccountTab(),
-      );
-    },
-    AuthRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const Auth(),
-      );
-    },
     AccountRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -62,22 +32,22 @@ abstract class _$AppRouter extends RootStackRouter {
         )),
       );
     },
+    AccountTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AccountTab(),
+      );
+    },
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const Auth(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(child: const LoginScreen()),
-      );
-    },
-    SelectionRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SelectionScreen(),
-      );
-    },
-    SplashRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: WrappedRoute(child: const SplashScreen()),
       );
     },
     MovieDetailsRoute.name: (routeData) {
@@ -97,16 +67,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const MovieScreen()),
       );
     },
-    SeeAllMoviesRoute.name: (routeData) {
-      final args = routeData.argsAs<SeeAllMoviesRouteArgs>();
+    MovieTabRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WrappedRoute(
-            child: SeeAllMoviesScreen(
-          key: args.key,
-          movieType: args.movieType,
-          movieId: args.movieId,
-        )),
+        child: const MoviesTab(),
       );
     },
     MainNavigationTabs.name: (routeData) {
@@ -133,6 +97,24 @@ abstract class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const SearchScreen()),
       );
     },
+    SearchTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SearchTab(),
+      );
+    },
+    SeeAllMoviesRoute.name: (routeData) {
+      final args = routeData.argsAs<SeeAllMoviesRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: SeeAllMoviesScreen(
+          key: args.key,
+          movieType: args.movieType,
+          movieId: args.movieId,
+        )),
+      );
+    },
     SeeAllTvShowsRoute.name: (routeData) {
       final args = routeData.argsAs<SeeAllTvShowsRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -143,6 +125,18 @@ abstract class _$AppRouter extends RootStackRouter {
           tvShowType: args.tvShowType,
           tvShowId: args.tvShowId,
         )),
+      );
+    },
+    SelectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SelectionScreen(),
+      );
+    },
+    SplashRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(child: const SplashScreen()),
       );
     },
     TvDetailsRoute.name: (routeData) {
@@ -162,77 +156,13 @@ abstract class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const TvShowScreen()),
       );
     },
+    TvShowsTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TvShowsTab(),
+      );
+    },
   };
-}
-
-/// generated route for
-/// [MoviesTab]
-class MovieTabRoute extends PageRouteInfo<void> {
-  const MovieTabRoute({List<PageRouteInfo>? children})
-      : super(
-          MovieTabRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MovieTabRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [TvShowsTab]
-class TvShowsTabRoute extends PageRouteInfo<void> {
-  const TvShowsTabRoute({List<PageRouteInfo>? children})
-      : super(
-          TvShowsTabRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TvShowsTabRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SearchTab]
-class SearchTabRoute extends PageRouteInfo<void> {
-  const SearchTabRoute({List<PageRouteInfo>? children})
-      : super(
-          SearchTabRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SearchTabRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AccountTab]
-class AccountTabRoute extends PageRouteInfo<void> {
-  const AccountTabRoute({List<PageRouteInfo>? children})
-      : super(
-          AccountTabRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AccountTabRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [Auth]
-class AuthRoute extends PageRouteInfo<void> {
-  const AuthRoute({List<PageRouteInfo>? children})
-      : super(
-          AuthRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AuthRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -288,6 +218,34 @@ class AccountSeeAllRouteArgs {
 }
 
 /// generated route for
+/// [AccountTab]
+class AccountTabRoute extends PageRouteInfo<void> {
+  const AccountTabRoute({List<PageRouteInfo>? children})
+      : super(
+          AccountTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AccountTabRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [Auth]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -297,34 +255,6 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SelectionScreen]
-class SelectionRoute extends PageRouteInfo<void> {
-  const SelectionRoute({List<PageRouteInfo>? children})
-      : super(
-          SelectionRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SelectionRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SplashScreen]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute({List<PageRouteInfo>? children})
-      : super(
-          SplashRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -382,46 +312,17 @@ class MovieRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SeeAllMoviesScreen]
-class SeeAllMoviesRoute extends PageRouteInfo<SeeAllMoviesRouteArgs> {
-  SeeAllMoviesRoute({
-    Key? key,
-    required MovieType movieType,
-    int? movieId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SeeAllMoviesRoute.name,
-          args: SeeAllMoviesRouteArgs(
-            key: key,
-            movieType: movieType,
-            movieId: movieId,
-          ),
+/// [MoviesTab]
+class MovieTabRoute extends PageRouteInfo<void> {
+  const MovieTabRoute({List<PageRouteInfo>? children})
+      : super(
+          MovieTabRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SeeAllMoviesRoute';
+  static const String name = 'MovieTabRoute';
 
-  static const PageInfo<SeeAllMoviesRouteArgs> page =
-      PageInfo<SeeAllMoviesRouteArgs>(name);
-}
-
-class SeeAllMoviesRouteArgs {
-  const SeeAllMoviesRouteArgs({
-    this.key,
-    required this.movieType,
-    this.movieId,
-  });
-
-  final Key? key;
-
-  final MovieType movieType;
-
-  final int? movieId;
-
-  @override
-  String toString() {
-    return 'SeeAllMoviesRouteArgs{key: $key, movieType: $movieType, movieId: $movieId}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -495,6 +396,63 @@ class SearchRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SearchTab]
+class SearchTabRoute extends PageRouteInfo<void> {
+  const SearchTabRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchTabRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SeeAllMoviesScreen]
+class SeeAllMoviesRoute extends PageRouteInfo<SeeAllMoviesRouteArgs> {
+  SeeAllMoviesRoute({
+    Key? key,
+    required MovieType movieType,
+    int? movieId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SeeAllMoviesRoute.name,
+          args: SeeAllMoviesRouteArgs(
+            key: key,
+            movieType: movieType,
+            movieId: movieId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SeeAllMoviesRoute';
+
+  static const PageInfo<SeeAllMoviesRouteArgs> page =
+      PageInfo<SeeAllMoviesRouteArgs>(name);
+}
+
+class SeeAllMoviesRouteArgs {
+  const SeeAllMoviesRouteArgs({
+    this.key,
+    required this.movieType,
+    this.movieId,
+  });
+
+  final Key? key;
+
+  final MovieType movieType;
+
+  final int? movieId;
+
+  @override
+  String toString() {
+    return 'SeeAllMoviesRouteArgs{key: $key, movieType: $movieType, movieId: $movieId}';
+  }
+}
+
+/// generated route for
 /// [SeeAllTvShowsScreen]
 class SeeAllTvShowsRoute extends PageRouteInfo<SeeAllTvShowsRouteArgs> {
   SeeAllTvShowsRoute({
@@ -535,6 +493,34 @@ class SeeAllTvShowsRouteArgs {
   String toString() {
     return 'SeeAllTvShowsRouteArgs{key: $key, tvShowType: $tvShowType, tvShowId: $tvShowId}';
   }
+}
+
+/// generated route for
+/// [SelectionScreen]
+class SelectionRoute extends PageRouteInfo<void> {
+  const SelectionRoute({List<PageRouteInfo>? children})
+      : super(
+          SelectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SelectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SplashScreen]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
+      : super(
+          SplashRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SplashRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -585,6 +571,20 @@ class TvShowRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'TvShowRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TvShowsTab]
+class TvShowsTabRoute extends PageRouteInfo<void> {
+  const TvShowsTabRoute({List<PageRouteInfo>? children})
+      : super(
+          TvShowsTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TvShowsTabRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

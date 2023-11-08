@@ -8,8 +8,9 @@ final class ApiConstants {
   static const String baseYoutubeUrl = 'https://m.youtube.com/watch?v=';
   static const String baseRegisterUrl = 'https://www.themoviedb.org/signup';
   static const String baseUpdateProfileUrl = 'https://www.themoviedb.org/settings/profile';
-  static const String baseForgetPasswordUrl =
-      'https://www.themoviedb.org/reset-password';
+  static const String baseForgetPasswordUrl = 'https://www.themoviedb.org/reset-password';
+  static const String unAuthenticatedConsumer = 'unAuthenticatedConsumer';
+  static const String authenticatedConsumer = 'authenticatedConsumer';
   static const String headerContentTypeValue = 'application/json';
   static const String headerContentType = 'Content-Type';
   static const String personEndPointAppendedToResponse = 'movie_credits,tv_credits';

@@ -9,7 +9,7 @@ class GetAllTopRatedMoviesUseCase {
   final MoviesRepository _moviesRepository;
   const GetAllTopRatedMoviesUseCase(this._moviesRepository);
 
-  Future<Either<Failure, List<Movies>>> call({required int pageNumber, required String sessionId}) async{
-    return await _moviesRepository.getAllTopRatedMovies(pageNumber: pageNumber, sessionId: sessionId);
+  Future<Either<Failure, List<Movies>>> call({required int pageNumber}) async{
+    return await _moviesRepository.getAllTopRatedMovies(pageNumber: pageNumber);
   }
 }

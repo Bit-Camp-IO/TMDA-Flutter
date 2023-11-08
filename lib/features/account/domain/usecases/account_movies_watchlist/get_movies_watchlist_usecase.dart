@@ -9,7 +9,7 @@ class GetMoviesWatchListUseCase{
   final AccountRepository _accountRepository;
   const GetMoviesWatchListUseCase(this._accountRepository);
 
-  Future<Either<Failure, List<WatchListMovie>>> call({required String sessionId}) async{
-    return await _accountRepository.getMoviesWatchList(sessionId);
+  Future<Either<Failure, List<WatchListMovie>>> call() async{
+    return await _accountRepository.getMoviesWatchList();
   }
 }

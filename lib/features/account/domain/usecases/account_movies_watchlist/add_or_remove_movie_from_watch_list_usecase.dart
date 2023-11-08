@@ -9,7 +9,7 @@ class RemoveMovieFromWatchListUseCase{
   final AccountRepository _accountRepository;
   const RemoveMovieFromWatchListUseCase(this._accountRepository);
 
-  Future<Either<Failure, AccountStates>> call({required int movieId, required String sessionId}) async{
-    return await _accountRepository.removeMovieFromWatchList(contentId: movieId, sessionId: sessionId);
+  Future<Either<Failure, AccountStates>> call({required int movieId}) async{
+    return await _accountRepository.removeMovieFromWatchList(contentId: movieId);
   }
 }

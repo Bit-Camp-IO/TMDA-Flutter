@@ -5,7 +5,6 @@ import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details.dart';
 import 'package:tmda/features/movie/domain/usecases/add_or_remove_movie_from_watch_list_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/get_movie_details_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_session_id_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/movie_details/play_movie_video_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/get_movie_states_usecase.dart';
 
@@ -14,25 +13,20 @@ part 'movie_details_state.dart';
 @injectable
 class MovieDetailsCubit extends Cubit<MovieDetailsState> {
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
-  final GetSessionIdUseCase _getSessionIdUseCase;
   final PlayMovieVideoUseCase _playMovieTrailerUseCase;
   final AddOrRemoveMovieFromWatchListUseCase _addOrRemoveFromWatchListUseCase;
   final GetMovieStateUseCase _getMovieStateUseCase;
-  late String _userSessionId;
 
   MovieDetailsCubit(
     this._getMovieDetailsUseCase,
-    this._getSessionIdUseCase,
     this._playMovieTrailerUseCase,
     this._addOrRemoveFromWatchListUseCase,
     this._getMovieStateUseCase,
   ) : super(const MovieDetailsState());
 
   Future<void> getMovieDetails({required int movieId}) async {
-    _userSessionId = await _getSessionIdUseCase();
     final movieDetails = await _getMovieDetailsUseCase(
       movieId: movieId,
-      sessionId: _userSessionId,
     );
     movieDetails.fold(
       (loadMovieDetailsFail) => emit(
@@ -55,7 +49,6 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
   Future<void> getMovieStates({required int movieId}) async {
     final movieDetails = await _getMovieStateUseCase(
       movieId: movieId,
-      sessionId: _userSessionId,
     );
     movieDetails.fold(
       (loadMovieDetailsFail) => emit(
@@ -83,7 +76,6 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
     final result = await _addOrRemoveFromWatchListUseCase(
       isInWatchList: isInWatchList,
       movieId: movieId,
-      sessionId: _userSessionId,
     );
     result.fold(
       (watchListFailure) => emit(

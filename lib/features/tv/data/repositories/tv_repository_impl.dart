@@ -80,9 +80,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
   
   @override
-  Future<Either<Failure, TvShowDetailsModel>> getTvShowDetails({required int tvShowId, required String sessionId}) async{
+  Future<Either<Failure, TvShowDetailsModel>> getTvShowDetails({required int tvShowId}) async{
     try{
-      final result = await tvDataSource.getTvShowDetails(tvShowId: tvShowId, sessionKey: sessionId);
+      final result = await tvDataSource.getTvShowDetails(tvShowId: tvShowId);
       return right(result);
     } on ServerException catch(exception){
       return left(Failure(exception.message!));
@@ -90,13 +90,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<String> getSessionId() async{
-     return await localDataSource.getSessionId();
-  }
-  @override
-  Future<Either<Failure, TvShowAccountStatesModel>> addOrRemoveTvFromWatchList({required int tvShowId, required bool isInWatchList, required String sessionId}) async{
+  Future<Either<Failure, TvShowAccountStatesModel>> addOrRemoveTvFromWatchList({required int tvShowId, required bool isInWatchList}) async{
    try{
-      final result = await tvDataSource.addOrRemoveMovieFromWatchList(tvShowId: tvShowId, isInWatchList: isInWatchList, sessionId: sessionId);
+      final result = await tvDataSource.addOrRemoveMovieFromWatchList(tvShowId: tvShowId, isInWatchList: isInWatchList);
       return right(result);
     }on ServerException catch(exception){
       return left(Failure(exception.message!));
@@ -114,9 +110,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getAllAiringTodayTvShows({required int pageNumber, required String sessionId}) async{
+  Future<Either<Failure, List<TvShow>>> getAllAiringTodayTvShows({required int pageNumber}) async{
     try {
-      final result = await tvDataSource.getAllAiringTodayTvShows(pageNumber: pageNumber, sessionId: sessionId);
+      final result = await tvDataSource.getAllAiringTodayTvShows(pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -126,22 +122,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getAllPopularTvShows({required int pageNumber, required String sessionId}) async{
+  Future<Either<Failure, List<TvShow>>> getAllPopularTvShows({required int pageNumber}) async{
     try {
-      final result = await tvDataSource.getAllPopularTvShows(pageNumber: pageNumber, sessionId: sessionId);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-
-  @override
-  Future<Either<Failure, List<TvShow>>> getAllTopRatedTvShows({required int pageNumber, required String sessionId}) async{
-    try {
-      final result = await tvDataSource.getAllTopRatedTvShows(pageNumber: pageNumber, sessionId: sessionId);
+      final result = await tvDataSource.getAllPopularTvShows(pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -152,9 +135,22 @@ class TvRepositoryImpl extends TvShowsRepository {
 
 
   @override
-  Future<Either<Failure, List<TvShow>>> getAllRecommendedTvShows({required int pageNumber, required int tvShowId, required String sessionId}) async{
+  Future<Either<Failure, List<TvShow>>> getAllTopRatedTvShows({required int pageNumber}) async{
     try {
-      final result = await tvDataSource.getAllRecommendedTvShows(tvShowId: tvShowId, pageNumber: pageNumber, sessionId: sessionId);
+      final result = await tvDataSource.getAllTopRatedTvShows(pageNumber: pageNumber);
+      return right(result);
+    } on ServerException catch (exception) {
+      return left(
+        Failure(exception.message!),
+      );
+    }
+  }
+
+
+  @override
+  Future<Either<Failure, List<TvShow>>> getAllRecommendedTvShows({required int pageNumber, required int tvShowId}) async{
+    try {
+      final result = await tvDataSource.getAllRecommendedTvShows(tvShowId: tvShowId, pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -164,9 +160,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvShow>>> getAllSimilarTvShows({required int pageNumber, required int tvShowId, required String sessionId}) async{
+  Future<Either<Failure, List<TvShow>>> getAllSimilarTvShows({required int pageNumber, required int tvShowId}) async{
     try {
-      final result = await tvDataSource.getAllSimilarTvShows(tvShowId: tvShowId, pageNumber: pageNumber, sessionId: sessionId);
+      final result = await tvDataSource.getAllSimilarTvShows(tvShowId: tvShowId, pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -176,9 +172,9 @@ class TvRepositoryImpl extends TvShowsRepository {
   }
 
   @override
-  Future<Either<Failure, TvShowAccountStates>> getTvShowStates({required int tvShowId, required String sessionId}) async{
+  Future<Either<Failure, TvShowAccountStates>> getTvShowStates({required int tvShowId}) async{
     try{
-      final result = await tvDataSource.getTvShowStates(sessionId: sessionId, tvShowId: tvShowId);
+      final result = await tvDataSource.getTvShowStates(tvShowId: tvShowId);
       return right(result);
     }on ServerException catch (exception) {
       return left(

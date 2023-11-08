@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/features/auth/data/models/auth_model.dart';
+import 'package:tmda/features/shared/data/models/auth_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class AuthDataSource {
@@ -14,7 +14,7 @@ abstract class AuthDataSource {
 @LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   final ApiConsumer _apiConsumer;
-  AuthDataSourceImpl(this._apiConsumer);
+  AuthDataSourceImpl(@Named(ApiConstants.unAuthenticatedConsumer) this._apiConsumer);
 
   @override
   Future<AuthModel> userLogin(String username, String password) async {

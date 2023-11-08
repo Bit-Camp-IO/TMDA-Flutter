@@ -9,7 +9,7 @@ class GetMovieStateUseCase {
   final MoviesRepository _moviesRepository;
   const GetMovieStateUseCase(this._moviesRepository);
 
-  Future<Either<Failure, MovieAccountStates>> call({required int movieId, required String sessionId}) async{
-    return await _moviesRepository.getMovieStates(movieId: movieId, sessionId: sessionId);
+  Future<Either<Failure, MovieAccountStates>> call({required int movieId}) async{
+    return await _moviesRepository.getMovieStates(movieId: movieId);
   }
 }

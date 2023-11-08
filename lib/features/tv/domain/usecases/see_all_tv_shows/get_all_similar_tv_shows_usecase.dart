@@ -9,7 +9,7 @@ class GetAllSimilarTvShowsUseCase {
   final TvShowsRepository _tvShowsRepository;
   const GetAllSimilarTvShowsUseCase(this._tvShowsRepository);
 
-  Future<Either<Failure, List<TvShow>>> call({required int pageNumber, required int tvShowId, required String sessionId}) async{
-    return await _tvShowsRepository.getAllSimilarTvShows(pageNumber: pageNumber, tvShowId: tvShowId, sessionId: sessionId);
+  Future<Either<Failure, List<TvShow>>> call({required int pageNumber, required int tvShowId}) async{
+    return await _tvShowsRepository.getAllSimilarTvShows(pageNumber: pageNumber, tvShowId: tvShowId);
   }
 }

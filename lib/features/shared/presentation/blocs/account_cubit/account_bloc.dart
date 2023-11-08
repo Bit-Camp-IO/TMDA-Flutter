@@ -10,13 +10,13 @@ import 'package:tmda/features/account/domain/usecases/account/account_logout_use
 import 'package:tmda/features/account/domain/usecases/account/get_account_details_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movies_watchlist_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_shows_watchlist_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart';
+import 'package:tmda/features/shared/domain/usecases/get_session_id_usecase.dart';
 
 part 'account_state.dart';
 
 @Injectable()
 class AccountCubit extends Cubit<AccountState> {
-  final GetAccountSessionIdUseCase _getAccountSessionIdUseCase;
+  final GetSessionIdUseCase _getSessionIdUseCase;
   final GetAccountDetailsUseCase _getAccountDetailsUseCase;
   final GetMoviesWatchListUseCase _getMoviesWatchListUseCase;
   final GetTvShowsWatchListUseCase _getTvShowsWatchListUseCase;
@@ -28,12 +28,11 @@ class AccountCubit extends Cubit<AccountState> {
     this._getMoviesWatchListUseCase,
     this._getTvShowsWatchListUseCase,
     this._accountLogoutUseCase,
-    this._getAccountSessionIdUseCase,
+    this._getSessionIdUseCase,
   ) : super(const AccountState());
 
   Future<void> getAccountDetails() async {
-    _sessionId = await _getAccountSessionIdUseCase();
-    await _getAccountDetailsUseCase(sessionId: _sessionId).then(
+    await _getAccountDetailsUseCase().then(
       (value) => value.fold(
         (accountDetailsFail) => emit(
           state.copyWith(
@@ -52,8 +51,7 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   Future<void> getAccountMoviesWatchList() async {
-    _sessionId = await _getAccountSessionIdUseCase();
-    await _getMoviesWatchListUseCase(sessionId: _sessionId).then(
+    await _getMoviesWatchListUseCase().then(
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
@@ -72,8 +70,7 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   Future<void> getAccountTvShowsWatchList() async {
-    _sessionId = await _getAccountSessionIdUseCase();
-    await _getTvShowsWatchListUseCase(sessionId: _sessionId).then(
+    await _getTvShowsWatchListUseCase().then(
       (value) => value.fold(
         (watchlistFail) => emit(
           state.copyWith(
@@ -92,6 +89,7 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   Future<void> accountLogout() async {
+    _sessionId = await _getSessionIdUseCase();
     await _accountLogoutUseCase(sessionId: _sessionId).then(
       (value) => value.fold(
         (accountLogout) => emit(

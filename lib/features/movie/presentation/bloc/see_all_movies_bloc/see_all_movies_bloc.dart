@@ -6,7 +6,6 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/movie/domain/entities/movies.dart';
 import 'package:tmda/features/movie/domain/usecases/add_or_remove_movie_from_watch_list_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/get_session_id_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_new_movies_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_popular_movies_usecase.dart';
 import 'package:tmda/features/movie/domain/usecases/see_all_movies/get_all_recommended_movies_usecase.dart';
@@ -20,7 +19,6 @@ part 'see_all_movies_state.dart';
 
 @injectable
 class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
-  final GetSessionIdUseCase _getSessionIdUseCase;
   final GetAllNewMoviesUseCase _getAllNewMoviesUseCase;
   final GetAllPopularMoviesUseCase _getAllPopularMoviesUseCase;
   final GetAllTopRatedMoviesUseCase _getAllTopRatedMoviesUseCase;
@@ -34,7 +32,6 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   int _topRatedMoviesPageNumber = 1;
   int _recommendedMoviesPageNumber = 1;
   int _similarMoviesPageNumber = 1;
-  late String _sessionId;
 
   SeeAllMoviesBloc(
     this._getAllNewMoviesUseCase,
@@ -44,7 +41,6 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
     this._getAllSimilarMoviesUseCase,
     this._addOrRemoveMovieFromWatchListUseCase,
     this._getMovieStateUseCase,
-    this._getSessionIdUseCase,
   ) : super(const SeeAllMoviesState()) {
     on<GetAllNewMoviesEvent>(_getAllNewMoviesEvent, transformer: droppable());
     on<GetAllPopularMoviesEvent>(_getAllPopularMoviesEvent,
@@ -61,31 +57,30 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllNewMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax == false){
-      _sessionId = await _getSessionIdUseCase();
+    if (state.hasSeeAllMoviesListReachedMax == false) {
       await _getAllNewMoviesUseCase(
-          pageNumber: _newMoviesPageNumber, sessionId: _sessionId)
-          .then(
-            (value) => value.fold(
-              (newMoviesLoadFail) => emit(
+        pageNumber: _newMoviesPageNumber,
+      ).then(
+        (value) => value.fold(
+          (newMoviesLoadFail) => emit(
             state.copyWith(seeAllState: BlocState.failure),
           ),
-              (newMoviesList) {
+          (newMoviesList) {
             newMoviesList.isEmpty
                 ? emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                hasSeeAllMoviesListReachedMax: true,
-              ),
-            )
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      hasSeeAllMoviesListReachedMax: true,
+                    ),
+                  )
                 : emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                seeAllMovies: List.of(state.seeAllMovies)
-                  ..addAll(newMoviesList),
-                hasSeeAllMoviesListReachedMax: false,
-              ),
-            );
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      seeAllMovies: List.of(state.seeAllMovies)
+                        ..addAll(newMoviesList),
+                      hasSeeAllMoviesListReachedMax: false,
+                    ),
+                  );
             _newMoviesPageNumber++;
           },
         ),
@@ -94,31 +89,30 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllPopularMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax == false){
-      _sessionId = await _getSessionIdUseCase();
+    if (state.hasSeeAllMoviesListReachedMax == false) {
       await _getAllPopularMoviesUseCase(
-          pageNumber: _popularMoviesPageNumber, sessionId: _sessionId)
-          .then(
-            (value) => value.fold(
-              (popularMoviesLoadFail) => emit(
+        pageNumber: _popularMoviesPageNumber,
+      ).then(
+        (value) => value.fold(
+          (popularMoviesLoadFail) => emit(
             state.copyWith(seeAllState: BlocState.failure),
           ),
-              (popularMoviesList) {
+          (popularMoviesList) {
             popularMoviesList.isEmpty
                 ? emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                hasSeeAllMoviesListReachedMax: true,
-              ),
-            )
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      hasSeeAllMoviesListReachedMax: true,
+                    ),
+                  )
                 : emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                seeAllMovies: List.of(state.seeAllMovies)
-                  ..addAll(popularMoviesList),
-                hasSeeAllMoviesListReachedMax: false,
-              ),
-            );
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      seeAllMovies: List.of(state.seeAllMovies)
+                        ..addAll(popularMoviesList),
+                      hasSeeAllMoviesListReachedMax: false,
+                    ),
+                  );
             _popularMoviesPageNumber++;
           },
         ),
@@ -127,31 +121,30 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllTopRatedMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax == false){
-      _sessionId = await _getSessionIdUseCase();
+    if (state.hasSeeAllMoviesListReachedMax == false) {
       await _getAllTopRatedMoviesUseCase(
-          pageNumber: _topRatedMoviesPageNumber, sessionId: _sessionId)
-          .then(
-            (value) => value.fold(
-              (topRatedMoviesLoadFail) => emit(
+        pageNumber: _topRatedMoviesPageNumber,
+      ).then(
+        (value) => value.fold(
+          (topRatedMoviesLoadFail) => emit(
             state.copyWith(seeAllState: BlocState.failure),
           ),
-              (topRatedMoviesList) {
+          (topRatedMoviesList) {
             topRatedMoviesList.isEmpty
                 ? emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                hasSeeAllMoviesListReachedMax: true,
-              ),
-            )
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      hasSeeAllMoviesListReachedMax: true,
+                    ),
+                  )
                 : emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                seeAllMovies: List.of(state.seeAllMovies)
-                  ..addAll(topRatedMoviesList),
-                hasSeeAllMoviesListReachedMax: false,
-              ),
-            );
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      seeAllMovies: List.of(state.seeAllMovies)
+                        ..addAll(topRatedMoviesList),
+                      hasSeeAllMoviesListReachedMax: false,
+                    ),
+                  );
             _topRatedMoviesPageNumber++;
           },
         ),
@@ -160,82 +153,75 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   }
 
   Future<void> _getAllRecommendedMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax == false){
-      _sessionId = await _getSessionIdUseCase();
+    if (state.hasSeeAllMoviesListReachedMax == false) {
       await _getAllRecommendedMoviesUseCase(
-          pageNumber: _recommendedMoviesPageNumber,
-          sessionId: _sessionId,
-          movieId: event.movieId)
-          .then(
-            (value) => value.fold(
-              (recommendedMoviesLoadFail) => emit(
+        pageNumber: _recommendedMoviesPageNumber,
+        movieId: event.movieId,
+      ).then(
+        (value) => value.fold(
+          (recommendedMoviesLoadFail) => emit(
             state.copyWith(seeAllState: BlocState.failure),
           ),
-              (recommendedMoviesList) {
+          (recommendedMoviesList) {
             recommendedMoviesList.isEmpty
                 ? emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                hasSeeAllMoviesListReachedMax: true,
-              ),
-            )
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      hasSeeAllMoviesListReachedMax: true,
+                    ),
+                  )
                 : emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                seeAllMovies: List.of(state.seeAllMovies)
-                  ..addAll(recommendedMoviesList),
-                hasSeeAllMoviesListReachedMax: false,
-              ),
-            );
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      seeAllMovies: List.of(state.seeAllMovies)
+                        ..addAll(recommendedMoviesList),
+                      hasSeeAllMoviesListReachedMax: false,
+                    ),
+                  );
             _recommendedMoviesPageNumber++;
           },
         ),
       );
     }
-
   }
 
   Future<void> _getAllSimilarMoviesEvent(event, emit) async {
-    if(state.hasSeeAllMoviesListReachedMax == false){
-      _sessionId = await _getSessionIdUseCase();
+    if (state.hasSeeAllMoviesListReachedMax == false) {
       await _getAllSimilarMoviesUseCase(
-          pageNumber: _similarMoviesPageNumber,
-          sessionId: _sessionId,
-          movieId: event.movieId)
-          .then(
-            (value) => value.fold(
-              (similarMoviesLoadFail) => emit(
+        pageNumber: _similarMoviesPageNumber,
+        movieId: event.movieId,
+      ).then(
+        (value) => value.fold(
+          (similarMoviesLoadFail) => emit(
             state.copyWith(seeAllState: BlocState.failure),
           ),
-              (similarMoviesList) {
+          (similarMoviesList) {
             similarMoviesList.isEmpty
                 ? emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                hasSeeAllMoviesListReachedMax: true,
-              ),
-            )
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      hasSeeAllMoviesListReachedMax: true,
+                    ),
+                  )
                 : emit(
-              state.copyWith(
-                seeAllState: BlocState.success,
-                seeAllMovies: List.of(state.seeAllMovies)
-                  ..addAll(similarMoviesList),
-                hasSeeAllMoviesListReachedMax: false,
-              ),
-            );
+                    state.copyWith(
+                      seeAllState: BlocState.success,
+                      seeAllMovies: List.of(state.seeAllMovies)
+                        ..addAll(similarMoviesList),
+                      hasSeeAllMoviesListReachedMax: false,
+                    ),
+                  );
             _similarMoviesPageNumber++;
           },
         ),
       );
     }
-
   }
 
   Future<void> _addOrRemoveFromWatchListEventEvent(event, emit) async {
     final result = await _addOrRemoveMovieFromWatchListUseCase(
       isInWatchList: event.isInWatchList,
       movieId: event.movieId,
-      sessionId: _sessionId,
     );
     result.fold(
       (watchListFailure) => emit(
@@ -260,7 +246,6 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   Future<void> _checkForMovieStatesEvent(event, emit) async {
     final result = await _getMovieStateUseCase(
       movieId: event.movieId,
-      sessionId: _sessionId,
     );
     result.fold(
       (checkFailure) => emit(
@@ -285,8 +270,9 @@ class SeeAllMoviesBloc extends Bloc<SeeAllMoviesEvent, SeeAllMoviesState> {
   Future<void> _checkForMoviesListStatesEvent(event, emit) async {
     final movieIds = state.seeAllMovies.map((movie) => movie.id).toList();
     final movieUpdatedState = await Future.wait(movieIds
-        .map((movieId) =>
-            _getMovieStateUseCase(movieId: movieId, sessionId: _sessionId))
+        .map(
+          (movieId) => _getMovieStateUseCase(movieId: movieId),
+        )
         .toList()
         .cast<Future<dynamic>>());
     for (Either either in movieUpdatedState) {

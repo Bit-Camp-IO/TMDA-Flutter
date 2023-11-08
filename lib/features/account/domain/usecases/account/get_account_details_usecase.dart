@@ -9,7 +9,7 @@ class GetAccountDetailsUseCase{
   final AccountRepository _accountRepository;
   const GetAccountDetailsUseCase(this._accountRepository);
 
-  Future<Either<Failure, Account>> call({required String sessionId}) async{
-    return await _accountRepository.getAccountDetails(sessionId);
+  Future<Either<Failure, Account>> call() async{
+    return await _accountRepository.getAccountDetails();
   }
 }

@@ -9,7 +9,7 @@ class GetAllTvShowsWatchListUseCase{
   final AccountRepository _accountRepository;
   const GetAllTvShowsWatchListUseCase(this._accountRepository);
 
-  Future<Either<Failure, List<WatchListTvShow>>> call({required String sessionId, required int pageNumber}) async{
-    return await _accountRepository.getAllTvShowsWatchList(sessionId: sessionId, pageNumber: pageNumber);
+  Future<Either<Failure, List<WatchListTvShow>>> call({required int pageNumber}) async{
+    return await _accountRepository.getAllTvShowsWatchList(pageNumber: pageNumber);
   }
 }

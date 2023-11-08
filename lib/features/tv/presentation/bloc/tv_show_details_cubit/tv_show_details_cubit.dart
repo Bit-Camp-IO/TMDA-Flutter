@@ -7,7 +7,6 @@ import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
 import 'package:tmda/features/tv/domain/usecases/get_tv_show_states_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/add_or_remove_tv_from_watchlist_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/play_tv_show_video_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_get_session_key_usecase.dart';
 import 'package:tmda/features/tv/domain/usecases/tv_show_details/get_tv_show_details_usecase.dart';
 
 part 'tv_show_details_state.dart';
@@ -15,25 +14,23 @@ part 'tv_show_details_state.dart';
 @injectable
 class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   final GetTvShowDetailsUseCase _getTvShowDetailsUseCase;
-  final TvGetSessionIdUseCase _getSessionIdUseCase;
   final AddOrRemoveTvFromWatchListUseCase _addOrRemoveTvFromWatchListUseCase;
   final PlayTvShowVideoUseCase _playTvShowVideoUseCase;
   final GetTvShowStateUseCase _getTvShowStateUseCase;
-  late String sessionId;
   int similarTvShowsPageNumber = 1;
   int recommendedTvShowsPageNumber = 1;
 
   TvShowDetailsCubit(
     this._getTvShowDetailsUseCase,
-    this._getSessionIdUseCase,
     this._addOrRemoveTvFromWatchListUseCase,
     this._playTvShowVideoUseCase,
     this._getTvShowStateUseCase,
   ) : super(const TvShowDetailsState());
 
   Future<void> getTvShowDetails({required int tvShowId}) async {
-    sessionId = await _getSessionIdUseCase();
-    await _getTvShowDetailsUseCase(tvShowId, sessionId).then(
+    await _getTvShowDetailsUseCase(
+      tvShowId,
+    ).then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
           state.copyWith(
@@ -54,9 +51,9 @@ class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   }
 
   Future<void> getTvShowStates({required int tvShowId}) async {
-    sessionId = await _getSessionIdUseCase();
-    await _getTvShowStateUseCase(tvShowId: tvShowId, sessionId: sessionId)
-        .then(
+    await _getTvShowStateUseCase(
+      tvShowId: tvShowId,
+    ).then(
       (value) => value.fold(
         (tvShowDetailsLoadFail) => emit(
           state.copyWith(
@@ -81,7 +78,6 @@ class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
     await _addOrRemoveTvFromWatchListUseCase(
       isInWatchList: isInWatchList,
       tvShowId: tvShowId,
-      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (l) => emit(
@@ -101,7 +97,7 @@ class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   }
 
   Future<void> playTvShowVideo() async {
-    await _playTvShowVideoUseCase(youtubeVideoKey: state.tvShowDetails.tvShowVideo.key);
+    await _playTvShowVideoUseCase(
+        youtubeVideoKey: state.tvShowDetails.tvShowVideo.key);
   }
-
 }

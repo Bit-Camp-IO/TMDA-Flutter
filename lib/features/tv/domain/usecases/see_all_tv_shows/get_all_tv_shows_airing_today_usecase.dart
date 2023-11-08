@@ -9,7 +9,7 @@ class GetAllAiringTodayTvShowsUseCase {
   final TvShowsRepository _tvShowsRepository;
   const GetAllAiringTodayTvShowsUseCase(this._tvShowsRepository);
 
-  Future<Either<Failure, List<TvShow>>> call({required int pageNumber, required String sessionId}) async{
-    return await _tvShowsRepository.getAllAiringTodayTvShows(pageNumber: pageNumber, sessionId: sessionId);
+  Future<Either<Failure, List<TvShow>>> call({required int pageNumber}) async{
+    return await _tvShowsRepository.getAllAiringTodayTvShows(pageNumber: pageNumber);
   }
 }

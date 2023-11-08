@@ -12,12 +12,10 @@ class AddOrRemoveTvFromWatchListUseCase {
   Future<Either<Failure, TvShowAccountStates>> call({
     required int tvShowId,
     required bool isInWatchList,
-    required String sessionId
   }) async {
     return await _tvShowsRepository.addOrRemoveTvFromWatchList(
       tvShowId: tvShowId,
       isInWatchList: isInWatchList,
-      sessionId: sessionId
     );
   }
 }

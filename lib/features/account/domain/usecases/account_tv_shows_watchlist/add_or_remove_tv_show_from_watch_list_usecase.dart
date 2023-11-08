@@ -9,7 +9,7 @@ class RemoveTvShowFromWatchListUseCase{
   final AccountRepository _accountRepository;
   const RemoveTvShowFromWatchListUseCase(this._accountRepository);
 
-  Future<Either<Failure, AccountStates>> call({required int tvShowId, required String sessionId}) async{
-    return await _accountRepository.removeTvShowFromWatchList(contentId: tvShowId, sessionId: sessionId);
+  Future<Either<Failure, AccountStates>> call({required int tvShowId}) async{
+    return await _accountRepository.removeTvShowFromWatchList(contentId: tvShowId);
   }
 }

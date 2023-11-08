@@ -8,8 +8,8 @@ import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
-import 'package:tmda/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:tmda/core/widgets/normal_button.dart';
+import 'package:tmda/features/shared/presentation/blocs/local_cubit/local_cubit.dart';
 
 @RoutePage()
 class SelectionScreen extends StatelessWidget {
@@ -65,7 +65,7 @@ class SelectionScreen extends StatelessWidget {
                     width: 150.w,
                     height: 48.h,
                     onTap: () async {
-                      await context.read<AuthCubit>().userRegister();
+                      await context.read<LocalCubit>().userRegister();
                     },
                     child: Text(
                       StringsManager.register,

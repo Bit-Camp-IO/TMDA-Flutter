@@ -8,11 +8,11 @@ import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_tv_show.dart';
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/add_or_remove_movie_from_watch_list_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/add_or_remove_tv_show_from_watch_list_usecase.dart';
-import 'package:tmda/features/account/domain/usecases/get_account_session_id_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_all_movies_watchlist_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_all_tv_shows_watchlist_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_movies_watchlist/get_movie_watchlist_states_usecase.dart';
 import 'package:tmda/features/account/domain/usecases/account_tv_shows_watchlist/get_tv_show_watchlist_states_usecase.dart';
+import 'package:tmda/features/shared/domain/usecases/get_session_id_usecase.dart';
 
 part 'account_see_all_event.dart';
 
@@ -20,7 +20,7 @@ part 'account_see_all_state.dart';
 
 @injectable
 class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
-  final GetAccountSessionIdUseCase getAccountSessionIdUseCase;
+  final GetSessionIdUseCase getSessionIdUseCase;
   final GetAllMoviesWatchListUseCase getAllMoviesWatchListUseCase;
   final GetAllTvShowsWatchListUseCase getAllTvShowsWatchListUseCase;
   final GetTvShowWatchListStatesUseCase getTvShowWatchListStatesUseCase;
@@ -32,7 +32,7 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   late String sessionId;
 
   AccountSeeAllBloc(
-    this.getAccountSessionIdUseCase,
+    this.getSessionIdUseCase,
     this.getAllMoviesWatchListUseCase,
     this.getAllTvShowsWatchListUseCase,
     this.getTvShowWatchListStatesUseCase,
@@ -58,10 +58,8 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   }
 
   Future<void> _getAllMoviesWatchListEvent(event, emit) async {
-    sessionId = await getAccountSessionIdUseCase();
     await getAllMoviesWatchListUseCase(
       pageNumber: movieWatchlistPage,
-      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (moviesWatchListFail) => emit(
@@ -85,10 +83,8 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   }
 
   Future<void> _getAllTvShowsWatchListEvent(event, emit) async {
-    sessionId = await getAccountSessionIdUseCase();
     await getAllTvShowsWatchListUseCase(
       pageNumber: tvShowWatchListPage,
-      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (tvShowsWatchListFail) => emit(
@@ -116,7 +112,6 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _removeMovieFromWatchListEvent(event, emit) async {
     await removeMovieFromWatchListUseCase(
       movieId: event.movieId,
-      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (watchListFailure) => emit(
@@ -143,7 +138,6 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _removeTvShowFromWatchListEvent(event, emit) async {
     final result = await removeTvShowFromWatchListUseCase(
       tvShowId: event.tvShowId,
-      sessionId: sessionId,
     );
     result.fold(
       (watchListFailure) => emit(
@@ -169,7 +163,6 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _checkForTvShowStatesEvent(event, emit) async {
     final result = await getTvShowWatchListStatesUseCase(
       tvShowId: event.tvShowId,
-      sessionId: sessionId,
     );
     result.fold(
       (checkFailure) => emit(
@@ -195,7 +188,6 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _checkForMovieStatesEvent(event, emit) async {
     await getMovieWatchListStatesUseCase(
       movieId: event.movieId,
-      sessionId: sessionId,
     ).then(
       (value) => value.fold(
         (checkFailure) => emit(
@@ -225,8 +217,7 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
   Future<void> _checkForMoviesWatchListStatesEvent(event, emit) async {
     final movieIds = state.moviesWatchList.map((movie) => movie.id).toList();
     final movieUpdatedState = await Future.wait(movieIds
-        .map((movieId) => getMovieWatchListStatesUseCase(
-            movieId: movieId, sessionId: sessionId))
+        .map((movieId) => getMovieWatchListStatesUseCase(movieId: movieId))
         .toList()
         .cast<Future<dynamic>>());
     for (Either either in movieUpdatedState) {
@@ -262,7 +253,6 @@ class AccountSeeAllBloc extends Bloc<AccountSeeAllEvent, AccountSeeAllState> {
         .map(
           (tvShowId) => getTvShowWatchListStatesUseCase(
             tvShowId: tvShowId,
-            sessionId: sessionId,
           ),
         )
         .toList()

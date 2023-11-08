@@ -3,20 +3,18 @@ import 'dart:io';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/api/api_status_code.dart';
-import 'package:tmda/core/api/dio_interceptor.dart';
+import 'package:tmda/core/api/authenticated_interceptor.dart';
 import 'package:tmda/core/api/dio_logger.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/injection_container.dart';
 
-@LazySingleton(as: ApiConsumer)
 class DioApiConsumer extends ApiConsumer {
   final Dio dioClient;
-
-  DioApiConsumer({required this.dioClient}) {
+  final Interceptor? interceptor;
+  DioApiConsumer({required this.dioClient, this.interceptor}) {
     // Fix for dio handshake error
     (dioClient.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
       final dioClient = HttpClient();
@@ -33,8 +31,12 @@ class DioApiConsumer extends ApiConsumer {
       ..validateStatus = (status) {
         return status! < ApiStatusCodes.internalServerError;
       };
+    if(interceptor != null){
+      dioClient.interceptors.add(interceptor!);
+    }else{
+      dioClient.interceptors.add(getIt<AuthenticatedInterceptor>());
+    }
 
-    dioClient.interceptors.add(getIt<DioInterceptor>());
     if (kDebugMode) {
       dioClient.interceptors.add(getIt<DioLogInterceptor>());
     }

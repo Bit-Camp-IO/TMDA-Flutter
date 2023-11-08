@@ -1,4 +1,4 @@
-import 'package:tmda/features/auth/domain/entities/auth.dart';
+import 'package:tmda/features/shared/domain/entities/auth.dart';
 
 class AuthModel extends Auth{
   const AuthModel({super.requestToken, super.sessionId, super.requestSuccess, super.statusMessage});

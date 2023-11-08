@@ -6,15 +6,14 @@ import 'package:tmda/features/account/domain/entities/watchlist_movie.dart';
 import 'package:tmda/features/account/domain/entities/watchlist_tv_show.dart';
 
 abstract class AccountRepository {
-  Future<String> getSessionId();
-  Future<Either<Failure, Account>> getAccountDetails(String sessionId);
-  Future<Either<Failure, List<WatchListMovie>>> getMoviesWatchList(String sessionId);
-  Future<Either<Failure, List<WatchListTvShow>>> getTvShowsWatchList(String sessionId);
-  Future<Either<Failure, List<WatchListMovie>>> getAllMoviesWatchList({required String sessionId, required int pageNumber});
-  Future<Either<Failure, List<WatchListTvShow>>> getAllTvShowsWatchList({required String sessionId, required int pageNumber});
-  Future<Either<Failure, AccountStates>> removeMovieFromWatchList({required int contentId, required String sessionId});
-  Future<Either<Failure, AccountStates>> removeTvShowFromWatchList({required int contentId, required String sessionId});
-  Future<Either<Failure, AccountStates>> getMovieWatchListStates({required int tvShowId,required String sessionId});
-  Future<Either<Failure, AccountStates>> getTvShowWatchListStates({required int tvShowId,required String sessionId});
+  Future<Either<Failure, Account>> getAccountDetails();
+  Future<Either<Failure, List<WatchListMovie>>> getMoviesWatchList();
+  Future<Either<Failure, List<WatchListTvShow>>> getTvShowsWatchList();
+  Future<Either<Failure, List<WatchListMovie>>> getAllMoviesWatchList({required int pageNumber});
+  Future<Either<Failure, List<WatchListTvShow>>> getAllTvShowsWatchList({required int pageNumber});
+  Future<Either<Failure, AccountStates>> removeMovieFromWatchList({required int contentId});
+  Future<Either<Failure, AccountStates>> removeTvShowFromWatchList({required int contentId});
+  Future<Either<Failure, AccountStates>> getMovieWatchListStates({required int tvShowId});
+  Future<Either<Failure, AccountStates>> getTvShowWatchListStates({required int tvShowId});
   Future<Either<Failure, void>> accountLogOut({required String sessionId});
 }

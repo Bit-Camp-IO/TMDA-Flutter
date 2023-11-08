@@ -10,7 +10,7 @@ abstract class PersonDataSource{
 @LazySingleton(as: PersonDataSource)
 class PersonDataSourceImpl extends PersonDataSource{
   final ApiConsumer _apiConsumer;
-  PersonDataSourceImpl(this._apiConsumer);
+  PersonDataSourceImpl(@Named(ApiConstants.unAuthenticatedConsumer)this._apiConsumer);
   
   @override
   Future<PersonModel> getPersonData({required int personId}) async{

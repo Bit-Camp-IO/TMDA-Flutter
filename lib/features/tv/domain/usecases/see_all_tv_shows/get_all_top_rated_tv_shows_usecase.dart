@@ -9,7 +9,7 @@ class GetAllTopRatedTvShowsUseCase {
   final TvShowsRepository _tvShowsRepository;
   const GetAllTopRatedTvShowsUseCase(this._tvShowsRepository);
 
-  Future<Either<Failure, List<TvShow>>> call({required int pageNumber, required String sessionId}) async{
-    return await _tvShowsRepository.getAllTopRatedTvShows(pageNumber: pageNumber, sessionId: sessionId);
+  Future<Either<Failure, List<TvShow>>> call({required int pageNumber}) async{
+    return await _tvShowsRepository.getAllTopRatedTvShows(pageNumber: pageNumber);
   }
 }

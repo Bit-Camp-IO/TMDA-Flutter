@@ -2,12 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tmda/core/constants/api_constants.dart';
+import 'package:tmda/features/shared/domain/usecases/get_session_id_usecase.dart';
 
 @lazySingleton
-class DioInterceptor extends Interceptor{
+class AuthenticatedInterceptor extends Interceptor{
+  final GetSessionIdUseCase _getSessionIdUseCase;
 
+  const AuthenticatedInterceptor(this._getSessionIdUseCase);
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
+    options.queryParameters['session_id'] = await _getSessionIdUseCase();
     if (kDebugMode) {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }

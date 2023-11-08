@@ -12,11 +12,9 @@ class AddOrRemoveMovieFromWatchListUseCase {
   Future<Either<Failure, MovieAccountStates>> call({
     required int movieId,
     required bool isInWatchList,
-    required String sessionId,
   }) async {
     return await _moviesRepository.addOrRemoveMovieFromWatchList(
       movieId: movieId,
-      sessionId: sessionId,
       isInWatchList: isInWatchList,
     );
   }

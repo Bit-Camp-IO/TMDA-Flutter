@@ -28,11 +28,10 @@ abstract class SearchDataSource {
 class SearchDataSourceIml extends SearchDataSource {
   final ApiConsumer _apiConsumer;
 
-  SearchDataSourceIml(this._apiConsumer);
+  SearchDataSourceIml(@Named(ApiConstants.unAuthenticatedConsumer) this._apiConsumer);
 
   @override
-  Future<List<MovieSearchModel>> searchForMovie(
-      {required String movieName, required String sessionId, required int pageNumber}) async {
+  Future<List<MovieSearchModel>> searchForMovie({required String movieName, required String sessionId, required int pageNumber}) async {
     final listOfMovies = await _apiConsumer.get(
       ApiConstants.movieSearch, queryParameters: {
       'query': movieName,

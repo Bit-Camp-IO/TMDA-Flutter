@@ -13,16 +13,17 @@ import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class MoviesWatchListComponent extends StatelessWidget {
   const MoviesWatchListComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountCubit, AccountState>(
+    return BlocBuilder<WatchListBloc, WatchListState>(
       builder: (context, state) {
-        if (state.watchListMovies.isEmpty && state.moviesWatchListState == BlocState.success) {
+        if (state.moviesWatchList.isEmpty &&
+            state.moviesWatchListState == BlocState.success) {
           return Animate(
             effects: [FadeEffect(duration: 150.ms)],
             child: Column(
@@ -61,8 +62,11 @@ class MoviesWatchListComponent extends StatelessWidget {
                   title: StringsManager.moviesWatchlistTitle,
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
-                    context.pushRoute(AccountSeeAllRoute(
-                        watchListType: WatchListType.moviesWatchList));
+                    context.pushRoute(
+                      AccountSeeAllRoute(
+                        watchListType: WatchListType.moviesWatchList,
+                      ),
+                    );
                   },
                 ),
                 SizedBox(
@@ -70,12 +74,12 @@ class MoviesWatchListComponent extends StatelessWidget {
                   child: Animate(
                     effects: [FadeEffect(duration: 400.ms)],
                     child: ListView.builder(
-                      itemCount: state.watchListMovies.length,
+                      itemCount: state.moviesWatchList.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        final movie = state.watchListMovies[index];
+                        final movie = state.moviesWatchList[index];
                         return Padding(
-                          padding: const EdgeInsets.only(left : 16.0).r,
+                          padding: const EdgeInsets.only(left: 16.0).r,
                           child: PosterCard(
                             width: 140,
                             height: 220,

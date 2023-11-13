@@ -17,44 +17,29 @@ import 'package:tmda/features/movie/presentation/components/movie_details/recomm
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
-  const MovieDetailsScreen({super.key, required this.movieId,});
+class MovieDetailsScreen extends StatefulWidget implements AutoRouteWrapper {
+  const MovieDetailsScreen({
+    super.key,
+    required this.movieId,
+  });
 
   final int movieId;
 
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<MovieDetailsCubit>()..getMovieDetails(movieId: movieId),
+      create: (context) =>
+          getIt<MovieDetailsCubit>()..getMovieDetails(movieId: movieId),
       child: this,
     );
   }
+
   @override
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
 }
 
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteAwareStateMixin<MovieDetailsScreen>{
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   late ScrollController _scrollController;
-  TabsRouter? _tabsRouter;
-
-  @override
-  void didChangeDependencies() {
-    _tabsRouter = context.tabsRouter;
-    _tabsRouter?.addListener(_tabListener);
-    super.didChangeDependencies();
-  }
-
-  void _tabListener(){
-    if (context.tabsRouter.activeIndex != 1) {
-      context.read<MovieDetailsCubit>().getMovieStates(movieId: widget.movieId);
-    }
-  }
-  
-  @override
-  void didPopNext() {
-    context.read<MovieDetailsCubit>().getMovieStates(movieId: widget.movieId);
-    super.didPopNext();
-  }
 
   @override
   initState() {
@@ -85,6 +70,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
                     children: [
                       MovieOverviewComponent(
                         scrollController: _scrollController,
+                        movieId: state.movieDetails.id,
                       ),
                       const MovieCastComponent(),
                       const RecommendedMoviesComponent(),
@@ -97,7 +83,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<MovieDetailsCubit>().getMovieDetails(movieId: widget.movieId);
+                    context
+                        .read<MovieDetailsCubit>()
+                        .getMovieDetails(movieId: widget.movieId);
                   },
                 );
             }
@@ -111,6 +99,5 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> with AutoRouteA
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    _tabsRouter?.removeListener(_tabListener);
   }
 }

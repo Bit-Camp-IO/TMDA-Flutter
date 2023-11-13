@@ -4,7 +4,6 @@ class MovieDetailsState extends Equatable {
   final MovieDetails movieDetails;
   final BlocState movieDetailsState;
   final String movieDetailsFailMessage;
-  final String addOrRemoveFromWatchListFailMessage;
   final String getMoreMoviesLikeThisFailMessage;
   final bool isMoviesLikeThisListReachedMax;
 
@@ -12,7 +11,6 @@ class MovieDetailsState extends Equatable {
     this.movieDetails = const MovieDetails(),
     this.movieDetailsState = BlocState.loading,
     this.movieDetailsFailMessage = '',
-    this.addOrRemoveFromWatchListFailMessage = '',
     this.getMoreMoviesLikeThisFailMessage = '',
     this.isMoviesLikeThisListReachedMax = false,
   });
@@ -29,7 +27,6 @@ class MovieDetailsState extends Equatable {
       movieDetails: movieDetails ?? this.movieDetails,
       movieDetailsState: movieDetailsState ?? this.movieDetailsState,
       movieDetailsFailMessage: movieDetailsFailMessage ?? this.movieDetailsFailMessage,
-      addOrRemoveFromWatchListFailMessage: addOrRemoveFromWatchListFailMessage ?? this.addOrRemoveFromWatchListFailMessage,
       getMoreMoviesLikeThisFailMessage: getMoreMoviesLikeThisFailMessage ?? this.getMoreMoviesLikeThisFailMessage,
       isMoviesLikeThisListReachedMax: isMoviesLikeThisListReachedMax ?? this.isMoviesLikeThisListReachedMax,
     );
@@ -40,7 +37,6 @@ class MovieDetailsState extends Equatable {
         movieDetails,
         movieDetailsState,
         movieDetailsFailMessage,
-        addOrRemoveFromWatchListFailMessage,
         getMoreMoviesLikeThisFailMessage,
         isMoviesLikeThisListReachedMax,
       ];

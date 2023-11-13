@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/movie/domain/entities/movies.dart';
-import 'package:tmda/features/movie/domain/entities/movies_genre.dart';
-import 'package:tmda/features/movie/domain/entities/movie_account_states.dart';
+import 'package:tmda/features/shared/domain/entities/movie.dart';
 import 'package:tmda/features/movie/domain/entities/movie_cast.dart';
 import 'package:tmda/features/movie/domain/entities/movie_production_countries.dart';
 import 'package:tmda/features/movie/domain/entities/movie_reviews.dart';
 import 'package:tmda/features/movie/domain/entities/movie_video.dart';
+import 'package:tmda/features/shared/domain/entities/movie_genre.dart';
 
 class MovieDetails extends Equatable {
   final int id;
@@ -19,24 +18,24 @@ class MovieDetails extends Equatable {
   final double voteAverage;
   final num popularity;
   final MovieProductionCountries productionCountry;
-  final MovieAccountStates accountStates;
   final List<MovieGenres> genres;
   final MovieVideo video;
   final List<MovieReviews> reviews;
   final List<MovieCast> cast;
-  final List<Movies> similarMovies;
-  final List<Movies> recommendedMovies;
+  final List<Movie> similarMovies;
+  final List<Movie> recommendedMovies;
+
   const MovieDetails({
-    this.posterPath =  '',
+    this.posterPath = '',
     this.backDropPath = '',
-    this.id =  0,
+    this.id = 0,
     this.overview = '',
-    this.releaseDate =  '',
-    this.title =  '',
-    this.runTime =  0,
+    this.releaseDate = '',
+    this.title = '',
+    this.runTime = 0,
     this.voteAverage = 0,
     this.popularity = 0,
-    this.language ='',
+    this.language = '',
     this.productionCountry = const MovieProductionCountries(
       countryCode: '',
       countryName: '',
@@ -51,9 +50,6 @@ class MovieDetails extends Equatable {
     this.similarMovies = const [],
     this.recommendedMovies = const [],
     this.genres = const [],
-    this.accountStates = const MovieAccountStates(
-      inWatchList: false,
-    ),
   });
 
   @override
@@ -69,7 +65,6 @@ class MovieDetails extends Equatable {
         video,
         productionCountry,
         language,
-        accountStates,
         reviews,
         cast,
         similarMovies,
@@ -88,33 +83,30 @@ class MovieDetails extends Equatable {
     double? voteAverage,
     dynamic popularity,
     MovieProductionCountries? productionCountry,
-    MovieAccountStates? accountStates,
     List<MovieGenres>? genres,
     MovieVideo? video,
     List<MovieReviews>? reviews,
     List<MovieCast>? cast,
-    List<Movies>? similarMovies,
-    List<Movies>? recommendedMovies,
+    List<Movie>? similarMovies,
+    List<Movie>? recommendedMovies,
   }) {
     return MovieDetails(
-      backDropPath: backDropPath ?? this.backDropPath,
-      posterPath: posterPath ?? this.posterPath,
-      id: id ?? this.id,
-      overview: overview ?? this.overview,
-      releaseDate: releaseDate ?? this.releaseDate,
-      language: language ?? this.language,
-      title: title ?? this.title,
-      runTime: runTime ?? this.runTime,
-      voteAverage: voteAverage ?? this.voteAverage,
-      popularity: popularity ?? this.popularity,
-      productionCountry: productionCountry ?? this.productionCountry,
-      accountStates: accountStates ?? this.accountStates,
-      genres: genres ?? this.genres,
-      video: video ?? this.video,
-      reviews: reviews ?? this.reviews,
-      cast: cast ?? this.cast,
-      similarMovies: similarMovies ?? this.similarMovies,
-      recommendedMovies: recommendedMovies ?? this.recommendedMovies
-    );
+        backDropPath: backDropPath ?? this.backDropPath,
+        posterPath: posterPath ?? this.posterPath,
+        id: id ?? this.id,
+        overview: overview ?? this.overview,
+        releaseDate: releaseDate ?? this.releaseDate,
+        language: language ?? this.language,
+        title: title ?? this.title,
+        runTime: runTime ?? this.runTime,
+        voteAverage: voteAverage ?? this.voteAverage,
+        popularity: popularity ?? this.popularity,
+        productionCountry: productionCountry ?? this.productionCountry,
+        genres: genres ?? this.genres,
+        video: video ?? this.video,
+        reviews: reviews ?? this.reviews,
+        cast: cast ?? this.cast,
+        similarMovies: similarMovies ?? this.similarMovies,
+        recommendedMovies: recommendedMovies ?? this.recommendedMovies);
   }
 }

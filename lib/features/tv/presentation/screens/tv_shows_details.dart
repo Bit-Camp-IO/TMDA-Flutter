@@ -11,7 +11,7 @@ import 'package:tmda/features/tv/presentation/components/tv_details/tv_show_body
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
-class TvDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
+class TvDetailsScreen extends StatelessWidget implements AutoRouteWrapper{
   const TvDetailsScreen({super.key, required this.tvShowId});
   final int tvShowId;
 
@@ -23,30 +23,6 @@ class TvDetailsScreen extends StatefulWidget implements AutoRouteWrapper{
     );
   }
 
-  @override
-  State<TvDetailsScreen> createState() => _TvDetailsScreenState();
-
-}
-
-class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareStateMixin<TvDetailsScreen>{
-  TabsRouter? _tabsRouter;
-
-  @override
-  void didChangeDependencies() {
-    _tabsRouter = context.tabsRouter;
-    _tabsRouter?.addListener(_tabListener);
-    super.didChangeDependencies();
-  }
-  void _tabListener(){
-    if (context.tabsRouter.activeIndex != 0) {
-      context.read<TvShowDetailsCubit>().getTvShowStates(tvShowId: widget.tvShowId);
-    }
-  }
-  @override
-  void didPopNext() {
-    context.read<TvShowDetailsCubit>().getTvShowStates(tvShowId: widget.tvShowId);
-    super.didPopNext();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +40,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
               case BlocState.failure:
                 return NoConnection(
                   onTap: () {
-                    context.read<TvShowDetailsCubit>().getTvShowDetails(tvShowId: widget.tvShowId);
+                    context.read<TvShowDetailsCubit>().getTvShowDetails(tvShowId: tvShowId);
                   },
                 );
             }
@@ -72,10 +48,5 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> with AutoRouteAwareSt
         ),
       ),
     );
-  }
-  @override
-  void dispose() {
-    super.dispose();
-    _tabsRouter?.removeListener(_tabListener);
   }
 }

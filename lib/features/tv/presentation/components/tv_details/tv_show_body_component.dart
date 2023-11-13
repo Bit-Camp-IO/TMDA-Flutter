@@ -19,20 +19,19 @@ class TvShowDetailsBodyComponent extends StatefulWidget {
   const TvShowDetailsBodyComponent({super.key});
 
   @override
-  State<TvShowDetailsBodyComponent> createState() =>
-      _TvShowDetailsBodyComponentState();
+  State<TvShowDetailsBodyComponent> createState() => _TvShowDetailsBodyComponentState();
 }
 
 class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent> with TickerProviderStateMixin {
   late ScrollController _scrollController;
   final ValueNotifier<double> animatedHeight = ValueNotifier(420);
+
   void _scrollListener() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
       if (animatedHeight.value != 0) {
-       animatedHeight.value = 0;
+        animatedHeight.value = 0;
       }
     }
     if (_scrollController.position.userScrollDirection == ScrollDirection.forward && currentScroll < maxScroll * 0.03) {
@@ -62,7 +61,7 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
             children: [
               ValueListenableBuilder(
                 valueListenable: animatedHeight,
-                builder: (context, newAnimatedHeight, child) =>  AnimatedContainer(
+                builder: (context, newAnimatedHeight, child) => AnimatedContainer(
                   duration: const Duration(seconds: 1),
                   curve: Curves.linear,
                   width: MediaQuery.sizeOf(context).width,
@@ -84,10 +83,10 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                               context.read<TvShowDetailsCubit>().playTvShowVideo();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  errorSnackBar(
-                                      errorMessage: StringsManager.movieNoVideosMessage,
-                                      context: context,
-                                  ),
+                                errorSnackBar(
+                                  errorMessage: StringsManager.movieNoVideosMessage,
+                                  context: context,
+                                ),
                               );
                             }
                           },
@@ -97,19 +96,17 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
                   ),
                 ),
               ),
-              BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
-                builder: (context, state) {
-                  return Column(
-                    children: [
-                      const TvShowOverview(),
-                      const TvShowCastComponent(),
-                      const RecommendedTvShowsComponent(),
-                      const SimilarTvShowsComponent(),
-                      const TvShowReviewsComponent(),
-                      SizedBox(height: 70.h),
-                    ],
-                  );
-                },
+              Column(
+                children: [
+                  TvShowOverview(
+                    tvShowId: state.tvShowDetails.id,
+                  ),
+                  const TvShowCastComponent(),
+                  const RecommendedTvShowsComponent(),
+                  const SimilarTvShowsComponent(),
+                  const TvShowReviewsComponent(),
+                  SizedBox(height: 70.h),
+                ],
               ),
             ],
           ),
@@ -120,7 +117,9 @@ class _TvShowDetailsBodyComponentState extends State<TvShowDetailsBodyComponent>
 
   @override
   void dispose() {
-    _scrollController..removeListener(_scrollListener)..dispose();
+    _scrollController
+      ..removeListener(_scrollListener)
+      ..dispose();
     animatedHeight.dispose();
     super.dispose();
   }

@@ -9,7 +9,7 @@ import 'package:tmda/injection_container.dart';
 
 @module
 abstract class RegisterModule {
-  @lazySingleton
+  @injectable
   Dio get dioClient => Dio();
 
   @Named(ApiConstants.unAuthenticatedConsumer)

@@ -5,10 +5,12 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
 
 class TvShowOverview extends StatelessWidget {
-  const TvShowOverview({super.key});
+  final int tvShowId;
+  const TvShowOverview({super.key, required this.tvShowId});
 
   @override
   Widget build(BuildContext context) {
@@ -55,28 +57,19 @@ class TvShowOverview extends StatelessWidget {
                   Positioned(
                     right: 45.w,
                     bottom: 35.h,
-                    child: BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
-                      buildWhen: (previous, current) =>
-                          previous.tvShowDetails.status.isInWatchList !=
-                          current.tvShowDetails.status.isInWatchList,
+                    child: BlocBuilder<WatchListBloc, WatchListState>(
                       builder: (context, state) {
+                        final bool isInWatchList = state.tvShowsWatchListIdsSet.contains(tvShowId);
                         return InkWell(
                           onTap: () {
-                            context.read<TvShowDetailsCubit>().addOrRemoveTvFromWatchList(
-                                  isInWatchList: !state.tvShowDetails.status.isInWatchList,
-                                  tvShowId: state.tvShowDetails.id,
-                                );
+                            context.read<WatchListBloc>().add(AddOrRemoveTvShowFromWatchListEvent(tvShowId: tvShowId, isInWatchList: !isInWatchList));
                           },
-                          child: Column(
-                            children: [
-                              Icon(
-                                state.tvShowDetails.status.isInWatchList
-                                    ? SolarSystemIcons.saved
-                                    : SolarSystemIcons.unsaved,
-                                color: ColorsManager.primaryColor,
-                                size: 30.sp,
-                              ),
-                            ],
+                          child: Icon(
+                            isInWatchList
+                                ? SolarSystemIcons.saved
+                                : SolarSystemIcons.unsaved,
+                            color: ColorsManager.primaryColor,
+                            size: 30.sp,
                           ),
                         );
                       },

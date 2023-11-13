@@ -29,23 +29,3 @@ class GetAllSimilarTvShowsEvent extends SeeAllTvShowsEvent {
   @override
   List<Object?> get props => [tvShowId];
 }
-
-
-class AddOrRemoveFromWatchListEvent extends SeeAllTvShowsEvent {
-  final bool isInWatchList;
-  final int tvShowId;
-  const AddOrRemoveFromWatchListEvent({required this.isInWatchList, required this.tvShowId});
-
-  @override
-  List<Object> get props => [isInWatchList, tvShowId];
-}
-
-class CheckForTvShowStatesEvent extends SeeAllTvShowsEvent {
-  final int tvShowId;
-
-  const CheckForTvShowStatesEvent(this.tvShowId);
-  @override
-  List<Object> get props => [tvShowId];
-}
-
-class CheckForTvShowsListStatesEvent extends SeeAllTvShowsEvent {}

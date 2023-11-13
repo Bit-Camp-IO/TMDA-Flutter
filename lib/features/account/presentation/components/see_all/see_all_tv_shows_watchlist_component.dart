@@ -6,51 +6,36 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/list_card.dart';
-import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
-
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 class SeeAllTvShowsWatchListComponent extends StatefulWidget {
-  const SeeAllTvShowsWatchListComponent(
-      {super.key, required this.scrollController});
-
   final ScrollController scrollController;
+  const SeeAllTvShowsWatchListComponent({super.key, required this.scrollController});
 
   @override
-  State<SeeAllTvShowsWatchListComponent> createState() =>
-      _SeeAllTvShowsWatchListComponentState();
+  State<SeeAllTvShowsWatchListComponent> createState() => _SeeAllTvShowsWatchListComponentState();
 }
 
-class _SeeAllTvShowsWatchListComponentState
-    extends State<SeeAllTvShowsWatchListComponent> with AutoRouteAwareStateMixin<SeeAllTvShowsWatchListComponent> {
-  late int tappedTvShowId;
-  TabsRouter? _tabsRouter;
+class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchListComponent> {
 
-  @override
-  void didChangeDependencies() {
-    _tabsRouter = context.tabsRouter;
-    _tabsRouter?.addListener(_tabListener);
-    super.didChangeDependencies();
-  }
-
-  void _tabListener() {
-    if (context.tabsRouter.activeIndex == 3) {
-      context.read<AccountSeeAllBloc>()
-        ..add(const CheckForTvShowsWatchListStatesEvent())
-        ..add(GetAllTvShowsWatchListEvent());
+  _checkCurrentScrollPosition() {
+    final double maxScroll = widget.scrollController.position.maxScrollExtent;
+    final double currentScroll = widget.scrollController.offset;
+    if (currentScroll == maxScroll) {
+      context.read<WatchListBloc>().add(const ChangeTvShowsWatchListViewScrollState(
+        isTvShowsWatchListViewHasReachedMaxScroll: true,
+       ),
+      );
     }
   }
 
   @override
-  void didPopNext() {
-    context.read<AccountSeeAllBloc>()
-      ..add(CheckForTvShowStatesEvent(tvShowId: tappedTvShowId))
-      ..add(const CheckForTvShowsWatchListStatesEvent())
-      ..add(GetAllTvShowsWatchListEvent());
-    super.didPopNext();
+  void initState() {
+    widget.scrollController.addListener(_checkCurrentScrollPosition);
+    super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AccountSeeAllBloc, AccountSeeAllState>(
+    return BlocConsumer<WatchListBloc, WatchListState>(
       listener: (context, state) {
         if (state.tvShowsWatchList.isEmpty) {
           context.router.pop();
@@ -78,11 +63,10 @@ class _SeeAllTvShowsWatchListComponentState
                 child: Dismissible(
                   key: ObjectKey(tvShow.id),
                   resizeDuration: const Duration(milliseconds: 200),
-                  onDismissed: (direction) => context
-                      .read<AccountSeeAllBloc>()
-                      .add(
-                    RemoveTvShowFromWatchListEvent(
+                  onDismissed: (direction) => context.read<WatchListBloc>().add(
+                    AddOrRemoveTvShowFromWatchListEvent(
                           tvShowId: tvShow.id,
+                          isInWatchList: false,
                     ),
                   ),
                   child: ListCard(
@@ -95,7 +79,6 @@ class _SeeAllTvShowsWatchListComponentState
                     releaseYear: tvShow.firstAirDate,
                     language: tvShow.language,
                     onTap: () {
-                      tappedTvShowId = tvShow.id;
                       context.pushRoute(TvDetailsRoute(
                           tvShowId: tvShow.id
                         ),
@@ -110,10 +93,9 @@ class _SeeAllTvShowsWatchListComponentState
       },
     );
   }
-
   @override
   void dispose() {
+    widget.scrollController.removeListener(_checkCurrentScrollPosition);
     super.dispose();
-    _tabsRouter?.removeListener(_tabListener);
   }
 }

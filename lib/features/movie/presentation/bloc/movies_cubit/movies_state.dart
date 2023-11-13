@@ -3,10 +3,10 @@ part of 'movies_cubit.dart';
 class MoviesState extends Equatable {
   final BlocState moviesState;
   final String moviesFailMessage;
-  final List<Movies> nowPlayingMovies;
-  final List<Movies> popularMovies;
-  final List<Movies> topRatedMovies;
-  final List<Movies> newMovies;
+  final List<Movie> nowPlayingMovies;
+  final List<Movie> popularMovies;
+  final List<Movie> topRatedMovies;
+  final List<Movie> newMovies;
 
   const MoviesState({
     this.nowPlayingMovies = const [],
@@ -19,10 +19,10 @@ class MoviesState extends Equatable {
 
   MoviesState copyWith({
     int? indicatorIndex,
-    List<Movies>? nowPlayingMovies,
-    List<Movies>? popularMovies,
-    List<Movies>? topRatedMovies,
-    List<Movies>? newMovies,
+    List<Movie>? nowPlayingMovies,
+    List<Movie>? popularMovies,
+    List<Movie>? topRatedMovies,
+    List<Movie>? newMovies,
     String? moviesFailMessage,
     BlocState? moviesState,
   }) {

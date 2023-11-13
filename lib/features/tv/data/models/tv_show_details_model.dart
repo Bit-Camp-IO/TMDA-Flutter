@@ -1,11 +1,10 @@
-import 'package:tmda/features/tv/data/models/tv_show_account_status_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_cast_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_network_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_production_countries_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_reviews_model.dart';
 import 'package:tmda/features/tv/data/models/tv_show_video_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show_genres_model.dart';
-import 'package:tmda/features/tv/data/models/tv_show_model.dart';
+import 'package:tmda/features/shared/data/models/tv_show_genres_model.dart';
+import 'package:tmda/features/shared/data/models/tv_show_model.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_details.dart';
 
 class TvShowDetailsModel extends TvShowDetails {
@@ -30,7 +29,6 @@ class TvShowDetailsModel extends TvShowDetails {
     required super.cast,
     required super.recommendedTvShows,
     required super.similarTvShows,
-    required super.status,
     required super.reviews,
   });
 
@@ -76,7 +74,6 @@ class TvShowDetailsModel extends TvShowDetails {
             TvShowModel.fromJson(jsonData),
         ),
       ),
-      status: TvShowAccountStatesModel.fromJson(jsonData['account_states']),
       reviews: List<TvShowReviewsModel>.from(
         jsonData['reviews']['results'].map((jsonData) =>
             TvShowReviewsModel.fromJson(jsonData),

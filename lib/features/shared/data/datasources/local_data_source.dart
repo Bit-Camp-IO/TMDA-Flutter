@@ -13,7 +13,6 @@ abstract class LocalDataSource {
 @LazySingleton(as: LocalDataSource)
 class LocalDataSourceImpl extends LocalDataSource {
   final FlutterSecureStorage _secureStorage;
-
   LocalDataSourceImpl(this._secureStorage);
 
   @override

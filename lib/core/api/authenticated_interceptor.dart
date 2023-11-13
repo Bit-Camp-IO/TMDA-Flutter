@@ -7,15 +7,18 @@ import 'package:tmda/features/shared/domain/usecases/get_session_id_usecase.dart
 @lazySingleton
 class AuthenticatedInterceptor extends Interceptor{
   final GetSessionIdUseCase _getSessionIdUseCase;
-
-  const AuthenticatedInterceptor(this._getSessionIdUseCase);
+   String _sessionId = '';
+  AuthenticatedInterceptor(this._getSessionIdUseCase);
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
-    options.queryParameters['session_id'] = await _getSessionIdUseCase();
+    if(_sessionId.isEmpty){
+      _sessionId = await _getSessionIdUseCase();
+    }
     if (kDebugMode) {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     options.headers[ApiConstants.headerContentType] = ApiConstants.headerContentTypeValue;
+    options.queryParameters['session_id'] = _sessionId;
     super.onRequest(options, handler);
   }
 

@@ -8,9 +8,12 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/list_card_with_save.dart';
 import 'package:tmda/features/movie/presentation/bloc/see_all_movies_bloc/see_all_movies_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class SeeAllMoviesComponent extends StatefulWidget {
-  const SeeAllMoviesComponent({super.key, required this.movieType, this.movieId});
+  const SeeAllMoviesComponent(
+      {super.key, required this.movieType, this.movieId});
+
   final MovieType movieType;
   final int? movieId;
 
@@ -18,34 +21,13 @@ class SeeAllMoviesComponent extends StatefulWidget {
   State<SeeAllMoviesComponent> createState() => _SeeAllMoviesComponentState();
 }
 
-class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with AutoRouteAwareStateMixin<SeeAllMoviesComponent>{
-  late int _tappedMovieId;
+class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> {
   late ScrollController _scrollController;
-  TabsRouter? _tabsRouter;
-
-  @override
-  void didChangeDependencies() {
-    _tabsRouter = context.tabsRouter;
-    _tabsRouter?.addListener(_tabListener);
-    super.didChangeDependencies();
-  }
-  void _tabListener(){
-    if (context.tabsRouter.activeIndex == 0) {
-      context.read<SeeAllMoviesBloc>().add(CheckForMoviesListStatesEvent());
-    }
-  }
-
-  @override
-  void didPopNext() {
-      context.read<SeeAllMoviesBloc>()
-        ..add(CheckForMovieStatesEvent(_tappedMovieId))
-        ..add(CheckForMoviesListStatesEvent());
-  }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    final seeAllBloc =  context.read<SeeAllMoviesBloc>();
+    final seeAllBloc = context.read<SeeAllMoviesBloc>();
     if (currentScroll >= maxScroll * 0.9) {
       switch (widget.movieType) {
         case (MovieType.newMovies):
@@ -55,7 +37,8 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
         case (MovieType.topRatedMovies):
           seeAllBloc.add(GetAllTopRatedMoviesEvent());
         case (MovieType.recommendedMovies):
-          seeAllBloc.add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
+          seeAllBloc
+              .add(GetAllRecommendedMoviesEvent(movieId: widget.movieId!));
         case (MovieType.similarMovies):
           seeAllBloc.add(GetAllSimilarMoviesEvent(movieId: widget.movieId!));
       }
@@ -64,14 +47,14 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
+    _scrollController = ScrollController()..addListener(_onScroll);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SeeAllMoviesBloc, SeeAllMoviesState>(
+      buildWhen: (previous, current) => previous.seeAllMovies != current.seeAllMovies,
       builder: (context, state) {
         return ListView.builder(
           itemCount: state.seeAllMovies.length + 1,
@@ -80,42 +63,41 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
           padding: const EdgeInsets.symmetric(vertical: 100).r,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            if(index >= state.seeAllMovies.length){
-             return Center(
+            if (index >= state.seeAllMovies.length) {
+              return Center(
                 child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
               );
-            }else{
+            } else {
               final movie = state.seeAllMovies[index];
-             return  Padding(
+              return Padding(
                 padding: const EdgeInsets.only(
                   left: 24,
                   right: 24,
                   top: 14,
                 ).r,
-                child: ListCardWithSave(
-                  onTap: () {
-                    _tappedMovieId = movie.id;
-                    context.pushRoute(
-                      MovieDetailsRoute(
-                        movieId: movie.id,
-                      ),
-                    );
-                  },
-                  title: movie.title,
-                  errorImagePath: AssetsManager.errorPoster,
-                  posterPath: movie.posterPath,
-                  vote: movie.voteAverage,
-                  voteCount: movie.movieVoteCount,
-                  genres: movie.genres,
-                  releaseYear: movie.releaseDate,
-                  language: movie.language,
-                  isInWatchList: movie.accountStates.inWatchList,
-                  onSaved: () {
-                    context.read<SeeAllMoviesBloc>().add(
-                      AddOrRemoveFromWatchListEvent(
-                        isInWatchList: !movie.accountStates.inWatchList,
-                        movieId: movie.id,
-                      ),
+                child: BlocBuilder<WatchListBloc, WatchListState>(
+                  builder: (context, state) {
+                    final isInWatchList = state.moviesWatchListIdsSet.contains(movie.id);
+                    return ListCardWithSave(
+                      onTap: () {
+                        context.pushRoute(
+                          MovieDetailsRoute(
+                            movieId: movie.id,
+                          ),
+                        );
+                      },
+                      title: movie.title,
+                      errorImagePath: AssetsManager.errorPoster,
+                      posterPath: movie.posterPath,
+                      vote: movie.voteAverage,
+                      voteCount: movie.voteCount,
+                      genres: movie.genres,
+                      releaseYear: movie.releaseDate,
+                      language: movie.language,
+                      isInWatchList: isInWatchList,
+                      onSaved: () {
+                        context.read<WatchListBloc>().add(AddOrRemoveMovieFromWatchListEvent(movieId: movie.id, isInWatchList: !isInWatchList));
+                      },
                     );
                   },
                 ),
@@ -129,8 +111,9 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> with Auto
 
   @override
   void dispose() {
-    _tabsRouter?.removeListener(_tabListener);
-    _scrollController..removeListener(_onScroll)..dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
 }

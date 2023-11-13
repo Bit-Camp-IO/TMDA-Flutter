@@ -6,7 +6,7 @@ import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/strings_manager.dart';
 import 'package:tmda/core/widgets/neon_profile_picture.dart';
-import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
+import 'package:tmda/features/account/presentation/bloc/account_cubit/account_bloc.dart';
 
 class ProfileComponent extends StatelessWidget {
   const ProfileComponent({super.key});

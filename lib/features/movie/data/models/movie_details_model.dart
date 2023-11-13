@@ -1,11 +1,10 @@
-import 'package:tmda/features/movie/data/models/movie_genres_model.dart';
-import 'package:tmda/features/movie/data/models/movies_model.dart';
-import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';
+import 'package:tmda/features/shared/data/models/movie_genres_model.dart';
 import 'package:tmda/features/movie/data/models/movie_cast_model.dart';
 import 'package:tmda/features/movie/data/models/movie_production_countries_model.dart';
 import 'package:tmda/features/movie/data/models/movie_review_model.dart';
 import 'package:tmda/features/movie/data/models/movie_video_model.dart';
 import 'package:tmda/features/movie/domain/entities/movie_details.dart';
+import 'package:tmda/features/shared/data/models/movies_model.dart';
 
 class MovieDetailsModel extends MovieDetails {
   const MovieDetailsModel({
@@ -22,7 +21,6 @@ class MovieDetailsModel extends MovieDetails {
     required super.productionCountry,
     required super.video,
     required super.language,
-    required super.accountStates,
     required super.cast,
     required super.reviews,
     required super.similarMovies,
@@ -52,8 +50,6 @@ class MovieDetailsModel extends MovieDetails {
         jsonData['videos']['results'],
       ),
       language: jsonData['original_language'],
-      accountStates:
-          MovieAccountStatesModel.fromJson(jsonData['account_states']),
       cast: List<MovieCastModel>.from(
         jsonData['credits']['cast'].map(
           (jsonData) => MovieCastModel.fromJson(jsonData),
@@ -64,14 +60,14 @@ class MovieDetailsModel extends MovieDetails {
           (jsonData) => MovieReviewsModel.fromJson(jsonData),
         ),
       ),
-      similarMovies: List<MoviesModel>.from(
+      similarMovies: List<MovieModel>.from(
         jsonData['similar']['results'].map(
-          (jsonData) => MoviesModel.fromJson(jsonData),
+          (jsonData) => MovieModel.fromJson(jsonData),
         ),
       ),
-      recommendedMovies: List<MoviesModel>.from(
+      recommendedMovies: List<MovieModel>.from(
         jsonData['recommendations']['results'].map(
-              (jsonData) => MoviesModel.fromJson(jsonData),
+              (jsonData) => MovieModel.fromJson(jsonData),
         ),
       ),
     );

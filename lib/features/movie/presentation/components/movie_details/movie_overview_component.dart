@@ -12,10 +12,16 @@ import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details_poster.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class MovieOverviewComponent extends StatefulWidget {
-  const MovieOverviewComponent({super.key, required this.scrollController});
   final ScrollController scrollController;
+  final int movieId;
+  const MovieOverviewComponent({
+    super.key,
+    required this.scrollController,
+    required this.movieId,
+  });
 
   @override
   State<MovieOverviewComponent> createState() => _MovieOverviewComponentState();
@@ -24,6 +30,7 @@ class MovieOverviewComponent extends StatefulWidget {
 class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
   final ValueNotifier<double> animatedContainerHeight = ValueNotifier(500);
   final ValueNotifier<double> animatedPosterHeight = ValueNotifier(420);
+
   void _scrollListener() {
     final maxScroll = widget.scrollController.position.maxScrollExtent;
     final currentScroll = widget.scrollController.offset;
@@ -31,13 +38,16 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
         widget.scrollController.position.userScrollDirection;
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (animatedContainerHeight.value != 0 && animatedPosterHeight.value != 0) {
+      if (animatedContainerHeight.value != 0 &&
+          animatedPosterHeight.value != 0) {
         animatedContainerHeight.value = 50;
         animatedPosterHeight.value = 0;
       }
     }
-    if (scrollDirection == ScrollDirection.forward && currentScroll < maxScroll * 0.05) {
-      if (animatedContainerHeight.value == 50 && animatedPosterHeight.value == 0) {
+    if (scrollDirection == ScrollDirection.forward &&
+        currentScroll < maxScroll * 0.05) {
+      if (animatedContainerHeight.value == 50 &&
+          animatedPosterHeight.value == 0) {
         animatedContainerHeight.value = 500;
         animatedPosterHeight.value = 420;
       }
@@ -59,116 +69,103 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
           effects: [FadeEffect(duration: 150.ms)],
           child: Column(
             children: [
-                  ValueListenableBuilder(
-                    valueListenable: animatedContainerHeight,
-                    builder: (context, newAnimatedContainerHeight, child) => AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      width: MediaQuery.sizeOf(context).width,
-                      curve: Curves.linear,
-                      height: newAnimatedContainerHeight.h,
-                      child: Stack(
-                        children: [
-                          ValueListenableBuilder(
-                            valueListenable: animatedPosterHeight,
-                            builder: (context, newAnimatedPosterHeight, child) => MovieDetailsPoster(
-                              posterPath: state.movieDetails.posterPath,
-                              errorPosterPath: AssetsManager.errorPoster,
-                              height: newAnimatedPosterHeight.h,
+              ValueListenableBuilder(
+                valueListenable: animatedContainerHeight,
+                builder: (context, newAnimatedContainerHeight, child) => AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  width: MediaQuery.sizeOf(context).width,
+                  curve: Curves.linear,
+                  height: newAnimatedContainerHeight.h,
+                  child: Stack(
+                    children: [
+                      ValueListenableBuilder(
+                        valueListenable: animatedPosterHeight,
+                        builder: (context, newAnimatedPosterHeight, child) => MovieDetailsPoster(
+                          posterPath: state.movieDetails.posterPath,
+                          errorPosterPath: AssetsManager.errorPoster,
+                          height: newAnimatedPosterHeight.h,
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 65.h,
+                        child: NeonPlayButton(
+                          onTap: () {
+                            if (state.movieDetails.video.key.isNotEmpty) {
+                              context.read<MovieDetailsCubit>().playMovieTrailer();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                errorSnackBar(
+                                  errorMessage: StringsManager.movieNoVideosMessage,
+                                  context: context,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        left: 30.w,
+                        bottom: 5.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              SolarSystemIcons.star,
+                              color: ColorsManager.ratingIconColor,
+                              size: 30.sp,
                             ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 65.h,
-                            child: NeonPlayButton(
-                              onTap: () {
-                                if (state.movieDetails.video.key.isNotEmpty) {
-                                  context.read<MovieDetailsCubit>().playMovieTrailer();
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    errorSnackBar(
-                                      errorMessage: StringsManager.movieNoVideosMessage,
-                                      context: context,
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            left: 30.w,
-                            bottom: 5.h,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            SizedBox(height: 4.h),
+                            Row(
                               children: [
-                                Icon(
-                                  SolarSystemIcons.star,
-                                  color: ColorsManager.ratingIconColor,
-                                  size: 30.sp,
+                                Text(state.movieDetails.voteAverage.toStringAsFixed(1),
+                                  style: Theme.of(context).textTheme.titleMedium,
                                 ),
-                                SizedBox(height: 4.h),
-                                Row(
-                                  children: [
-                                    Text(
-                                      state.movieDetails.voteAverage
-                                          .toStringAsFixed(1),
-                                      style:
-                                          Theme.of(context).textTheme.titleMedium,
-                                    ),
-                                    Text(
-                                      StringsManager.maxRate,
-                                      style:
-                                          Theme.of(context).textTheme.bodyMedium,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  state.movieDetails.popularity.toString(),
+                                Text(StringsManager.maxRate,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
                             ),
-                          ),
-                          Positioned(
-                            right: 30.w,
-                            bottom: 40.h,
-                            child:
-                                BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
-                              builder: (context, state) {
-                                return InkWell(
-                                  onTap: () {
-                                    context
-                                        .read<MovieDetailsCubit>()
-                                        .addOrRemoveFromWatchList(
-                                          isInWatchList: !state.movieDetails.accountStates.inWatchList,
-                                          movieId: state.movieDetails.id,
-                                        );
-                                  },
-                                  child: Column(
-                                    children: [
-                                      AnimatedSwitcher(
-                                        duration:
-                                            const Duration(milliseconds: 350),
-                                        child: Icon(
-                                          state.movieDetails.accountStates
-                                                  .inWatchList
-                                              ? SolarSystemIcons.saved
-                                              : SolarSystemIcons.unsaved,
-                                          color: ColorsManager.primaryColor,
-                                          size: 30.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                            SizedBox(height: 4.h),
+                            Text(state.movieDetails.popularity.toString(),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-              ),
+                      Positioned(
+                        right: 30.w,
+                        bottom: 40.h,
+                        child: BlocBuilder<WatchListBloc, WatchListState>(
+                          builder: (context, state) {
+                            final isInWatchList = state.moviesWatchListIdsSet.contains(widget.movieId);
+                            return InkWell(
+                              onTap: () {
+                                context.read<WatchListBloc>().add(AddOrRemoveMovieFromWatchListEvent(movieId: widget.movieId, isInWatchList: !isInWatchList));
+                              },
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 350),
+                                child: isInWatchList
+                                    ? Icon(
+                                        SolarSystemIcons.saved,
+                                        color: ColorsManager.primaryColor,
+                                        size: 30.sp,
+                                      )
+                                    : Icon(
+                                        SolarSystemIcons.unsaved,
+                                        color: ColorsManager.primaryColor,
+                                        size: 30.sp,
+                                      ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0).r,
                 child: const SectionDivider(),

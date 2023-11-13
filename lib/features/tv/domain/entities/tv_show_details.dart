@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show_account_states.dart';
+import 'package:tmda/features/shared/domain/entities/account_states.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_cast.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_network.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_production_country.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_reviews.dart';
 import 'package:tmda/features/tv/domain/entities/tv_show_video.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show_genres.dart';
+import 'package:tmda/features/shared/domain/entities/tv_show.dart';
+import 'package:tmda/features/shared/domain/entities/tv_show_genres.dart';
 
 class TvShowDetails extends Equatable {
   final int id;
@@ -29,7 +29,6 @@ class TvShowDetails extends Equatable {
   final List<TvShowCast> cast;
   final TvShowVideo tvShowVideo;
   final TvShowNetwork network;
-  final TvShowAccountStates status;
   final List<TvShowReviews> reviews;
 
   const TvShowDetails({
@@ -53,7 +52,6 @@ class TvShowDetails extends Equatable {
     this.similarTvShows = const [],
     this.recommendedTvShows = const [],
     this.cast = const[],
-    this.status =  const TvShowAccountStates(isInWatchList: false),
     this.reviews = const []
   });
 
@@ -76,7 +74,6 @@ class TvShowDetails extends Equatable {
         voteCount,
         similarTvShows,
         recommendedTvShows,
-        status,
         reviews
       ];
 
@@ -101,7 +98,7 @@ class TvShowDetails extends Equatable {
     List<TvShowCast>? cast,
     TvShowVideo? tvShowVideo,
     TvShowNetwork? network,
-    TvShowAccountStates? status,
+    AccountStates? status,
     List<TvShowReviews>? reviews,
   }) {
     return TvShowDetails(
@@ -125,7 +122,6 @@ class TvShowDetails extends Equatable {
       cast: cast ?? this.cast,
       tvShowVideo: tvShowVideo ?? this.tvShowVideo,
       network: network ?? this.network,
-      status: status ?? this.status,
       reviews: reviews ?? this.reviews,
     );
   }

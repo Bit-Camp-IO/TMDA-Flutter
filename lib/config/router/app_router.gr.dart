@@ -25,11 +25,10 @@ abstract class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<AccountSeeAllRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WrappedRoute(
-            child: AccountSeeAllScreen(
+        child: AccountSeeAllScreen(
           key: args.key,
           watchListType: args.watchListType,
-        )),
+        ),
       );
     },
     AccountTabRoute.name: (routeData) {

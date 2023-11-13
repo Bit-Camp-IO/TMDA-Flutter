@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/features/tv/domain/entities/tv_show.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_shows/get_popular_tv_shows.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_shows/get_top_rated_tv_shows.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_this_week_usecase.dart';
-import 'package:tmda/features/tv/domain/usecases/tv_shows/get_tv_shows_airing_today.dart';
+import 'package:tmda/features/shared/domain/entities/tv_show.dart';
+import 'package:tmda/features/tv/domain/usecases/get_popular_tv_shows.dart';
+import 'package:tmda/features/tv/domain/usecases/get_top_rated_tv_shows.dart';
+import 'package:tmda/features/tv/domain/usecases/get_tv_shows_airing_this_week_usecase.dart';
+import 'package:tmda/features/tv/domain/usecases/get_tv_shows_airing_today.dart';
 
 part 'tv_show_state.dart';
 

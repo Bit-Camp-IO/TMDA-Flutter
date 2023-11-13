@@ -35,7 +35,7 @@ class _NowPlayingMoviesComponentState extends State<NowPlayingMoviesComponent> {
                     errorImagePath: AssetsManager.errorPoster,
                     rating: nowPlayingMovie.voteAverage,
                     title: nowPlayingMovie.title,
-                    voteCount: nowPlayingMovie.movieVoteCount,
+                    voteCount: nowPlayingMovie.voteCount,
                     onTap: () {
                       context.pushRoute(MovieDetailsRoute(movieId: nowPlayingMovie.id));
                     },

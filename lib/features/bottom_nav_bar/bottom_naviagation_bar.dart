@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
+import 'package:tmda/features/account/presentation/bloc/account_cubit/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage(name: 'BottomNaviagationBarRoute')
@@ -19,12 +20,21 @@ class BottomNaviagationBar extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AccountCubit>()
-        ..getAccountDetails()
-        ..getAccountMoviesWatchList()
-        ..getAccountTvShowsWatchList(),
-      lazy: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<AccountCubit>()..getAccountDetails(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => getIt<WatchListBloc>()
+            ..add(GetMoviesWatchListIdsEvent())
+            ..add(GetTvShowsWatchListIdsEvent())
+            ..add(GetMoviesWatchListEvent())
+            ..add(GetTvShowsWatchListEvent()),
+          lazy: false,
+        ),
+      ],
       child: this,
     );
   }
@@ -38,6 +48,7 @@ class _BottomNaviagationBarState extends State<BottomNaviagationBar> {
     return AutoTabsScaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
+      lazyLoad: false,
       routes: const [
         MovieRoute(),
         TvShowRoute(),

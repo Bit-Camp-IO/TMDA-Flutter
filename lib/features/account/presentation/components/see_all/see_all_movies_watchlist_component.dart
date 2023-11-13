@@ -6,51 +6,39 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/list_card.dart';
-import 'package:tmda/features/account/presentation/bloc/account_see_all/account_see_all_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class SeeAllMoviesWatchListComponent extends StatefulWidget {
-  const SeeAllMoviesWatchListComponent(
-      {super.key, required this.scrollController});
-
   final ScrollController scrollController;
+  const SeeAllMoviesWatchListComponent({super.key, required this.scrollController});
 
   @override
-  State<SeeAllMoviesWatchListComponent> createState() =>
-      _SeeAllMoviesWatchListComponentState();
+  State<SeeAllMoviesWatchListComponent> createState() => _SeeAllMoviesWatchListComponentState();
 }
 
-class _SeeAllMoviesWatchListComponentState
-    extends State<SeeAllMoviesWatchListComponent> with AutoRouteAwareStateMixin<SeeAllMoviesWatchListComponent> {
-  late int tappedMovieId;
-  TabsRouter? _tabsRouter;
+class _SeeAllMoviesWatchListComponentState extends State<SeeAllMoviesWatchListComponent> {
 
-  @override
-  void didChangeDependencies() {
-    _tabsRouter = context.tabsRouter;
-    _tabsRouter?.addListener(_tabListener);
-    super.didChangeDependencies();
-  }
-
-  void _tabListener() {
-    if (context.tabsRouter.activeIndex == 3) {
-      context.read<AccountSeeAllBloc>()
-        ..add(const CheckForMoviesWatchListStatesEvent())
-        ..add(GetAllMoviesWatchListEvent());
+  _checkCurrentScrollPosition() {
+    final double maxScroll = widget.scrollController.position.maxScrollExtent;
+    final double currentScroll = widget.scrollController.offset;
+    if (currentScroll == maxScroll) {
+      context.read<WatchListBloc>().add(const ChangeMoviesWatchListViewScrollState(
+        isMoviesWatchListViewHasReachedMaxScroll: true,
+        ),
+      );
     }
   }
 
   @override
-  void didPopNext() {
-    context.read<AccountSeeAllBloc>()
-      ..add(CheckForMovieStatesEvent(movieId: tappedMovieId))
-      ..add(const CheckForMoviesWatchListStatesEvent())
-      ..add(GetAllMoviesWatchListEvent());
-    super.didPopNext();
+  void initState() {
+    widget.scrollController.addListener(_checkCurrentScrollPosition);
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AccountSeeAllBloc, AccountSeeAllState>(
+    return BlocConsumer<WatchListBloc, WatchListState>(
       listener: (context, state) {
         if (state.moviesWatchList.isEmpty) {
           context.router.pop();
@@ -78,12 +66,12 @@ class _SeeAllMoviesWatchListComponentState
                 child: Dismissible(
                   key: ObjectKey(movie.id),
                   resizeDuration: const Duration(milliseconds: 200),
-                  onDismissed: (direction) =>
-                      context.read<AccountSeeAllBloc>().add(
-                            RemoveMovieFromWatchListEvent(
-                              movieId: movie.id,
-                            ),
-                          ),
+                  onDismissed: (direction) => context.read<WatchListBloc>().add(
+                        AddOrRemoveMovieFromWatchListEvent(
+                          movieId: movie.id,
+                          isInWatchList: false,
+                        ),
+                      ),
                   child: ListCard(
                     title: movie.title,
                     posterPath: movie.posterPath,
@@ -94,7 +82,6 @@ class _SeeAllMoviesWatchListComponentState
                     releaseYear: movie.releaseDate,
                     language: movie.language,
                     onTap: () {
-                      tappedMovieId = movie.id;
                       context.pushRoute(
                         MovieDetailsRoute(
                           movieId: movie.id,
@@ -114,6 +101,6 @@ class _SeeAllMoviesWatchListComponentState
   @override
   void dispose() {
     super.dispose();
-    _tabsRouter?.removeListener(_tabListener);
+    widget.scrollController.removeListener(_checkCurrentScrollPosition);
   }
 }

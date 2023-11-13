@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/features/movie/domain/entities/movies.dart';
-import 'package:tmda/features/movie/domain/usecases/movie/get_new_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/movie/get_now_playing_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/movie/get_popular_movies_usecase.dart';
-import 'package:tmda/features/movie/domain/usecases/movie/get_top_rated_movies_usecase.dart';
+import 'package:tmda/features/shared/domain/entities/movie.dart';
+import 'package:tmda/features/movie/domain/usecases/get_new_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/get_now_playing_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/get_popular_movies_usecase.dart';
+import 'package:tmda/features/movie/domain/usecases/get_top_rated_movies_usecase.dart';
 
 part 'movies_state.dart';
 

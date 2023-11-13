@@ -3,11 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/core/error/failure.dart';
 import 'package:tmda/features/movie/data/datasources/movies_data_source.dart';
-import 'package:tmda/features/movie/data/models/movies_model.dart';
-import 'package:tmda/features/movie/data/models/movie_account_states_model.dart';
 import 'package:tmda/features/movie/data/models/movie_details_model.dart';
-import 'package:tmda/features/movie/domain/entities/movie_account_states.dart';
-import 'package:tmda/features/movie/domain/entities/movies.dart';
+import 'package:tmda/features/shared/data/models/movies_model.dart';
+import 'package:tmda/features/shared/domain/entities/movie.dart';
 import 'package:tmda/features/movie/domain/repositories/movies_repository.dart';
 
 @LazySingleton(as: MoviesRepository)
@@ -17,7 +15,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
   MoviesRepositoryImpl(this._moviesDataSource);
 
   @override
-  Future<Either<Failure, List<MoviesModel>>> getNowPlayingMovies() async {
+  Future<Either<Failure, List<MovieModel>>> getNowPlayingMovies() async {
     try {
       final result = await _moviesDataSource.getNowPlayingMovies();
       return right(result);
@@ -29,9 +27,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MoviesModel>>> getPopularMovies() async {
+  Future<Either<Failure, List<MovieModel>>> getPopularMovies({int? pageNumber}) async {
     try {
-      final result = await _moviesDataSource.getPopularMovies();
+      final result = await _moviesDataSource.getPopularMovies(pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -41,9 +39,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MoviesModel>>> getTopRatedMovies() async {
+  Future<Either<Failure, List<MovieModel>>> getTopRatedMovies({int? pageNumber}) async {
     try {
-      final result = await _moviesDataSource.getTopRatedMovies();
+      final result = await _moviesDataSource.getTopRatedMovies(pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -53,9 +51,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MoviesModel>>> getNewMovies() async {
+  Future<Either<Failure, List<MovieModel>>> getNewMovies({int? pageNumber}) async {
     try {
-      final result = await _moviesDataSource.getNewMovies();
+      final result = await _moviesDataSource.getNewMovies(pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -90,13 +88,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, MovieAccountStatesModel>>
-      addOrRemoveMovieFromWatchList({
-    required int movieId,
-    required bool isInWatchList,
-  }) async {
+  Future<Either<Failure, List<Movie>>> getRecommendedMovies({required int pageNumber, required int movieId}) async {
     try {
-      final result = await _moviesDataSource.addOrRemoveMovieFromWatchList(movieId: movieId, isInWatchList: isInWatchList);
+      final result = await _moviesDataSource.getRecommendedMovies(movieId: movieId, pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(
@@ -106,69 +100,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movies>>> getAllNewMovies({required int pageNumber}) async {
+  Future<Either<Failure, List<Movie>>> getSimilarMovies({required int pageNumber, required int movieId}) async {
     try {
-      final result = await _moviesDataSource.getAllNewMovies(pageNumber: pageNumber);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Movies>>> getAllPopularMovies({required int pageNumber}) async {
-    try {
-      final result = await _moviesDataSource.getAllPopularMovies(pageNumber: pageNumber);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Movies>>> getAllTopRatedMovies({required int pageNumber}) async {
-    try {
-      final result = await _moviesDataSource.getAllTopRatedMovies(pageNumber: pageNumber);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Movies>>> getAllRecommendedMovies({required int pageNumber, required int movieId}) async {
-    try {
-      final result = await _moviesDataSource.getAllRecommendedMovies(movieId: movieId, pageNumber: pageNumber);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Movies>>> getAllSimilarMovies({required int pageNumber, required int movieId}) async {
-    try {
-      final result = await _moviesDataSource.getAllSimilarMovies(movieId: movieId, pageNumber: pageNumber);
-      return right(result);
-    } on ServerException catch (exception) {
-      return left(
-        Failure(exception.message!),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, MovieAccountStates>> getMovieStates({required int movieId}) async {
-    try {
-      final result = await _moviesDataSource.getMovieStates(movieId: movieId);
+      final result = await _moviesDataSource.getSimilarMovies(movieId: movieId, pageNumber: pageNumber);
       return right(result);
     } on ServerException catch (exception) {
       return left(

@@ -5,16 +5,12 @@ class SeeAllTvShowsState extends Equatable {
   final BlocState seeAllState;
   final String seeAllFailMessage;
   final bool hasSeeAllTvShowsListReachedMax;
-  final String addOrRemoveFromWatchListFailMessage;
-  final String checkForTvShowStatesFailMessage;
 
   const SeeAllTvShowsState({
     this.seeAllTvShows = const [],
     this.seeAllState = BlocState.loading,
     this.seeAllFailMessage = '',
     this.hasSeeAllTvShowsListReachedMax = false,
-    this.addOrRemoveFromWatchListFailMessage = '',
-    this.checkForTvShowStatesFailMessage = '',
   });
 
   SeeAllTvShowsState copyWith({
@@ -30,8 +26,6 @@ class SeeAllTvShowsState extends Equatable {
       seeAllState: seeAllState ?? this.seeAllState,
       seeAllFailMessage: seeAllFailMessage ?? this.seeAllFailMessage,
       hasSeeAllTvShowsListReachedMax: hasSeeAllTvShowsListReachedMax ?? this.hasSeeAllTvShowsListReachedMax,
-      addOrRemoveFromWatchListFailMessage: addOrRemoveFromWatchListFailMessage ?? this.addOrRemoveFromWatchListFailMessage,
-      checkForTvShowStatesFailMessage: checkForTvShowStatesFailMessage ?? this.checkForTvShowStatesFailMessage,
     );
   }
 
@@ -41,7 +35,5 @@ class SeeAllTvShowsState extends Equatable {
     seeAllState,
     seeAllFailMessage,
     hasSeeAllTvShowsListReachedMax,
-    addOrRemoveFromWatchListFailMessage,
-    checkForTvShowStatesFailMessage
   ];
 }

@@ -12,7 +12,7 @@ import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
-import 'package:tmda/features/shared/presentation/blocs/account_cubit/account_bloc.dart';
+import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class TvShowWatchListComponent extends StatelessWidget {
   const TvShowWatchListComponent({super.key});
@@ -21,12 +21,10 @@ class TvShowWatchListComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Animate(
       effects: [FadeEffect(duration: 400.ms)],
-      child: BlocBuilder<AccountCubit, AccountState>(
-        buildWhen: (previous, current) =>
-            previous.watchListTvShows != current.watchListTvShows,
+      child: BlocBuilder<WatchListBloc, WatchListState>(
+        buildWhen: (previous, current) => previous.tvShowsWatchList != current.tvShowsWatchList,
         builder: (context, state) {
-          if (state.watchListTvShows.isEmpty &&
-              state.tvShowsWatchListState == BlocState.success) {
+          if (state.tvShowsWatchList.isEmpty && state.tvShowsWatchListState == BlocState.success) {
             return Animate(
               effects: [FadeEffect(duration: 150.ms)],
               child: Column(
@@ -73,10 +71,10 @@ class TvShowWatchListComponent extends StatelessWidget {
                     child: Animate(
                       effects: [FadeEffect(duration: 400.ms)],
                       child: ListView.builder(
-                        itemCount: state.watchListTvShows.length,
+                        itemCount: state.tvShowsWatchList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          final tvShow = state.watchListTvShows[index];
+                          final tvShow = state.tvShowsWatchList[index];
                           return Padding(
                             padding: const EdgeInsets.only(left : 16.0).r,
                             child: PosterCard(

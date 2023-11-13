@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
-import 'package:tmda/features/shared/presentation/blocs/local_cubit/local_cubit.dart';
+import 'package:tmda/features/shared/presentation/blocs/auth_cubit/token_cubit.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -14,14 +14,14 @@ class SplashScreen extends StatelessWidget implements AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<LocalCubit>()..checkUserLoggedIn(),
+      create: (context) => getIt<TokenCubit>()..checkUserLoggedIn(),
       child: this,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LocalCubit, AuthState>(
+    return BlocConsumer<TokenCubit, AuthState>(
       listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state is AuthenticatedState) {
@@ -42,6 +42,4 @@ class SplashScreen extends StatelessWidget implements AutoRouteWrapper{
       },
     );
   }
-
-
 }

@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/api/api_status_code.dart';
-import 'package:tmda/core/api/authenticated_interceptor.dart';
 import 'package:tmda/core/api/dio_logger.dart';
+import 'package:tmda/core/api/unauthenticated_interceptor.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/injection_container.dart';
@@ -34,7 +34,7 @@ class DioApiConsumer extends ApiConsumer {
     if(interceptor != null){
       dioClient.interceptors.add(interceptor!);
     }else{
-      dioClient.interceptors.add(getIt<AuthenticatedInterceptor>());
+      dioClient.interceptors.add(getIt<UnAuthenticatedInterceptor>());
     }
 
     if (kDebugMode) {

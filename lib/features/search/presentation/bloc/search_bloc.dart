@@ -54,10 +54,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<LoadMoreTvShowsEvent>(_loadMoreTvShowsEvent, transformer: droppable());
     on<LoadMorePersonsEvent>(_loadMorePersonsEvent, transformer: droppable());
     on<RetryMovieSearchEvent>(_retryMovieSearchEvent, transformer: droppable());
-    on<RetryTvShowSearchEvent>(_retryTvShowSearchEvent,
-        transformer: droppable());
-    on<RetryPersonSearchEvent>(_retryPersonSearchEvent,
-        transformer: droppable());
+    on<RetryTvShowSearchEvent>(_retryTvShowSearchEvent, transformer: droppable());
+    on<RetryPersonSearchEvent>(_retryPersonSearchEvent, transformer: droppable());
     on<ChangeSearchTabEvent>(_changeSearchTabEvent);
   }
 
@@ -81,7 +79,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (movies) {
           _moviePageNumber++;
-          return emit(
+           emit(
             state.copyWith(
               searchState: BlocState.success,
               movieSearchList: movies,
@@ -113,7 +111,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (tvShow) {
           _tvShowPageNumber++;
-          return emit(
+           emit(
             state.copyWith(
               searchState: BlocState.success,
               tvSearchList: tvShow,
@@ -144,7 +142,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (personList) {
           _personPageNumber++;
-          return emit(state.copyWith(
+          emit(state.copyWith(
             searchState: BlocState.success,
             peopleSearchList: personList,
           ));
@@ -170,7 +168,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
           (movies) {
             if (movies.isEmpty) {
-              return emit(
+              emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   hasMoviesListReachedMax: true,
@@ -178,7 +176,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               );
             } else {
               _moviePageNumber++;
-              return emit(
+              emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   movieSearchList: List.of(state.movieSearchList)
@@ -210,7 +208,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
           (tvShows) {
             if (tvShows.isEmpty) {
-              return emit(
+               emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   hasMoviesListReachedMax: true,
@@ -218,7 +216,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               );
             } else {
               _tvShowPageNumber++;
-              return emit(
+              emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   tvSearchList: List.of(state.tvSearchList)..addAll(tvShows),
@@ -249,7 +247,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
           (people) {
             if (people.isEmpty) {
-              return emit(
+              emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   hasPersonListReachedMax: true,
@@ -257,7 +255,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               );
             } else {
               _personPageNumber++;
-              return emit(
+              emit(
                 state.copyWith(
                   searchState: BlocState.success,
                   peopleSearchList: List.of(state.peopleSearchList)
@@ -289,7 +287,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (personList) {
           _personPageNumber++;
-          return emit(state.copyWith(
+          emit(state.copyWith(
             searchState: BlocState.success,
             peopleSearchList: personList,
           ));
@@ -315,7 +313,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (movies) {
           _moviePageNumber++;
-          return emit(
+          emit(
             state.copyWith(
               searchState: BlocState.success,
               movieSearchList: movies,
@@ -343,7 +341,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
         (tvShow) {
           _tvShowPageNumber++;
-          return emit(
+          emit(
             state.copyWith(
               searchState: BlocState.success,
               tvSearchList: tvShow,

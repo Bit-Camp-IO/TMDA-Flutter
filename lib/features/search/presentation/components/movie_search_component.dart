@@ -87,7 +87,6 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                       genres: movie.genres,
                       releaseYear: movie.releaseDate,
                       language: movie.language,
-
                     ),
                   ),
                 );

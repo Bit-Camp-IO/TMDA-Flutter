@@ -53,55 +53,6 @@ class _SearchScreenState extends State<SearchScreen>
         child: Stack(
           children: [
             Positioned.fill(
-              top: 180.h,
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  switch (state.searchState) {
-                    case BlocState.initial:
-                      return const SearchInitialBody();
-                    case BlocState.loading:
-                      return Center(
-                        child: Lottie.asset(AssetsManager.neonLoading),
-                      );
-                    case BlocState.success:
-                      return IndexedStack(
-                        index: state.tabIndex,
-                        children: [
-                          Visibility(
-                            maintainState: true,
-                            visible: state.tabIndex == 0 ? true : false,
-                            child:  MoviesSearchComponent(
-                                searchInput: _textEditingController.text
-                            ),
-                          ),
-                          Visibility(
-                            maintainState: true,
-                              visible: state.tabIndex == 1 ? true : false,
-                              child: TvShowsSearchComponent(
-                                searchInput: _textEditingController.text,
-                              ),
-                          ),
-                          Visibility(
-                            maintainState: true,
-                            visible: state.tabIndex == 2 ? true : false,
-                            child: PeopleSearchComponent(searchInput: _textEditingController.text),
-                          ),
-                        ],
-                      );
-                    case BlocState.failure:
-                      return NoConnection(
-                        onTap: () {
-                          context.read<SearchBloc>()
-                            ..add(const RetryMovieSearchEvent())
-                            ..add(const RetryTvShowSearchEvent())
-                            ..add(const RetryPersonSearchEvent());
-                        },
-                      );
-                  }
-                },
-              ),
-            ),
-            Positioned.fill(
               top: 60.h,
               child: Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24).r,
@@ -121,8 +72,11 @@ class _SearchScreenState extends State<SearchScreen>
                       indicatorSize: TabBarIndicatorSize.tab,
                       controller: _tabController,
                       indicatorPadding: const EdgeInsets.only(
-                              top: 3, bottom: 3, left: 8, right: 8)
-                          .r,
+                        top: 3,
+                        bottom: 3,
+                        left: 8,
+                        right: 8,
+                      ).r,
                       labelStyle: Theme.of(context).textTheme.bodyLarge,
                       indicator: ShapeDecoration(
                         color: ColorsManager.darkPrimary,
@@ -147,6 +101,56 @@ class _SearchScreenState extends State<SearchScreen>
                 ),
               ),
             ),
+            Positioned.fill(
+              top: 180.h,
+              child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  switch (state.searchState) {
+                    case BlocState.initial:
+                      return const SearchInitialBody();
+                    case BlocState.loading:
+                      return Center(
+                        child: Lottie.asset(AssetsManager.neonLoading),
+                      );
+                    case BlocState.success:
+                      return IndexedStack(
+                        index: state.tabIndex,
+                        children: [
+                          Visibility(
+                            maintainState: true,
+                            visible: state.tabIndex == 0 ? true : false,
+                            child: MoviesSearchComponent(
+                                searchInput: _textEditingController.text),
+                          ),
+                          Visibility(
+                            maintainState: true,
+                            visible: state.tabIndex == 1 ? true : false,
+                            child: TvShowsSearchComponent(
+                              searchInput: _textEditingController.text,
+                            ),
+                          ),
+                          Visibility(
+                            maintainState: true,
+                            visible: state.tabIndex == 2 ? true : false,
+                            child: PeopleSearchComponent(
+                                searchInput: _textEditingController.text),
+                          ),
+                        ],
+                      );
+                    case BlocState.failure:
+                      return NoConnection(
+                        onTap: () {
+                          context.read<SearchBloc>()
+                            ..add(const RetryMovieSearchEvent())
+                            ..add(const RetryTvShowSearchEvent())
+                            ..add(const RetryPersonSearchEvent());
+                        },
+                      );
+                  }
+                },
+              ),
+            ),
+
           ],
         ),
       ),

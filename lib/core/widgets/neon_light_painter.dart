@@ -16,7 +16,7 @@ class NeonLightPainter extends StatelessWidget {
       imageFilter: ImageFilter.blur(
         sigmaX: 50,
         sigmaY: 50,
-        tileMode: TileMode.clamp,
+        tileMode: TileMode.decal,
       ),
       child: Container(
         width: 150.w,

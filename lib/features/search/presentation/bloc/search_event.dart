@@ -9,6 +9,9 @@ abstract class SearchEvent extends Equatable {
 class SearchForMovieEvent extends SearchEvent{
   final String movieName;
   const SearchForMovieEvent(this.movieName);
+
+  @override
+  List<Object?> get props => [movieName];
 }
 
 class SearchForTvShowEvent extends SearchEvent{

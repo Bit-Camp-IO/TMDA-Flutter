@@ -44,15 +44,15 @@ git clone https://github.com/Bit-Camp-IO/TMDA-Flutter.git
 5. Once the project is synced run `flutter pub get`.
    if you are running on ios make sure to do the following :
       1- in terminal type :
-        ```xml
+   ```xml
         cd ios
         
-        ```
+   ```
      2- Then Type : 
-        ```xml
+    ```xml
         pod install
-        
-        ```
+      
+    ```
 6. After the packages load successfully, navigate to the `lib\core\constants` directory in the project.
 7. Open `api_constants.dart` and add the following code, replacing `YOUR_API_KEY` with your TMDB API key and replace `YOUR_ACCOUNT_ID` with your TMDB Account ID :
 ```xml

@@ -42,12 +42,12 @@ git clone https://github.com/Bit-Camp-IO/TMDA-Flutter.git
 3. Navigate to the cloned project directory and select it.
 4. Android Studio will build and sync the project automatically.
 5. Once the project is synced run `flutter pub get`.
-   if you are running on ios make sure to do the following :
-      1- in terminal type :
+- if you are running on ios make sure to do the following :
+1- in terminal type :
    ```xml
    cd ios
    ```
-     2- Then Type : 
+2- Then Type : 
     ```xml
     pod install
     ```

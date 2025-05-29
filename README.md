@@ -24,6 +24,7 @@ The app provides information such as movie & tv shows details, ratings, reviews,
 Before running the app, ensure that you have the following:
 
 - Android Studio (version  2024.3.1 Patch 1 or higher) or VS Code.
+- XCODE 16 and higher 
 - Flutter  3.29.2 and Dart 3.7.2
 - TMDB API key ([Sign up](https://www.themoviedb.org/documentation/api) for an account and obtain an API key)
 
@@ -41,6 +42,17 @@ git clone https://github.com/Bit-Camp-IO/TMDA-Flutter.git
 3. Navigate to the cloned project directory and select it.
 4. Android Studio will build and sync the project automatically.
 5. Once the project is synced run `flutter pub get`.
+   if you are running on ios make sure to do the following :
+      1- in terminal type :
+        ```xml
+        cd ios
+        
+        ```
+     2- Then Type : 
+        ```xml
+        pod install
+        
+        ```
 6. After the packages load successfully, navigate to the `lib\core\constants` directory in the project.
 7. Open `api_constants.dart` and add the following code, replacing `YOUR_API_KEY` with your TMDB API key and replace `YOUR_ACCOUNT_ID` with your TMDB Account ID :
 ```xml

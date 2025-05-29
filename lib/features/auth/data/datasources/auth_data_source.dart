@@ -14,11 +14,12 @@ abstract class AuthDataSource {
 @LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   final ApiConsumer _apiConsumer;
-  AuthDataSourceImpl(@Named(ApiConstants.unAuthenticatedConsumer) this._apiConsumer);
+  AuthDataSourceImpl(this._apiConsumer);
 
   @override
   Future<AuthModel> userLogin(String username, String password) async {
-    final requestToken = await _apiConsumer.get(ApiConstants.requestTokenEndpoint);
+    final requestToken =
+        await _apiConsumer.get(ApiConstants.requestTokenEndpoint);
     final validateLogin = await _apiConsumer.post(
       ApiConstants.validateWithLoginEndPoint,
       queryParameters: {
@@ -30,17 +31,13 @@ class AuthDataSourceImpl extends AuthDataSource {
     if (validateLogin['success'] == true) {
       final response = await _apiConsumer.post(
         ApiConstants.newSessionEndpoint,
-        queryParameters: {
-          'request_token': '${requestToken['request_token']}'
-        },
+        queryParameters: {'request_token': '${requestToken['request_token']}'},
       );
       return AuthModel.fromJson(response);
     } else {
       throw ServerException(validateLogin['status_message']!);
     }
   }
-
-
 
   @override
   Future<void> userRegister() async {

@@ -4,14 +4,14 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/features/account/presentation/screen/account_screen.dart';
 import 'package:tmda/features/account/presentation/screen/account_see_all.dart';
-import 'package:tmda/features/bottom_nav_bar/bottom_naviagation_bar.dart';
-import 'package:tmda/features/person/presentation/screens/person_screen.dart';
-import 'package:tmda/features/auth/presentation/screens/splash_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/login_screen.dart';
 import 'package:tmda/features/auth/presentation/screens/selection_screen.dart';
+import 'package:tmda/features/auth/presentation/screens/splash_screen.dart';
+import 'package:tmda/features/bottom_nav_bar/bottom_naviagation_bar.dart';
 import 'package:tmda/features/movie/presentation/screens/movie_details_screen.dart';
 import 'package:tmda/features/movie/presentation/screens/movie_screen.dart';
 import 'package:tmda/features/movie/presentation/screens/see_all_movies_screen.dart';
+import 'package:tmda/features/person/presentation/screens/person_screen.dart';
 import 'package:tmda/features/search/presentation/screens/search_screen.dart';
 import 'package:tmda/features/tv/presentation/screens/see_all_tv_shows_screen.dart';
 import 'package:tmda/features/tv/presentation/screens/tv_show_screen.dart';
@@ -21,7 +21,7 @@ part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 @singleton
-class AppRouter extends _$AppRouter {
+class AppRouter extends RootStackRouter {
   @override
   RouteType get defaultRouteType => const RouteType.material();
 
@@ -35,8 +35,16 @@ class AppRouter extends _$AppRouter {
               page: SplashRoute.page,
               path: '',
             ),
-            AutoRoute(page: SelectionRoute.page),
-            AutoRoute(page: LoginRoute.page),
+            CustomRoute(
+              page: SelectionRoute.page,
+              transitionsBuilder: TransitionsBuilders.fadeIn,
+              duration: Duration(milliseconds: 400),
+            ),
+            CustomRoute(
+              page: LoginRoute.page,
+              transitionsBuilder: TransitionsBuilders.fadeIn,
+              duration: Duration(milliseconds: 400),
+            ),
           ],
         ),
         CustomRoute(
@@ -45,120 +53,128 @@ class AppRouter extends _$AppRouter {
             CustomRoute(
               page: MovieTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
-              durationInMilliseconds: 400,
+              duration: Duration(milliseconds: 400),
               initial: true,
               children: [
-                AutoRoute(
+                CustomRoute(
                   page: MovieRoute.page,
                   initial: true,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: SeeAllMoviesRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: PersonRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
               ],
             ),
             CustomRoute(
               page: TvShowsTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
-              durationInMilliseconds: 400,
+              duration: Duration(milliseconds: 400),
               children: [
-                AutoRoute(
+                CustomRoute(
                   page: TvShowRoute.page,
                   initial: true,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: TvDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: SeeAllTvShowsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: PersonRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
               ],
             ),
             CustomRoute(
               page: SearchTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
-              durationInMilliseconds: 400,
+              duration: Duration(milliseconds: 400),
               children: [
-                AutoRoute(
+                CustomRoute(
                   page: SearchRoute.page,
-                  initial: true
+                  initial: true,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: TvDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: SeeAllMoviesRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: SeeAllTvShowsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: PersonRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
               ],
             ),
             CustomRoute(
               page: AccountTabRoute.page,
               transitionsBuilder: TransitionsBuilders.fadeIn,
-              durationInMilliseconds: 400,
+              duration: Duration(milliseconds: 400),
               children: [
-                AutoRoute(
+                CustomRoute(
                   page: AccountRoute.page,
-                  initial: true
+                  initial: true,
+                  transitionsBuilder: TransitionsBuilders.fadeIn,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: AccountSeeAllRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: MovieDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: TvDetailsRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
                 CustomRoute(
                   page: PersonRoute.page,
                   transitionsBuilder: TransitionsBuilders.fadeIn,
-                  durationInMilliseconds: 400,
+                  duration: Duration(milliseconds: 400),
                 ),
               ],
             ),

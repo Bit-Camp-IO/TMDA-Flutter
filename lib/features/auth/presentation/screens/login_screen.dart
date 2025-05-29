@@ -1,19 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
+import 'package:tmda/core/widgets/custom_text_form_field.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/features/auth/presentation/cubit/login_cubit/login_cubit.dart';
-import 'package:tmda/features/auth/presentation/widgets/custom_obscured_text_field.dart';
-import 'package:tmda/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:tmda/injection_container.dart';
 
 @RoutePage()
@@ -50,7 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
         } else if (state is LoginFailState) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            errorSnackBar(errorMessage: state.failMessage.split(':').removeLast(), context: context),
+            errorSnackBar(
+                errorMessage: state.failMessage.split(':').removeLast(),
+                context: context),
           );
         } else if (state is ObscuredState) {
           isObscured = state.isObscured;
@@ -68,36 +69,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Spacer(flex: 2),
                     Text(
-                      StringsManager.loginWelcome,
+                      context.tr.loginWelcome,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: context.textTheme.titleLarge,
+                    ),
+                    Text(
+                      context.tr.loginWelcome,
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.titleLarge,
                     ),
                     const Spacer(flex: 2),
-                    CustomTextField(
+                    CustomTextFormField(
+                      textInputType: TextInputType.text,
                       onSaved: (newValue) {
                         if (newValue != null) {
                           username = newValue;
                         }
                       },
-                      hintText: StringsManager.loginUserName,
+                      hintText: context.tr.loginUserName,
                     ),
                     SizedBox(height: 16.h),
-                    CustomObscuredTextField(
-                      suffixIconOnTap: () {
-                        context
-                            .read<LoginCubit>()
-                            .changeObscuredField(!isObscured);
-                      },
-                      obscureText: isObscured,
-                      suffixIcon: isObscured
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                    CustomTextFormField(
+                      textInputType: TextInputType.text,
+                      obscureText: true,
                       onSaved: (newValue) {
                         if (newValue != null) {
                           password = newValue;
                         }
                       },
-                      hintText: StringsManager.loginPassword,
+                      hintText: context.tr.loginPassword,
                     ),
                     TextButton(
                       onPressed: () {
@@ -106,11 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: Text(
-                          StringsManager.forgetPassword,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: ColorsManager.primaryColor,
-                                  ),
+                          context.tr.forgetPassword,
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: ColorsManager.primaryColor,
+                          ),
                         ),
                       ),
                     ),
@@ -121,45 +120,45 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (loginData!.validate()) {
                           loginData.save();
                         }
-                        await context.read<LoginCubit>().userLogin(username, password);
+                        await context
+                            .read<LoginCubit>()
+                            .userLogin(username, password);
                       },
                       child: isLoading
                           ? Center(
-                              child: Lottie.asset(AssetsManager.neonLoading, width: 150.w, height: 48.h)
-                            )
-                          : Animate(
-                            effects: [FadeEffect(duration: 150.ms)],
-                            child: Text(
-                                StringsManager.login,
-                                style: Theme.of(context).textTheme.titleLarge,
+                              child: Lottie.asset(
+                                AssetsManager.neonLoading,
+                                width: 120.w,
+                                height: 40.h,
                               ),
-                          ),
+                            )
+                          : CustomFadeAnimation(
+                              duration: Duration(milliseconds: 150),
+                              child: Text(
+                                context.tr.login,
+                                style: context.textTheme.bodyLarge,
+                              ),
+                            ),
                     ),
                     const Spacer(flex: 2),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          StringsManager.noAccount,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                color: ColorsManager.inActiveColor,
-                              ),
+                          context.tr.noAccount,
+                          style: context.textTheme.bodyMedium!.copyWith(
+                            color: ColorsManager.inActiveColor,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
                             context.read<LoginCubit>().userRegister();
                           },
                           child: Text(
-                            StringsManager.registerNow,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                  color: ColorsManager.primaryColor,
-                                ),
+                            context.tr.registerNow,
+                            style: context.textTheme.bodySmall!.copyWith(
+                              color: ColorsManager.primaryColor,
+                            ),
                           ),
                         )
                       ],

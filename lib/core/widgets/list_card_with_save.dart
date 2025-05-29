@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
 class ListCardWithSave extends StatelessWidget {
@@ -35,8 +35,8 @@ class ListCardWithSave extends StatelessWidget {
   final String errorImagePath;
   @override
   Widget build(BuildContext context) {
-    return Animate(
-      effects: [FadeEffect(duration: 400.ms)],
+    return CustomFadeAnimation(
+      duration: Duration(milliseconds: 400),
       child: InkWell(
         onTap: onTap,
         child: Transform(
@@ -46,7 +46,7 @@ class ListCardWithSave extends StatelessWidget {
             height: 210.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30).r,
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
             ),
             child: Stack(
               children: [
@@ -69,19 +69,23 @@ class ListCardWithSave extends StatelessWidget {
                           Text(
                             title,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            style: context.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           SizedBox(height: 4.h),
                           Text(
                             _buildCardInfo(
-                              genres: _buildGenres(genres),
+                              context: context,
+                              genres: _buildGenres(
+                                context: context,
+                                genres: genres,
+                              ),
                               language: language,
                               year: releaseYear,
                             ),
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: context.textTheme.bodySmall,
                           ),
                           SizedBox(height: 7.h),
                           Row(
@@ -94,17 +98,13 @@ class ListCardWithSave extends StatelessWidget {
                               ),
                               Text(
                                 vote.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
+                                style: context.textTheme.bodySmall!
                                     .copyWith(fontSize: 11.sp),
                               ),
                               SizedBox(width: 20.w),
                               Text(
-                                StringsManager.voteCount(voteCount.toString()),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
+                                context.tr.voteCount(voteCount.toString()),
+                                style: context.textTheme.bodySmall!
                                     .copyWith(fontSize: 11.sp),
                               )
                             ],
@@ -134,22 +134,28 @@ class ListCardWithSave extends StatelessWidget {
       ),
     );
   }
-  String _buildGenres(List genres) {
+
+  String _buildGenres({required BuildContext context, required List genres}) {
     if (genres.isEmpty) {
-      return StringsManager.unknown;
+      return context.tr.unknown;
     } else if (genres.length == 1) {
       return '${genres[0].name}';
     } else {
-        return '${genres[0].name}/${genres[1].name}';
+      return '${genres[0].name}/${genres[1].name}';
     }
   }
 
-  String _buildCardInfo({required String year, required String genres, required String language}) {
-    if(year.isNotEmpty){
-      String parsedYear = year.substring(0,4);
+  String _buildCardInfo({
+    required BuildContext context,
+    required String year,
+    required String genres,
+    required String language,
+  }) {
+    if (year.isNotEmpty) {
+      String parsedYear = year.substring(0, 4);
       return '$parsedYear  ‧ $genres ‧ $language';
-    }else{
-      return '${StringsManager.unknown}  ‧ $genres  ‧ $language';
+    } else {
+      return '${context.tr.unknown}  ‧ $genres  ‧ $language';
     }
   }
 }

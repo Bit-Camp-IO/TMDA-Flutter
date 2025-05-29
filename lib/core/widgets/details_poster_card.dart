@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
 class DetailsPosterCard extends StatelessWidget {
@@ -44,9 +45,8 @@ class DetailsPosterCard extends StatelessWidget {
                   size: 16.sp,
                 ),
                 SizedBox(width: 2.w),
-                Text(
-                    rating.toStringAsFixed(1),
-                    style: Theme.of(context).textTheme.bodyMedium),
+                Text(rating.toStringAsFixed(1),
+                    style: context.textTheme.bodyMedium),
               ],
             ),
           ),
@@ -57,9 +57,7 @@ class DetailsPosterCard extends StatelessWidget {
             child: Text(
               title,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall,
+              style: context.textTheme.bodySmall,
             ),
           ),
         ],

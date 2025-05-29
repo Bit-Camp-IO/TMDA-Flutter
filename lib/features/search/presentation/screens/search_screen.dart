@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
 import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart';
@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen>
                         left: 8,
                         right: 8,
                       ).r,
-                      labelStyle: Theme.of(context).textTheme.bodyLarge,
+                      labelStyle: context.textTheme.bodyLarge,
                       indicator: ShapeDecoration(
                         color: ColorsManager.darkPrimary,
                         shape: OutlineInputBorder(
@@ -85,10 +85,10 @@ class _SearchScreenState extends State<SearchScreen>
                           borderRadius: BorderRadius.circular(40).w,
                         ),
                       ),
-                      tabs: const [
-                        Tab(text: StringsManager.searchMoviesTab),
-                        Tab(text: StringsManager.searchTvShowsTab),
-                        Tab(text: StringsManager.searchPeopleTab)
+                      tabs: [
+                        Tab(text: context.tr.searchMoviesTab),
+                        Tab(text: context.tr.searchTvShowsTab),
+                        Tab(text: context.tr.searchPeopleTab)
                       ],
                       onTap: (value) {
                         context
@@ -150,7 +150,6 @@ class _SearchScreenState extends State<SearchScreen>
                 },
               ),
             ),
-
           ],
         ),
       ),

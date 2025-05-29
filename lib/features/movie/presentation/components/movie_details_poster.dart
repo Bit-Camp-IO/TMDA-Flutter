@@ -21,28 +21,27 @@ class MovieDetailsPoster extends StatelessWidget {
     return ClipPath(
       clipper: MovieDetailsClipper(),
       child: AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            width: MediaQuery.sizeOf(context).width,
-            curve: Curves.linear,
-            height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  posterPath.isNotEmpty ? ApiConstants.imageUrl(posterPath) : errorPosterPath,
-                 cacheManager: CacheManager(
-                     Config(
-                       AppConstants.cacheFolder,
-                       stalePeriod: const Duration(days: AppConstants.cacheDuration),
-                     )
-                 )
-                ),
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
-                  BlendMode.darken,
-                ),
-                fit: BoxFit.cover,
-              ),
+        duration: const Duration(seconds: 1),
+        width: MediaQuery.sizeOf(context).width,
+        curve: Curves.linear,
+        height: height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+                posterPath.isNotEmpty
+                    ? ApiConstants.imageUrl(posterPath)
+                    : errorPosterPath,
+                cacheManager: CacheManager(Config(
+                  AppConstants.cacheFolder,
+                  stalePeriod: const Duration(days: AppConstants.cacheDuration),
+                ))),
+            colorFilter: ColorFilter.mode(
+              Colors.black.withValues(alpha: 0.3),
+              BlendMode.darken,
             ),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

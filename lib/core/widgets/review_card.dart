@@ -1,9 +1,10 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
@@ -47,27 +48,25 @@ class ReviewCard extends StatelessWidget {
                       SizedBox(width: 4.w),
                       Text(
                           reviewRating == null
-                              ? StringsManager.movieDetailsNoRating
+                              ? context.tr.movieDetailsNoRating
                               : reviewRating.toString(),
-                          style: Theme.of(context).textTheme.titleSmall!)
+                          style: context.textTheme.titleSmall!)
                     ],
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    '${StringsManager.movieDetailsReviewTitle} $reviewAuthorName',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    '${context.tr.movieDetailsReviewTitle} $reviewAuthorName',
+                    style: context.textTheme.titleSmall!.copyWith(
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   SizedBox(height: 6.h),
                   Text(
                     reviewContent,
                     maxLines: 6,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontSize: 8.sp),
+                    style:
+                        context.textTheme.titleSmall!.copyWith(fontSize: 8.sp),
                   ),
                   SizedBox(height: 6.h),
                 ],

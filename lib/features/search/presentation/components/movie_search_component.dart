@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/list_card.dart';
 import 'package:tmda/features/search/presentation/bloc/search_bloc.dart';
@@ -57,13 +57,13 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                   return const SizedBox();
                 } else {
                   return Center(
-                    child: Lottie.asset(AssetsManager.neonLoading, width: 200.w),
+                    child:
+                        Lottie.asset(AssetsManager.neonLoading, width: 200.w),
                   );
                 }
               } else {
                 final movie = state.movieSearchList[index];
-                return Animate(
-                  effects: [FadeEffect(duration: 250.ms)],
+                return CustomFadeAnimation(
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 24,
@@ -80,7 +80,7 @@ class _MoviesSearchComponentState extends State<MoviesSearchComponent> {
                         FocusManager.instance.primaryFocus?.unfocus();
                         context.pushRoute(
                           MovieDetailsRoute(
-                              movieId: movie.id,
+                            movieId: movie.id,
                           ),
                         );
                       },

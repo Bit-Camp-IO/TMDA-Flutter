@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
@@ -38,18 +38,18 @@ class TvShowOverview extends StatelessWidget {
                             Text(
                               state.tvShowDetails.voteAverage
                                   .toStringAsFixed(1),
-                              style: Theme.of(context).textTheme.titleMedium,
+                              style: context.textTheme.titleMedium,
                             ),
                             Text(
-                              StringsManager.maxRate,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              context.tr.maxRate,
+                              style: context.textTheme.bodyMedium,
                             ),
                           ],
                         ),
                         SizedBox(height: 4.h),
                         Text(
                           state.tvShowDetails.popularity.toString(),
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: context.textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -59,10 +59,14 @@ class TvShowOverview extends StatelessWidget {
                     bottom: 35.h,
                     child: BlocBuilder<WatchListBloc, WatchListState>(
                       builder: (context, state) {
-                        final bool isInWatchList = state.tvShowsWatchListIdsSet.contains(tvShowId);
+                        final bool isInWatchList =
+                            state.tvShowsWatchListIdsSet.contains(tvShowId);
                         return InkWell(
                           onTap: () {
-                            context.read<WatchListBloc>().add(AddOrRemoveTvShowFromWatchListEvent(tvShowId: tvShowId, isInWatchList: !isInWatchList));
+                            context.read<WatchListBloc>().add(
+                                AddOrRemoveTvShowFromWatchListEvent(
+                                    tvShowId: tvShowId,
+                                    isInWatchList: !isInWatchList));
                           },
                           child: Icon(
                             isInWatchList
@@ -103,8 +107,8 @@ class TvShowOverview extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        StringsManager.tvShowSeasons(
-                            state.tvShowDetails.numberOfSeasons),
+                        context.tr
+                            .tvShowSeasons(state.tvShowDetails.numberOfSeasons),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -112,7 +116,7 @@ class TvShowOverview extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        StringsManager.tvShowEpisodes(
+                        context.tr.tvShowEpisodes(
                             state.tvShowDetails.numberOfEpisodes),
                         style: TextStyle(
                           fontSize: 12.sp,
@@ -143,7 +147,7 @@ class TvShowOverview extends StatelessWidget {
                       ),
                       Text(
                         state.tvShowDetails.genres.isEmpty
-                            ? StringsManager.unknown
+                            ? context.tr.unknown
                             : state.tvShowDetails.genres[0].name,
                         style: TextStyle(
                           fontSize: 12.sp,
@@ -164,45 +168,45 @@ class TvShowOverview extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        StringsManager.airedTitle,
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: ColorsManager.inActiveColor,
-                            ),
+                        context.tr.airedTitle,
+                        style: context.textTheme.titleSmall!.copyWith(
+                          color: ColorsManager.inActiveColor,
+                        ),
                       ),
                       Text(
                         state.tvShowDetails.firstAirDate.length > 4
                             ? state.tvShowDetails.firstAirDate.substring(0, 4)
-                            : StringsManager.unknown,
-                        style: Theme.of(context).textTheme.titleMedium,
+                            : context.tr.unknown,
+                        style: context.textTheme.titleMedium,
                       )
                     ],
                   ),
                   Column(
                     children: [
                       Text(
-                        StringsManager.productionCountry,
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: ColorsManager.inActiveColor,
-                            ),
+                        context.tr.productionCountry,
+                        style: context.textTheme.titleSmall!.copyWith(
+                          color: ColorsManager.inActiveColor,
+                        ),
                       ),
                       Text(
                         state.tvShowDetails.tvShowProductionCountry.countryCode,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: context.textTheme.titleMedium,
                       ),
                     ],
                   ),
                   Column(
                     children: [
                       Text(
-                        StringsManager.from,
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: ColorsManager.inActiveColor,
-                            ),
+                        context.tr.from,
+                        style: context.textTheme.titleSmall!.copyWith(
+                          color: ColorsManager.inActiveColor,
+                        ),
                       ),
                       Text(
                         state.tvShowDetails.network.name,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: context.textTheme.titleMedium,
                       )
                     ],
                   ),
@@ -215,7 +219,7 @@ class TvShowOverview extends StatelessWidget {
               child: Text(
                 state.tvShowDetails.overview,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: context.textTheme.bodyMedium,
               ),
             ),
             const SectionDivider(),

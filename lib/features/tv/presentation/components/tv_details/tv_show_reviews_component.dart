@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/review_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_details_cubit/tv_show_details_cubit.dart';
@@ -16,18 +16,16 @@ class TvShowReviewsComponent extends StatelessWidget {
     return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         if (state.tvShowDetails.reviews.isNotEmpty) {
-          return Animate(
-            effects: [FadeEffect(duration: 250.ms)],
+          return CustomFadeAnimation(
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.movieDetailsUserReviews,
+                SectionWidget(
+                  title: context.tr.movieDetailsUserReviews,
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
                   height: 150.h,
                   child: ListView.builder(
-                    shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: state.tvShowDetails.reviews.length,
                     itemBuilder: (context, index) {
@@ -47,20 +45,18 @@ class TvShowReviewsComponent extends StatelessWidget {
             ),
           );
         } else {
-          return Animate(
-            effects: [FadeEffect(duration: 250.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.movieDetailsUserReviews,
+                SectionWidget(
+                  title: context.tr.movieDetailsUserReviews,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
                   child: Text(
-                    StringsManager.noReviews,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
+                    context.tr.noReviews,
+                    style: context.textTheme.bodyLarge!
                         .copyWith(color: ColorsManager.primaryColor),
                   ),
                 ),

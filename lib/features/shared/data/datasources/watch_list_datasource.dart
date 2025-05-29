@@ -34,8 +34,7 @@ class WatchListDataSourceImpl extends WatchListDataSource {
   int _moviesWatchListPage = 1;
   int _tvShowsWatchListPage = 1;
 
-  WatchListDataSourceImpl(
-      @Named(ApiConstants.authenticatedConsumer) this._apiConsumer);
+  WatchListDataSourceImpl(this._apiConsumer);
 
   @override
   Future<List<MovieModel>> getMoviesWatchList({int? pageNumber}) async {
@@ -71,7 +70,10 @@ class WatchListDataSourceImpl extends WatchListDataSource {
         queryParameters: {'page': _moviesWatchListPage},
       );
       final List watchList = List.from(response['results']);
-      moviesWatchListIds = {...moviesWatchListIds, ...watchList.map((jsonData) => jsonData['id'] as int)};
+      moviesWatchListIds = {
+        ...moviesWatchListIds,
+        ...watchList.map((jsonData) => jsonData['id'] as int)
+      };
       if (watchList.isNotEmpty && watchList.length == 20) {
         _moviesWatchListPage++;
       } else {
@@ -83,13 +85,16 @@ class WatchListDataSourceImpl extends WatchListDataSource {
 
   @override
   Future<Set<int>> getTvShowsWatchListIdsSet() async {
-    while(true){
+    while (true) {
       final Map<String, dynamic> response = await _apiConsumer.get(
         '${ApiConstants.accountEndPoint}${ApiConstants.accountTvWatchListPath}',
         queryParameters: {'page': _tvShowsWatchListPage},
       );
       final List watchList = List.from(response['results']);
-      tvShowsWatchListIds = {...tvShowsWatchListIds, ...watchList.map((jsonData) => jsonData['id'] as int)};
+      tvShowsWatchListIds = {
+        ...tvShowsWatchListIds,
+        ...watchList.map((jsonData) => jsonData['id'] as int)
+      };
       if (watchList.isNotEmpty && watchList.length == 20) {
         _tvShowsWatchListPage++;
       } else {
@@ -121,8 +126,10 @@ class WatchListDataSourceImpl extends WatchListDataSource {
   }
 
   @override
-  Future<TvShowModel> addOrRemoveTvShowFromWatchList({required int tvShowId, required bool isInWatchList}) async {
-    final Map<String, dynamic> response = await _apiConsumer.post(ApiConstants.addOrRemoveFromWatchListEndPoint,
+  Future<TvShowModel> addOrRemoveTvShowFromWatchList(
+      {required int tvShowId, required bool isInWatchList}) async {
+    final Map<String, dynamic> response = await _apiConsumer.post(
+      ApiConstants.addOrRemoveFromWatchListEndPoint,
       body: {
         'media_type': 'tv',
         "media_id": tvShowId,

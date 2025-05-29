@@ -6,7 +6,7 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/tv/presentation/bloc/tv_show_cubit/tv_show_cubit.dart';
@@ -19,7 +19,7 @@ class TopRatedTvShowsComponent extends StatelessWidget {
     return Column(
       children: [
         SectionWidgetWithSeeAll(
-          title: StringsManager.topRatedTvShowSectionTitle,
+          title: context.tr.topRatedTvShowSectionTitle,
           color: ColorsManager.primaryColor,
           textButtonOnPressed: () {
             context.pushRoute(
@@ -36,11 +36,10 @@ class TopRatedTvShowsComponent extends StatelessWidget {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: state.topRatedTvShows.length,
-                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final topRatedTvShow = state.topRatedTvShows[index];
                   return Padding(
-                    padding: const EdgeInsets.only(left : 16.0).r,
+                    padding: const EdgeInsets.only(left: 16.0).r,
                     child: PosterCard(
                       onTap: () {
                         context.pushRoute(

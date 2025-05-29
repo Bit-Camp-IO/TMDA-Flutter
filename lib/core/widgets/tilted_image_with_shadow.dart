@@ -27,22 +27,20 @@ class TiltedImageWithShadow extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(20)).r,
         child: ImageFiltered(
           imageFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.3),
+            Colors.black.withValues(alpha: 0.3),
             BlendMode.darken,
           ),
           child: CachedNetworkImage(
             width: width,
             height: height,
-            imageUrl:  imagePath.isNotEmpty
+            imageUrl: imagePath.isNotEmpty
                 ? ApiConstants.imageUrl(imagePath)
                 : errorImagePath,
             fit: BoxFit.cover,
-            cacheManager: CacheManager(
-                Config(
-                  AppConstants.cacheFolder,
-                  stalePeriod: const Duration(days: AppConstants.cacheDuration),
-                )
-            ),
+            cacheManager: CacheManager(Config(
+              AppConstants.cacheFolder,
+              stalePeriod: const Duration(days: AppConstants.cacheDuration),
+            )),
           ),
         ),
       ),

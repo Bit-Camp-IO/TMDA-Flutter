@@ -4,7 +4,7 @@ import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 
 class ThemeManager {
-  static ThemeData darkTheme() {
+  static ThemeData defaultTheme() {
     return ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
@@ -44,7 +44,7 @@ class ThemeManager {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(
+            textStyle: WidgetStatePropertyAll(
               TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
@@ -53,11 +53,12 @@ class ThemeManager {
             ),
           ),
         ),
-        bottomNavigationBarTheme:  BottomNavigationBarThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: ColorsManager.bottomNavigationColor.withOpacity(0.8),
+          backgroundColor:
+              ColorsManager.bottomNavigationColor.withValues(alpha: 0.8),
           selectedItemColor: ColorsManager.primaryColor,
           unselectedItemColor: ColorsManager.inActiveColor,
         ),

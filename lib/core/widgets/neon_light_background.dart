@@ -46,7 +46,7 @@ class NeonLightBackGround extends StatelessWidget {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    context.popRoute();
+                    context.pop();
                   },
                   icon: Icons.arrow_back,
                 ),

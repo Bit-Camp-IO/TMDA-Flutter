@@ -1,20 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:dio/dio.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/api/api_status_code.dart';
+import 'package:tmda/core/api/dio_interceptor.dart';
 import 'package:tmda/core/api/dio_logger.dart';
-import 'package:tmda/core/api/unauthenticated_interceptor.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
 import 'package:tmda/injection_container.dart';
 
 class DioApiConsumer extends ApiConsumer {
   final Dio dioClient;
-  final Interceptor? interceptor;
-  DioApiConsumer({required this.dioClient, this.interceptor}) {
+  DioApiConsumer({required this.dioClient}) {
     // Fix for dio handshake error
     (dioClient.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
       final dioClient = HttpClient();
@@ -31,11 +31,10 @@ class DioApiConsumer extends ApiConsumer {
       ..validateStatus = (status) {
         return status! < ApiStatusCodes.internalServerError;
       };
-    if(interceptor != null){
-      dioClient.interceptors.add(interceptor!);
-    }else{
-      dioClient.interceptors.add(getIt<UnAuthenticatedInterceptor>());
-    }
+
+    dioClient.interceptors.add(
+      getIt<DioInterceptor>(),
+    );
 
     if (kDebugMode) {
       dioClient.interceptors.add(getIt<DioLogInterceptor>());
@@ -43,9 +42,11 @@ class DioApiConsumer extends ApiConsumer {
   }
 
   @override
-  Future get(String endPointPath, {Map<String, dynamic>? queryParameters}) async {
+  Future get(String endPointPath,
+      {Map<String, dynamic>? queryParameters}) async {
     try {
-      final Response response = await dioClient.get(endPointPath, queryParameters: queryParameters);
+      final Response response =
+          await dioClient.get(endPointPath, queryParameters: queryParameters);
       return _handleResponseAsJson(response);
     } on DioException catch (error) {
       _handelDioError(error);
@@ -54,9 +55,11 @@ class DioApiConsumer extends ApiConsumer {
 
   @override
   Future post(String endPointPath,
-      {Map<String, dynamic>? body, Map<String, dynamic>? queryParameters}) async {
+      {Map<String, dynamic>? body,
+      Map<String, dynamic>? queryParameters}) async {
     try {
-      final Response response = await dioClient.post(endPointPath, queryParameters: queryParameters, data: body);
+      final Response response = await dioClient.post(endPointPath,
+          queryParameters: queryParameters, data: body);
       return _handleResponseAsJson(response);
     } on DioException catch (error) {
       _handelDioError(error);
@@ -65,9 +68,13 @@ class DioApiConsumer extends ApiConsumer {
 
   @override
   Future put(String endPointPath,
-      {Map<String, dynamic>? body, bool formDataIsEnabled = false, Map<String, dynamic>? queryParameters}) async {
+      {Map<String, dynamic>? body,
+      bool formDataIsEnabled = false,
+      Map<String, dynamic>? queryParameters}) async {
     try {
-      final Response response = await dioClient.put(endPointPath,queryParameters: queryParameters, data: formDataIsEnabled ? FormData.fromMap(body!) : body);
+      final Response response = await dioClient.put(endPointPath,
+          queryParameters: queryParameters,
+          data: formDataIsEnabled ? FormData.fromMap(body!) : body);
       return _handleResponseAsJson(response);
     } on DioException catch (error) {
       _handelDioError(error);
@@ -75,15 +82,18 @@ class DioApiConsumer extends ApiConsumer {
   }
 
   @override
-  Future delete(String endPointPath, {Map<String, dynamic>? body, Map<String, dynamic>? queryParameters}) async{
-    try{
-      final Response response = await dioClient.delete(endPointPath, queryParameters: queryParameters, data: body);
+  Future delete(String endPointPath,
+      {Map<String, dynamic>? body,
+      Map<String, dynamic>? queryParameters}) async {
+    try {
+      final Response response = await dioClient.delete(endPointPath,
+          queryParameters: queryParameters, data: body);
       return _handleResponseAsJson(response);
-    } on DioException catch(error){
+    } on DioException catch (error) {
       _handelDioError(error);
     }
   }
-  
+
   dynamic _handleResponseAsJson(Response<dynamic> response) {
     final responseJson = jsonDecode(response.data.toString());
     return responseJson;

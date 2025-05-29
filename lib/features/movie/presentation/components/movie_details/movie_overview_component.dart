@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widgets/neon_play_button.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/error_snack_bar.dart';
+import 'package:tmda/core/widgets/neon_play_button.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart';
 import 'package:tmda/features/movie/presentation/components/movie_details_poster.dart';
@@ -63,15 +63,17 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
-      buildWhen: (previous, current) => previous.movieDetailsState != current.movieDetailsState,
+      buildWhen: (previous, current) =>
+          previous.movieDetailsState != current.movieDetailsState,
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 150.ms)],
+        return CustomFadeAnimation(
+          duration: Duration(milliseconds: 150),
           child: Column(
             children: [
               ValueListenableBuilder(
                 valueListenable: animatedContainerHeight,
-                builder: (context, newAnimatedContainerHeight, child) => AnimatedContainer(
+                builder: (context, newAnimatedContainerHeight, child) =>
+                    AnimatedContainer(
                   duration: const Duration(seconds: 1),
                   width: MediaQuery.sizeOf(context).width,
                   curve: Curves.linear,
@@ -80,7 +82,8 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                     children: [
                       ValueListenableBuilder(
                         valueListenable: animatedPosterHeight,
-                        builder: (context, newAnimatedPosterHeight, child) => MovieDetailsPoster(
+                        builder: (context, newAnimatedPosterHeight, child) =>
+                            MovieDetailsPoster(
                           posterPath: state.movieDetails.posterPath,
                           errorPosterPath: AssetsManager.errorPoster,
                           height: newAnimatedPosterHeight.h,
@@ -93,11 +96,13 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                         child: NeonPlayButton(
                           onTap: () {
                             if (state.movieDetails.video.key.isNotEmpty) {
-                              context.read<MovieDetailsCubit>().playMovieTrailer();
+                              context
+                                  .read<MovieDetailsCubit>()
+                                  .playMovieTrailer();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 errorSnackBar(
-                                  errorMessage: StringsManager.movieNoVideosMessage,
+                                  errorMessage: context.tr.movieNoVideosMessage,
                                   context: context,
                                 ),
                               );
@@ -119,17 +124,21 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                             SizedBox(height: 4.h),
                             Row(
                               children: [
-                                Text(state.movieDetails.voteAverage.toStringAsFixed(1),
-                                  style: Theme.of(context).textTheme.titleMedium,
+                                Text(
+                                  state.movieDetails.voteAverage
+                                      .toStringAsFixed(1),
+                                  style: context.textTheme.titleMedium,
                                 ),
-                                Text(StringsManager.maxRate,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                Text(
+                                  context.tr.maxRate,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
                             SizedBox(height: 4.h),
-                            Text(state.movieDetails.popularity.toString(),
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            Text(
+                              state.movieDetails.popularity.toString(),
+                              style: context.textTheme.bodyMedium,
                             ),
                           ],
                         ),
@@ -139,10 +148,14 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                         bottom: 40.h,
                         child: BlocBuilder<WatchListBloc, WatchListState>(
                           builder: (context, state) {
-                            final isInWatchList = state.moviesWatchListIdsSet.contains(widget.movieId);
+                            final isInWatchList = state.moviesWatchListIdsSet
+                                .contains(widget.movieId);
                             return InkWell(
                               onTap: () {
-                                context.read<WatchListBloc>().add(AddOrRemoveMovieFromWatchListEvent(movieId: widget.movieId, isInWatchList: !isInWatchList));
+                                context.read<WatchListBloc>().add(
+                                    AddOrRemoveMovieFromWatchListEvent(
+                                        movieId: widget.movieId,
+                                        isInWatchList: !isInWatchList));
                               },
                               child: AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 350),
@@ -203,47 +216,44 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                     Column(
                       children: [
                         Text(
-                          StringsManager.productionYear,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: ColorsManager.inActiveColor,
-                                  ),
+                          context.tr.productionYear,
+                          style: context.textTheme.titleSmall!.copyWith(
+                            color: ColorsManager.inActiveColor,
+                          ),
                         ),
                         Text(
                           state.movieDetails.releaseDate.length > 4
                               ? state.movieDetails.releaseDate.substring(0, 4)
-                              : StringsManager.unknown,
-                          style: Theme.of(context).textTheme.titleMedium,
+                              : context.tr.unknown,
+                          style: context.textTheme.titleMedium,
                         )
                       ],
                     ),
                     Column(
                       children: [
                         Text(
-                          StringsManager.productionCountry,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: ColorsManager.inActiveColor,
-                                  ),
+                          context.tr.productionCountry,
+                          style: context.textTheme.titleSmall!.copyWith(
+                            color: ColorsManager.inActiveColor,
+                          ),
                         ),
                         Text(
                           state.movieDetails.productionCountry.countryCode,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: context.textTheme.titleMedium,
                         ),
                       ],
                     ),
                     Column(
                       children: [
                         Text(
-                          StringsManager.length,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: ColorsManager.inActiveColor,
-                                  ),
+                          context.tr.length,
+                          style: context.textTheme.titleSmall!.copyWith(
+                            color: ColorsManager.inActiveColor,
+                          ),
                         ),
                         Text(
-                          '${state.movieDetails.runTime} ${StringsManager.duration}',
-                          style: Theme.of(context).textTheme.titleMedium,
+                          '${state.movieDetails.runTime} ${context.tr.duration}',
+                          style: context.textTheme.titleMedium,
                         )
                       ],
                     ),
@@ -257,7 +267,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
                 child: Text(
                   state.movieDetails.overview,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: context.textTheme.bodyMedium,
                 ),
               ),
               const SectionDivider(),
@@ -270,7 +280,7 @@ class _MovieOverviewComponentState extends State<MovieOverviewComponent> {
 
   String _buildGenre(List genres) {
     if (genres.isEmpty) {
-      return StringsManager.unknown;
+      return context.tr.unknown;
     } else if (genres.length == 1) {
       return genres[0].name;
     } else if (genres.length == 2) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class CustomSearchField extends StatelessWidget {
   const CustomSearchField({
@@ -21,13 +22,15 @@ class CustomSearchField extends StatelessWidget {
         textInputAction: TextInputAction.search,
         onChanged: onChanged,
         controller: textEditingController,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),
+        style: context.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.w500,
+        ),
         cursorColor: ColorsManager.primaryColor,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.black.withOpacity(0.37),
-          hintText: 'Search..',
-          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          fillColor: Colors.black.withValues(alpha: 0.37),
+          hintText: '${context.tr.search}..',
+          hintStyle: context.textTheme.bodyMedium!.copyWith(
             color: ColorsManager.inActiveColor,
           ),
           prefixIcon: const Icon(
@@ -42,5 +45,4 @@ class CustomSearchField extends StatelessWidget {
       ),
     );
   }
-
 }

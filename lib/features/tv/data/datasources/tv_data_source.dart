@@ -2,8 +2,8 @@ import 'package:injectable/injectable.dart';
 import 'package:tmda/core/api/api_consumer.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/error/exception.dart';
-import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
 import 'package:tmda/features/shared/data/models/tv_show_model.dart';
+import 'package:tmda/features/tv/data/models/tv_show_details_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class TvDataSource {
@@ -30,18 +30,17 @@ abstract class TvDataSource {
     required int tvShowId,
     required int pageNumber,
   });
-
 }
 
 @LazySingleton(as: TvDataSource)
 class TvDataSourceImpl extends TvDataSource {
   final ApiConsumer _apiConsumer;
 
-  TvDataSourceImpl(@Named(ApiConstants.authenticatedConsumer) this._apiConsumer);
+  TvDataSourceImpl(this._apiConsumer);
 
   @override
   Future<List<TvShowModel>> getTvShowsAiringThisWeek(int pageNumber) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+    final Map<String, dynamic> response = await _apiConsumer.get(
       ApiConstants.tvAiringThisWeekEndPoint,
       queryParameters: {'page': pageNumber},
     );
@@ -54,7 +53,7 @@ class TvDataSourceImpl extends TvDataSource {
 
   @override
   Future<List<TvShowModel>> getPopularTvShows(int pageNumber) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+    final Map<String, dynamic> response = await _apiConsumer.get(
       ApiConstants.popularTvShowsEndPoint,
       queryParameters: {'page': pageNumber},
     );
@@ -67,7 +66,7 @@ class TvDataSourceImpl extends TvDataSource {
 
   @override
   Future<List<TvShowModel>> getTopRatedTopRatedTvShows(int pageNumber) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+    final Map<String, dynamic> response = await _apiConsumer.get(
       ApiConstants.topRatedTvShowsEndPoint,
       queryParameters: {'page': pageNumber},
     );
@@ -80,7 +79,7 @@ class TvDataSourceImpl extends TvDataSource {
 
   @override
   Future<List<TvShowModel>> getTvShowsAiringToday(int pageNumber) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+    final Map<String, dynamic> response = await _apiConsumer.get(
       ApiConstants.tvAiringTodayEndPoint,
       queryParameters: {'page': pageNumber},
     );
@@ -93,7 +92,7 @@ class TvDataSourceImpl extends TvDataSource {
 
   @override
   Future<TvShowDetailsModel> getTvShowDetails({required int tvShowId}) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+    final Map<String, dynamic> response = await _apiConsumer.get(
       '${ApiConstants.tvShowDetailsEndPoint}$tvShowId',
       queryParameters: {
         'append_to_response': ApiConstants.detailsEndPointsAppendedToResponse,
@@ -113,20 +112,22 @@ class TvDataSourceImpl extends TvDataSource {
   }
 
   @override
-  Future<List<TvShowModel>> getRecommendedTvShows({required int tvShowId, required int pageNumber}) async {
-    final  Map<String, dynamic> response = await _apiConsumer.get(
+  Future<List<TvShowModel>> getRecommendedTvShows(
+      {required int tvShowId, required int pageNumber}) async {
+    final Map<String, dynamic> response = await _apiConsumer.get(
       '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.recommendationsPath}',
       queryParameters: {'page': pageNumber},
     );
     return List<TvShowModel>.from(
       (response['results'] as List).map(
-            (tvShow) => TvShowModel.fromJson(tvShow),
+        (tvShow) => TvShowModel.fromJson(tvShow),
       ),
     );
   }
 
   @override
-  Future<List<TvShowModel>> getSimilarTvShows({required int tvShowId, required int pageNumber}) async {
+  Future<List<TvShowModel>> getSimilarTvShows(
+      {required int tvShowId, required int pageNumber}) async {
     final Map<String, dynamic> response = await _apiConsumer.get(
       '${ApiConstants.tvShowDetailsEndPoint}$tvShowId${ApiConstants.similarPath}',
       queryParameters: {'page': pageNumber},

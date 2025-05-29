@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
 class PersonCard extends StatelessWidget {
@@ -21,8 +21,8 @@ class PersonCard extends StatelessWidget {
   final String errorAvatarPath;
   @override
   Widget build(BuildContext context) {
-    return Animate(
-      effects: [FadeEffect(duration: 400.ms)],
+    return CustomFadeAnimation(
+      duration: Duration(milliseconds: 400),
       child: InkWell(
         onTap: onTap,
         child: Transform(
@@ -32,7 +32,7 @@ class PersonCard extends StatelessWidget {
             height: 210.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
             ),
             child: Stack(
               children: [
@@ -52,17 +52,17 @@ class PersonCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            name.isNotEmpty ? name : StringsManager.unknown,
+                            name.isNotEmpty ? name : context.tr.unknown,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            style: context.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           SizedBox(height: 4.h),
                           Text(
                             overflow: TextOverflow.ellipsis,
-                            StringsManager.knownFor(knownFor),
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            context.tr.knownFor(knownFor),
+                            style: context.textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w400,
                             ),
                           ),

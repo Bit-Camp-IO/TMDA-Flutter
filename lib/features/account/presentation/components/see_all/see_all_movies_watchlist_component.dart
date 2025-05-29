@@ -1,31 +1,34 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/list_card.dart';
 import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 class SeeAllMoviesWatchListComponent extends StatefulWidget {
   final ScrollController scrollController;
-  const SeeAllMoviesWatchListComponent({super.key, required this.scrollController});
+  const SeeAllMoviesWatchListComponent(
+      {super.key, required this.scrollController});
 
   @override
-  State<SeeAllMoviesWatchListComponent> createState() => _SeeAllMoviesWatchListComponentState();
+  State<SeeAllMoviesWatchListComponent> createState() =>
+      _SeeAllMoviesWatchListComponentState();
 }
 
-class _SeeAllMoviesWatchListComponentState extends State<SeeAllMoviesWatchListComponent> {
-
+class _SeeAllMoviesWatchListComponentState
+    extends State<SeeAllMoviesWatchListComponent> {
   _checkCurrentScrollPosition() {
     final double maxScroll = widget.scrollController.position.maxScrollExtent;
     final double currentScroll = widget.scrollController.offset;
     if (currentScroll == maxScroll) {
-      context.read<WatchListBloc>().add(const ChangeMoviesWatchListViewScrollState(
-        isMoviesWatchListViewHasReachedMaxScroll: true,
-        ),
-      );
+      context.read<WatchListBloc>().add(
+            const ChangeMoviesWatchListViewScrollState(
+              isMoviesWatchListViewHasReachedMaxScroll: true,
+            ),
+          );
     }
   }
 
@@ -34,7 +37,6 @@ class _SeeAllMoviesWatchListComponentState extends State<SeeAllMoviesWatchListCo
     widget.scrollController.addListener(_checkCurrentScrollPosition);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,8 @@ class _SeeAllMoviesWatchListComponentState extends State<SeeAllMoviesWatchListCo
       buildWhen: (previous, current) =>
           previous.moviesWatchList != current.moviesWatchList,
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 400.ms)],
+        return CustomFadeAnimation(
+          duration: Duration(milliseconds: 400),
           child: ListView.builder(
             itemCount: state.moviesWatchList.length,
             controller: widget.scrollController,

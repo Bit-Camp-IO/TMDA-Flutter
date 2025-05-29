@@ -6,9 +6,9 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
-import 'package:tmda/core/widgets/section_with_see_all.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
+import 'package:tmda/core/widgets/section_with_see_all.dart';
 import 'package:tmda/features/movie/presentation/bloc/movies_cubit/movies_cubit.dart';
 
 class NewMoviesComponent extends StatelessWidget {
@@ -19,7 +19,7 @@ class NewMoviesComponent extends StatelessWidget {
     return Column(
       children: [
         SectionWidgetWithSeeAll(
-          title: StringsManager.newMoviesSectionTitle,
+          title: context.tr.newMoviesSectionTitle,
           color: ColorsManager.primaryColor,
           textButtonOnPressed: () {
             context.pushRoute(
@@ -36,11 +36,10 @@ class NewMoviesComponent extends StatelessWidget {
               child: ListView.builder(
                 itemCount: state.newMovies.length,
                 scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final newMovie = state.newMovies[index];
                   return Padding(
-                    padding: const EdgeInsets.only(left : 16.0).r,
+                    padding: const EdgeInsets.only(left: 16.0).r,
                     child: PosterCard(
                       onTap: () {
                         context.pushRoute(

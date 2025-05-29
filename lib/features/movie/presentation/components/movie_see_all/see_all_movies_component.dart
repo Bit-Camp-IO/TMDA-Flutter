@@ -54,14 +54,14 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SeeAllMoviesBloc, SeeAllMoviesState>(
-      buildWhen: (previous, current) => previous.seeAllMovies != current.seeAllMovies,
+      buildWhen: (previous, current) =>
+          previous.seeAllMovies != current.seeAllMovies,
       builder: (context, state) {
         return ListView.builder(
           itemCount: state.seeAllMovies.length + 1,
           scrollDirection: Axis.vertical,
           controller: _scrollController,
           padding: const EdgeInsets.symmetric(vertical: 100).r,
-          shrinkWrap: true,
           itemBuilder: (context, index) {
             if (index >= state.seeAllMovies.length) {
               return Center(
@@ -77,8 +77,10 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> {
                 ).r,
                 child: BlocBuilder<WatchListBloc, WatchListState>(
                   builder: (context, state) {
-                    final isInWatchList = state.moviesWatchListIdsSet.contains(movie.id);
+                    final isInWatchList =
+                        state.moviesWatchListIdsSet.contains(movie.id);
                     return ListCardWithSave(
+                      key: ValueKey(movie.id),
                       onTap: () {
                         context.pushRoute(
                           MovieDetailsRoute(
@@ -96,7 +98,10 @@ class _SeeAllMoviesComponentState extends State<SeeAllMoviesComponent> {
                       language: movie.language,
                       isInWatchList: isInWatchList,
                       onSaved: () {
-                        context.read<WatchListBloc>().add(AddOrRemoveMovieFromWatchListEvent(movieId: movie.id, isInWatchList: !isInWatchList));
+                        context.read<WatchListBloc>().add(
+                            AddOrRemoveMovieFromWatchListEvent(
+                                movieId: movie.id,
+                                isInWatchList: !isInWatchList));
                       },
                     );
                   },

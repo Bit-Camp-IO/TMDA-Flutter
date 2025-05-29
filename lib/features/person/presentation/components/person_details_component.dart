@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/expandable_text.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/person/presentation/components/person_card.dart';
@@ -16,7 +16,8 @@ class PersonOverviewComponent extends StatefulWidget {
   const PersonOverviewComponent({super.key});
 
   @override
-  State<PersonOverviewComponent> createState() => _PersonOverviewComponentState();
+  State<PersonOverviewComponent> createState() =>
+      _PersonOverviewComponentState();
 }
 
 class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
@@ -27,8 +28,8 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       buildWhen: (previous, current) =>
           previous.personData != current.personData,
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 150.ms)],
+        return CustomFadeAnimation(
+          duration: Duration(milliseconds: 150),
           child: Column(
             children: [
               PersonPictureCard(
@@ -59,8 +60,8 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
                   text: state.personData.placeOfBirth,
                 ),
               ),
-              const SectionWidget(
-                title: StringsManager.biography,
+              SectionWidget(
+                title: context.tr.biography,
                 color: ColorsManager.primaryColor,
               ),
               Padding(
@@ -82,8 +83,8 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
         height: 100.h,
         child: Center(
           child: Text(
-            StringsManager.emptyBiography,
-            style: Theme.of(context).textTheme.bodyLarge,
+            context.tr.emptyBiography,
+            style: context.textTheme.bodyLarge,
           ),
         ),
       );
@@ -91,7 +92,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       if (biography.length >= 250) {
         return ValueListenableBuilder(
           valueListenable: isTextExpanded,
-          builder: (context, isTextExpandedValue, child) =>ExpandableText(
+          builder: (context, isTextExpandedValue, child) => ExpandableText(
             text: biography,
             isTextExpanded: isTextExpandedValue,
             onPressed: () {
@@ -102,10 +103,10 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       } else {
         return Text(
           biography,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontWeight: FontWeight.w400,
-                color: ColorsManager.inActiveColor,
-              ),
+          style: context.textTheme.bodyLarge!.copyWith(
+            fontWeight: FontWeight.w400,
+            color: ColorsManager.inActiveColor,
+          ),
           textAlign: TextAlign.center,
           softWrap: true,
           overflow: TextOverflow.fade,
@@ -121,11 +122,11 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
         icon,
         SizedBox(width: 8.w),
         Text(
-          text.isNotEmpty ? text : StringsManager.unknown,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: ColorsManager.inActiveColor,
-                fontWeight: FontWeight.w400,
-              ),
+          text.isNotEmpty ? text : context.tr.unknown,
+          style: context.textTheme.bodyLarge!.copyWith(
+            color: ColorsManager.inActiveColor,
+            fontWeight: FontWeight.w400,
+          ),
         )
       ],
     );
@@ -137,7 +138,7 @@ class _PersonOverviewComponentState extends State<PersonOverviewComponent> {
       String formattedDate = DateFormat('d MMMM y').format(dateTime);
       return formattedDate;
     } else {
-      return StringsManager.unknown;
+      return context.tr.unknown;
     }
   }
 }

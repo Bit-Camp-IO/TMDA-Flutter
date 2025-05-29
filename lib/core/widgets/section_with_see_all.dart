@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class SectionWidgetWithSeeAll extends StatelessWidget {
   const SectionWidgetWithSeeAll({
@@ -45,11 +45,11 @@ class SectionWidgetWithSeeAll extends StatelessWidget {
             style: Theme.of(context).textButtonTheme.style,
             onPressed: textButtonOnPressed,
             child: Text(
-              StringsManager.seeAllButtonTitle,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: ColorsManager.darkPrimary,
-                  ),
+              context.tr.seeAllButtonTitle,
+              style: context.textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w700,
+                color: ColorsManager.darkPrimary,
+              ),
             ),
           )
         ],

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/features/account/presentation/bloc/account_cubit/account_bloc.dart';
 import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 import 'package:tmda/injection_container.dart';
@@ -56,18 +56,16 @@ class _BottomNaviagationBarState extends State<BottomNaviagationBar> {
         AccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return WillPopScope(
-          onWillPop: () async {
-            if (tabsRouter.activeIndex == 0) {
-              return Future.value(true);
-            } else {
+        return PopScope(
+          canPop: tabsRouter.activeIndex < 1,
+          onPopInvokedWithResult: (didPop, result) {
+            if (tabsRouter.activeIndex != 0) {
               tabsRouter.setActiveIndex(tabsRouter.activeIndex - 1);
-              return Future.value(false);
             }
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(15.0).w,
                 topRight: const Radius.circular(15.0).w,
@@ -105,22 +103,22 @@ class _BottomNaviagationBarState extends State<BottomNaviagationBar> {
                     }
                     _lastTapTime = timeNow;
                   },
-                  items: const [
+                  items: [
                     BottomNavigationBarItem(
                       icon: Icon(SolarSystemIcons.movie),
-                      label: StringsManager.movie,
+                      label: context.tr.movie,
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(SolarSystemIcons.tv),
-                      label: StringsManager.tv,
+                      label: context.tr.tv,
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(SolarSystemIcons.search),
-                      label: StringsManager.search,
+                      label: context.tr.search,
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(SolarSystemIcons.person),
-                      label: StringsManager.account,
+                      label: context.tr.account,
                     ),
                   ],
                 ),

@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/normal_button.dart';
 
 class NoConnection extends StatelessWidget {
@@ -18,24 +17,20 @@ class NoConnection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           Icon(
+          Icon(
             SolarSystemIcons.wifi,
             color: ColorsManager.primaryColor,
             size: 100.sp,
           ),
           SizedBox(height: 30.h),
           Text(
-            StringsManager.error,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
+            context.tr.error,
+            style: context.textTheme.titleLarge!
                 .copyWith(color: ColorsManager.primaryColor),
           ),
           Text(
-            StringsManager.checkYourConnection,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
+            context.tr.checkYourConnection,
+            style: context.textTheme.titleSmall!
                 .copyWith(fontSize: 18.sp, color: ColorsManager.darkPrimary),
           ),
           SizedBox(height: 40.h),
@@ -44,10 +39,8 @@ class NoConnection extends StatelessWidget {
             width: 180.w,
             height: 48.h,
             child: Text(
-              StringsManager.tryAgain,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
+              context.tr.tryAgain,
+              style: context.textTheme.titleSmall!
                   .copyWith(fontWeight: FontWeight.w500),
             ),
           )

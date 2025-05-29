@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
@@ -24,12 +24,12 @@ class MoviesWatchListComponent extends StatelessWidget {
       builder: (context, state) {
         if (state.moviesWatchList.isEmpty &&
             state.moviesWatchListState == BlocState.success) {
-          return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.moviesWatchlistTitle,
+                SectionWidget(
+                  title: context.tr.moviesWatchlistTitle,
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
@@ -37,8 +37,8 @@ class MoviesWatchListComponent extends StatelessWidget {
                   child: Center(
                     child: NeonButton(
                       child: Text(
-                        StringsManager.emptyMoviesWatchListButtonTitle,
-                        style: Theme.of(context).textTheme.titleMedium!,
+                        context.tr.emptyMoviesWatchListButtonTitle,
+                        style: context.textTheme.bodyLarge!,
                       ),
                       onTap: () {
                         context.navigateTo(const MovieTabRoute());
@@ -54,12 +54,12 @@ class MoviesWatchListComponent extends StatelessWidget {
             ),
           );
         } else {
-          return Animate(
-            effects: [FadeEffect(duration: 400.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 400),
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: StringsManager.moviesWatchlistTitle,
+                  title: context.tr.moviesWatchlistTitle,
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     context.pushRoute(
@@ -71,8 +71,8 @@ class MoviesWatchListComponent extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 230.h,
-                  child: Animate(
-                    effects: [FadeEffect(duration: 400.ms)],
+                  child: CustomFadeAnimation(
+                    duration: Duration(milliseconds: 400),
                     child: ListView.builder(
                       itemCount: state.moviesWatchList.length,
                       scrollDirection: Axis.horizontal,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class SectionWidget extends StatelessWidget {
   const SectionWidget({
@@ -19,13 +20,14 @@ class SectionWidget extends StatelessWidget {
             height: 23.h,
             width: 5.h,
             decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.all(const Radius.circular(10).w)),
+              color: color,
+              borderRadius: BorderRadius.all(const Radius.circular(10)).r,
+            ),
           ),
           SizedBox(width: 8.w),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: context.textTheme.titleMedium,
           ),
         ],
       ),

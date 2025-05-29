@@ -7,7 +7,7 @@ import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/constants/app_constants.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class CarouselCard extends StatelessWidget {
   const CarouselCard({
@@ -35,7 +35,7 @@ class CarouselCard extends StatelessWidget {
         children: [
           ImageFiltered(
             imageFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
+              Colors.black.withValues(alpha: 0.3),
               BlendMode.darken,
             ),
             child: CachedNetworkImage(
@@ -58,7 +58,7 @@ class CarouselCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: context.textTheme.titleLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 8.h),
@@ -75,10 +75,10 @@ class CarouselCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  StringsManager.voteCount(
+                  context.tr.voteCount(
                     voteCount.toString(),
                   ),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: context.textTheme.bodyMedium,
                 ),
               ],
             ),

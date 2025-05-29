@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/neon_button.dart';
 import 'package:tmda/core/widgets/neon_light_painter.dart';
 import 'package:tmda/core/widgets/normal_button.dart';
@@ -25,13 +25,13 @@ class SelectionScreen extends StatelessWidget {
               top: 30.h,
               left: 20.w,
               child: NeonLightPainter(
-                  color: ColorsManager.primaryColor.withOpacity(0.5)),
+                  color: ColorsManager.primaryColor.withValues(alpha: 0.5)),
             ),
             Positioned(
               bottom: 350.h,
               right: 0,
               child: NeonLightPainter(
-                  color: ColorsManager.secondaryColor.withOpacity(0.5)),
+                  color: ColorsManager.secondaryColor.withValues(alpha: 0.5)),
             ),
             Align(
               alignment: Alignment.center,
@@ -42,9 +42,9 @@ class SelectionScreen extends StatelessWidget {
                   Image.asset(AssetsManager.appLogo),
                   const Spacer(flex: 1),
                   Text(
-                    StringsManager.appOverview,
+                    context.tr.appOverview,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: context.textTheme.titleLarge,
                   ),
                   const Spacer(flex: 1),
                   NeonButton(
@@ -52,12 +52,8 @@ class SelectionScreen extends StatelessWidget {
                       context.pushRoute(const LoginRoute());
                     },
                     child: Text(
-                      StringsManager.login,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      context.tr.login,
+                      style: context.textTheme.bodyLarge,
                     ),
                   ),
                   SizedBox(height: 16.h),
@@ -68,8 +64,8 @@ class SelectionScreen extends StatelessWidget {
                       await context.read<TokenCubit>().userRegister();
                     },
                     child: Text(
-                      StringsManager.register,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      context.tr.register,
+                      style: context.textTheme.bodyLarge,
                     ),
                   ),
                   const Spacer(flex: 1),

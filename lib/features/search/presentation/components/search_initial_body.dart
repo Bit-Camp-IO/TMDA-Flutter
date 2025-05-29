@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class SearchInitialBody extends StatelessWidget {
   const SearchInitialBody({
@@ -22,19 +22,17 @@ class SearchInitialBody extends StatelessWidget {
           ),
           SizedBox(height: 30.h),
           Text(
-            StringsManager.initialSearchTitle,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
+            context.tr.initialSearchTitle,
+            style: context.textTheme.titleLarge!
                 .copyWith(color: ColorsManager.primaryColor),
           ),
-      SizedBox(height: 10.h),
+          SizedBox(height: 10.h),
           Text(
-            StringsManager.initialSearchSubTitle,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(fontSize: 16, color: Colors.white)
+            context.tr.initialSearchSubTitle,
+            style: context.textTheme.titleSmall!.copyWith(
+              fontSize: 16,
+              color: Colors.white,
+            ),
           ),
         ],
       ),

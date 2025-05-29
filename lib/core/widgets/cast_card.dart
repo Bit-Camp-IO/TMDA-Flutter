@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/tilted_image_with_shadow.dart';
 
 class CastCard extends StatelessWidget {
@@ -38,7 +39,7 @@ class CastCard extends StatelessWidget {
             child: Text(
               actorName,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: context.textTheme.bodySmall,
             ),
           ),
           Positioned(
@@ -48,7 +49,7 @@ class CastCard extends StatelessWidget {
             child: Text(
               actorCharacterName,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: context.textTheme.bodySmall,
             ),
           )
         ],

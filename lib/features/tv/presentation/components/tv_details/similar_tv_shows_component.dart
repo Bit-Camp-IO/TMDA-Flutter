@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
 import 'package:tmda/core/util/enums.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/details_poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
@@ -22,12 +22,11 @@ class SimilarTvShowsComponent extends StatelessWidget {
     return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       builder: (context, state) {
         if (state.tvShowDetails.similarTvShows.isNotEmpty) {
-          return Animate(
-            effects: [FadeEffect(duration: 250.ms)],
+          return CustomFadeAnimation(
             child: Column(
               children: [
                 SectionWidgetWithSeeAll(
-                  title: StringsManager.detailsSimilarSectionTitle,
+                  title: context.tr.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                   textButtonOnPressed: () {
                     context.pushRoute(
@@ -42,13 +41,13 @@ class SimilarTvShowsComponent extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width,
                   height: 200.h,
                   child: ListView.builder(
-                    shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: state.tvShowDetails.similarTvShows.length,
                     itemBuilder: (context, index) {
-                      final similarTvShow = state.tvShowDetails.similarTvShows[index];
+                      final similarTvShow =
+                          state.tvShowDetails.similarTvShows[index];
                       return Padding(
-                        padding: const EdgeInsets.only(left : 16.0).r,
+                        padding: const EdgeInsets.only(left: 16.0).r,
                         child: DetailsPosterCard(
                           errorImagePath: AssetsManager.errorPoster,
                           imagePath: similarTvShow.posterPath,
@@ -72,21 +71,20 @@ class SimilarTvShowsComponent extends StatelessWidget {
             ),
           );
         } else {
-          return Animate(
-            effects: [FadeEffect(duration: 250.ms)],
+          return CustomFadeAnimation(
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.detailsSimilarSectionTitle,
+                SectionWidget(
+                  title: context.tr.detailsSimilarSectionTitle,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
                   child: SizedBox(
                     child: Text(
-                      StringsManager.noSimilarTvShows,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: ColorsManager.primaryColor,
-                          ),
+                      context.tr.noSimilarTvShows,
+                      style: context.textTheme.bodyLarge!.copyWith(
+                        color: ColorsManager.primaryColor,
+                      ),
                     ),
                   ),
                 ),

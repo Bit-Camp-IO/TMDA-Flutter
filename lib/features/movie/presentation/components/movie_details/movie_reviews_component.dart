@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/review_card.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
 import 'package:tmda/features/movie/presentation/bloc/movie_details_cubit/movie_details_cubit.dart';
@@ -15,18 +15,17 @@ class MovieReviewsComponent extends StatelessWidget {
     return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
       builder: (context, state) {
         if (state.movieDetails.reviews.isNotEmpty) {
-          return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.movieDetailsUserReviews,
+                SectionWidget(
+                  title: context.tr.movieDetailsUserReviews,
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
                   height: 150.h,
                   child: ListView.builder(
-                    shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: state.movieDetails.reviews.length,
                     itemBuilder: (context, index) {
@@ -46,18 +45,18 @@ class MovieReviewsComponent extends StatelessWidget {
             ),
           );
         } else {
-          return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.movieDetailsUserReviews,
+                SectionWidget(
+                  title: context.tr.movieDetailsUserReviews,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
                   child: Text(
-                      StringsManager.noReviews,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    context.tr.noReviews,
+                    style: context.textTheme.bodyLarge,
                   ),
                 ),
                 SizedBox(height: 20.h),

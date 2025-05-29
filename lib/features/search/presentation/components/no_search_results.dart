@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/icons/solar_system_icons.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class NoSearchResults extends StatelessWidget {
   const NoSearchResults({
@@ -12,8 +12,7 @@ class NoSearchResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Animate(
-      effects: [FadeEffect(duration: 250.ms)],
+    return CustomFadeAnimation(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,11 +24,9 @@ class NoSearchResults extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Text(
-              StringsManager.noSearchResults,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color:ColorsManager.darkPrimary),
+              context.tr.noSearchResults,
+              style: context.textTheme.titleMedium!
+                  .copyWith(color: ColorsManager.darkPrimary),
             ),
           ],
         ),

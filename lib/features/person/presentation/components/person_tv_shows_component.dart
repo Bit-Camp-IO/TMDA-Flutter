@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/details_poster_card.dart';
 import 'package:tmda/core/widgets/section_divider.dart';
 import 'package:tmda/core/widgets/section_widget.dart';
-
 import 'package:tmda/features/person/presentation/cubit/person_cubit.dart';
 
 class PersonTvShowsComponent extends StatelessWidget {
@@ -21,12 +20,12 @@ class PersonTvShowsComponent extends StatelessWidget {
     return BlocBuilder<PersonCubit, PersonState>(
       builder: (context, state) {
         if (state.personData.tvShows.isNotEmpty) {
-          return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.tv,
+                SectionWidget(
+                  title: context.tr.tv,
                   color: ColorsManager.primaryColor,
                 ),
                 SizedBox(
@@ -38,7 +37,7 @@ class PersonTvShowsComponent extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final tvShow = state.personData.tvShows[index];
                       return Padding(
-                        padding: const EdgeInsets.only(left : 16.0).r,
+                        padding: const EdgeInsets.only(left: 16.0).r,
                         child: DetailsPosterCard(
                           imagePath: tvShow.posterPath,
                           errorImagePath: AssetsManager.errorPoster,
@@ -60,18 +59,18 @@ class PersonTvShowsComponent extends StatelessWidget {
             ),
           );
         } else {
-          return Animate(
-            effects: [FadeEffect(duration: 150.ms)],
+          return CustomFadeAnimation(
+            duration: Duration(milliseconds: 150),
             child: Column(
               children: [
-                const SectionWidget(
-                  title: StringsManager.tv,
+                SectionWidget(
+                  title: context.tr.tv,
                   color: ColorsManager.primaryColor,
                 ),
                 Center(
                   child: Text(
-                    StringsManager.noPersonTvShows,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    context.tr.noPersonTvShows,
+                    style: context.textTheme.bodyLarge,
                   ),
                 ),
                 SizedBox(height: 20.h),

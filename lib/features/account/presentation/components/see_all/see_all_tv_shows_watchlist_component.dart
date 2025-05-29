@@ -1,30 +1,34 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/config/router/app_router.dart';
+import 'package:tmda/core/animations/custom_fade_animation.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/widgets/list_card.dart';
 import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
+
 class SeeAllTvShowsWatchListComponent extends StatefulWidget {
   final ScrollController scrollController;
-  const SeeAllTvShowsWatchListComponent({super.key, required this.scrollController});
+  const SeeAllTvShowsWatchListComponent(
+      {super.key, required this.scrollController});
 
   @override
-  State<SeeAllTvShowsWatchListComponent> createState() => _SeeAllTvShowsWatchListComponentState();
+  State<SeeAllTvShowsWatchListComponent> createState() =>
+      _SeeAllTvShowsWatchListComponentState();
 }
 
-class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchListComponent> {
-
+class _SeeAllTvShowsWatchListComponentState
+    extends State<SeeAllTvShowsWatchListComponent> {
   _checkCurrentScrollPosition() {
     final double maxScroll = widget.scrollController.position.maxScrollExtent;
     final double currentScroll = widget.scrollController.offset;
     if (currentScroll == maxScroll) {
-      context.read<WatchListBloc>().add(const ChangeTvShowsWatchListViewScrollState(
-        isTvShowsWatchListViewHasReachedMaxScroll: true,
-       ),
-      );
+      context.read<WatchListBloc>().add(
+            const ChangeTvShowsWatchListViewScrollState(
+              isTvShowsWatchListViewHasReachedMaxScroll: true,
+            ),
+          );
     }
   }
 
@@ -33,6 +37,7 @@ class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchList
     widget.scrollController.addListener(_checkCurrentScrollPosition);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<WatchListBloc, WatchListState>(
@@ -44,8 +49,8 @@ class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchList
       buildWhen: (previous, current) =>
           previous.tvShowsWatchList != current.tvShowsWatchList,
       builder: (context, state) {
-        return Animate(
-          effects: [FadeEffect(duration: 400.ms)],
+        return CustomFadeAnimation(
+          duration: Duration(milliseconds: 400),
           child: ListView.builder(
             itemCount: state.tvShowsWatchList.length,
             controller: widget.scrollController,
@@ -64,11 +69,11 @@ class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchList
                   key: ObjectKey(tvShow.id),
                   resizeDuration: const Duration(milliseconds: 200),
                   onDismissed: (direction) => context.read<WatchListBloc>().add(
-                    AddOrRemoveTvShowFromWatchListEvent(
+                        AddOrRemoveTvShowFromWatchListEvent(
                           tvShowId: tvShow.id,
                           isInWatchList: false,
-                    ),
-                  ),
+                        ),
+                      ),
                   child: ListCard(
                     title: tvShow.title,
                     errorImagePath: AssetsManager.errorPoster,
@@ -79,9 +84,8 @@ class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchList
                     releaseYear: tvShow.firstAirDate,
                     language: tvShow.language,
                     onTap: () {
-                      context.pushRoute(TvDetailsRoute(
-                          tvShowId: tvShow.id
-                        ),
+                      context.pushRoute(
+                        TvDetailsRoute(tvShowId: tvShow.id),
                       );
                     },
                   ),
@@ -93,6 +97,7 @@ class _SeeAllTvShowsWatchListComponentState extends State<SeeAllTvShowsWatchList
       },
     );
   }
+
   @override
   void dispose() {
     widget.scrollController.removeListener(_checkCurrentScrollPosition);

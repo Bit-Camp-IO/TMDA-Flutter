@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/color_manager.dart';
-import 'package:tmda/core/util/strings_manager.dart';
+import 'package:tmda/core/util/extensions.dart';
 import 'package:tmda/core/widgets/tilted_image.dart';
 
 class EpisodeCard extends StatelessWidget {
@@ -30,7 +30,7 @@ class EpisodeCard extends StatelessWidget {
       height: 190.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20).w,
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withValues(alpha: 0.3),
       ),
       child: Row(
         children: [
@@ -47,11 +47,12 @@ class EpisodeCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(title,
-                overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
+                Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 SizedBox(height: 10.h),
                 Row(
@@ -73,17 +74,13 @@ class EpisodeCard extends StatelessWidget {
                     ),
                     Text(
                       vote.toString(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
+                      style: context.textTheme.bodySmall!
                           .copyWith(fontSize: 11.sp),
                     ),
                     SizedBox(width: 20.w),
                     Text(
-                      '$voteCount ${StringsManager.votes}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
+                      '$voteCount ${context.tr.votes}',
+                      style: context.textTheme.bodySmall!
                           .copyWith(fontSize: 11.sp),
                     )
                   ],

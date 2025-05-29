@@ -21,7 +21,7 @@ class SeeAllTvShowsComponent extends StatefulWidget {
   State<SeeAllTvShowsComponent> createState() => _SeeAllTvShowsComponentState();
 }
 
-class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>{
+class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent> {
   late ScrollController _scrollController;
 
   @override
@@ -62,7 +62,6 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>{
           itemCount: state.seeAllTvShows.length + 1,
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.symmetric(vertical: 100).r,
-          shrinkWrap: true,
           itemBuilder: (context, index) {
             if (index >= state.seeAllTvShows.length) {
               return Center(
@@ -79,7 +78,8 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>{
                 ).r,
                 child: BlocBuilder<WatchListBloc, WatchListState>(
                   builder: (context, state) {
-                    final bool isInWatchList = state.tvShowsWatchListIdsSet.contains(tvShow.id);
+                    final bool isInWatchList =
+                        state.tvShowsWatchListIdsSet.contains(tvShow.id);
                     return ListCardWithSave(
                       onTap: () {
                         context.pushRoute(
@@ -98,7 +98,10 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>{
                       language: tvShow.language,
                       isInWatchList: isInWatchList,
                       onSaved: () {
-                        context.read<WatchListBloc>().add(AddOrRemoveTvShowFromWatchListEvent(tvShowId: tvShow.id, isInWatchList: !isInWatchList));
+                        context.read<WatchListBloc>().add(
+                            AddOrRemoveTvShowFromWatchListEvent(
+                                tvShowId: tvShow.id,
+                                isInWatchList: !isInWatchList));
                       },
                     );
                   },
@@ -113,7 +116,9 @@ class _SeeAllTvShowsComponentState extends State<SeeAllTvShowsComponent>{
 
   @override
   void dispose() {
-    _scrollController..removeListener(_onScroll)..dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
 }

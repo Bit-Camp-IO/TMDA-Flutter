@@ -7,22 +7,17 @@ import 'package:tmda/config/router/app_router.dart';
 import 'package:tmda/core/util/assets_manager.dart';
 import 'package:tmda/core/util/enums.dart';
 import 'package:tmda/core/widgets/neon_light_background.dart';
+import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/account/presentation/bloc/account_cubit/account_bloc.dart';
 import 'package:tmda/features/account/presentation/components/account/movies_watchlist_component.dart';
 import 'package:tmda/features/account/presentation/components/account/profile_component.dart';
 import 'package:tmda/features/account/presentation/components/account/tv_show_watchlist_component.dart';
-import 'package:tmda/core/widgets/no_connection.dart';
 import 'package:tmda/features/shared/presentation/blocs/watchlist_bloc/watchlist_bloc.dart';
 
 @RoutePage()
-class AccountScreen extends StatefulWidget {
+class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
 
-  @override
-  State<AccountScreen> createState() => _AccountScreenState();
-}
-
-class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +60,5 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

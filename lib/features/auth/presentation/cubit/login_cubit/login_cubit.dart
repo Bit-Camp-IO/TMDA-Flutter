@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tmda/features/shared/domain/entities/auth.dart';
 import 'package:tmda/features/auth/domain/usecases/user_forget_password_usecase.dart';
 import 'package:tmda/features/auth/domain/usecases/user_login_usecase.dart';
 import 'package:tmda/features/auth/domain/usecases/user_register_usecase.dart';
+import 'package:tmda/features/shared/domain/entities/auth.dart';
 
 part 'login_state.dart';
 
@@ -36,9 +36,5 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> userForgetPassword() async {
     await userForgetPasswordUseCase();
-  }
-
-  void changeObscuredField(bool isObscured) {
-    emit(ObscuredState(isObscured: isObscured));
   }
 }

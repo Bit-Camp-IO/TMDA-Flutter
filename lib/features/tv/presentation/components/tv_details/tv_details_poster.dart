@@ -28,18 +28,15 @@ class TvDetailsPoster extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
-              posterPath.isNotEmpty
-                  ? ApiConstants.imageUrl(posterPath)
-                  : errorPosterPath,
-              cacheManager: CacheManager(
-                  Config(
-                    AppConstants.cacheFolder,
-                    stalePeriod: const Duration(days: AppConstants.cacheDuration),
-                  )
-              )
-            ),
+                posterPath.isNotEmpty
+                    ? ApiConstants.imageUrl(posterPath)
+                    : errorPosterPath,
+                cacheManager: CacheManager(Config(
+                  AppConstants.cacheFolder,
+                  stalePeriod: const Duration(days: AppConstants.cacheDuration),
+                ))),
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
+              Colors.black.withValues(alpha: 0.3),
               BlendMode.darken,
             ),
             fit: BoxFit.cover,

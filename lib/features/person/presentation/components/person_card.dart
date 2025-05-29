@@ -4,6 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmda/core/constants/api_constants.dart';
 import 'package:tmda/core/constants/app_constants.dart';
+import 'package:tmda/core/util/extensions.dart';
 
 class PersonPictureCard extends StatelessWidget {
   const PersonPictureCard({
@@ -24,10 +25,11 @@ class PersonPictureCard extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: const BorderRadius.only(bottomRight: Radius.circular(60)).r,
+          borderRadius:
+              const BorderRadius.only(bottomRight: Radius.circular(60)).r,
           child: ColorFiltered(
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
+              Colors.black.withValues(alpha: 0.3),
               BlendMode.darken,
             ),
             child: CachedNetworkImage(
@@ -37,20 +39,19 @@ class PersonPictureCard extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width,
               height: height,
               fit: BoxFit.cover,
-              cacheManager: CacheManager(
-                  Config(
-                    AppConstants.cacheFolder,
-                    stalePeriod: const Duration(days: AppConstants.cacheDuration),
-                  )
-              ),
+              cacheManager: CacheManager(Config(
+                AppConstants.cacheFolder,
+                stalePeriod: const Duration(days: AppConstants.cacheDuration),
+              )),
             ),
           ),
         ),
         Positioned(
           left: 20.w,
           bottom: 20.h,
-          child: Text(name,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 28.sp),
+          child: Text(
+            name,
+            style: context.textTheme.titleLarge!.copyWith(fontSize: 28.sp),
             overflow: TextOverflow.ellipsis,
           ),
         ),

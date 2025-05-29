@@ -13,18 +13,21 @@ abstract class MoviesDataSource {
   Future<List<MovieModel>> getTopRatedMovies({int? pageNumber});
   Future<MovieDetailsModel> getMovieDetails({required int movieId});
   Future<void> playMovieVideo(String movieVideoKey);
-  Future<List<MovieModel>>getSimilarMovies({required int movieId, required int pageNumber});
-  Future<List<MovieModel>> getRecommendedMovies({required int movieId, required int pageNumber});
+  Future<List<MovieModel>> getSimilarMovies(
+      {required int movieId, required int pageNumber});
+  Future<List<MovieModel>> getRecommendedMovies(
+      {required int movieId, required int pageNumber});
 }
 
 @LazySingleton(as: MoviesDataSource)
 class MoviesDataSourceImpl extends MoviesDataSource {
   final ApiConsumer _apiConsumer;
-  MoviesDataSourceImpl(@Named(ApiConstants.authenticatedConsumer) this._apiConsumer);
+  MoviesDataSourceImpl(this._apiConsumer);
 
   @override
   Future<List<MovieModel>> getNowPlayingMovies() async {
-    final  Map<String, dynamic> response= await _apiConsumer.get(ApiConstants.nowPlayingMoviesEndPoint);
+    final Map<String, dynamic> response =
+        await _apiConsumer.get(ApiConstants.nowPlayingMoviesEndPoint);
     return List<MovieModel>.from(
       (response['results'] as List).map(
         (nowPlayingMovies) => MovieModel.fromJson(nowPlayingMovies),
@@ -34,10 +37,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
 
   @override
   Future<List<MovieModel>> getNewMovies({int? pageNumber}) async {
-    final Map<String, dynamic> response= await _apiConsumer.get(
-      ApiConstants.newMoviesEndPoints,
-      queryParameters: {'page' : pageNumber ?? 1}
-    );
+    final Map<String, dynamic> response = await _apiConsumer.get(
+        ApiConstants.newMoviesEndPoints,
+        queryParameters: {'page': pageNumber ?? 1});
     return List<MovieModel>.from(
       (response['results'] as List).map(
         (newMovies) => MovieModel.fromJson(newMovies),
@@ -47,10 +49,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
 
   @override
   Future<List<MovieModel>> getPopularMovies({int? pageNumber}) async {
-    final Map<String, dynamic> response= await _apiConsumer.get(
-      ApiConstants.popularMoviesEndPoint,
-        queryParameters: {'page' : pageNumber ?? 1}
-    );
+    final Map<String, dynamic> response = await _apiConsumer.get(
+        ApiConstants.popularMoviesEndPoint,
+        queryParameters: {'page': pageNumber ?? 1});
     return List<MovieModel>.from(
       (response['results'] as List).map(
         (popularMovies) => MovieModel.fromJson(popularMovies),
@@ -60,10 +61,9 @@ class MoviesDataSourceImpl extends MoviesDataSource {
 
   @override
   Future<List<MovieModel>> getTopRatedMovies({int? pageNumber}) async {
-    final Map<String, dynamic> response= await _apiConsumer.get(
-      ApiConstants.topRatedMoviesEndPoint,
-        queryParameters: {'page' : pageNumber ?? 1}
-    );
+    final Map<String, dynamic> response = await _apiConsumer.get(
+        ApiConstants.topRatedMoviesEndPoint,
+        queryParameters: {'page': pageNumber ?? 1});
     return List<MovieModel>.from(
       (response['results'] as List)
           .map((topRatedMovies) => MovieModel.fromJson(topRatedMovies)),
@@ -82,8 +82,6 @@ class MoviesDataSourceImpl extends MoviesDataSource {
     return MovieDetailsModel.fromJson(response);
   }
 
-
-
   @override
   Future<void> playMovieVideo(String movieVideoKey) async {
     final Uri url = Uri.parse('${ApiConstants.baseYoutubeUrl}$movieVideoKey');
@@ -94,23 +92,30 @@ class MoviesDataSourceImpl extends MoviesDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getRecommendedMovies({required int movieId, required int pageNumber}) async{
-    final  Map<String, dynamic> response = await _apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.recommendationsPath}', queryParameters: {'page': pageNumber},);
+  Future<List<MovieModel>> getRecommendedMovies(
+      {required int movieId, required int pageNumber}) async {
+    final Map<String, dynamic> response = await _apiConsumer.get(
+      '${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.recommendationsPath}',
+      queryParameters: {'page': pageNumber},
+    );
     return List<MovieModel>.from(
       (response['results'] as List).map(
-            (nowPlayingMovies) => MovieModel.fromJson(nowPlayingMovies),
+        (nowPlayingMovies) => MovieModel.fromJson(nowPlayingMovies),
       ),
     );
   }
 
   @override
-  Future<List<MovieModel>> getSimilarMovies({required int movieId, required int pageNumber}) async{
-    final Map<String, dynamic> response = await _apiConsumer.get('${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.similarPath}', queryParameters: {'page': pageNumber},);
+  Future<List<MovieModel>> getSimilarMovies(
+      {required int movieId, required int pageNumber}) async {
+    final Map<String, dynamic> response = await _apiConsumer.get(
+      '${ApiConstants.movieDetailsEndPoint}$movieId${ApiConstants.similarPath}',
+      queryParameters: {'page': pageNumber},
+    );
     return List<MovieModel>.from(
       (response['results'] as List).map(
-            (nowPlayingMovies) => MovieModel.fromJson(nowPlayingMovies),
+        (nowPlayingMovies) => MovieModel.fromJson(nowPlayingMovies),
       ),
     );
   }
-
 }

@@ -23,8 +23,8 @@ The app provides information such as movie & tv shows details, ratings, reviews,
 
 Before running the app, ensure that you have the following:
 
-- Android Studio (version 2022.2.1 or higher) or VS Code.
-- Flutter 3.10 and Dart 3.0.1
+- Android Studio (version  2024.3.1 Patch 1 or higher) or VS Code.
+- Flutter  3.29.2 and Dart 3.7.2
 - TMDB API key ([Sign up](https://www.themoviedb.org/documentation/api) for an account and obtain an API key)
 
 ## Getting Started

@@ -172,8 +172,8 @@ extension GetItInjectableX on _i174.GetIt {
     final registerModule = _$RegisterModule();
     gh.factory<_i361.Dio>(() => registerModule.dioClient);
     gh.singleton<_i342.AppRouter>(() => _i342.AppRouter());
-    gh.lazySingleton<_i855.DioInterceptor>(() => _i855.DioInterceptor());
     gh.lazySingleton<_i185.DioLogInterceptor>(() => _i185.DioLogInterceptor());
+    gh.lazySingleton<_i855.DioInterceptor>(() => _i855.DioInterceptor());
     gh.lazySingleton<_i534.ApiConsumer>(() => registerModule.dioConsumer);
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => registerModule.localStorage);
@@ -193,22 +193,22 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i379.MoviesRepositoryImpl(gh<_i535.MoviesDataSource>()));
     gh.lazySingleton<_i610.WatchListRepository>(
         () => _i1024.WatchListRepositoryImpl(gh<_i831.WatchListDataSource>()));
+    gh.lazySingleton<_i8.GetAllSimilarMoviesUseCase>(
+        () => _i8.GetAllSimilarMoviesUseCase(gh<_i32.MoviesRepository>()));
     gh.lazySingleton<_i410.GetMovieDetailsUseCase>(
         () => _i410.GetMovieDetailsUseCase(gh<_i32.MoviesRepository>()));
+    gh.lazySingleton<_i210.GetPopularMoviesUseCase>(
+        () => _i210.GetPopularMoviesUseCase(gh<_i32.MoviesRepository>()));
+    gh.lazySingleton<_i450.PlayMovieVideoUseCase>(
+        () => _i450.PlayMovieVideoUseCase(gh<_i32.MoviesRepository>()));
     gh.lazySingleton<_i586.GetNewMoviesUseCase>(
         () => _i586.GetNewMoviesUseCase(gh<_i32.MoviesRepository>()));
     gh.lazySingleton<_i44.GetNowPlayingMoviesUseCase>(
         () => _i44.GetNowPlayingMoviesUseCase(gh<_i32.MoviesRepository>()));
-    gh.lazySingleton<_i210.GetPopularMoviesUseCase>(
-        () => _i210.GetPopularMoviesUseCase(gh<_i32.MoviesRepository>()));
-    gh.lazySingleton<_i65.GetAllRecommendedMoviesUseCase>(
-        () => _i65.GetAllRecommendedMoviesUseCase(gh<_i32.MoviesRepository>()));
-    gh.lazySingleton<_i8.GetAllSimilarMoviesUseCase>(
-        () => _i8.GetAllSimilarMoviesUseCase(gh<_i32.MoviesRepository>()));
     gh.lazySingleton<_i948.GetTopRatedMoviesUseCase>(
         () => _i948.GetTopRatedMoviesUseCase(gh<_i32.MoviesRepository>()));
-    gh.lazySingleton<_i450.PlayMovieVideoUseCase>(
-        () => _i450.PlayMovieVideoUseCase(gh<_i32.MoviesRepository>()));
+    gh.lazySingleton<_i65.GetAllRecommendedMoviesUseCase>(
+        () => _i65.GetAllRecommendedMoviesUseCase(gh<_i32.MoviesRepository>()));
     gh.lazySingleton<_i1071.LocalDataSource>(
         () => _i1071.LocalDataSourceImpl(gh<_i558.FlutterSecureStorage>()));
     gh.factory<_i225.MoviesCubit>(() => _i225.MoviesCubit(
@@ -238,21 +238,21 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i460.PersonCubit(gh<_i461.GetPersonDetailsUseCase>()));
     gh.lazySingleton<_i741.LocalRepository>(
         () => _i622.LocalRepositoryImpl(gh<_i1071.LocalDataSource>()));
-    gh.lazySingleton<_i485.AddOrRemoveMovieFromWatchListUseCase>(() =>
-        _i485.AddOrRemoveMovieFromWatchListUseCase(
-            gh<_i610.WatchListRepository>()));
     gh.lazySingleton<_i1029.AddOrRemoveTvShowFromWatchListUseCase>(() =>
         _i1029.AddOrRemoveTvShowFromWatchListUseCase(
             gh<_i610.WatchListRepository>()));
-    gh.lazySingleton<_i538.GetMoviesWatchListIdsSetUseCase>(() =>
-        _i538.GetMoviesWatchListIdsSetUseCase(gh<_i610.WatchListRepository>()));
     gh.lazySingleton<_i419.GetMoviesWatchListUseCase>(
         () => _i419.GetMoviesWatchListUseCase(gh<_i610.WatchListRepository>()));
-    gh.lazySingleton<_i959.GetTvShowsWatchListIdsSetUseCase>(() =>
-        _i959.GetTvShowsWatchListIdsSetUseCase(
+    gh.lazySingleton<_i485.AddOrRemoveMovieFromWatchListUseCase>(() =>
+        _i485.AddOrRemoveMovieFromWatchListUseCase(
             gh<_i610.WatchListRepository>()));
     gh.lazySingleton<_i289.GetTvShowsWatchListUseCase>(() =>
         _i289.GetTvShowsWatchListUseCase(gh<_i610.WatchListRepository>()));
+    gh.lazySingleton<_i538.GetMoviesWatchListIdsSetUseCase>(() =>
+        _i538.GetMoviesWatchListIdsSetUseCase(gh<_i610.WatchListRepository>()));
+    gh.lazySingleton<_i959.GetTvShowsWatchListIdsSetUseCase>(() =>
+        _i959.GetTvShowsWatchListIdsSetUseCase(
+            gh<_i610.WatchListRepository>()));
     gh.factory<_i59.MovieDetailsCubit>(() => _i59.MovieDetailsCubit(
           gh<_i410.GetMovieDetailsUseCase>(),
           gh<_i450.PlayMovieVideoUseCase>(),
@@ -265,32 +265,32 @@ extension GetItInjectableX on _i174.GetIt {
           tvDataSource: gh<_i632.TvDataSource>(),
           localDataSource: gh<_i1071.LocalDataSource>(),
         ));
+    gh.lazySingleton<_i1035.UserRegisterUseCase>(
+        () => _i1035.UserRegisterUseCase(gh<_i594.AuthRepository>()));
     gh.lazySingleton<_i674.UserForgetPasswordUseCase>(
         () => _i674.UserForgetPasswordUseCase(gh<_i594.AuthRepository>()));
     gh.lazySingleton<_i391.UserLoginUseCase>(
         () => _i391.UserLoginUseCase(gh<_i594.AuthRepository>()));
-    gh.lazySingleton<_i1035.UserRegisterUseCase>(
-        () => _i1035.UserRegisterUseCase(gh<_i594.AuthRepository>()));
     gh.lazySingleton<_i750.SearchRepository>(() => _i538.SearchRepositoryImpl(
           gh<_i325.SearchDataSource>(),
           gh<_i1071.LocalDataSource>(),
         ));
-    gh.lazySingleton<_i702.GetPopularTvShowsUseCase>(
-        () => _i702.GetPopularTvShowsUseCase(gh<_i884.TvShowsRepository>()));
+    gh.lazySingleton<_i751.PlayTvShowVideoUseCase>(
+        () => _i751.PlayTvShowVideoUseCase(gh<_i884.TvShowsRepository>()));
     gh.lazySingleton<_i848.GetRecommendedTvShowsUseCase>(() =>
         _i848.GetRecommendedTvShowsUseCase(gh<_i884.TvShowsRepository>()));
+    gh.lazySingleton<_i514.GetTvShowDetailsUseCase>(
+        () => _i514.GetTvShowDetailsUseCase(gh<_i884.TvShowsRepository>()));
+    gh.lazySingleton<_i1051.GetTvShowsAiringThisWeekUseCase>(() =>
+        _i1051.GetTvShowsAiringThisWeekUseCase(gh<_i884.TvShowsRepository>()));
+    gh.lazySingleton<_i702.GetPopularTvShowsUseCase>(
+        () => _i702.GetPopularTvShowsUseCase(gh<_i884.TvShowsRepository>()));
+    gh.lazySingleton<_i1069.GetTvShowsAiringTodayUseCase>(() =>
+        _i1069.GetTvShowsAiringTodayUseCase(gh<_i884.TvShowsRepository>()));
     gh.lazySingleton<_i974.GetSimilarTvShowsUseCase>(
         () => _i974.GetSimilarTvShowsUseCase(gh<_i884.TvShowsRepository>()));
     gh.lazySingleton<_i788.GetTopRatedTvShowsUseCase>(
         () => _i788.GetTopRatedTvShowsUseCase(gh<_i884.TvShowsRepository>()));
-    gh.lazySingleton<_i1051.GetTvShowsAiringThisWeekUseCase>(() =>
-        _i1051.GetTvShowsAiringThisWeekUseCase(gh<_i884.TvShowsRepository>()));
-    gh.lazySingleton<_i1069.GetTvShowsAiringTodayUseCase>(() =>
-        _i1069.GetTvShowsAiringTodayUseCase(gh<_i884.TvShowsRepository>()));
-    gh.lazySingleton<_i514.GetTvShowDetailsUseCase>(
-        () => _i514.GetTvShowDetailsUseCase(gh<_i884.TvShowsRepository>()));
-    gh.lazySingleton<_i751.PlayTvShowVideoUseCase>(
-        () => _i751.PlayTvShowVideoUseCase(gh<_i884.TvShowsRepository>()));
     gh.lazySingleton<_i859.CheckUserLoginSessionUseCase>(
         () => _i859.CheckUserLoginSessionUseCase(gh<_i741.LocalRepository>()));
     gh.lazySingleton<_i951.GetSessionIdUseCase>(
@@ -304,10 +304,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.lazySingleton<_i340.GetSearchSessionIdUseCase>(
         () => _i340.GetSearchSessionIdUseCase(gh<_i750.SearchRepository>()));
-    gh.lazySingleton<_i680.SearchForMovieUseCase>(
-        () => _i680.SearchForMovieUseCase(gh<_i750.SearchRepository>()));
     gh.lazySingleton<_i1025.SearchForPersonUseCase>(
         () => _i1025.SearchForPersonUseCase(gh<_i750.SearchRepository>()));
+    gh.lazySingleton<_i680.SearchForMovieUseCase>(
+        () => _i680.SearchForMovieUseCase(gh<_i750.SearchRepository>()));
     gh.lazySingleton<_i838.SearchForTvShowUseCase>(
         () => _i838.SearchForTvShowUseCase(gh<_i750.SearchRepository>()));
     gh.factory<_i723.WatchListBloc>(() => _i723.WatchListBloc(
@@ -318,10 +318,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i538.GetMoviesWatchListIdsSetUseCase>(),
           gh<_i959.GetTvShowsWatchListIdsSetUseCase>(),
         ));
-    gh.lazySingleton<_i321.AccountLogoutUseCase>(
-        () => _i321.AccountLogoutUseCase(gh<_i451.AccountRepository>()));
     gh.lazySingleton<_i435.GetAccountDetailsUseCase>(
         () => _i435.GetAccountDetailsUseCase(gh<_i451.AccountRepository>()));
+    gh.lazySingleton<_i321.AccountLogoutUseCase>(
+        () => _i321.AccountLogoutUseCase(gh<_i451.AccountRepository>()));
     gh.factory<_i774.LoginCubit>(() => _i774.LoginCubit(
           userRegisterUseCase: gh<_i1035.UserRegisterUseCase>(),
           userForgetPasswordUseCase: gh<_i674.UserForgetPasswordUseCase>(),
